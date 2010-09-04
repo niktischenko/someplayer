@@ -3,13 +3,14 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
+	QApplication a(argc, argv);
+	a.setApplicationName("someplayer");
+	MainWindow w;
 #if defined(Q_WS_S60)
-    w.showMaximized();
+	w.showMaximized();
 #else
-    w.show();
+	w.show();
 #endif
 
-    return a.exec();
+	return a.exec();
 }

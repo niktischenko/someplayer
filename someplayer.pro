@@ -4,16 +4,33 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui phonon
 
 TARGET = someplayer
 TEMPLATE = app
 
 
 SOURCES += src/main.cpp\
-        src/mainwindow.cpp
+        src/mainwindow.cpp \
+        src/player.cpp \
+        src/track.cpp \
+    src/trackmetainformation.cpp \
+    src/playlist.cpp \
+    src/library.cpp \
+    src/storage.cpp \
+    src/filestorage.cpp \
+    src/dbstorage.cpp
 
-HEADERS  += src/mainwindow.h
+HEADERS  += src/mainwindow.h \
+        src/player.h \
+        src/track.h \
+    src/trackmetainformation.h \
+    src/playlist.h \
+    src/someplayer.h \
+    src/library.h \
+    src/storage.h \
+    src/filestorage.h \
+    src/dbstorage.h
 
 FORMS    += src/ui/mainwindow.ui
 

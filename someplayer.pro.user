@@ -2,7 +2,7 @@
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
-  <value type="int">2</value>
+  <value type="int">1</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.EditorSettings</variable>
@@ -107,7 +107,7 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString">Maemo</value>
    <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.Target.MaemoDeviceTarget</value>
-   <value key="ProjectExplorer.Target.ActiveBuildConfiguration" type="int">0</value>
+   <value key="ProjectExplorer.Target.ActiveBuildConfiguration" type="int">1</value>
    <value key="ProjectExplorer.Target.ActiveRunConfiguration" type="int">0</value>
    <valuemap key="ProjectExplorer.Target.BuildConfiguration.0" type="QVariantMap">
     <valuemap key="ProjectExplorer.BuildConfiguration.BuildStep.0" type="QVariantMap">
@@ -126,8 +126,8 @@
      <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
      <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.MaemoPackageCreationStep</value>
      <valuelist key="Qt4ProjectManager.BuildStep.MaemoPackage.LocalFiles" type="QVariantList"/>
-     <value key="Qt4ProjectManager.BuildStep.MaemoPackage.Modified" type="bool">true</value>
-     <value key="Qt4ProjectManager.BuildStep.MaemoPackage.RemoteExe" type="QString"></value>
+     <value key="Qt4ProjectManager.BuildStep.MaemoPackage.Modified" type="bool">false</value>
+     <value key="Qt4ProjectManager.BuildStep.MaemoPackage.RemoteExe" type="QString">/usr/local/bin/someplayer</value>
      <valuelist key="Qt4ProjectManager.BuildStep.MaemoPackage.RemoteFiles" type="QVariantList"/>
     </valuemap>
     <value key="ProjectExplorer.BuildConfiguration.BuildStepsCount" type="int">3</value>
@@ -168,8 +168,8 @@
      <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
      <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.MaemoPackageCreationStep</value>
      <valuelist key="Qt4ProjectManager.BuildStep.MaemoPackage.LocalFiles" type="QVariantList"/>
-     <value key="Qt4ProjectManager.BuildStep.MaemoPackage.Modified" type="bool">true</value>
-     <value key="Qt4ProjectManager.BuildStep.MaemoPackage.RemoteExe" type="QString"></value>
+     <value key="Qt4ProjectManager.BuildStep.MaemoPackage.Modified" type="bool">false</value>
+     <value key="Qt4ProjectManager.BuildStep.MaemoPackage.RemoteExe" type="QString">/opt/someplayer/someplayer</value>
      <valuelist key="Qt4ProjectManager.BuildStep.MaemoPackage.RemoteFiles" type="QVariantList"/>
     </valuemap>
     <value key="ProjectExplorer.BuildConfiguration.BuildStepsCount" type="int">3</value>
@@ -196,12 +196,14 @@
    <value key="ProjectExplorer.Target.BuildConfigurationCount" type="int">2</value>
    <valuemap key="ProjectExplorer.Target.RunConfiguration.0" type="QVariantMap">
     <value key=".ProFile" type="QString">someplayer.pro</value>
-    <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString">New Maemo Run Configuration</value>
+    <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString">N900</value>
     <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.MaemoRunConfiguration</value>
     <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.Arguments" type="QVariantList"/>
     <valuemap key="Qt4ProjectManager.MaemoRunConfiguration.DebuggingHelpersLastDeployed" type="QVariantMap"/>
     <value key="Qt4ProjectManager.MaemoRunConfiguration.DeviceId" type="qulonglong">1</value>
-    <valuemap key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployed" type="QVariantMap"/>
+    <valuemap key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployed" type="QVariantMap">
+     <value key="192.168.77.2" type="QDateTime">2010-09-04T19:46:35</value>
+    </valuemap>
    </valuemap>
    <value key="ProjectExplorer.Target.RunConfigurationCount" type="int">1</value>
   </valuemap>
