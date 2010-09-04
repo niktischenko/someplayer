@@ -3,7 +3,6 @@
 
 #include "someplayer.h"
 #include "trackmetainformation.h"
-#include <QUrl>
 
 // represents some track: metainformation + source url
 
@@ -14,14 +13,20 @@ namespace SomePlayer {
 		{
 		public:
 			Track();
-			Track(TrackMetadata metadata, QUrl source);
-			TrackMetadata metadata(); //read-write
-			QUrl source() const;
-			void setSource (QUrl source);
+			Track(const Track &track);
+			Track(int id, TrackMetadata metadata, QString source);
+			TrackMetadata metadata() const; //read-write
+			QString source() const;
+			int id() const;
+			void setSource (QString source);
+			int count() const; //count of plays
+			void setCount(int count); //for restoring from database and counting from player
 
 		private:
 			TrackMetadata _metadata;
-			QUrl _source;
+			QString _source;
+			int _count;
+			int _id;
 		};
 
 	};

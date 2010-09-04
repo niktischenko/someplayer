@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui phonon
+QT       += core gui phonon sql
 
 TARGET = someplayer
 TEMPLATE = app

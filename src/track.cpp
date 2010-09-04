@@ -5,19 +5,37 @@ using namespace SomePlayer::DataObjects;
 Track::Track() {
 }
 
-Track::Track(TrackMetadata metadata, QUrl source) {
+Track::Track(int id, TrackMetadata metadata, QString source) {
+	_id = id;
 	_metadata = metadata;
 	_source = source;
 }
 
-TrackMetadata Track::metadata() {
+Track::Track(const Track &track) {
+	this->_metadata = track.metadata();
+	this->_source = track.source();
+}
+
+TrackMetadata Track::metadata() const {
 	return _metadata;
 }
 
-QUrl Track::source() const {
+QString Track::source() const {
 	return _source;
 }
 
-void Track::setSource(QUrl source) {
+int Track::id() const {
+	return _id;
+}
+
+void Track::setSource(QString source) {
 	_source = source;
+}
+
+int Track::count() const{
+	return _count;
+}
+
+void Track::setCount(int count) {
+	_count = count;
 }

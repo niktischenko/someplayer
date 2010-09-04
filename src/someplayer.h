@@ -10,4 +10,13 @@ namespace SomePlayer {
 	};
 };
 
+// common includes
+
+#include <QString>
+#include <QList>
+#include <QMap>
+#include <QUrl>
+
+#define _DYNAMIC_PLAYLIST_MAX_COUNT_ 50
+
 #endif

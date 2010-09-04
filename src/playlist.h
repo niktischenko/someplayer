@@ -1,8 +1,6 @@
 #ifndef PLAYLIST
 #define PLAYLIST
 
-#include <QString>
-#include <QList>
 #include "track.h"
 #include "someplayer.h"
 
