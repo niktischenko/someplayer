@@ -60,7 +60,7 @@ namespace SomePlayer {
 			void removeTrack(Track);
 			void addTrack(Track);
 			void addToFavorites(Track);
-			void updateTrack(Track);
+			void updateTrackCount(Track);
 		};
 
 	};

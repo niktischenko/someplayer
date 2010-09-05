@@ -77,6 +77,12 @@ void DbStorage::_prepare_queries() {
 
 	_insert_date_query = new QSqlQuery(db);
 	_insert_date_query->prepare("INSERT INTO adding_date (track_id, date) values (:track_id, strftime('%s', 'now'))");
+
+	_insert_favorites_query = new QSqlQuery(db);
+	_insert_favorites_query->prepare("INSERT INTO favorites (track_id) values (:track_id)");
+
+	_update_track_count_query = new QSqlQuery(db);
+	_update_track_count_query->prepare("UPDATE tracks SET count = :count where id = :id");
 }
 
 void DbStorage::_create_database_structure() {
@@ -123,6 +129,8 @@ DbStorage::~DbStorage() {
 	delete _insert_artist_query;
 	delete _insert_date_query;
 	delete _insert_track_query;
+	delete _insert_favorites_query;
+	delete _update_track_count_query;
 	db.close();
 }
 
@@ -318,10 +326,17 @@ void DbStorage::addTrack(Track track) {
 	}
 }
 
-void DbStorage::addToFavorites(Track) {
+void DbStorage::addToFavorites(Track track) {
+	QSqlQuery *query = _insert_favorites_query;
+	query->bindValue(":track_id", track.id());
+	query->exec();
 }
 
-void DbStorage::updateTrack(Track) {
+void DbStorage::updateTrackCount(Track track) {
+	QSqlQuery *query = _update_track_count_query;
+	query->bindValue(":count", track.count());
+	query->bindValue(":id", track.id());
+	query->exec();
 }
 
 int DbStorage::_check_add_artist(QString artist) {

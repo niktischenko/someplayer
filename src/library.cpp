@@ -74,8 +74,8 @@ void Library::addToFavorites(Track track) {
 	_library_storage->addToFavorites(track);
 }
 
-void Library::updateTrack(Track track) {
-	_library_storage->updateTrack(track);
+void Library::updateTrackCount(Track track) {
+	_library_storage->updateTrackCount(track);
 }
 
 
