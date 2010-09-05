@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QMessageBox>
-#include "player.h"
+#include <QFile>
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -10,7 +10,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 	connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openMedia()));
-	player = new Player();
 }
 
 MainWindow::~MainWindow()
@@ -20,7 +19,4 @@ MainWindow::~MainWindow()
 
 void MainWindow::openMedia()
 {
-	QString filename = QFileDialog::getOpenFileName(this, "Open media", "/home/user/");
-	player->playSong(filename);
-
 }

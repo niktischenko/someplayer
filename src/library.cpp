@@ -3,9 +3,17 @@
 using namespace SomePlayer::DataObjects;
 using namespace SomePlayer::Storage;
 
-Library::Library(QString databasePath, QString playlistsPath) {
+#include "mediascanner.h"
+#include <QDir>
+#include <QDebug>
+
+Library::Library(QString databasePath, QString playlistsPath) : QObject(0) {
 	_library_storage = new DbStorage(databasePath);
 	_playlist_storage = new FileStorage(playlistsPath);
+	_scanner = new MediaScanner();
+	_resolver = new TagResolver(this);
+	connect(_scanner, SIGNAL(scanFinish(QStringList)), _resolver, SLOT(decode(QStringList)));
+	connect(_resolver, SIGNAL(decoded(Track)), this, SLOT(addTrack(Track)));
 }
 
 Library::~Library() {
@@ -14,7 +22,8 @@ Library::~Library() {
 }
 
 void Library::addDirectory(QString path) {
-	/// TODO: implement this
+	_scanner->init(path);
+	_scanner->start(QThread::LowestPriority);
 }
 
 void Library::addFile(QString path) {
@@ -55,6 +64,10 @@ Playlist Library::getRecentlyAdded() {
 
 void Library::removeTrack(Track track) {
 	_library_storage->removeTrack(track);
+}
+
+void Library::addTrack(Track track) {
+	_library_storage->addTrack(track);
 }
 
 void Library::addToFavorites(Track track) {

@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
 	a.setApplicationName("someplayer");
 	MainWindow w;
 
+
 #if defined(Q_WS_S60)
 	w.showMaximized();
 #else

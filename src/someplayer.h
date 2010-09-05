@@ -13,6 +13,7 @@ namespace SomePlayer {
 // common includes
 
 #include <QString>
+#include <QStringList>
 #include <QList>
 #include <QMap>
 #include <QUrl>

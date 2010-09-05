@@ -19,7 +19,9 @@ SOURCES += src/main.cpp\
     src/library.cpp \
     src/storage.cpp \
     src/filestorage.cpp \
-    src/dbstorage.cpp
+    src/dbstorage.cpp \
+    src/mediascanner.cpp \
+    src/tagresolver.cpp
 
 HEADERS  += src/mainwindow.h \
         src/player.h \
@@ -30,7 +32,9 @@ HEADERS  += src/mainwindow.h \
     src/library.h \
     src/storage.h \
     src/filestorage.h \
-    src/dbstorage.h
+    src/dbstorage.h \
+    src/mediascanner.h \
+    src/tagresolver.h
 
 FORMS    += src/ui/mainwindow.ui
 

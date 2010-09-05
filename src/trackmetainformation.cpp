@@ -5,10 +5,10 @@ using namespace SomePlayer::DataObjects;
 TrackMetadata::TrackMetadata() {
 }
 
-TrackMetadata::TrackMetadata(QString title = "", QString artist = "", QString album = "") {
-	_metadata["TITLE"] = title;
-	_metadata["ARTIST"] = artist;
-	_metadata["ALBUM"] = album;
+TrackMetadata::TrackMetadata(QString title = "Unknown title", QString artist = "Unknown artist", QString album = "Unknown album") {
+	_metadata["TITLE"] = title == "" ? "Unknown title" : title;
+	_metadata["ARTIST"] = artist == "" ? "Unknown artist" : artist;
+	_metadata["ALBUM"] = album == "" ? "Unknown album" : album;
 }
 
 TrackMetadata::TrackMetadata(const TrackMetadata &metadata) {

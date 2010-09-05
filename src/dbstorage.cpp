@@ -270,7 +270,14 @@ void DbStorage::addTrack(Track track) {
 		//big bang
 		return;
 	}
-	QSqlQuery* query = _insert_track_query;
+	QSqlQuery *query = _check_track_query;
+	query->bindValue(":source", source);
+	query->exec();
+	if (query->next()) {
+		// already in datebase, skip
+		return;
+	}
+	query = _insert_track_query;
 	query->bindValue(":title", title);
 	query->bindValue(":artist_id", artist_id);
 	query->bindValue(":album_id", album_id);

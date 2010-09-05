@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "player.h"
 
 namespace Ui {
 	class MainWindow;
@@ -18,7 +17,6 @@ public:
 
 private:
 	Ui::MainWindow *ui;
-	Player *player;
 
 public slots:
 	void openMedia();

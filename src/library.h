@@ -6,6 +6,8 @@
 #include "playlist.h"
 #include "dbstorage.h"
 #include "filestorage.h"
+#include "mediascanner.h"
+#include "tagresolver.h"
 
 // represents media library: tracks, playlists
 // it uses different media storages for tracks and playlists
@@ -15,11 +17,13 @@ using SomePlayer::DataObjects::Track;
 using SomePlayer::DataObjects::Playlist;
 using SomePlayer::Storage::DbStorage;
 using SomePlayer::Storage::FileStorage;
+using SomePlayer::Storage::MediaScanner;
 
 namespace SomePlayer {
 	namespace DataObjects {
 
-		class Library {
+		class Library : public QObject {
+			Q_OBJECT
 		public:
 			Library(QString databasePath, QString playlistsPath);
 			~Library();
@@ -36,12 +40,6 @@ namespace SomePlayer {
 			Playlist getNeverPlayed();
 			Playlist getRecentlyAdded();
 
-			void removeTrack(Track);
-			void addTrack(Track);
-			void addToFavorites(Track);
-
-			void updateTrack(Track);
-
 			QList<Playlist> getPlaylists();
 			void savePlaylist(Playlist playlist);
 			void removePlaylist(Playlist playlist);
@@ -52,6 +50,14 @@ namespace SomePlayer {
 		private:
 			DbStorage *_library_storage;
 			FileStorage *_playlist_storage;
+			MediaScanner *_scanner;
+			TagResolver *_resolver;
+
+		public slots:
+			void removeTrack(Track);
+			void addTrack(Track);
+			void addToFavorites(Track);
+			void updateTrack(Track);
 		};
 
 	};
