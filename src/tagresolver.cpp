@@ -1,4 +1,5 @@
 #include "tagresolver.h"
+#include <QDebug>
 
 using namespace SomePlayer::DataObjects;
 
@@ -21,17 +22,16 @@ void TagResolver::decode(QStringList files) {
 
 void TagResolver::metaStateChanged(Phonon::State newState, Phonon::State /*oldState*/) {
 	if (newState == Phonon::StoppedState) {
+		int time = _metaObject->totalTime();
 		Phonon::MediaSource source = _metaObject->currentSource();
-		if (source.type() != Phonon::MediaSource::Invalid) {
-			QMap<QString, QString> meta = _metaObject->metaData();
-			TrackMetadata metadata(meta.value("TITLE"), meta.value("ARTIST"), meta.value("ALBUM"));
-			Track track(0, metadata, source.fileName());
-			emit decoded(track);
-			int index = _sources.indexOf(source)+1;
-			if (index != _sources.size()) {
-				Phonon::MediaSource newSource = _sources.at(index);
-				_metaObject->setCurrentSource(newSource);
-			}
+		QMap<QString, QString> meta = _metaObject->metaData();
+		TrackMetadata metadata(meta.value("TITLE"), meta.value("ARTIST"), meta.value("ALBUM"), time/1000);
+		Track track(0, metadata, source.fileName());
+		emit decoded(track);
+		int index = _sources.indexOf(source)+1;
+		if (index != _sources.size()) {
+			Phonon::MediaSource newSource = _sources.at(index);
+			_metaObject->setCurrentSource(newSource);
 		}
 	}
 }

@@ -41,8 +41,11 @@ namespace SomePlayer {
 			Playlist getRecentlyAdded();
 
 			QList<Playlist> getPlaylists();
+			QStringList getPlaylistsNames();
+			Playlist getPlaylist(QString name);
 			void savePlaylist(Playlist playlist);
 			void removePlaylist(Playlist playlist);
+			void removePlaylist(QString name);
 
 			Playlist getCurrentPlaylist();
 			void saveCurrentPlaylist(Playlist playlist);

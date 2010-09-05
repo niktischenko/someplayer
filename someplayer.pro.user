@@ -202,7 +202,7 @@
     <valuemap key="Qt4ProjectManager.MaemoRunConfiguration.DebuggingHelpersLastDeployed" type="QVariantMap"/>
     <value key="Qt4ProjectManager.MaemoRunConfiguration.DeviceId" type="qulonglong">1</value>
     <valuemap key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployed" type="QVariantMap">
-     <value key="192.168.77.2" type="QDateTime">2010-09-05T16:54:31</value>
+     <value key="192.168.77.2" type="QDateTime">2010-09-05T23:00:23</value>
     </valuemap>
    </valuemap>
    <value key="ProjectExplorer.Target.RunConfigurationCount" type="int">1</value>

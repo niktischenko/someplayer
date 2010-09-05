@@ -13,7 +13,7 @@ namespace SomePlayer {
 			Playlist();
 
 			QString name() const;
-			QList<Track> tracks() const;
+			const QList<Track> &tracks() const;
 
 			void setName(QString name);
 			void addTrack(Track track);

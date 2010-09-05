@@ -19,7 +19,7 @@ using SomePlayer::DataObjects::Track;
 namespace SomePlayer {
 	namespace Storage {
 
-		class DbStorage : public Storage {
+		class DbStorage {
 		public:
 			DbStorage(QString path);
 			~DbStorage();

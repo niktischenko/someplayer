@@ -12,19 +12,22 @@ namespace SomePlayer {
 
 		public:
 			TrackMetadata();
-			TrackMetadata(QString title, QString artist, QString album);
+			TrackMetadata(QString title, QString artist, QString album, int length);
 			TrackMetadata(const TrackMetadata &metadata);
 
 			QString title();
 			QString artist();
 			QString album();
+			int length();
 
 			void setTitle(QString title);
 			void setArtist(QString artist);
 			void setAlbum(QString album);
+			void setLength(int length);
 
 		private:
 			QMap<QString, QString> _metadata;
+			int _length;
 		};
 	};
 };

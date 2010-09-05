@@ -5,14 +5,16 @@ using namespace SomePlayer::DataObjects;
 TrackMetadata::TrackMetadata() {
 }
 
-TrackMetadata::TrackMetadata(QString title = "Unknown title", QString artist = "Unknown artist", QString album = "Unknown album") {
+TrackMetadata::TrackMetadata(QString title = "", QString artist = "", QString album = "", int length = 0) {
 	_metadata["TITLE"] = title == "" ? "Unknown title" : title;
 	_metadata["ARTIST"] = artist == "" ? "Unknown artist" : artist;
 	_metadata["ALBUM"] = album == "" ? "Unknown album" : album;
+	_length = length;
 }
 
 TrackMetadata::TrackMetadata(const TrackMetadata &metadata) {
 	this->_metadata = metadata._metadata;
+	this->_length = metadata._length;
 }
 
 QString TrackMetadata::title() {
@@ -39,6 +41,10 @@ QString TrackMetadata::album() {
 	}
 }
 
+int TrackMetadata::length() {
+	return _length;
+}
+
 void TrackMetadata::setTitle(QString title) {
 	_metadata["TITLE"] = title;
 }
@@ -49,4 +55,8 @@ void TrackMetadata::setArtist(QString artist) {
 
 void TrackMetadata::setAlbum(QString album) {
 	_metadata["ALBUM"] = album;
+}
+
+void TrackMetadata::setLength(int length) {
+	_length = length;
 }

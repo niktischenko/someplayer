@@ -11,7 +11,7 @@ QString Playlist::name() const {
 	return _name;
 }
 
-QList<Track> Playlist::tracks() const {
+const QList<Track> &Playlist::tracks() const {
 	return _tracks;
 }
 

@@ -4,6 +4,10 @@
 #include <QMessageBox>
 #include <QFile>
 
+#include "player.h"
+
+#include "library.h"
+
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
@@ -19,4 +23,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::openMedia()
 {
+//	SomePlayer::DataObjects::Library *l = new SomePlayer::DataObjects::Library("/tmp", "/tmp");
+//	l->addDirectory("/mnt/music/Three Days Grace");
 }

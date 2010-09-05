@@ -5,7 +5,6 @@ using namespace SomePlayer::Storage;
 
 #include "mediascanner.h"
 #include <QDir>
-#include <QDebug>
 
 Library::Library(QString databasePath, QString playlistsPath) : QObject(0) {
 	_library_storage = new DbStorage(databasePath);
@@ -27,7 +26,8 @@ void Library::addDirectory(QString path) {
 }
 
 void Library::addFile(QString path) {
-	/// TODO: implement this
+	QStringList files(path);
+	_resolver->decode(files);
 }
 
 QList<QString> Library::getArtists() {
@@ -85,6 +85,14 @@ QList<Playlist> Library::getPlaylists() {
 	return _playlist_storage->getPlaylists();
 }
 
+QStringList Library::getPlaylistsNames() {
+	return _playlist_storage->getPlaylistsNames();
+}
+
+Playlist Library::getPlaylist(QString name) {
+	return _playlist_storage->getPlaylist(name);
+}
+
 void Library::savePlaylist(Playlist playlist) {
 	_playlist_storage->savePlaylist(playlist);
 }
@@ -93,6 +101,9 @@ void Library::removePlaylist(Playlist playlist) {
 	_playlist_storage->removePlaylist(playlist);
 }
 
+void Library::removePlaylist(QString name) {
+	_playlist_storage->removePlaylist(name);
+}
 
 Playlist Library::getCurrentPlaylist() {
 	return _playlist_storage->getCurrentPlaylist();

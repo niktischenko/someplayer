@@ -40,5 +40,5 @@ void MediaScanner::init(QString dir) {
 	_initialized = true;
 	if (!_iterator)
 		delete _iterator;
-	_iterator = new QDirIterator(QDir(dir), QDirIterator::Subdirectories);
+	_iterator = new QDirIterator(QDir(dir), QDirIterator::Subdirectories | QDirIterator::FollowSymlinks);
 }

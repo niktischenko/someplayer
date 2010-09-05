@@ -25,34 +25,34 @@ void DbStorage::_prepare_queries() {
 	_get_albums_for_artist_query->prepare("SELECT name FROM album WHERE artist_id in (SELECT id from artist WHERE name = :name);");
 
 	_get_tracks_for_album_query = new QSqlQuery(db);
-	_get_tracks_for_album_query->prepare("SELECT id, title, source, count FROM tracks WHERE artist_id IN "
+	_get_tracks_for_album_query->prepare("SELECT id, title, source, count, length FROM tracks WHERE artist_id IN "
 										 "(SELECT id FROM artist WHERE name = :artist_name) AND album_id IN "
 										 "(SELECT id FROM album WHERE name =: album_name);");
 
 	_get_favorites_query = new QSqlQuery(db);
-	_get_favorites_query->prepare("SELECT track_id as id, title, artist, album.name as album, source, count FROM "
-								  "(SELECT tracks.id AS track_id, artist.name AS artist, title, count, source, tracks.album_id FROM "
+	_get_favorites_query->prepare("SELECT track_id as id, title, artist, album.name as album, source, count, length FROM "
+								  "(SELECT tracks.id AS track_id, artist.name AS artist, title, count, source, tracks.album_id, length FROM "
 								  "tracks JOIN artist ON tracks.artist_id = artist.id) "
 								  "JOIN album ON album_id = album.id WHERE track_id IN "
 								  "(SELECT track_id FROM favorites);");
 
 	_get_most_played_query = new QSqlQuery(db);
-	_get_most_played_query->prepare("SELECT track_id as id, title, artist, album.name as album, source, count FROM "
-									"(SELECT tracks.id AS track_id, artist.name AS artist, title, count, source, tracks.album_id FROM "
+	_get_most_played_query->prepare("SELECT track_id as id, title, artist, album.name as album, source, count, length FROM "
+									"(SELECT tracks.id AS track_id, artist.name AS artist, title, count, source, tracks.album_id, length FROM "
 									"tracks JOIN artist ON tracks.artist_id = artist.id) "
 									"JOIN album ON album_id = album.id ORDER BY count DESC "
 									"LIMIT 0, :max");
 
 	_get_never_played_query = new QSqlQuery(db);
-	_get_never_played_query->prepare("SELECT track_id as id, title, artist, album.name as album, source, count FROM "
-									 "(SELECT tracks.id AS track_id, artist.name AS artist, title, count, source, tracks.album_id FROM "
+	_get_never_played_query->prepare("SELECT track_id as id, title, artist, album.name as album, source, count, length FROM "
+									 "(SELECT tracks.id AS track_id, artist.name AS artist, title, count, source, tracks.album_id, length FROM "
 									 "tracks JOIN artist ON tracks.artist_id = artist.id) "
 									 "JOIN album ON album_id = album.id "
 									 "WHERE count = 0");
 
 	_get_recently_added_query = new QSqlQuery(db);
-	_get_recently_added_query->prepare("SELECT track_id as id, title, artist, album.name as album, source, count FROM "
-									   "(SELECT tracks.id AS track_id, artist.name AS artist, title, count, source, tracks.album_id FROM "
+	_get_recently_added_query->prepare("SELECT track_id as id, title, artist, album.name as album, source, count, length FROM "
+									   "(SELECT tracks.id AS track_id, artist.name AS artist, title, count, source, tracks.album_id, length FROM "
 									   "tracks JOIN artist ON tracks.artist_id = artist.id) "
 									   "JOIN album ON album_id = album.id "
 									   "WHERE track_id IN "
@@ -73,7 +73,7 @@ void DbStorage::_prepare_queries() {
 	_insert_album_query->prepare("INSERT INTO album (name, artist_id) values (:name, :artist_id)");
 
 	_insert_track_query = new QSqlQuery(db);
-	_insert_track_query->prepare("INSERT INTO tracks (title, artist_id, album_id, source) values (:title, :artist_id, :album_id, :source)");
+	_insert_track_query->prepare("INSERT INTO tracks (title, artist_id, album_id, source, length) values (:title, :artist_id, :album_id, :source, :length)");
 
 	_insert_date_query = new QSqlQuery(db);
 	_insert_date_query->prepare("INSERT INTO adding_date (track_id, date) values (:track_id, strftime('%s', 'now'))");
@@ -95,6 +95,7 @@ void DbStorage::_create_database_structure() {
 										"title text, "
 										"source text, "
 										"count integer default 0, "
+										"length integer default 0, "
 										"foreign key(artist_id) references artist(id), "
 										"foreign key(album_id) references album(id) "
 										");");
@@ -115,6 +116,13 @@ DbStorage::~DbStorage() {
 	delete _get_never_played_query;
 	delete _get_recently_added_query;
 	delete _get_tracks_for_album_query;
+	delete _check_album_query;
+	delete _check_artist_query;
+	delete _check_track_query;
+	delete _insert_album_query;
+	delete _insert_artist_query;
+	delete _insert_date_query;
+	delete _insert_track_query;
 	db.close();
 }
 
@@ -153,7 +161,8 @@ QList<Track> DbStorage::getTracksForAlbum(QString album, QString artist) {
 		QString title = query->value(1).toString();
 		QString source = query->value(2).toString();
 		int count = query->value(3).toInt();
-		TrackMetadata meta (title, artist, album);
+		int length = query->value(4).toInt();
+		TrackMetadata meta (title, artist, album, length);
 		Track track(id, meta, source);
 		track.setCount(count);
 		tracks.append(track);
@@ -173,7 +182,8 @@ Playlist DbStorage::getFavorites() {
 		QString album = query->value(3).toString();
 		QString source = query->value(4).toString();
 		int count = query->value(5).toInt();
-		TrackMetadata meta(title, artist, album);
+		int length = query->value(6).toInt();
+		TrackMetadata meta(title, artist, album, length);
 		Track track(id, meta, source);
 		track.setCount(count);
 		playlist.addTrack(track);
@@ -194,7 +204,8 @@ Playlist DbStorage::getMostPlayed() {
 		QString album = query->value(3).toString();
 		QString source = query->value(4).toString();
 		int count = query->value(5).toInt();
-		TrackMetadata meta(title, artist, album);
+		int length = query->value(6).toInt();
+		TrackMetadata meta(title, artist, album, length);
 		Track track(id, meta, source);
 		track.setCount(count);
 		playlist.addTrack(track);
@@ -215,7 +226,8 @@ Playlist DbStorage::getNeverPlayed() {
 		QString album = query->value(3).toString();
 		QString source = query->value(4).toString();
 		int count = query->value(5).toInt();
-		TrackMetadata meta(title, artist, album);
+		int length = query->value(6).toInt();
+		TrackMetadata meta(title, artist, album, length);
 		Track track(id, meta, source);
 		track.setCount(count);
 		playlist.addTrack(track);
@@ -236,7 +248,8 @@ Playlist DbStorage::getRecentlyAdded() {
 		QString album = query->value(3).toString();
 		QString source = query->value(4).toString();
 		int count = query->value(5).toInt();
-		TrackMetadata meta(title, artist, album);
+		int length = query->value(6).toInt();
+		TrackMetadata meta(title, artist, album, length);
 		Track track(id, meta, source);
 		track.setCount(count);
 		playlist.addTrack(track);
@@ -282,6 +295,7 @@ void DbStorage::addTrack(Track track) {
 	query->bindValue(":artist_id", artist_id);
 	query->bindValue(":album_id", album_id);
 	query->bindValue(":source", source);
+	query->bindValue(":length", track.metadata().length());
 	if (query->exec()) {
 		//ok
 		query = _check_track_query;

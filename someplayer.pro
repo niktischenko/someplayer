@@ -17,7 +17,6 @@ SOURCES += src/main.cpp\
     src/trackmetainformation.cpp \
     src/playlist.cpp \
     src/library.cpp \
-    src/storage.cpp \
     src/filestorage.cpp \
     src/dbstorage.cpp \
     src/mediascanner.cpp \
