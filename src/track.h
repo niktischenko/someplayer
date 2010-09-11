@@ -3,18 +3,24 @@
 
 #include "someplayer.h"
 #include "trackmetainformation.h"
+#include "tagresolver.h"
 
 // represents some track: metainformation + source url
 
 namespace SomePlayer {
 	namespace DataObjects {
 
-		class Track
+		class Track : public QObject
 		{
+			Q_OBJECT
+
 		public:
 			Track();
 			Track(const Track &track);
 			Track(int id, TrackMetadata metadata, QString source);
+			Track(QString source);
+			~Track();
+			Track &operator=(const Track &track);
 			TrackMetadata metadata() const; //read-write
 			QString source() const;
 			int id() const;
@@ -27,6 +33,9 @@ namespace SomePlayer {
 			QString _source;
 			int _count;
 			int _id;
+			TagResolver *_resolver;
+		private slots:
+			void decoded(Track);
 		};
 
 	};

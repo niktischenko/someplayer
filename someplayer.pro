@@ -12,7 +12,7 @@ TEMPLATE = app
 
 SOURCES += src/main.cpp\
         src/mainwindow.cpp \
-        src/player.cpp \
+		src/player/player.cpp \
         src/track.cpp \
     src/trackmetainformation.cpp \
     src/playlist.cpp \
@@ -20,11 +20,13 @@ SOURCES += src/main.cpp\
     src/filestorage.cpp \
     src/dbstorage.cpp \
     src/mediascanner.cpp \
-    src/tagresolver.cpp
+    src/tagresolver.cpp \
+    src/playerform.cpp \
+    src/libraryform.cpp
 
 HEADERS  += src/mainwindow.h \
-        src/player.h \
-        src/track.h \
+		src/player/player.h \
+		src/track.h \
     src/trackmetainformation.h \
     src/playlist.h \
     src/someplayer.h \
@@ -33,9 +35,13 @@ HEADERS  += src/mainwindow.h \
     src/filestorage.h \
     src/dbstorage.h \
     src/mediascanner.h \
-    src/tagresolver.h
+    src/tagresolver.h \
+    src/playerform.h \
+    src/libraryform.h
 
-FORMS    += src/ui/mainwindow.ui
+FORMS    += src/ui/mainwindow.ui \
+    src/ui/playerform.ui \
+    src/ui/libraryform.ui
 
 CONFIG += mobility
 MOBILITY = 

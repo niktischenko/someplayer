@@ -13,7 +13,16 @@
   <property name="windowTitle">
    <string>someplayer</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <widget class="QStackedWidget" name="stackedWidget">
+      <widget class="QWidget" name="page"/>
+      <widget class="QWidget" name="page_2"/>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
@@ -23,43 +32,50 @@
      <height>23</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
+   <widget class="QMenu" name="menuView">
     <property name="title">
-     <string>File</string>
+     <string>View</string>
     </property>
-    <addaction name="actionOpen"/>
+    <addaction name="actionLibrary"/>
+    <addaction name="actionPlayer"/>
    </widget>
-   <addaction name="menuFile"/>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+    <addaction name="actionAbout_Qt"/>
+   </widget>
+   <addaction name="menuView"/>
+   <addaction name="menuHelp"/>
   </widget>
   <action name="actionOpen">
    <property name="text">
     <string>Open media</string>
    </property>
   </action>
-  <action name="actionQuit">
+  <action name="actionPlayer">
    <property name="text">
-    <string>Quit</string>
+    <string>Player</string>
+   </property>
+  </action>
+  <action name="actionLibrary">
+   <property name="text">
+    <string>Library</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionAbout_Qt">
+   <property name="text">
+    <string>About Qt</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections>
-  <connection>
-   <sender>actionQuit</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>239</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

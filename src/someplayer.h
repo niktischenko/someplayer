@@ -5,8 +5,14 @@
 
 namespace SomePlayer {
 	namespace DataObjects {
+		class Track;
+		class TrackMetadata;
+		class TagResolver;
+		class Playlist;
 	};
 	namespace Storage {
+	};
+	namespace Playback {
 	};
 };
 
