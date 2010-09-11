@@ -27,7 +27,7 @@ void DbStorage::_prepare_queries() {
 	_get_tracks_for_album_query = new QSqlQuery(db);
 	_get_tracks_for_album_query->prepare("SELECT id, title, source, count, length FROM tracks WHERE artist_id IN "
 										 "(SELECT id FROM artist WHERE name = :artist_name) AND album_id IN "
-										 "(SELECT id FROM album WHERE name =: album_name);");
+										 "(SELECT id FROM album WHERE name = :album_name);");
 
 	_get_favorites_query = new QSqlQuery(db);
 	_get_favorites_query->prepare("SELECT track_id as id, title, artist, album.name as album, source, count, length FROM "

@@ -5,10 +5,13 @@
 #include <QMessageBox>
 #include "playerform.h"
 #include "libraryform.h"
+#include "library.h"
 
 namespace Ui {
 	class MainWindow;
 }
+
+using SomePlayer::DataObjects::Library;
 
 class MainWindow : public QMainWindow
 {
@@ -30,6 +33,7 @@ public slots:
 private:
 	PlayerForm *_playerForm;
 	LibraryForm *_libraryForm;
+	Library *_library;
 };
 
 #endif // MAINWINDOW_H

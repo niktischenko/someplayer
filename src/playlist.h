@@ -11,6 +11,9 @@ namespace SomePlayer {
 		class Playlist {
 		public:
 			Playlist();
+			Playlist(const Playlist &playlist);
+
+			Playlist &operator=(const Playlist &playlist);
 
 			QString name() const;
 			const QList<Track> &tracks() const;

@@ -8,10 +8,13 @@
 
 #include "library.h"
 
+using namespace SomePlayer::DataObjects;
+
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
 {
+	_library = new Library(_DATABASE_PATH_, _PLAYLISTS_PATH_);
 	ui->setupUi(this);
 	connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openMedia()));
 	connect(ui->actionAbout_Qt, SIGNAL(triggered()), this, SLOT(aboutQt()));
@@ -19,13 +22,12 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(ui->actionPlayer, SIGNAL(triggered()), this, SLOT(player()));
 	connect(ui->actionLibrary, SIGNAL(triggered()), this, SLOT(library()));
 	setAnimated(true);
-	_playerForm = new PlayerForm();
-	_libraryForm = new LibraryForm();
+	_playerForm = new PlayerForm(_library, ui->stackedWidget);
+	_libraryForm = new LibraryForm(_library, ui->stackedWidget);
 	ui->stackedWidget->insertWidget(0, _playerForm);
 	ui->stackedWidget->insertWidget(1, _libraryForm);
-	_playerForm->setAttribute(Qt::WA_Maemo5StackedWindow);
-	_libraryForm->setAttribute(Qt::WA_Maemo5StackedWindow);
 	connect(_playerForm, SIGNAL(library()), this, SLOT(library()));
+	connect(_libraryForm, SIGNAL(player()), this, SLOT(player()));
 	library();
 }
 
@@ -53,11 +55,13 @@ void MainWindow::about() {
 }
 
 void MainWindow::player() {
+	_playerForm->show();
 	ui->stackedWidget->setCurrentIndex(0);
 	setWindowTitle("SomePlayer");
 }
 
 void MainWindow::library() {
+	_libraryForm->show();
 	ui->stackedWidget->setCurrentIndex(1);
 	setWindowTitle("SomePlayer Library");
 }

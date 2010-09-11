@@ -20,11 +20,12 @@ QList<Playlist> FileStorage::getPlaylists() {
 }
 
 Playlist FileStorage::getPlaylist(QString name) {
-	QFile playlistFile (_path_prefix+"/"+name+_PLAYLIST_FILE_EXTENSION_);
+	QFile playlistFile (_path_prefix+"/"+name+"."+_PLAYLIST_FILE_EXTENSION_);
 	Playlist playlist;
 	playlist.setName("Bad playlist");
 	if (playlistFile.exists()) {
 		playlist.setName(name);
+		playlistFile.open(QFile::ReadOnly);
 		QTextStream stream(&playlistFile);
 		QString buffer = stream.readLine();
 		int index = 0;
@@ -32,13 +33,13 @@ Playlist FileStorage::getPlaylist(QString name) {
 			while (!stream.atEnd()) {
 				buffer = stream.readLine();
 				if (_meta_regexp.indexIn(buffer) != -1) {
-					int seconds = _meta_regexp.cap(0).toInt();
-					QString artist = _meta_regexp.cap(1);
-					QString album = _meta_regexp.cap(2);
-					QString title = _meta_regexp.cap(3);
+					int seconds = _meta_regexp.cap(1).toInt();
+					QString artist = _meta_regexp.cap(2);
+					QString album = _meta_regexp.cap(3);
+					QString title = _meta_regexp.cap(4);
 					buffer = stream.readLine();
 					if (_path_regexp.indexIn(buffer) != -1) {
-						QString source = _path_regexp.cap(0);
+						QString source = _path_regexp.cap(1);
 						TrackMetadata meta(title, artist, album, seconds);
 						Track track(index++, meta, source);
 						playlist.addTrack(track);
@@ -59,7 +60,8 @@ QStringList FileStorage::getPlaylistsNames() {
 		QFileInfo info(entry);
 		QString suffix = info.suffix().toLower();
 		if (suffix == _PLAYLIST_FILE_EXTENSION_) {
-			playlistNames.append(info.fileName());
+			playlistNames.append(info.fileName()
+								 .replace(QString(".%1").arg(_PLAYLIST_FILE_EXTENSION_), "", Qt::CaseInsensitive));
 		}
 	}
 	return playlistNames;

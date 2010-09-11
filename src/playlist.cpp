@@ -7,6 +7,17 @@ Playlist::Playlist()
 	_name = "New playlist";
 }
 
+Playlist::Playlist(const Playlist &playlist) {
+	_name = playlist.name();
+	_tracks = playlist.tracks();
+}
+
+Playlist& Playlist::operator =(const Playlist &playlist) {
+	_name = playlist.name();
+	_tracks = playlist.tracks();
+	return *this;
+}
+
 QString Playlist::name() const {
 	return _name;
 }

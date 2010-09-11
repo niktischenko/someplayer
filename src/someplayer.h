@@ -9,6 +9,7 @@ namespace SomePlayer {
 		class TrackMetadata;
 		class TagResolver;
 		class Playlist;
+		class Library;
 	};
 	namespace Storage {
 	};
@@ -18,6 +19,7 @@ namespace SomePlayer {
 
 // common includes
 
+#include <QObject>
 #include <QString>
 #include <QStringList>
 #include <QList>

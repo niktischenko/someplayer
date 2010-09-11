@@ -9,6 +9,9 @@
 #include "mediascanner.h"
 #include "tagresolver.h"
 
+#define _DATABASE_PATH_ "/tmp"
+#define _PLAYLISTS_PATH_ "/tmp"
+
 // represents media library: tracks, playlists
 // it uses different media storages for tracks and playlists
 // but dynamic playlits will be stored with tracks into the same storage
