@@ -2,8 +2,8 @@
 #define PLAYER_H
 
 #include <QObject>
-#include "someplayer.h"
-#include "track.h"
+#include "../someplayer.h"
+#include "../track.h"
 #include <phonon/MediaObject>
 #include <phonon/AudioOutput>
 

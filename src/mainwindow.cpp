@@ -4,7 +4,7 @@
 #include <QMessageBox>
 #include <QFile>
 
-#include "player.h"
+#include "player/player.h"
 
 #include "library.h"
 
