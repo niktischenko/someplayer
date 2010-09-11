@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMessageBox>
+#include "playerform.h"
+#include "libraryform.h"
 
 namespace Ui {
 	class MainWindow;
@@ -20,6 +23,13 @@ private:
 
 public slots:
 	void openMedia();
+	void aboutQt();
+	void about();
+	void player();
+	void library();
+private:
+	PlayerForm *_playerForm;
+	LibraryForm *_libraryForm;
 };
 
 #endif // MAINWINDOW_H
