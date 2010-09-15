@@ -7,6 +7,8 @@
 #include <QStandardItemModel>
 #include "player/player.h"
 #include <QSlider>
+#include <QMenu>
+#include "trackrenderer.h"
 
 namespace Ui {
     class PlayerForm;
@@ -37,6 +39,10 @@ private slots:
 	void _track_changed(Track);
 	void _tick(int, int);
 	void _slider_released();
+	void _custom_context_venu_requested ( const QPoint & pos );
+	void _delete_track();
+	void _enqueue_track();
+	void _add_to_favorites();
 
 private:
     Ui::PlayerForm *ui;
@@ -45,7 +51,9 @@ private:
 	QStandardItemModel *_model;
 	Player *_player;
 	QSlider *_seek_slider;
+	QMenu *_context_menu;
 
+	TrackRenderer *_track_renderer;
 	void _display_track(Track);
 };
 

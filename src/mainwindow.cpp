@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QInputDialog>
 #include <QFile>
 
 #include "player/player.h"
@@ -30,11 +31,17 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->stackedWidget->insertWidget(2, _busy_widget);
 	_library_menu = new QMenu("Lirary");
 	QAction *add_directory = _library_menu->addAction("Add directory");
+	QAction *save_playlist = _library_menu->addAction("Save playlist");
+	QAction *clear_playlist = _library_menu->addAction("Clear current playlist");
 	_player_menu = new QMenu("Player");
 	connect(_player_form, SIGNAL(library()), this, SLOT(library()));
 	connect(_library_form, SIGNAL(player()), this, SLOT(player()));
 	connect(add_directory, SIGNAL(triggered()), this, SLOT(_add_directory()));
-	connect(_library, SIGNAL(addingDone()), this, SLOT(library()));
+	connect(save_playlist, SIGNAL(triggered()), this, SLOT(_save_playlist()));
+	connect(clear_playlist, SIGNAL(triggered()), this, SLOT(_clear_current_playlist()));
+	connect(_library, SIGNAL(done()), this, SLOT(library()));
+	connect(_library_form, SIGNAL(done()), this, SLOT(library()));
+	connect(_library_form, SIGNAL(busy(QString)), this, SLOT(showBusyWidget(QString)));
 	library();
 }
 
@@ -77,9 +84,27 @@ void MainWindow::library() {
 void MainWindow::_add_directory() {
 	QString directory = QFileDialog::getExistingDirectory (this, "Select directory", "/home/user/MyDocs", QFileDialog::ShowDirsOnly );
 	if (!directory.isEmpty()) {
-		_busy_widget->setText("<H1>Scanning... Please wait</H1>");
-		ui->menuBar->setEnabled(false);
-		ui->stackedWidget->setCurrentIndex(2);
+		showBusyWidget("<H1>Scanning... Please wait</H1>");
 		_library->addDirectory(directory);
 	}
+}
+
+void MainWindow::_save_playlist() {
+	QString name = QInputDialog::getText(this, "Playlist name", "Name:");
+	Playlist playlist = _library->getCurrentPlaylist();
+	playlist.setName(name);
+	_library->savePlaylist(playlist);
+}
+
+void MainWindow::_clear_current_playlist() {
+	Playlist playlist = _library->getCurrentPlaylist();
+	playlist.clear();
+	_library->saveCurrentPlaylist(playlist);
+	_player_form->reload();
+}
+
+void MainWindow::showBusyWidget(QString caption) {
+	_busy_widget->setText(caption);
+	ui->menuBar->setEnabled(false);
+	ui->stackedWidget->setCurrentIndex(2);
 }

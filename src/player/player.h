@@ -9,6 +9,7 @@
 #include <phonon/MediaObject>
 #include <phonon/AudioOutput>
 #include <QStack>
+#include <QQueue>
 
 // represents player
 
@@ -35,11 +36,13 @@ namespace SomePlayer {
 			void stateChanged (PlayerState);
 			void trackChanged (Track);
 			void tick (int, int); // played | all (seconds)
+			void trackDone(Track);
 
 		public slots:
 			void setTrackId(int id);
+			void enqueue(int id);
+			void toggle();
 			void play();
-			void pause();
 			void stop();
 			void next();
 			void prev();
@@ -52,15 +55,18 @@ namespace SomePlayer {
 			void _tick(qint64);
 		private:
 			int _current;
+			Track _track; // current track (workaround)
 			bool _random;
 			bool _repeat;
 			QStack<int> _history;
+			QQueue<int> _queue;
 			Playlist _playlist;
 			Phonon::MediaObject *_player;
 			Phonon::AudioOutput *_output;
 			PlayerState _state;
 
 			void _set_source();
+
 		};
 	};
 };

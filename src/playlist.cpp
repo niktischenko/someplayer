@@ -34,3 +34,10 @@ void Playlist::removeTrack(Track track) {
 	_tracks.removeOne(track);
 }
 
+void Playlist::removeTrackAt(int id) {
+	_tracks.removeAt(id);
+}
+
+void Playlist::clear() {
+	_tracks.clear();
+}

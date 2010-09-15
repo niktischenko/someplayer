@@ -57,6 +57,10 @@ void DbStorage::_prepare_queries() {
 									   "JOIN album ON album_id = album.id "
 									   "WHERE track_id IN "
 									   "(SELECT track_id FROM adding_date ORDER BY date DESC LIMIT 0, :max)");
+
+	_get_track_count = new QSqlQuery(db);
+	_get_track_count->prepare("SELECT count from tracks WHERE id = :id");
+
 	_check_artist_query = new QSqlQuery(db);
 	_check_artist_query->prepare("SELECT id FROM artist WHERE name = :name");
 
@@ -333,10 +337,16 @@ void DbStorage::addToFavorites(Track track) {
 }
 
 void DbStorage::updateTrackCount(Track track) {
-	QSqlQuery *query = _update_track_count_query;
-	query->bindValue(":count", track.count());
+	QSqlQuery *query = _get_track_count;
 	query->bindValue(":id", track.id());
 	query->exec();
+	if (query->next()) {
+		int count = query->value(0).toInt();
+		query = _update_track_count_query;
+		query->bindValue(":count", count+1);
+		query->bindValue(":id", track.id());
+		query->exec();
+	}
 }
 
 int DbStorage::_check_add_artist(QString artist) {

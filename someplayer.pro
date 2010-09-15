@@ -23,7 +23,8 @@ SOURCES += src/main.cpp\
     src/tagresolver.cpp \
     src/playerform.cpp \
     src/libraryform.cpp \
-    src/busywidget.cpp
+    src/busywidget.cpp \
+    src/trackrenderer.cpp
 
 HEADERS  += src/mainwindow.h \
 		src/player/player.h \
@@ -39,7 +40,8 @@ HEADERS  += src/mainwindow.h \
     src/tagresolver.h \
     src/playerform.h \
     src/libraryform.h \
-    src/busywidget.h
+    src/busywidget.h \
+    src/trackrenderer.h
 
 FORMS    += src/ui/mainwindow.ui \
     src/ui/playerform.ui \

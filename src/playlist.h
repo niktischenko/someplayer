@@ -22,6 +22,8 @@ namespace SomePlayer {
 			void setName(QString name);
 			void addTrack(Track track);
 			void removeTrack(Track track);
+			void removeTrackAt(int id);
+			void clear();
 
 		private:
 			QString _name;

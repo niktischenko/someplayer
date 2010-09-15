@@ -12,7 +12,7 @@ Library::Library(QString databasePath, QString playlistsPath) : QObject(0) {
 	_scanner = new MediaScanner();
 	_resolver = new TagResolver(this);
 	connect(_scanner, SIGNAL(scanFinish(QStringList)), _resolver, SLOT(decode(QStringList)));
-	connect(_resolver, SIGNAL(done()), this, SIGNAL(addingDone()));
+	connect(_resolver, SIGNAL(done()), this, SIGNAL(done()));
 	connect(_resolver, SIGNAL(decoded(Track)), this, SLOT(addTrack(Track)));
 }
 

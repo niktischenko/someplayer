@@ -15,9 +15,9 @@
 // format:
 /*
  #SOMEPLAYLIST
- #META [seconds],::artist::,::album::,::title::
+ #META [ID][seconds],::artist::,::album::,::title::
  #PATH file_path
- #META [seconds],::artist::,::album::,::title::
+ #META [ID][seconds],::artist::,::album::,::title::
  #PATH file_path
  ...
  */

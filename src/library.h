@@ -54,7 +54,8 @@ namespace SomePlayer {
 			void saveCurrentPlaylist(const Playlist &playlist);
 
 		signals:
-			void addingDone();
+			void done();
+			void busy(QString);
 
 		private:
 			DbStorage *_library_storage;

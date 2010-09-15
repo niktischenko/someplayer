@@ -14,23 +14,30 @@ Player::Player(QObject *parent) :
 	connect(_player, SIGNAL(tick(qint64)), this, SLOT(_tick(qint64)));
 	Phonon::createPath(_player, _output);
 	int seed = reinterpret_cast<int> (_player);
-	srand(seed);
+	qsrand(seed);
 	_random = false;
 	_repeat = false;
 }
 
 void Player::setTrackId(int id) {
 	_current = id;
-	_history.push(_current);
+	if (!_history.isEmpty() && _history.top() != _current || _history.isEmpty()) {
+		_history.push(_current);
+	}
+	_track = _playlist.tracks().at(_current);
 	_set_source();
 	_state = PLAYER_LOADING;
 	emit stateChanged(_state);
 }
 
-void Player::play() {
-	_player->play();
-	_state = PLAYER_PLAYING;
-	emit stateChanged(_state);
+void Player::toggle() {
+	if (_state == PLAYER_PLAYING) { // pause
+		_player->pause();
+		_state = PLAYER_PAUSED;
+		emit stateChanged(_state);
+	} else { //play
+		play();
+	}
 }
 
 void Player::stop() {
@@ -39,37 +46,45 @@ void Player::stop() {
 	emit stateChanged(_state);
 }
 
-void Player::pause() {
-	_player->pause();
-	_state = PLAYER_PAUSED;
-	emit stateChanged(_state);
-}
-
 void Player::next() {
-	_history.push(_current);
-	if (_random) {
-		_current = rand() % _playlist.tracks().count();
-	} else {
-		_current = (_current + 1) % _playlist.tracks().count();
+	int count = _playlist.tracks().count();
+	if (count == 0) {
+		stop(); // empty playlist
+		return;
 	}
-	if (_history.count()-1 == _playlist.tracks().count() && !_repeat) {
+	_history.push(_current % count);
+	if (!_queue.isEmpty()) {
+		_current = _queue.dequeue();
+	} else {
+		if (_random) {
+			_current = (count + (qrand()  + qrand() + qrand()) % count) % count;
+		} else {
+			_current = _current + 1;
+		}
+	}
+	if (_random && _history.count() >= count && !_repeat ||
+		!_repeat && _current >= count) {
 		_history.clear();
 		stop();
 	} else {
+		_current %= count;
+		_track = _playlist.tracks().at(_current);
 		_set_source();
 		play();
 	}
 }
 
 void Player::_set_source() {
-	Track track = _playlist.tracks().at(_current);
-	_player->setCurrentSource(Phonon::MediaSource(track.source()));
-	emit trackChanged(track);
+	_player->setCurrentSource(Phonon::MediaSource(_track.source()));
+	emit trackChanged(_track);
 }
 
 void Player::prev() {
-	if (_history.count() > 0)
+	if (_history.count() > 0) {
+		_queue.push_front(_current);
 		_current = _history.pop();
+		_track = _playlist.tracks().at(_current);
+	}
 	_set_source();
 	play();
 }
@@ -103,7 +118,13 @@ void Player::_stateChanged(Phonon::State newState, Phonon::State oldState) {
 }
 
 void Player::_tick(qint64 ticks) {
-	emit tick(ticks/1000, _playlist.tracks().at(_current).metadata().length());
+	int done = ticks/1000;
+	int all = _track.metadata().length();
+	emit tick(done, all);
+	if (done+2 == all) {
+		_track.setCount(_track.count()+1);
+		emit trackDone(_track);
+	}
 }
 
 void Player::setPlaylist(Playlist playlist) {
@@ -113,4 +134,14 @@ void Player::setPlaylist(Playlist playlist) {
 
 void Player::seek(int s) {
 	_player->seek(s*1000);
+}
+
+void Player::play() {
+	_player->play();
+	_state = PLAYER_PLAYING;
+	emit stateChanged(_state);
+}
+
+void Player::enqueue(int id) {
+	_queue.enqueue(id);
 }

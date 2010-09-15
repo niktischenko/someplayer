@@ -10,11 +10,14 @@ Track::Track(int id, TrackMetadata metadata, QString source) : QObject() {
 	_id = id;
 	_metadata = metadata;
 	_source = source;
+	_count = 0;
 }
 
 Track::Track(const Track &track) : QObject() {
 	this->_metadata = track.metadata();
 	this->_source = track.source();
+	this->_id = track._id;
+	this->_count = track._count;
 }
 
 Track::Track(QString source) :QObject() {
@@ -23,6 +26,8 @@ Track::Track(QString source) :QObject() {
 	QStringList foo;
 	foo << source;
 	_resolver->decode(foo);
+	_count = 0;
+	_id = 0;
 }
 
 TrackMetadata Track::metadata() const {
@@ -60,6 +65,7 @@ Track &Track::operator =(const Track &track) {
 	_id = track.id();
 	_source = track.source();
 	_metadata = track.metadata();
+	_count = track._count;
 	return *this;
 }
 

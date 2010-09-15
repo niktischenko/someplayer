@@ -54,6 +54,7 @@ namespace SomePlayer {
 			QSqlQuery *_get_most_played_query;
 			QSqlQuery *_get_never_played_query;
 			QSqlQuery *_get_recently_added_query;
+			QSqlQuery *_get_track_count;
 
 			QSqlQuery *_check_artist_query;
 			QSqlQuery *_check_album_query;

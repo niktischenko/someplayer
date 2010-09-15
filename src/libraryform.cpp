@@ -50,10 +50,12 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 	connect(ui->playerButton, SIGNAL(clicked()), this, SLOT(_player()));
 	connect(ui->viewButton, SIGNAL(clicked()), this, SLOT(_view_button()));
 	connect(ui->playlistsButton, SIGNAL(clicked()), this, SLOT(_playlists_button()));
+	connect(ui->dynamicButton, SIGNAL(clicked()), this, SLOT(_dynamic_button()));
 	connect(ui->listView, SIGNAL(clicked(QModelIndex)), this, SLOT(_process_list_click(QModelIndex)));
 	connect(ui->addButton, SIGNAL(clicked()), this, SLOT(_add_button()));
 	connect(ui->backButton, SIGNAL(clicked()), this, SLOT(_back_button()));
 	connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(_delete_button()));
+	connect(ui->useButton, SIGNAL(clicked()), this, SLOT(_use_button()));
 	_view_button();
 }
 
@@ -75,10 +77,21 @@ void LibraryForm::_view_button() {
 	ui->backButton->setEnabled(false);
 	ui->listLabel->setText("Artists");
 	ui->addButton->setEnabled(true);
-	ui->deleteButton->setEnabled(false);
+	ui->deleteButton->hide();
+	ui->useButton->hide();
 }
 
 void LibraryForm::_dynamic_button() {
+	ui->useButton->hide();
+	ui->backButton->setEnabled(false);
+	ui->addButton->setEnabled(true);
+	_model->clear();
+	_model->setRowCount(4);
+	_model->setItem(0, new QStandardItem("Favorites"));
+	_model->setItem(1, new QStandardItem("Most played"));
+	_model->setItem(2, new QStandardItem("Never played"));
+	_model->setItem(3, new QStandardItem("Recently added"));
+	_state = STATE_DYNAMIC;
 }
 
 void LibraryForm::_process_list_click(QModelIndex index) {
@@ -102,15 +115,40 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 		break;
 	case STATE_PLAYLIST:
 		{
-			Playlist playlist = _lib->getPlaylist(data);
-			_current_tracks = playlist.tracks();
+			_current_playlist = _lib->getPlaylist(data);
+			_current_tracks = _current_playlist.tracks();
 			__fill_model_tracks(_model, _current_tracks);
 			_state = STATE_PLAYLIST_TRACK;
 			ui->backButton->setEnabled(true);
-			ui->deleteButton->setEnabled(true);
+			ui->deleteButton->show();
+			ui->useButton->show();
 			ui->listLabel->setText(QString("Tracks in playlist \"%1\"").arg(data));
 		}
 		break;
+	case STATE_DYNAMIC:
+		{
+			switch(index.row()) {
+			case 0: //favorites
+				_current_playlist = _lib->getFavorites();
+				break;
+			case 1: //most played
+				_current_playlist = _lib->getMostPlayed();
+				break;
+			case 2: //never played
+				_current_playlist = _lib->getNeverPlayed();
+			case 3: //recently added
+				_current_playlist = _lib->getRecentlyAdded();
+				break;
+			default:
+				return;
+			}
+			_current_tracks = _current_playlist.tracks();
+			__fill_model_tracks(_model, _current_tracks);
+			_state = STATE_PLAYLIST_TRACK;
+			ui->backButton->setEnabled(true);
+			ui->useButton->show();
+			ui->listLabel->setText(_current_playlist.name());
+		}
 	default:
 		return;
 	}
@@ -120,6 +158,7 @@ void LibraryForm::_add_button() {
 	if (_state == STATE_NONE) return;
 	QModelIndexList selected = ui->listView->selectionModel()->selectedIndexes();
 	ui->listView->selectionModel()->clearSelection();
+	emit busy(QString("<H1>Adding... Please wait</H1>"));
 	switch (_state) {
 	case STATE_ARTIST:
 		foreach (QModelIndex id, selected) {
@@ -147,8 +186,10 @@ void LibraryForm::_add_button() {
 		}
 		break;
 	default:
+		emit done();
 		return;
 	}
+	emit done();
 }
 
 
@@ -205,6 +246,8 @@ void LibraryForm::_playlists_button() {
 	ui->backButton->setEnabled(false);
 	ui->listLabel->setText("Playlists");
 	ui->addButton->setEnabled(false);
+	ui->deleteButton->hide();
+	ui->useButton->hide();
 }
 
 void LibraryForm::_delete_button() {
@@ -229,4 +272,8 @@ void LibraryForm::_delete_track(Track track) {
 	Playlist current = _lib->getCurrentPlaylist();
 	current.removeTrack(track);
 	_lib->saveCurrentPlaylist(current);
+}
+
+void LibraryForm::_use_button() {
+	_lib->saveCurrentPlaylist(_current_playlist);
 }

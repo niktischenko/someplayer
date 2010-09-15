@@ -32,8 +32,11 @@ public slots:
 	void about();
 	void player();
 	void library();
+	void showBusyWidget(QString);
 private slots:
 	void _add_directory();
+	void _save_playlist();
+	void _clear_current_playlist();
 private:
 	PlayerForm *_player_form;
 	LibraryForm *_library_form;

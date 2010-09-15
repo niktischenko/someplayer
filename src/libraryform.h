@@ -7,6 +7,7 @@
 #include <QStandardItemModel>
 #include <QStandardItem>
 #include <QModelIndex>
+#include "playlist.h"
 
 namespace Ui {
     class LibraryForm;
@@ -16,7 +17,7 @@ using SomePlayer::DataObjects::Library;
 using SomePlayer::DataObjects::Track;
 using SomePlayer::DataObjects::Playlist;
 
-enum LibraryFormListState {STATE_NONE, STATE_ARTIST, STATE_ALBUM, STATE_TRACK, STATE_PLAYLIST, STATE_PLAYLIST_TRACK};
+enum LibraryFormListState {STATE_NONE, STATE_ARTIST, STATE_ALBUM, STATE_TRACK, STATE_PLAYLIST, STATE_PLAYLIST_TRACK, STATE_DYNAMIC};
 
 class LibraryForm : public QWidget
 {
@@ -27,6 +28,8 @@ public:
     ~LibraryForm();
 signals:
 	void player();
+	void busy(QString);
+	void done();
 private slots:
 	void _player();
 	void _view_button();
@@ -35,6 +38,7 @@ private slots:
 	void _add_button();
 	void _delete_button();
 	void _back_button();
+	void _use_button();
 	void _process_list_click(QModelIndex);
 
 private:
@@ -44,6 +48,7 @@ private:
 	LibraryFormListState _state;
 	QString _current_artist;
 	QString _current_album;
+	Playlist _current_playlist;
 	QList<Track> _current_tracks;
 
 	void _add_artist(QString artist);
