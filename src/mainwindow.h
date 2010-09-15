@@ -3,8 +3,10 @@
 
 #include <QMainWindow>
 #include <QMessageBox>
+#include <QMenu>
 #include "playerform.h"
 #include "libraryform.h"
+#include "busywidget.h"
 #include "library.h"
 
 namespace Ui {
@@ -30,9 +32,14 @@ public slots:
 	void about();
 	void player();
 	void library();
+private slots:
+	void _add_directory();
 private:
-	PlayerForm *_playerForm;
-	LibraryForm *_libraryForm;
+	PlayerForm *_player_form;
+	LibraryForm *_library_form;
+	BusyWidget *_busy_widget;
+	QMenu *_library_menu;
+	QMenu *_player_menu;
 	Library *_library;
 };
 

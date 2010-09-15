@@ -27,6 +27,7 @@ namespace SomePlayer {
 			void setSource (QString source);
 			int count() const; //count of plays
 			void setCount(int count); //for restoring from database and counting from player
+			bool operator == (const Track &track);
 
 		private:
 			TrackMetadata _metadata;

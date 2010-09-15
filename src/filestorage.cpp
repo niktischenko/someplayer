@@ -4,6 +4,7 @@
 #include <QFileInfo>
 #include <QTextStream>
 #include <QRegExp>
+#include <QDebug>
 
 using namespace SomePlayer::Storage;
 using namespace SomePlayer::DataObjects;
@@ -12,6 +13,12 @@ FileStorage::FileStorage(QString path) {
 	_path_prefix = path;
 	_meta_regexp.setPattern("#META \\[(\\d+)\\].*::(.+)::,::(.+)::,::(.+)::");
 	_path_regexp.setPattern("#PATH (.+)");
+
+	Playlist current = getCurrentPlaylist();
+	if (current.name() == PLAYLIST_BAD_NAME) {
+		current.setName(_CURRENT_PLAYLIST_NAME_);
+		saveCurrentPlaylist(current);
+	}
 }
 
 QList<Playlist> FileStorage::getPlaylists() {
@@ -22,7 +29,7 @@ QList<Playlist> FileStorage::getPlaylists() {
 Playlist FileStorage::getPlaylist(QString name) {
 	QFile playlistFile (_path_prefix+"/"+name+"."+_PLAYLIST_FILE_EXTENSION_);
 	Playlist playlist;
-	playlist.setName("Bad playlist");
+	playlist.setName(PLAYLIST_BAD_NAME);
 	if (playlistFile.exists()) {
 		playlist.setName(name);
 		playlistFile.open(QFile::ReadOnly);
@@ -60,19 +67,20 @@ QStringList FileStorage::getPlaylistsNames() {
 		QFileInfo info(entry);
 		QString suffix = info.suffix().toLower();
 		if (suffix == _PLAYLIST_FILE_EXTENSION_) {
-			playlistNames.append(info.fileName()
-								 .replace(QString(".%1").arg(_PLAYLIST_FILE_EXTENSION_), "", Qt::CaseInsensitive));
+			QString name = info.fileName().replace(QString(".%1").arg(_PLAYLIST_FILE_EXTENSION_), "", Qt::CaseInsensitive);
+			playlistNames.append(name);
 		}
 	}
 	return playlistNames;
 }
 
 void FileStorage::savePlaylist(Playlist playlist) {
-	QString filename = _path_prefix+playlist.name()+_PLAYLIST_FILE_EXTENSION_;
+	QString filename = _path_prefix + "/" +playlist.name()+"."_PLAYLIST_FILE_EXTENSION_;
 	QFile playlistFile(filename);
 	if (playlistFile.exists()) {
 		playlistFile.remove();
 	}
+	playlistFile.open(QFile::WriteOnly);
 	QTextStream stream(&playlistFile);
 	stream << _PLAYLIST_SIGNATURE_ << endl;
 	const QList<Track> &tracks = playlist.tracks();

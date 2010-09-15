@@ -12,6 +12,7 @@ Library::Library(QString databasePath, QString playlistsPath) : QObject(0) {
 	_scanner = new MediaScanner();
 	_resolver = new TagResolver(this);
 	connect(_scanner, SIGNAL(scanFinish(QStringList)), _resolver, SLOT(decode(QStringList)));
+	connect(_resolver, SIGNAL(done()), this, SIGNAL(addingDone()));
 	connect(_resolver, SIGNAL(decoded(Track)), this, SLOT(addTrack(Track)));
 }
 
@@ -93,11 +94,11 @@ Playlist Library::getPlaylist(QString name) {
 	return _playlist_storage->getPlaylist(name);
 }
 
-void Library::savePlaylist(Playlist playlist) {
+void Library::savePlaylist(const Playlist &playlist) {
 	_playlist_storage->savePlaylist(playlist);
 }
 
-void Library::removePlaylist(Playlist playlist) {
+void Library::removePlaylist(const Playlist &playlist) {
 	_playlist_storage->removePlaylist(playlist);
 }
 
@@ -109,6 +110,6 @@ Playlist Library::getCurrentPlaylist() {
 	return _playlist_storage->getCurrentPlaylist();
 }
 
-void Library::saveCurrentPlaylist(Playlist playlist) {
+void Library::saveCurrentPlaylist(const Playlist &playlist) {
 	_playlist_storage->saveCurrentPlaylist(playlist);
 }

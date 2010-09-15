@@ -3,22 +3,30 @@
 using namespace SomePlayer::Storage;
 
 #include <QMap>
+#include <QDir>
 
 MediaScanner::MediaScanner(QObject *parent) :
 		QThread(parent), _stopped(false), _initialized(false)
 {
 	REGISTERED_FILE_EXTENSIONS << "mp3" << "flac" << "wma" << "acc";
-	_iterator = NULL;
 }
 
 void MediaScanner::run() {
 	if (!_initialized)
 		return;
 	_foundMedia.clear();
-	while(!_stopped && _iterator->hasNext()) {
-		QString entry(_iterator->next());
-		QFileInfo info(entry);
-		if (info.isReadable()) {
+	_scan_directory(_dir);
+	emit scanFinish(_foundMedia);
+	_stopped = true;
+}
+
+void MediaScanner::_scan_directory(QDir dir) {
+	QFileInfoList items = dir.entryInfoList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
+	foreach (QFileInfo info, items) {
+		if (info.isDir()) {
+			QDir ndir(info.absoluteFilePath());
+			_scan_directory(ndir);
+		} else {
 			QString suffix = info.suffix().toLower();
 			if (REGISTERED_FILE_EXTENSIONS.contains(suffix)) {
 				if (!_foundMedia.contains(info.absoluteFilePath()))
@@ -26,8 +34,6 @@ void MediaScanner::run() {
 			}
 		}
 	}
-	emit scanFinish(_foundMedia);
-	_stopped = true;
 }
 
 void MediaScanner::stop() {
@@ -38,7 +44,5 @@ void MediaScanner::stop() {
 void MediaScanner::init(QString dir) {
 	_stopped = false;
 	_initialized = true;
-	if (!_iterator)
-		delete _iterator;
-	_iterator = new QDirIterator(QDir(dir), QDirIterator::Subdirectories | QDirIterator::FollowSymlinks);
+	_dir = dir;
 }

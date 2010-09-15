@@ -6,9 +6,9 @@ TrackMetadata::TrackMetadata() {
 }
 
 TrackMetadata::TrackMetadata(QString title = "", QString artist = "", QString album = "", int length = 0) {
-	_metadata["TITLE"] = title == "" ? "Unknown title" : title;
-	_metadata["ARTIST"] = artist == "" ? "Unknown artist" : artist;
-	_metadata["ALBUM"] = album == "" ? "Unknown album" : album;
+	_metadata["TITLE"] = title == "" ? "Unknown title" : title.trimmed();
+	_metadata["ARTIST"] = artist == "" ? "Unknown artist" : artist.trimmed();
+	_metadata["ALBUM"] = album == "" ? "Unknown album" : album.trimmed();
 	_length = length;
 }
 

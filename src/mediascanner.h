@@ -24,11 +24,13 @@ namespace SomePlayer {
 			void stop();
 			void init(QString);
 		private:
-			QDirIterator *_iterator;
+			QDir _dir;
 			bool _stopped;
 			bool _initialized;
 			QStringList REGISTERED_FILE_EXTENSIONS;
 			QStringList _foundMedia;
+
+			void _scan_directory(QDir);
 		};
 
 	};

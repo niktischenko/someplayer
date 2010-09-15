@@ -1,4 +1,5 @@
 #include "playlist.h"
+#include <QDebug>
 
 using namespace SomePlayer::DataObjects;
 
@@ -8,21 +9,15 @@ Playlist::Playlist()
 }
 
 Playlist::Playlist(const Playlist &playlist) {
-	_name = playlist.name();
-	_tracks = playlist.tracks();
+	_name = playlist._name;
+	_tracks = playlist._tracks;
 }
 
-Playlist& Playlist::operator =(const Playlist &playlist) {
-	_name = playlist.name();
-	_tracks = playlist.tracks();
-	return *this;
-}
-
-QString Playlist::name() const {
+QString Playlist::name() {
 	return _name;
 }
 
-const QList<Track> &Playlist::tracks() const {
+QList<Track> Playlist::tracks() {
 	return _tracks;
 }
 
@@ -31,6 +26,11 @@ void Playlist::setName(QString name) {
 }
 
 void Playlist::addTrack(Track track) {
-	_tracks.append(track);
+	if (!_tracks.contains(track))
+		_tracks.append(track);
+}
+
+void Playlist::removeTrack(Track track) {
+	_tracks.removeOne(track);
 }
 

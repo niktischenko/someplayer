@@ -64,3 +64,7 @@ Track &Track::operator =(const Track &track) {
 }
 
 Track::~Track() {}
+
+bool Track::operator ==(const Track &track) {
+	return _source == track._source;
+}

@@ -4,6 +4,9 @@
 #include "track.h"
 #include "someplayer.h"
 
+#define PLAYLIST_BAD_NAME "Bad playlist"
+#define PLAYLIST_CURRENT_NAME "Current"
+
 // represents playlist: list of tracks, name
 
 namespace SomePlayer {
@@ -13,13 +16,12 @@ namespace SomePlayer {
 			Playlist();
 			Playlist(const Playlist &playlist);
 
-			Playlist &operator=(const Playlist &playlist);
-
-			QString name() const;
-			const QList<Track> &tracks() const;
+			QString name();
+			QList<Track> tracks();
 
 			void setName(QString name);
 			void addTrack(Track track);
+			void removeTrack(Track track);
 
 		private:
 			QString _name;

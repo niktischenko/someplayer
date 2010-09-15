@@ -46,12 +46,15 @@ namespace SomePlayer {
 			QList<Playlist> getPlaylists();
 			QStringList getPlaylistsNames();
 			Playlist getPlaylist(QString name);
-			void savePlaylist(Playlist playlist);
-			void removePlaylist(Playlist playlist);
+			void savePlaylist(const Playlist &playlist);
+			void removePlaylist(const Playlist &playlist);
 			void removePlaylist(QString name);
 
 			Playlist getCurrentPlaylist();
-			void saveCurrentPlaylist(Playlist playlist);
+			void saveCurrentPlaylist(const Playlist &playlist);
+
+		signals:
+			void addingDone();
 
 		private:
 			DbStorage *_library_storage;

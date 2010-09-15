@@ -27,11 +27,18 @@ void TagResolver::metaStateChanged(Phonon::State newState, Phonon::State /*oldSt
 		QMap<QString, QString> meta = _metaObject->metaData();
 		TrackMetadata metadata(meta.value("TITLE"), meta.value("ARTIST"), meta.value("ALBUM"), time/1000);
 		Track track(0, metadata, source.fileName());
-		emit decoded(track);
 		int index = _sources.indexOf(source)+1;
+		emit decoded(track);
 		if (index != _sources.size()) {
 			Phonon::MediaSource newSource = _sources.at(index);
+			_metaObject->clear();
 			_metaObject->setCurrentSource(newSource);
+		} else {
+			emit done();
 		}
+	} else if (newState == Phonon::ErrorState) {
+		Phonon::MediaSource s = _metaObject->currentSource();
+		_metaObject->clear();
+		_metaObject->setCurrentSource(s);
 	}
 }

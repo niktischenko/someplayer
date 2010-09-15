@@ -23,6 +23,7 @@ namespace SomePlayer {
 
 		signals:
 			void decoded(Track);
+			void done();
 
 		private slots:
 			void metaStateChanged(Phonon::State newState, Phonon::State /*oldState*/);

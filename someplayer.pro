@@ -22,7 +22,8 @@ SOURCES += src/main.cpp\
     src/mediascanner.cpp \
     src/tagresolver.cpp \
     src/playerform.cpp \
-    src/libraryform.cpp
+    src/libraryform.cpp \
+    src/busywidget.cpp
 
 HEADERS  += src/mainwindow.h \
 		src/player/player.h \
@@ -37,11 +38,13 @@ HEADERS  += src/mainwindow.h \
     src/mediascanner.h \
     src/tagresolver.h \
     src/playerform.h \
-    src/libraryform.h
+    src/libraryform.h \
+    src/busywidget.h
 
 FORMS    += src/ui/mainwindow.ui \
     src/ui/playerform.ui \
-    src/ui/libraryform.ui
+    src/ui/libraryform.ui \
+    src/ui/busywidget.ui
 
 CONFIG += mobility
 MOBILITY = 

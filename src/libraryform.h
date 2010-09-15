@@ -14,6 +14,7 @@ namespace Ui {
 
 using SomePlayer::DataObjects::Library;
 using SomePlayer::DataObjects::Track;
+using SomePlayer::DataObjects::Playlist;
 
 enum LibraryFormListState {STATE_NONE, STATE_ARTIST, STATE_ALBUM, STATE_TRACK, STATE_PLAYLIST, STATE_PLAYLIST_TRACK};
 
@@ -32,6 +33,7 @@ private slots:
 	void _dynamic_button();
 	void _playlists_button();
 	void _add_button();
+	void _delete_button();
 	void _back_button();
 	void _process_list_click(QModelIndex);
 
@@ -48,6 +50,7 @@ private:
 	void _add_album(QString artist, QString album);
 	void _add_track(Track track);
 	void _add_playlist(QString name);
+	void _delete_track(Track track);
 };
 
 #endif // LIBRARYFORM_H

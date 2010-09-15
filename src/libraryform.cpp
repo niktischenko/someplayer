@@ -9,6 +9,7 @@
 #include "playlist.h"
 #include <QDebug>
 #include <QTime>
+#include <QQueue>
 
 using namespace SomePlayer::DataObjects;
 
@@ -52,11 +53,13 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 	connect(ui->listView, SIGNAL(clicked(QModelIndex)), this, SLOT(_process_list_click(QModelIndex)));
 	connect(ui->addButton, SIGNAL(clicked()), this, SLOT(_add_button()));
 	connect(ui->backButton, SIGNAL(clicked()), this, SLOT(_back_button()));
+	connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(_delete_button()));
 	_view_button();
 }
 
 LibraryForm::~LibraryForm()
 {
+	_lib->saveCurrentPlaylist(_lib->getCurrentPlaylist());
     delete ui;
 }
 
@@ -71,6 +74,8 @@ void LibraryForm::_view_button() {
 	_state = STATE_ARTIST;
 	ui->backButton->setEnabled(false);
 	ui->listLabel->setText("Artists");
+	ui->addButton->setEnabled(true);
+	ui->deleteButton->setEnabled(false);
 }
 
 void LibraryForm::_dynamic_button() {
@@ -102,6 +107,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 			__fill_model_tracks(_model, _current_tracks);
 			_state = STATE_PLAYLIST_TRACK;
 			ui->backButton->setEnabled(true);
+			ui->deleteButton->setEnabled(true);
 			ui->listLabel->setText(QString("Tracks in playlist \"%1\"").arg(data));
 		}
 		break;
@@ -164,6 +170,9 @@ void LibraryForm::_add_album(QString artist, QString album) {
 
 void LibraryForm::_add_track(Track track) {
 	qDebug() << "adding TRACK " << track.metadata().title() << " from " << track.metadata().album() << " by " << track.metadata().artist();
+	Playlist current = _lib->getCurrentPlaylist();
+	current.addTrack(track);
+	_lib->saveCurrentPlaylist(current);
 }
 
 void LibraryForm::_add_playlist(QString name) {
@@ -199,4 +208,29 @@ void LibraryForm::_playlists_button() {
 	_state = STATE_PLAYLIST;
 	ui->backButton->setEnabled(false);
 	ui->listLabel->setText("Playlists");
+	ui->addButton->setEnabled(false);
+}
+
+void LibraryForm::_delete_button() {
+	if (_state == STATE_PLAYLIST_TRACK) {
+		QModelIndexList selected = ui->listView->selectionModel()->selectedIndexes();
+		ui->listView->selectionModel()->clearSelection();
+		QQueue<int> to_delete;
+		foreach (QModelIndex id, selected) {
+			_delete_track(_current_tracks.at(id.row()));
+			to_delete.append(id.row());
+		}
+		qSort(to_delete);
+		int count = to_delete.count();
+		for (int i = count-1; i >= 0; i--) {
+			_current_tracks.removeAt(to_delete.at(i));
+		}
+		__fill_model_tracks(_model, _current_tracks);
+	}
+}
+
+void LibraryForm::_delete_track(Track track) {
+	Playlist current = _lib->getCurrentPlaylist();
+	current.removeTrack(track);
+	_lib->saveCurrentPlaylist(current);
 }
