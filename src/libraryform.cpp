@@ -153,7 +153,6 @@ void LibraryForm::_add_button() {
 
 
 void LibraryForm::_add_artist(QString artist) {
-	qDebug() << "adding ARTIST " << artist;
 	QList<QString> albums = _lib->getAlbumsForArtist(artist);
 	foreach(QString album, albums) {
 		_add_album(artist, album);
@@ -161,7 +160,6 @@ void LibraryForm::_add_artist(QString artist) {
 }
 
 void LibraryForm::_add_album(QString artist, QString album) {
-	qDebug() << "adding ALBUM " << album << " by " << artist;
 	QList<Track> tracks = _lib->getTracksForAlbum(album, artist);
 	foreach(Track track, tracks) {
 		_add_track(track);
@@ -169,14 +167,12 @@ void LibraryForm::_add_album(QString artist, QString album) {
 }
 
 void LibraryForm::_add_track(Track track) {
-	qDebug() << "adding TRACK " << track.metadata().title() << " from " << track.metadata().album() << " by " << track.metadata().artist();
 	Playlist current = _lib->getCurrentPlaylist();
 	current.addTrack(track);
 	_lib->saveCurrentPlaylist(current);
 }
 
 void LibraryForm::_add_playlist(QString name) {
-	qDebug() << "adding playlist \"" << name << "\"";
 	Playlist playlist = _lib->getPlaylist(name);
 	QList<Track> tracks = playlist.tracks();
 	foreach (Track track, tracks) {

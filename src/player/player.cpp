@@ -62,7 +62,6 @@ void Player::next() {
 }
 
 void Player::_set_source() {
-	qDebug() << "id: " << _current << " all: " << _playlist.tracks().count();
 	Track track = _playlist.tracks().at(_current);
 	_player->setCurrentSource(Phonon::MediaSource(track.source()));
 	emit trackChanged(track);
@@ -76,7 +75,6 @@ void Player::prev() {
 }
 
 void Player::_stateChanged(Phonon::State newState, Phonon::State oldState) {
-	qDebug() << "state changed: " << oldState << "->" << newState;
 	switch (newState) {
 	case Phonon::PlayingState:
 		if (_state == PLAYER_LOADING) {
@@ -114,6 +112,5 @@ void Player::setPlaylist(Playlist playlist) {
 }
 
 void Player::seek(int s) {
-	qDebug() << "seeking " << s;
 	_player->seek(s*1000);
 }
