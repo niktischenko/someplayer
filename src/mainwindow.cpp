@@ -102,6 +102,7 @@ void MainWindow::_clear_current_playlist() {
 void MainWindow::showBusyWidget(QString caption) {
 	_busy_widget->setText(caption);
 	ui->menuBar->setEnabled(false);
+	hideSearchPanel();
 	ui->stackedWidget->setCurrentIndex(2);
 }
 
