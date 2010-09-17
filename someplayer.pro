@@ -60,15 +60,3 @@ symbian {
 
 RESOURCES += \
     resources/resources.qrc
-
-OTHER_FILES += \
-    icons/stop.png \
-    icons/sound.png \
-    icons/search.png \
-    icons/prev.png \
-    icons/playlist.png \
-    icons/play.png \
-    icons/pause.png \
-    icons/next.png \
-    icons/fav.png \
-    icons/back.png
