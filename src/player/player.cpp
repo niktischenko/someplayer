@@ -17,6 +17,7 @@ Player::Player(QObject *parent) :
 	qsrand(seed);
 	_random = false;
 	_repeat = false;
+	_current = -1;
 }
 
 void Player::setTrackId(int id) {
@@ -137,9 +138,14 @@ void Player::seek(int s) {
 }
 
 void Player::play() {
-	_player->play();
 	_state = PLAYER_PLAYING;
 	emit stateChanged(_state);
+	if (_current == -1) {
+		_current = 0;
+		_track = _playlist.tracks().at(0);
+		_set_source();
+	}
+	_player->play();
 }
 
 void Player::enqueue(int id) {

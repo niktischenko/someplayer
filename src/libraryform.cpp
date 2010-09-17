@@ -74,17 +74,18 @@ void LibraryForm::_view_button() {
 	__fill_model(_model, artitst);
 	ui->listView->setModel(_model);
 	_state = STATE_ARTIST;
-	ui->backButton->setEnabled(false);
+	ui->backButton->hide();
 	ui->listLabel->setText("Artists");
-	ui->addButton->setEnabled(true);
+	ui->addButton->show();
 	ui->deleteButton->hide();
 	ui->useButton->hide();
 }
 
 void LibraryForm::_dynamic_button() {
 	ui->useButton->hide();
-	ui->backButton->setEnabled(false);
-	ui->addButton->setEnabled(true);
+	ui->backButton->hide();
+	ui->addButton->show();
+	ui->deleteButton->hide();
 	_model->clear();
 	_model->setRowCount(4);
 	_model->setItem(0, new QStandardItem("Favorites"));
@@ -102,7 +103,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 		__fill_model(_model, _lib->getAlbumsForArtist(data));
 		_current_artist = data;
 		_state = STATE_ALBUM;
-		ui->backButton->setEnabled(true);
+		ui->backButton->show();
 		ui->listLabel->setText(QString("Albums by \"%1\"").arg(_current_artist));
 		break;
 	case STATE_ALBUM:
@@ -110,7 +111,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 		_current_tracks = _lib->getTracksForAlbum(data, _current_artist);
 		__fill_model_tracks(_model, _current_tracks);
 		_state = STATE_TRACK;
-		ui->backButton->setEnabled(true);
+		ui->backButton->show();
 		ui->listLabel->setText(QString("Tracks from \"%1\" by \"%2\"").arg(_current_album).arg(_current_artist));
 		break;
 	case STATE_PLAYLIST:
@@ -119,7 +120,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 			_current_tracks = _current_playlist.tracks();
 			__fill_model_tracks(_model, _current_tracks);
 			_state = STATE_PLAYLIST_TRACK;
-			ui->backButton->setEnabled(true);
+			ui->backButton->show();
 			ui->deleteButton->show();
 			ui->useButton->show();
 			ui->listLabel->setText(QString("Tracks in playlist \"%1\"").arg(data));
@@ -145,8 +146,9 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 			_current_tracks = _current_playlist.tracks();
 			__fill_model_tracks(_model, _current_tracks);
 			_state = STATE_PLAYLIST_TRACK;
-			ui->backButton->setEnabled(true);
+			ui->backButton->show();
 			ui->useButton->show();
+			ui->addButton->show();
 			ui->listLabel->setText(_current_playlist.name());
 		}
 	default:
@@ -243,10 +245,10 @@ void LibraryForm::_playlists_button() {
 	__fill_model(_model, playlists);
 	ui->listView->setModel(_model);
 	_state = STATE_PLAYLIST;
-	ui->backButton->setEnabled(false);
+	ui->backButton->hide();
 	ui->listLabel->setText("Playlists");
-	ui->addButton->setEnabled(false);
-	ui->deleteButton->hide();
+	ui->addButton->hide();
+	ui->deleteButton->show();
 	ui->useButton->hide();
 }
 
@@ -265,6 +267,19 @@ void LibraryForm::_delete_button() {
 			_current_tracks.removeAt(to_delete.at(i));
 		}
 		__fill_model_tracks(_model, _current_tracks);
+	} else if (_state == STATE_PLAYLIST) {
+		QModelIndexList selected = ui->listView->selectionModel()->selectedIndexes();
+		QQueue<int> to_delete;
+		foreach (QModelIndex id, selected) {
+			_delete_track(_current_tracks.at(id.row()));
+			to_delete.append(id.row());
+		}
+		qSort(to_delete);
+		int count = to_delete.count();
+		for (int i = count-1; i >= 0; i--) {
+			_lib->removePlaylist(_model->item(to_delete.at(i))->data().toString());
+			_model->removeRow(to_delete.at(i));
+		}
 	}
 }
 

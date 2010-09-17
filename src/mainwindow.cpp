@@ -17,11 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	_library = new Library(_DATABASE_PATH_, _PLAYLISTS_PATH_);
 	ui->setupUi(this);
-	connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openMedia()));
 	connect(ui->actionAbout_Qt, SIGNAL(triggered()), this, SLOT(aboutQt()));
 	connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
-	connect(ui->actionPlayer, SIGNAL(triggered()), this, SLOT(player()));
-	connect(ui->actionLibrary, SIGNAL(triggered()), this, SLOT(library()));
 	setAnimated(true);
 	_player_form = new PlayerForm(_library, ui->stackedWidget);
 	_library_form = new LibraryForm(_library, ui->stackedWidget);
@@ -29,11 +26,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->stackedWidget->insertWidget(0, _player_form);
 	ui->stackedWidget->insertWidget(1, _library_form);
 	ui->stackedWidget->insertWidget(2, _busy_widget);
-	_library_menu = new QMenu("Lirary");
-	QAction *add_directory = _library_menu->addAction("Add directory");
-	QAction *save_playlist = _library_menu->addAction("Save playlist");
-	QAction *clear_playlist = _library_menu->addAction("Clear current playlist");
-	_player_menu = new QMenu("Player");
+	QAction *add_directory = ui->menuLibrary->addAction("Add directory");
+	QAction *save_playlist = ui->menuLibrary->addAction("Save playlist");
+	QAction *clear_playlist = ui->menuLibrary->addAction("Clear current playlist");
 	connect(_player_form, SIGNAL(library()), this, SLOT(library()));
 	connect(_library_form, SIGNAL(player()), this, SLOT(player()));
 	connect(add_directory, SIGNAL(triggered()), this, SLOT(_add_directory()));
@@ -42,6 +37,13 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(_library, SIGNAL(done()), this, SLOT(library()));
 	connect(_library_form, SIGNAL(done()), this, SLOT(library()));
 	connect(_library_form, SIGNAL(busy(QString)), this, SLOT(showBusyWidget(QString)));
+	connect(ui->searchButton, SIGNAL(clicked()), this, SLOT(_toggle_search_line()));
+	connect(_player_form, SIGNAL(showSearchPanel()), this, SLOT(showSearchPanel()));
+	connect(_player_form, SIGNAL(hideSearchPanel()), this, SLOT(hideSearchPanel()));
+	connect(ui->searchLine, SIGNAL(textChanged(QString)), this, SLOT(_search(QString)));
+	connect(ui->nextButton, SIGNAL(clicked()), this, SLOT(_nextItem()));
+	connect(ui->prevButton, SIGNAL(clicked()), this, SLOT(_prevItem()));
+	hideSearchPanel();
 	library();
 }
 
@@ -50,12 +52,6 @@ MainWindow::~MainWindow()
 	delete _player_form;
 	delete _library_form;
 	delete ui;
-}
-
-void MainWindow::openMedia()
-{
-//	SomePlayer::DataObjects::Library *l = new SomePlayer::DataObjects::Library("/tmp", "/tmp");
-//	l->addDirectory("/mnt/music/Three Days Grace");
 }
 
 void MainWindow::aboutQt() {
@@ -77,8 +73,8 @@ void MainWindow::player() {
 void MainWindow::library() {
 	ui->menuBar->setEnabled(true);
 	ui->stackedWidget->setCurrentIndex(1);
+	showSearchPanel();
 	setWindowTitle("SomePlayer Library");
-	ui->menuBar->addMenu(_library_menu);
 }
 
 void MainWindow::_add_directory() {
@@ -107,4 +103,55 @@ void MainWindow::showBusyWidget(QString caption) {
 	_busy_widget->setText(caption);
 	ui->menuBar->setEnabled(false);
 	ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::_toggle_search_line() {
+	if (ui->searchLine->isVisible()) {
+		ui->searchLine->setText("");
+		ui->searchLine->hide();
+		ui->nextButton->hide();
+		ui->prevButton->hide();
+		_cancelSearch();
+	} else {
+		ui->searchLine->show();
+		ui->nextButton->show();
+		ui->prevButton->show();
+	}
+}
+
+void MainWindow::showSearchPanel() {
+	ui->searchButton->show();
+}
+
+void MainWindow::hideSearchPanel() {
+	ui->searchLine->setText("");
+	ui->searchLine->hide();
+	ui->nextButton->hide();
+	ui->prevButton->hide();
+	ui->searchButton->hide();
+	_cancelSearch();
+}
+
+void MainWindow::_search(QString pattern) {
+	if (ui->stackedWidget->currentIndex() == 0) { // player
+		_player_form->search(pattern);
+	}
+}
+
+void MainWindow::_nextItem() {
+	if (ui->stackedWidget->currentIndex() == 0) { // player
+		_player_form->nextItem();
+	}
+}
+
+void MainWindow::_prevItem() {
+	if (ui->stackedWidget->currentIndex() == 0) { // player
+		_player_form->prevItem();
+	}
+}
+
+void MainWindow::_cancelSearch() {
+	if (ui->stackedWidget->currentIndex() == 0) { // player
+		_player_form->cancelSearch();
+	}
 }

@@ -47,7 +47,7 @@ void TrackRenderer::paint(QPainter *painter, const QStyleOptionViewItem &option,
 	painter->setPen(pen);
 }
 
-QSize TrackRenderer::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+QSize TrackRenderer::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &/*index*/) const {
 	return QSize(option.rect.width(), option.rect.height()/3);
 }
 

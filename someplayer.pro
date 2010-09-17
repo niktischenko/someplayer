@@ -57,3 +57,18 @@ symbian {
     TARGET.EPOCSTACKSIZE = 0x14000
     TARGET.EPOCHEAPSIZE = 0x020000 0x800000
 }
+
+RESOURCES += \
+    resources/resources.qrc
+
+OTHER_FILES += \
+    icons/stop.png \
+    icons/sound.png \
+    icons/search.png \
+    icons/prev.png \
+    icons/playlist.png \
+    icons/play.png \
+    icons/pause.png \
+    icons/next.png \
+    icons/fav.png \
+    icons/back.png

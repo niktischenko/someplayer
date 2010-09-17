@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <QMessageBox>
-#include <QMenu>
 #include "playerform.h"
 #include "libraryform.h"
 #include "busywidget.h"
@@ -27,22 +26,26 @@ private:
 	Ui::MainWindow *ui;
 
 public slots:
-	void openMedia();
 	void aboutQt();
 	void about();
 	void player();
 	void library();
 	void showBusyWidget(QString);
+	void showSearchPanel();
+	void hideSearchPanel();
 private slots:
 	void _add_directory();
 	void _save_playlist();
 	void _clear_current_playlist();
+	void _toggle_search_line();
+	void _search(QString);
+	void _nextItem();
+	void _prevItem();
+	void _cancelSearch();
 private:
 	PlayerForm *_player_form;
 	LibraryForm *_library_form;
 	BusyWidget *_busy_widget;
-	QMenu *_library_menu;
-	QMenu *_player_menu;
 	Library *_library;
 };
 

@@ -8,6 +8,7 @@
 #include "player/player.h"
 #include <QSlider>
 #include <QMenu>
+#include <QTime>
 #include "trackrenderer.h"
 
 namespace Ui {
@@ -18,6 +19,7 @@ using SomePlayer::DataObjects::Library;
 using SomePlayer::DataObjects::Playlist;
 using SomePlayer::DataObjects::Track;
 using SomePlayer::Playback::Player;
+using SomePlayer::Playback::PlayerState;
 
 class PlayerForm : public QWidget
 {
@@ -28,9 +30,15 @@ public:
     ~PlayerForm();
 signals:
 	void library();
+	void showSearchPanel();
+	void hideSearchPanel();
 
 public slots:
 	void reload();
+	void search(QString &);
+	void nextItem();
+	void prevItem();
+	void cancelSearch();
 
 private slots:
 	void _library();
@@ -43,15 +51,20 @@ private slots:
 	void _delete_track();
 	void _enqueue_track();
 	void _add_to_favorites();
+	void _state_changed(PlayerState);
+	void _toggle_repeat();
+	void _toggle_random();
 
 private:
     Ui::PlayerForm *ui;
 	Library *_lib;
 	Playlist _current_playlist;
+	QTime *_time;
 	QStandardItemModel *_model;
 	Player *_player;
 	QSlider *_seek_slider;
 	QMenu *_context_menu;
+	QString _search_pattern;
 
 	TrackRenderer *_track_renderer;
 	void _display_track(Track);
