@@ -60,6 +60,7 @@ namespace SomePlayer {
 			bool _repeat;
 			QStack<int> _history;
 			QQueue<int> _queue;
+			QStack<int> _prev_history;
 			Playlist _playlist;
 			Phonon::MediaObject *_player;
 			Phonon::AudioOutput *_output;

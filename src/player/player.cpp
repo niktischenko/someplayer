@@ -56,6 +56,8 @@ void Player::next() {
 	_history.push(_current % count);
 	if (!_queue.isEmpty()) {
 		_current = _queue.dequeue();
+	} else if (!_prev_history.isEmpty()) {
+		_current = _prev_history.pop();
 	} else {
 		if (_random) {
 			_current = (count + (qrand()  + qrand() + qrand()) % count) % count;
@@ -82,7 +84,7 @@ void Player::_set_source() {
 
 void Player::prev() {
 	if (_history.count() > 0) {
-		_queue.push_front(_current);
+		_prev_history.push(_current);
 		_current = _history.pop();
 		_track = _playlist.tracks().at(_current);
 	}
