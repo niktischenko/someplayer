@@ -1,3 +1,22 @@
+/*
+ * SomePlayer - An alternate music player for Maemo 5
+ * Copyright (C) 2010 Nikolay (somebody) Tischenko <niktischenko@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
 #include "playerform.h"
 #include "ui_playerform.h"
 #include "library.h"
@@ -30,18 +49,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_lib = lib;
 	_player = new Player(this);
 	_time = new QTime();
-    ui->setupUi(this);
-	connect(ui->libraryButton, SIGNAL(clicked()), this, SLOT(_library()));
-	connect(ui->viewButton, SIGNAL(clicked()), this, SLOT(_toggle_view()));
-	connect(ui->playlistView, SIGNAL(clicked(QModelIndex)), this, SLOT(_process_click(QModelIndex)));
-	connect(ui->playpauseButton, SIGNAL(clicked()), _player, SLOT(toggle()));
-	connect(ui->stopButton, SIGNAL(clicked()), _player, SLOT(stop()));
-	connect(ui->nextButton, SIGNAL(clicked()), _player, SLOT(next()));
-	connect(ui->prevButton, SIGNAL(clicked()), _player, SLOT(prev()));
-	connect(_player, SIGNAL(trackChanged(Track)), this, SLOT(_track_changed(Track)));
-	connect(_player, SIGNAL(tick(int,int)), this, SLOT(_tick(int,int)));
-	connect(ui->randomButton, SIGNAL(clicked()), this, SLOT(_toggle_random()));
-	connect(ui->repeatButton, SIGNAL(clicked()), this, SLOT(_toggle_repeat()));
+	ui->setupUi(this);
 	if (_player->random()) {
 		ui->randomButton->setIcon(QIcon(":/icons/random_active.png"));
 	} else {
@@ -56,21 +64,33 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_seek_slider->setEnabled(false);
 	ui->progressLayout->insertWidget(1, _seek_slider);
 	_seek_slider->setTracking(false);
-	connect(_seek_slider, SIGNAL(sliderReleased()), this, SLOT(_slider_released()));
-	connect(ui->playlistView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(_custom_context_venu_requested(QPoint)));
 	_model = new QStandardItemModel(0, 2, this);
 	ui->playlistView->setModel(_model);
 	_context_menu = new QMenu(ui->playlistView);
-	QAction *delete_action = _context_menu->addAction(QIcon(":/icons/delete.png"), "Delete");
-	connect(delete_action, SIGNAL(triggered()), this, SLOT(_delete_track()));
-	QAction *enqueue_action = _context_menu->addAction(QIcon(":/icons/add.png"), "Enqueue");
-	connect(enqueue_action, SIGNAL(triggered()), this, SLOT(_enqueue_track()));
-	QAction *add_to_favorites = _context_menu->addAction(QIcon(":/icons/fav.png"), "Add to favorites");
-	connect(add_to_favorites, SIGNAL(triggered()), this, SLOT(_add_to_favorites()));
-	connect(_player, SIGNAL(stateChanged(PlayerState)), this, SLOT(_state_changed(PlayerState)));
+	QAction *delete_action = _context_menu->addAction("Delete");
+	QAction *enqueue_action = _context_menu->addAction("Enqueue");
+	QAction *add_to_favorites = _context_menu->addAction("Add to favorites");
 
 	_track_renderer = new TrackRenderer(this);
 	ui->playlistView->setItemDelegateForColumn(0, _track_renderer);
+
+	connect(ui->libraryButton, SIGNAL(clicked()), this, SLOT(_library()));
+	connect(ui->viewButton, SIGNAL(clicked()), this, SLOT(_toggle_view()));
+	connect(ui->playlistView, SIGNAL(clicked(QModelIndex)), this, SLOT(_process_click(QModelIndex)));
+	connect(ui->playpauseButton, SIGNAL(clicked()), _player, SLOT(toggle()));
+	connect(ui->stopButton, SIGNAL(clicked()), _player, SLOT(stop()));
+	connect(ui->nextButton, SIGNAL(clicked()), _player, SLOT(next()));
+	connect(ui->prevButton, SIGNAL(clicked()), _player, SLOT(prev()));
+	connect(_player, SIGNAL(trackChanged(Track)), this, SLOT(_track_changed(Track)));
+	connect(_player, SIGNAL(tick(int,int)), this, SLOT(_tick(int,int)));
+	connect(ui->randomButton, SIGNAL(clicked()), this, SLOT(_toggle_random()));
+	connect(ui->repeatButton, SIGNAL(clicked()), this, SLOT(_toggle_repeat()));
+	connect(_seek_slider, SIGNAL(sliderReleased()), this, SLOT(_slider_released()));
+	connect(ui->playlistView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(_custom_context_venu_requested(QPoint)));
+	connect(delete_action, SIGNAL(triggered()), this, SLOT(_delete_track()));
+	connect(enqueue_action, SIGNAL(triggered()), this, SLOT(_enqueue_track()));
+	connect(add_to_favorites, SIGNAL(triggered()), this, SLOT(_add_to_favorites()));
+	connect(_player, SIGNAL(stateChanged(PlayerState)), this, SLOT(_state_changed(PlayerState)));
 	connect(_player, SIGNAL(trackDone(Track)), _lib, SLOT(updateTrackCount(Track)));
 }
 

@@ -1,0 +1,4 @@
+This is an alternate music player for maemo 5 (NOKIA N900) based on Qt::Phonon
+It supports mp3, ogg, flac, wma (if appropriate codecs are installed) with
+library stored in SQLite database.
+It has own playlist format descibed in src/filestorage.h file

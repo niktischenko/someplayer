@@ -60,3 +60,7 @@ symbian {
 
 RESOURCES += \
     resources/resources.qrc
+
+OTHER_FILES += \
+    README \
+    COPYING
