@@ -65,4 +65,5 @@ RESOURCES += \
 
 OTHER_FILES += \
     README \
-    COPYING
+    COPYING \
+    resources/someplayer.desktop

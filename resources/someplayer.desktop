@@ -8,3 +8,4 @@ Exec=/opt/someplayer/someplayer
 Icon=someplayer
 X-HildonDesk-ShowInToolbar=true
 X-Osso-Type=application/x-executable
+Categories=Office;
