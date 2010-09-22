@@ -74,6 +74,8 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_track_renderer = new TrackRenderer(this);
 	ui->playlistView->setItemDelegateForColumn(0, _track_renderer);
 
+	_tag_resolver = new TagResolver(this);
+
 	connect(ui->libraryButton, SIGNAL(clicked()), this, SLOT(_library()));
 	connect(ui->viewButton, SIGNAL(clicked()), this, SLOT(_toggle_view()));
 	connect(ui->playlistView, SIGNAL(clicked(QModelIndex)), this, SLOT(_process_click(QModelIndex)));
@@ -92,6 +94,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(add_to_favorites, SIGNAL(triggered()), this, SLOT(_add_to_favorites()));
 	connect(_player, SIGNAL(stateChanged(PlayerState)), this, SLOT(_state_changed(PlayerState)));
 	connect(_player, SIGNAL(trackDone(Track)), _lib, SLOT(updateTrackCount(Track)));
+	connect(_tag_resolver, SIGNAL(decoded(Track)), this, SLOT(_track_decoded(Track)));
 }
 
 PlayerForm::~PlayerForm()
@@ -271,4 +274,15 @@ void PlayerForm::cancelSearch() {
 	ui->playlistView->scrollTo(_model->index(_track_renderer->activeRow(), 0));
 	ui->playlistView->hide();
 	ui->playlistView->show();
+}
+
+void PlayerForm::addFiles(QList<QString> files) {
+	_tag_resolver->decode(files);
+}
+
+void PlayerForm::_track_decoded(Track track) {
+	_current_playlist.addTrack(track);
+	__fill_list(_model, _current_playlist);
+	_lib->saveCurrentPlaylist(_current_playlist);
+	_player->setPlaylist(_current_playlist);
 }

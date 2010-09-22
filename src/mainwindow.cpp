@@ -50,11 +50,13 @@ MainWindow::MainWindow(QWidget *parent) :
 	QAction *add_directory = ui->menuLibrary->addAction("Add directory");
 	QAction *save_playlist = ui->menuLibrary->addAction("Save playlist");
 	QAction *clear_playlist = ui->menuLibrary->addAction("Clear current playlist");
+	QAction *add_files = ui->menuLibrary->addAction("Add file to current playlist");
 	connect(_player_form, SIGNAL(library()), this, SLOT(library()));
 	connect(_library_form, SIGNAL(player()), this, SLOT(player()));
 	connect(add_directory, SIGNAL(triggered()), this, SLOT(_add_directory()));
 	connect(save_playlist, SIGNAL(triggered()), this, SLOT(_save_playlist()));
 	connect(clear_playlist, SIGNAL(triggered()), this, SLOT(_clear_current_playlist()));
+	connect(add_files, SIGNAL(triggered()), this, SLOT(_add_files()));
 	connect(_library, SIGNAL(done()), this, SLOT(library()));
 	connect(_library_form, SIGNAL(done()), this, SLOT(library()));
 	connect(_library_form, SIGNAL(busy(QString)), this, SLOT(showBusyWidget(QString)));
@@ -196,4 +198,9 @@ void MainWindow::_toggle_full_screen() {
 		ui->fscreenButton->setIcon(QIcon(":/icons/window.png"));
 		showFullScreen();
 	}
+}
+
+void MainWindow::_add_files() {
+	QStringList files = QFileDialog::getOpenFileNames(this, "Add file");
+	if (!files.isEmpty()) _player_form->addFiles(files);
 }

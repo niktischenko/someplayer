@@ -29,6 +29,7 @@
 #include <QMenu>
 #include <QTime>
 #include "trackrenderer.h"
+#include "tagresolver.h"
 
 namespace Ui {
     class PlayerForm;
@@ -39,6 +40,7 @@ using SomePlayer::DataObjects::Playlist;
 using SomePlayer::DataObjects::Track;
 using SomePlayer::Playback::Player;
 using SomePlayer::Playback::PlayerState;
+using SomePlayer::DataObjects::TagResolver;
 
 class PlayerForm : public QWidget
 {
@@ -58,6 +60,7 @@ public slots:
 	void nextItem();
 	void prevItem();
 	void cancelSearch();
+	void addFiles(QList<QString> files);
 
 private slots:
 	void _library();
@@ -73,6 +76,7 @@ private slots:
 	void _state_changed(PlayerState);
 	void _toggle_repeat();
 	void _toggle_random();
+	void _track_decoded(Track);
 
 private:
     Ui::PlayerForm *ui;
@@ -86,6 +90,7 @@ private:
 	QString _search_pattern;
 
 	TrackRenderer *_track_renderer;
+	TagResolver *_tag_resolver;
 	void _display_track(Track);
 	int _search_current_id;
 };

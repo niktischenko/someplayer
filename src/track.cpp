@@ -46,7 +46,7 @@ Track::Track(QString source) :QObject() {
 	foo << source;
 	_resolver->decode(foo);
 	_count = 0;
-	_id = 0;
+	_id = -1;
 }
 
 TrackMetadata Track::metadata() const {

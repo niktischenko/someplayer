@@ -56,6 +56,7 @@ private slots:
 	void _add_directory();
 	void _save_playlist();
 	void _clear_current_playlist();
+	void _add_files();
 	void _toggle_search_line();
 	void _search(QString);
 	void _nextItem();

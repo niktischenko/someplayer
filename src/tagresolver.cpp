@@ -48,6 +48,7 @@ void TagResolver::metaStateChanged(Phonon::State newState, Phonon::State /*oldSt
 		Track track(0, metadata, source.fileName());
 		int index = _sources.indexOf(source)+1;
 		emit decoded(track);
+		_metaObject->stop();
 		if (index != _sources.size()) {
 			Phonon::MediaSource newSource = _sources.at(index);
 			_metaObject->clear();
