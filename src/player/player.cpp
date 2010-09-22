@@ -22,6 +22,7 @@
 
 using namespace SomePlayer::Playback;
 using namespace SomePlayer::DataObjects;
+using namespace SomePlayer::Storage;
 
 Player::Player(QObject *parent) :
     QObject(parent)
@@ -34,8 +35,8 @@ Player::Player(QObject *parent) :
 	Phonon::createPath(_player, _output);
 	int seed = reinterpret_cast<int> (_player);
 	qsrand(seed);
-	_random = false;
-	_repeat = false;
+	_random = _config.getValue("playback/random").toBool();
+	_repeat = _config.getValue("playback/repeat").toBool();
 	_current = -1;
 }
 
@@ -111,7 +112,7 @@ void Player::prev() {
 	play();
 }
 
-void Player::_stateChanged(Phonon::State newState, Phonon::State oldState) {
+void Player::_stateChanged(Phonon::State newState, Phonon::State /*oldState*/) {
 	switch (newState) {
 	case Phonon::PlayingState:
 		if (_state == PLAYER_LOADING) {
@@ -174,3 +175,14 @@ void Player::play() {
 void Player::enqueue(int id) {
 	_queue.enqueue(id);
 }
+
+void Player::toggleRandom() {
+	_random = !_random;
+	_config.setValue("playback/random", _random);
+}
+
+void Player::toggleRepeat() {
+	_repeat = !_repeat;
+	_config.setValue("playback/repeat", _repeat);
+}
+

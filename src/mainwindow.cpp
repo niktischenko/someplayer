@@ -29,12 +29,14 @@
 #include "library.h"
 
 using namespace SomePlayer::DataObjects;
+using namespace SomePlayer::Storage;
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
 {
-	_library = new Library(_DATABASE_PATH_, _PLAYLISTS_PATH_);
+	Config config;
+	_library = new Library(config.applicationDir(), config.applicationDir());
 	ui->setupUi(this);
 	connect(ui->actionAbout_Qt, SIGNAL(triggered()), this, SLOT(aboutQt()));
 	connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));

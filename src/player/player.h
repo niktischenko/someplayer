@@ -16,6 +16,7 @@
 using SomePlayer::DataObjects::Track;
 using SomePlayer::DataObjects::TrackMetadata;
 using SomePlayer::DataObjects::Playlist;
+using SomePlayer::Storage::Config;
 
 namespace SomePlayer {
 	namespace Playback {
@@ -47,8 +48,8 @@ namespace SomePlayer {
 			void next();
 			void prev();
 			void setPlaylist(Playlist);
-			void toggleRandom() {_random = !_random;}
-			void toggleRepeat() {_repeat = !_repeat;}
+			void toggleRandom();
+			void toggleRepeat();
 			void seek(int);
 		private slots:
 			void _stateChanged(Phonon::State, Phonon::State);
@@ -65,6 +66,7 @@ namespace SomePlayer {
 			Phonon::MediaObject *_player;
 			Phonon::AudioOutput *_output;
 			PlayerState _state;
+			Config _config;
 
 			void _set_source();
 

@@ -70,7 +70,7 @@ void TrackRenderer::paint(QPainter *painter, const QStyleOptionViewItem &option,
 }
 
 QSize TrackRenderer::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &/*index*/) const {
-	return QSize(option.rect.width(), option.rect.height()/3);
+	return QSize(option.rect.width(), 80);
 }
 
 void TrackRenderer::setActiveRow(int r) {

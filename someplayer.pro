@@ -24,7 +24,8 @@ SOURCES += src/main.cpp\
     src/playerform.cpp \
     src/libraryform.cpp \
     src/busywidget.cpp \
-    src/trackrenderer.cpp
+    src/trackrenderer.cpp \
+    src/config.cpp
 
 HEADERS  += src/mainwindow.h \
 		src/player/player.h \
@@ -41,7 +42,8 @@ HEADERS  += src/mainwindow.h \
     src/playerform.h \
     src/libraryform.h \
     src/busywidget.h \
-    src/trackrenderer.h
+    src/trackrenderer.h \
+    src/config.h
 
 FORMS    += src/ui/mainwindow.ui \
     src/ui/playerform.ui \

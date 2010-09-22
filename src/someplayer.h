@@ -44,6 +44,7 @@ namespace SomePlayer {
 #include <QList>
 #include <QMap>
 #include <QUrl>
+#include "config.h"
 
 #define _DYNAMIC_PLAYLIST_MAX_COUNT_ 50
 
