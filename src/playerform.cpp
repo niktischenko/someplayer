@@ -209,14 +209,46 @@ void PlayerForm::_toggle_repeat() {
 
 void PlayerForm::search(QString &pattern) {
 	_search_pattern = pattern;
+	_search_current_id = -1;
+	nextItem();
 }
 
 void PlayerForm::nextItem() {
+	QString data = _model->index(_search_current_id, 0).data().toString();
+	for (int i = _search_current_id+1; i < _model->rowCount(); i++) {
+		data = _model->index(i, 0).data().toString();
+		if (data.contains(_search_pattern, Qt::CaseInsensitive)) {
+			_search_current_id = i;
+			break;
+		}
+	}
+	QModelIndex id = _model->index(_search_current_id, 0);
+	_track_renderer->setSearchRow(_search_current_id);
+	ui->playlistView->scrollTo(id);
+	ui->playlistView->hide();
+	ui->playlistView->show();
 }
 
 void PlayerForm::prevItem() {
+	QString data = _model->index(_search_current_id, 0).data().toString();
+	for (int i = _search_current_id-1; i >= 0; i--) {
+		data = _model->index(i, 0).data().toString();
+		if (data.contains(_search_pattern, Qt::CaseInsensitive)) {
+			_search_current_id = i;
+			break;
+		}
+	}
+	QModelIndex id = _model->index(_search_current_id, 0);
+	_track_renderer->setSearchRow(_search_current_id);
+	ui->playlistView->scrollTo(id);
+	ui->playlistView->hide();
+	ui->playlistView->show();
 }
 
 void PlayerForm::cancelSearch() {
 	_search_pattern = "";
+	_track_renderer->setSearchRow(-1);
+	ui->playlistView->scrollTo(_model->index(_track_renderer->activeRow(), 0));
+	ui->playlistView->hide();
+	ui->playlistView->show();
 }

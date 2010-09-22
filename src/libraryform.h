@@ -30,6 +30,11 @@ signals:
 	void player();
 	void busy(QString);
 	void done();
+public slots:
+	void search(QString &);
+	void nextItem();
+	void prevItem();
+	void cancelSearch();
 private slots:
 	void _player();
 	void _view_button();
@@ -50,6 +55,8 @@ private:
 	QString _current_album;
 	Playlist _current_playlist;
 	QList<Track> _current_tracks;
+	QString _search_pattern;
+	int _search_current_id;
 
 	void _add_artist(QString artist);
 	void _add_album(QString artist, QString album);

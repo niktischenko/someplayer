@@ -123,6 +123,7 @@ void MainWindow::_toggle_search_line() {
 
 void MainWindow::showSearchPanel() {
 	ui->searchButton->show();
+	ui->searchLine->setFocus();
 }
 
 void MainWindow::hideSearchPanel() {
@@ -137,24 +138,32 @@ void MainWindow::hideSearchPanel() {
 void MainWindow::_search(QString pattern) {
 	if (ui->stackedWidget->currentIndex() == 0) { // player
 		_player_form->search(pattern);
+	} else if (ui->stackedWidget->currentIndex() == 1) { // library
+		_library_form->search(pattern);
 	}
 }
 
 void MainWindow::_nextItem() {
 	if (ui->stackedWidget->currentIndex() == 0) { // player
 		_player_form->nextItem();
+	} else if (ui->stackedWidget->currentIndex() == 1) { // library
+		_library_form->nextItem();
 	}
 }
 
 void MainWindow::_prevItem() {
 	if (ui->stackedWidget->currentIndex() == 0) { // player
 		_player_form->prevItem();
+	} else if (ui->stackedWidget->currentIndex() == 1) { // library
+		_library_form->prevItem();
 	}
 }
 
 void MainWindow::_cancelSearch() {
 	if (ui->stackedWidget->currentIndex() == 0) { // player
 		_player_form->cancelSearch();
+	} else if (ui->stackedWidget->currentIndex() == 1) { // library
+		_library_form->cancelSearch();
 	}
 }
 

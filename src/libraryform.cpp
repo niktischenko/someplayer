@@ -295,3 +295,44 @@ void LibraryForm::_delete_track(Track track) {
 void LibraryForm::_use_button() {
 	_lib->saveCurrentPlaylist(_current_playlist);
 }
+
+void LibraryForm::search(QString &pattern) {
+	_search_pattern = pattern;
+	_search_current_id = -1;
+	nextItem();
+}
+
+void LibraryForm::nextItem() {
+	QString data = _model->index(_search_current_id, 0).data().toString();
+	for (int i = _search_current_id+1; i < _model->rowCount(); i++) {
+		data = _model->index(i, 0).data().toString();
+		if (data.contains(_search_pattern, Qt::CaseInsensitive)) {
+			_search_current_id = i;
+			break;
+		}
+	}
+	QModelIndex id = _model->index(_search_current_id, 0);
+	ui->listView->selectionModel()->clearSelection();
+	ui->listView->selectionModel()->select(id, QItemSelectionModel::Select);
+	ui->listView->scrollTo(id);
+}
+
+void LibraryForm::prevItem() {
+	QString data = _model->index(_search_current_id, 0).data().toString();
+	for (int i = _search_current_id-1; i >= 0; i--) {
+		data = _model->index(i, 0).data().toString();
+		if (data.contains(_search_pattern, Qt::CaseInsensitive)) {
+			_search_current_id = i;
+			break;
+		}
+	}
+	QModelIndex id = _model->index(_search_current_id, 0);
+	ui->listView->selectionModel()->clearSelection();
+	ui->listView->selectionModel()->select(id, QItemSelectionModel::Select);
+	ui->listView->scrollTo(id);
+}
+
+void LibraryForm::cancelSearch() {
+	_search_pattern = "";
+	ui->listView->selectionModel()->clearSelection();
+}

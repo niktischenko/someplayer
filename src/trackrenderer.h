@@ -19,8 +19,12 @@ signals:
 
 public slots:
 	void setActiveRow(int);
+	void setSearchRow(int);
+	int activeRow() {return _active_row;}
+	int searchRow() {return _search_row;}
 private:
 	int _active_row;
+	int _search_row;
 
 };
 

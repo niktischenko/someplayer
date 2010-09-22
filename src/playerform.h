@@ -68,6 +68,7 @@ private:
 
 	TrackRenderer *_track_renderer;
 	void _display_track(Track);
+	int _search_current_id;
 };
 
 #endif // PLAYERFORM_H

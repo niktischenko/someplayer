@@ -23,13 +23,16 @@ void TrackRenderer::paint(QPainter *painter, const QStyleOptionViewItem &option,
 	QPen npen (QColor::fromRgb(80, 130, 255, 50));
 	QPen apen (QColor::fromRgb(255, 255, 255, 128));
 	QPen spen (QColor::fromRgb(100, 150, 220));
+	QPen sspen (QColor::fromRgb(100, 220, 150));
 
 	f.setBold(true);
 	painter->setFont(f);
 	f.setBold(false);
 	painter->setPen(npen);
 	painter->drawLine(x1, y1, x2, y1);
-	if (index.row() == _active_row) {
+	if (index.row() == _search_row) {
+		painter->setPen(sspen);
+	} else if (index.row() == _active_row) {
 		painter->setPen(spen);
 	} else {
 		painter->setPen(pen);
@@ -53,4 +56,8 @@ QSize TrackRenderer::sizeHint(const QStyleOptionViewItem &option, const QModelIn
 
 void TrackRenderer::setActiveRow(int r) {
 	_active_row = r;
+}
+
+void TrackRenderer::setSearchRow(int r) {
+	_search_row = r;
 }
