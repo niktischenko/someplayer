@@ -23,5 +23,7 @@
         <file>dynamic.png</file>
         <file>fav.png</file>
         <file>forward.png</file>
+        <file>window.png</file>
+        <file>fullscreen.png</file>
     </qresource>
 </RCC>

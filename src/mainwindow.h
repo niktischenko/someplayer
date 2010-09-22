@@ -42,6 +42,7 @@ private slots:
 	void _nextItem();
 	void _prevItem();
 	void _cancelSearch();
+	void _toggle_full_screen();
 private:
 	PlayerForm *_player_form;
 	LibraryForm *_library_form;

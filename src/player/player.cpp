@@ -133,6 +133,8 @@ void Player::_tick(qint64 ticks) {
 void Player::setPlaylist(Playlist playlist) {
 	_playlist = playlist;
 	_history.clear();
+	_prev_history.clear();
+	_queue.clear();
 }
 
 void Player::seek(int s) {

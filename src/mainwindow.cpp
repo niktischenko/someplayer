@@ -43,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(ui->searchLine, SIGNAL(textChanged(QString)), this, SLOT(_search(QString)));
 	connect(ui->nextButton, SIGNAL(clicked()), this, SLOT(_nextItem()));
 	connect(ui->prevButton, SIGNAL(clicked()), this, SLOT(_prevItem()));
+	connect(ui->fscreenButton, SIGNAL(clicked()), this, SLOT(_toggle_full_screen()));
 	hideSearchPanel();
 	library();
 }
@@ -154,5 +155,15 @@ void MainWindow::_prevItem() {
 void MainWindow::_cancelSearch() {
 	if (ui->stackedWidget->currentIndex() == 0) { // player
 		_player_form->cancelSearch();
+	}
+}
+
+void MainWindow::_toggle_full_screen() {
+	if (isFullScreen()) {
+		ui->fscreenButton->setIcon(QIcon(":/icons/fullscreen.png"));
+		showNormal();
+	} else {
+		ui->fscreenButton->setIcon(QIcon(":/icons/window.png"));
+		showFullScreen();
 	}
 }

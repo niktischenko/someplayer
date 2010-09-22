@@ -7,6 +7,7 @@
 #include <QRegExp>
 
 #define _CURRENT_PLAYLIST_NAME_ "___current"
+#define _CURRENT_PLAYLIST_SUBST_ "Now playing"
 #define _PLAYLIST_FILE_EXTENSION_ "spls"
 #define _PLAYLIST_SIGNATURE_ "#SOMEPLAYLIST"
 #define _PLAYLIST_META_KEYWORD_ "#META"

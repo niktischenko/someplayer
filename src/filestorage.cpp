@@ -27,6 +27,8 @@ QList<Playlist> FileStorage::getPlaylists() {
 }
 
 Playlist FileStorage::getPlaylist(QString name) {
+	if (name == _CURRENT_PLAYLIST_SUBST_)
+		name = _CURRENT_PLAYLIST_NAME_;
 	QFile playlistFile (_path_prefix+"/"+name+"."+_PLAYLIST_FILE_EXTENSION_);
 	Playlist playlist;
 	playlist.setName(PLAYLIST_BAD_NAME);
@@ -68,6 +70,8 @@ QStringList FileStorage::getPlaylistsNames() {
 		QString suffix = info.suffix().toLower();
 		if (suffix == _PLAYLIST_FILE_EXTENSION_) {
 			QString name = info.fileName().replace(QString(".%1").arg(_PLAYLIST_FILE_EXTENSION_), "", Qt::CaseInsensitive);
+			if (name == _CURRENT_PLAYLIST_NAME_)
+			    name = _CURRENT_PLAYLIST_SUBST_;
 			playlistNames.append(name);
 		}
 	}
@@ -75,7 +79,10 @@ QStringList FileStorage::getPlaylistsNames() {
 }
 
 void FileStorage::savePlaylist(Playlist playlist) {
-	QString filename = _path_prefix + "/" +playlist.name()+"."_PLAYLIST_FILE_EXTENSION_;
+	QString name = playlist.name();
+	if (playlist.name() == _CURRENT_PLAYLIST_SUBST_)
+		name = _CURRENT_PLAYLIST_NAME_;
+	QString filename = _path_prefix + "/" +name+"."_PLAYLIST_FILE_EXTENSION_;
 	QFile playlistFile(filename);
 	if (playlistFile.exists()) {
 		playlistFile.remove();
@@ -99,7 +106,8 @@ void FileStorage::removePlaylist(Playlist playlist) {
 }
 
 void FileStorage::removePlaylist(QString name) {
-	QString filename = _path_prefix + "/" + name + "." + _PLAYLIST_FILE_EXTENSION_;
+	QString filename = _path_prefix + "/" + (name == _CURRENT_PLAYLIST_SUBST_ ? _CURRENT_PLAYLIST_NAME_ : name)
+			   + "." + _PLAYLIST_FILE_EXTENSION_;
 	QFile file(filename);
 	file.remove();
 }
