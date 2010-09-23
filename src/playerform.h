@@ -73,6 +73,7 @@ private slots:
 	void _delete_track();
 	void _enqueue_track();
 	void _add_to_favorites();
+	void _add_to_playlists();
 	void _state_changed(PlayerState);
 	void _toggle_repeat();
 	void _toggle_random();

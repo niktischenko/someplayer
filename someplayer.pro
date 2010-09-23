@@ -25,7 +25,8 @@ SOURCES += src/main.cpp\
     src/libraryform.cpp \
     src/busywidget.cpp \
     src/trackrenderer.cpp \
-    src/config.cpp
+    src/config.cpp \
+    src/playlistdialog.cpp
 
 HEADERS  += src/mainwindow.h \
 		src/player/player.h \
@@ -43,12 +44,14 @@ HEADERS  += src/mainwindow.h \
     src/libraryform.h \
     src/busywidget.h \
     src/trackrenderer.h \
-    src/config.h
+    src/config.h \
+    src/playlistdialog.h
 
 FORMS    += src/ui/mainwindow.ui \
     src/ui/playerform.ui \
     src/ui/libraryform.ui \
-    src/ui/busywidget.ui
+    src/ui/busywidget.ui \
+    src/playlistdialog.ui
 
 CONFIG += mobility
 MOBILITY = 

@@ -277,14 +277,16 @@ void LibraryForm::_delete_button() {
 		ui->listView->selectionModel()->clearSelection();
 		QQueue<int> to_delete;
 		foreach (QModelIndex id, selected) {
-			_delete_track(_current_tracks.at(id.row()));
 			to_delete.append(id.row());
 		}
 		qSort(to_delete);
 		int count = to_delete.count();
 		for (int i = count-1; i >= 0; i--) {
-			_current_tracks.removeAt(to_delete.at(i));
+			_current_playlist.removeTrackAt(to_delete.at(i));
+			qDebug() << "Removing from" << _current_playlist.name() << to_delete.at(i);
 		}
+		_current_tracks = _current_playlist.tracks();
+		_lib->savePlaylist(_current_playlist);
 		__fill_model_tracks(_model, _current_tracks);
 	} else if (_state == STATE_PLAYLIST) {
 		QModelIndexList selected = ui->listView->selectionModel()->selectedIndexes();
@@ -313,6 +315,7 @@ void LibraryForm::_delete_track(Track track) {
 
 void LibraryForm::_use_button() {
 	_lib->saveCurrentPlaylist(_current_playlist);
+	_current_playlist = _lib->getCurrentPlaylist();
 }
 
 void LibraryForm::search(QString &pattern) {

@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Version=1.0
+Version=1.1.0
 Type=Application
 Name=SomePlayer
 X-Text-Domain=someplayer
@@ -8,4 +8,4 @@ Exec=/opt/someplayer/someplayer
 Icon=someplayer
 X-HildonDesk-ShowInToolbar=true
 X-Osso-Type=application/x-executable
-Categories=Office;
+Categories=AudioVideo;

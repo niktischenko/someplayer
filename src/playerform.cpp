@@ -26,6 +26,7 @@
 #include <QSlider>
 #include "trackrenderer.h"
 #include <QResource>
+#include "playlistdialog.h"
 
 using namespace SomePlayer::DataObjects;
 using namespace SomePlayer::Playback;
@@ -70,6 +71,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	QAction *delete_action = _context_menu->addAction("Delete");
 	QAction *enqueue_action = _context_menu->addAction("Enqueue");
 	QAction *add_to_favorites = _context_menu->addAction("Add to favorites");
+	QAction *add_to_playlists = _context_menu->addAction("Add to playlists");
 
 	_track_renderer = new TrackRenderer(this);
 	ui->playlistView->setItemDelegateForColumn(0, _track_renderer);
@@ -92,6 +94,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(delete_action, SIGNAL(triggered()), this, SLOT(_delete_track()));
 	connect(enqueue_action, SIGNAL(triggered()), this, SLOT(_enqueue_track()));
 	connect(add_to_favorites, SIGNAL(triggered()), this, SLOT(_add_to_favorites()));
+	connect(add_to_playlists, SIGNAL(triggered()), this, SLOT(_add_to_playlists()));
 	connect(_player, SIGNAL(stateChanged(PlayerState)), this, SLOT(_state_changed(PlayerState)));
 	connect(_player, SIGNAL(trackDone(Track)), _lib, SLOT(updateTrackCount(Track)));
 	connect(_tag_resolver, SIGNAL(decoded(Track)), this, SLOT(_track_decoded(Track)));
@@ -285,4 +288,20 @@ void PlayerForm::_track_decoded(Track track) {
 	__fill_list(_model, _current_playlist);
 	_lib->saveCurrentPlaylist(_current_playlist);
 	_player->setPlaylist(_current_playlist);
+}
+
+void PlayerForm::_add_to_playlists() {
+	QList<QModelIndex> idx = ui->playlistView->selectionModel()->selectedIndexes();
+	int id = idx.first().row();
+
+	QList<QString> names = _lib->getPlaylistsNames();
+	names.removeOne(_CURRENT_PLAYLIST_SUBST_);
+	PlaylistDialog dialog(names, this);
+	dialog.exec();
+	QList<QString> selected = dialog.selected();
+	foreach (QString name, selected) {
+		Playlist pl = _lib->getPlaylist(name);
+		pl.addTrack(_current_playlist.tracks().at(id));
+		_lib->savePlaylist(pl);
+	}
 }

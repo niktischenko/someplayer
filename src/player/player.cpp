@@ -162,6 +162,8 @@ void Player::seek(int s) {
 }
 
 void Player::play() {
+	if (_playlist.tracks().isEmpty())
+		return;
 	_state = PLAYER_PLAYING;
 	emit stateChanged(_state);
 	if (_current == -1) {
