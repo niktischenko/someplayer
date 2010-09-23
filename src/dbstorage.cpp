@@ -41,12 +41,12 @@ void DbStorage::_prepare_queries() {
 	_get_artists_query->prepare("SELECT name FROM artist");
 
 	_get_albums_for_artist_query = new QSqlQuery(db);
-	_get_albums_for_artist_query->prepare("SELECT name FROM album WHERE artist_id in (SELECT id from artist WHERE name = :name);");
+	_get_albums_for_artist_query->prepare("SELECT name FROM album WHERE artist_id in (SELECT id from artist WHERE UPPER(name) = UPPER(:name));");
 
 	_get_tracks_for_album_query = new QSqlQuery(db);
 	_get_tracks_for_album_query->prepare("SELECT id, title, source, count, length FROM tracks WHERE artist_id IN "
-										 "(SELECT id FROM artist WHERE name = :artist_name) AND album_id IN "
-										 "(SELECT id FROM album WHERE name = :album_name);");
+										 "(SELECT id FROM artist WHERE UPPER(name) = UPPER(:artist_name)) AND album_id IN "
+										 "(SELECT id FROM album WHERE UPPER(name) = UPPER(:album_name));");
 
 	_get_favorites_query = new QSqlQuery(db);
 	_get_favorites_query->prepare("SELECT track_id as id, title, artist, album.name as album, source, count, length FROM "
@@ -81,10 +81,10 @@ void DbStorage::_prepare_queries() {
 	_get_track_count->prepare("SELECT count from tracks WHERE id = :id");
 
 	_check_artist_query = new QSqlQuery(db);
-	_check_artist_query->prepare("SELECT id FROM artist WHERE name = :name");
+	_check_artist_query->prepare("SELECT id FROM artist WHERE UPPER(name) = UPPER(:name)");
 
 	_check_album_query = new QSqlQuery(db);
-	_check_album_query->prepare("SELECT id FROM album WHERE name = :name AND artist_id = :artist_id");
+	_check_album_query->prepare("SELECT id FROM album WHERE UPPER(name) = UPPER(:name) AND artist_id = :artist_id");
 
 	_check_track_query = new QSqlQuery(db);
 	_check_track_query->prepare("SELECT id FROM tracks WHERE source = :source");
