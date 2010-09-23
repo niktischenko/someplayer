@@ -25,6 +25,10 @@
 // represents track metainformation only.
 // now it contains TITLE, ARTIST, ALBUM, GENRE
 
+#define _UNKNOWN_ARTIST_ "Unknown artist"
+#define _UNKNOWN_ALBUM_  "Unknown album"
+#define _UNKNOWN_TRACK_  "Unknown track"
+
 namespace SomePlayer {
 	namespace DataObjects {
 		class TrackMetadata {

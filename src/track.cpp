@@ -19,6 +19,7 @@
 
 #include "track.h"
 #include "tagresolver.h"
+#include <QFileInfo>
 
 using namespace SomePlayer::DataObjects;
 
@@ -28,6 +29,10 @@ Track::Track() : QObject() {
 Track::Track(int id, TrackMetadata metadata, QString source) : QObject() {
 	_id = id;
 	_metadata = metadata;
+	if (_metadata.title() == _UNKNOWN_TRACK_) {
+		QFileInfo info(source);
+		_metadata.setTitle(info.baseName());
+	}
 	_source = source;
 	_count = 0;
 }
@@ -39,6 +44,7 @@ Track::Track(const Track &track) : QObject() {
 	this->_count = track._count;
 }
 
+/// deprecated
 Track::Track(QString source) :QObject() {
 	_resolver = new TagResolver(this);
 	connect(_resolver, SIGNAL(decoded(Track)), this, SLOT(decoded(Track)));

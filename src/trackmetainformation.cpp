@@ -25,9 +25,9 @@ TrackMetadata::TrackMetadata() {
 }
 
 TrackMetadata::TrackMetadata(QString title = "", QString artist = "", QString album = "", int length = 0) {
-	_metadata["TITLE"] = title == "" ? "Unknown title" : title.trimmed();
-	_metadata["ARTIST"] = artist == "" ? "Unknown artist" : artist.trimmed();
-	_metadata["ALBUM"] = album == "" ? "Unknown album" : album.trimmed();
+	_metadata["TITLE"] = title == "" ? _UNKNOWN_TRACK_ : title.trimmed();
+	_metadata["ARTIST"] = artist == "" ? _UNKNOWN_ARTIST_ : artist.trimmed();
+	_metadata["ALBUM"] = album == "" ? _UNKNOWN_ALBUM_ : album.trimmed();
 	_length = length;
 }
 
@@ -40,7 +40,7 @@ QString TrackMetadata::title() {
 	if (_metadata.contains("TITLE")) {
 		return _metadata["TITLE"];
 	} else {
-		return "Unknown title";
+		return _UNKNOWN_TRACK_;
 	}
 }
 
@@ -48,7 +48,7 @@ QString TrackMetadata::artist() {
 	if (_metadata.contains("ARTIST")) {
 		return _metadata["ARTIST"];
 	} else {
-		return "Unknown artist";
+		return _UNKNOWN_ARTIST_;
 	}
 }
 
@@ -56,7 +56,7 @@ QString TrackMetadata::album() {
 	if (_metadata.contains("ALBUM")) {
 		return _metadata["ALBUM"];
 	} else {
-		return "Unknown album";
+		return _UNKNOWN_ALBUM_;
 	}
 }
 
