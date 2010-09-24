@@ -23,8 +23,6 @@
 #include <QObject>
 #include "someplayer.h"
 #include "track.h"
-#include <phonon/MediaObject>
-#include <phonon/MediaSource>
 
 using SomePlayer::DataObjects::Track;
 
@@ -43,14 +41,6 @@ namespace SomePlayer {
 		signals:
 			void decoded(Track);
 			void done();
-
-		private slots:
-			void metaStateChanged(Phonon::State newState, Phonon::State /*oldState*/);
-		private:
-			QStringList _files;
-			Phonon::MediaObject *_metaObject;
-			QList<Phonon::MediaSource> _sources;
-
 		};
 	};
 };

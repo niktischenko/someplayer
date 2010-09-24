@@ -47,5 +47,6 @@ namespace SomePlayer {
 #include "config.h"
 
 #define _DYNAMIC_PLAYLIST_MAX_COUNT_ 50
+#define NDEBUG
 
 #endif

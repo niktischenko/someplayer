@@ -27,7 +27,7 @@ using namespace SomePlayer::Storage;
 MediaScanner::MediaScanner(QObject *parent) :
 		QThread(parent), _stopped(false), _initialized(false)
 {
-	REGISTERED_FILE_EXTENSIONS << "mp3" << "flac" << "wma" << "acc";
+	REGISTERED_FILE_EXTENSIONS << "mp3" << "flac" << "wma" << "acc" << "ogg";
 }
 
 void MediaScanner::run() {

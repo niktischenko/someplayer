@@ -30,9 +30,9 @@ Library::Library(QString databasePath, QString playlistsPath) : QObject(0) {
 	_playlist_storage = new FileStorage(playlistsPath);
 	_scanner = new MediaScanner();
 	_resolver = new TagResolver(this);
-	connect(_scanner, SIGNAL(scanFinish(QStringList)), _resolver, SLOT(decode(QStringList)));
+	connect(_scanner, SIGNAL(scanFinish(QStringList)), this, SLOT(_scanned(QStringList)));
 	connect(_resolver, SIGNAL(done()), this, SIGNAL(done()));
-	connect(_resolver, SIGNAL(decoded(Track)), this, SLOT(addTrack(Track)));
+	connect(_resolver, SIGNAL(decoded(Track)), this, SLOT(_decoded(Track)));
 }
 
 Library::~Library() {
@@ -131,4 +131,14 @@ Playlist Library::getCurrentPlaylist() {
 
 void Library::saveCurrentPlaylist(const Playlist &playlist) {
 	_playlist_storage->saveCurrentPlaylist(playlist);
+}
+
+void Library::_decoded(Track track) {
+	emit trackAdded();
+	addTrack(track);
+}
+
+void Library::_scanned(QStringList files) {
+	emit addingTracks(files.count());
+	_resolver->decode(files);
 }

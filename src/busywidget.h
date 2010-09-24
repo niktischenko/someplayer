@@ -23,20 +23,23 @@
 #include <QWidget>
 
 namespace Ui {
-    class BusyWidget;
+	class BusyWidget;
 }
 
 class BusyWidget : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit BusyWidget(QWidget *parent = 0);
-    ~BusyWidget();
+	explicit BusyWidget(QWidget *parent = 0);
+	~BusyWidget();
 	void setText(QString text);
+public slots:
+	void setMax(int);
+	void tick();
 
 private:
-    Ui::BusyWidget *ui;
+	Ui::BusyWidget *ui;
 };
 
 #endif // BUSYWIDGET_H

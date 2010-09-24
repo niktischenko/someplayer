@@ -72,12 +72,18 @@ namespace SomePlayer {
 		signals:
 			void done();
 			void busy(QString);
+			void addingTracks(int);
+			void trackAdded();
 
 		private:
 			DbStorage *_library_storage;
 			FileStorage *_playlist_storage;
 			MediaScanner *_scanner;
 			TagResolver *_resolver;
+
+		private slots:
+			void _scanned(QStringList);
+			void _decoded(Track);
 
 		public slots:
 			void removeTrack(Track);

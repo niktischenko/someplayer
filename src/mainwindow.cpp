@@ -58,6 +58,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(clear_playlist, SIGNAL(triggered()), this, SLOT(_clear_current_playlist()));
 	connect(add_files, SIGNAL(triggered()), this, SLOT(_add_files()));
 	connect(_library, SIGNAL(done()), this, SLOT(library()));
+	connect(_library, SIGNAL(addingTracks(int)), _busy_widget, SLOT(setMax(int)));
+	connect(_library, SIGNAL(trackAdded()), _busy_widget, SLOT(tick()));
 	connect(_library_form, SIGNAL(done()), this, SLOT(library()));
 	connect(_library_form, SIGNAL(busy(QString)), this, SLOT(showBusyWidget(QString)));
 	connect(ui->searchButton, SIGNAL(clicked()), this, SLOT(_toggle_search_line()));

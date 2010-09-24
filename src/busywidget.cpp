@@ -19,12 +19,14 @@
 
 #include "busywidget.h"
 #include "ui_busywidget.h"
+#include <QDebug>
 
 BusyWidget::BusyWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::BusyWidget)
 {
     ui->setupUi(this);
+    ui->progressBar->setValue(0);
 }
 
 BusyWidget::~BusyWidget()
@@ -34,4 +36,13 @@ BusyWidget::~BusyWidget()
 
 void BusyWidget::setText(QString text) {
 	ui->label->setText(text);
+}
+
+void BusyWidget::setMax(int max) {
+	ui->progressBar->setMaximum(max);
+	ui->progressBar->setValue(0);
+}
+
+void BusyWidget::tick() {
+	ui->progressBar->setValue(ui->progressBar->value()+1);
 }
