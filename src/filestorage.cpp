@@ -23,7 +23,6 @@
 #include <QFileInfo>
 #include <QTextStream>
 #include <QRegExp>
-#include <QDebug>
 
 using namespace SomePlayer::Storage;
 using namespace SomePlayer::DataObjects;

@@ -19,6 +19,11 @@
 
 #include "player.h"
 #include <phonon/MediaSource>
+#include <phonon/Effect>
+#include <phonon/BackendCapabilities>
+#include <phonon/EffectParameter>
+#include "../config.h"
+#include <QTime>
 
 using namespace SomePlayer::Playback;
 using namespace SomePlayer::DataObjects;
@@ -30,10 +35,30 @@ Player::Player(QObject *parent) :
 	_player = new Phonon::MediaObject(this);
 	_output = new Phonon::AudioOutput(Phonon::MusicCategory, this);
 	_player->setTickInterval(1000);
+	_equalizer == NULL;
+	_equalizer_enabled == false;
+	QList<Phonon::EffectDescription> effects = Phonon::BackendCapabilities::availableAudioEffects();
+	foreach (Phonon::EffectDescription desc, effects) {
+		if (desc.name() == "equalizer-10bands") {
+			_equalizer = new Phonon::Effect(desc, this);
+			Config config;
+			if (config.getValue("equalizer/equalizer").toString() == "enabled") {
+				for (int i = 0; i < 10; i++) {
+					QVariant var = config.getValue(QString("equalizer/band%1").arg(i));
+					setEqualizerValue(i, var.toDouble());
+				}
+				_equalizer_enabled = true;
+			} else if (config.getValue("equalizer/equalizer") == "") {
+				for (int i = 0; i < 10; i++) {
+					config.setValue(QString("equalizer/band%1").arg(i), 0);
+				}
+			}
+		}
+	}
 	connect(_player, SIGNAL(stateChanged(Phonon::State,Phonon::State)), this, SLOT(_stateChanged(Phonon::State,Phonon::State)));
 	connect(_player, SIGNAL(tick(qint64)), this, SLOT(_tick(qint64)));
-	Phonon::createPath(_player, _output);
-	int seed = reinterpret_cast<int> (_player);
+	_path = Phonon::createPath(_player, _output);
+	int seed = QTime::currentTime().msec();
 	qsrand(seed);
 	_random = _config.getValue("playback/random").toBool();
 	_repeat = _config.getValue("playback/repeat").toBool();
@@ -135,7 +160,6 @@ void Player::_stateChanged(Phonon::State newState, Phonon::State /*oldState*/) {
 		break;
 	case Phonon::ErrorState:
 		_state = PLAYER_ERROR;
-		qDebug() << _player->errorString();
 		break;
 	}
 }
@@ -190,4 +214,40 @@ void Player::toggleRepeat() {
 
 void Player::setVolume(int v) {
 	_output->setVolume(v*0.01);
+}
+
+void Player::equalizerValue(int band, double *val) {
+	if (band < 0 || band > 9) {
+		*val = -24;
+		return;
+	}
+	if (_equalizer_enabled) {
+		QList<Phonon::EffectParameter> plist = _equalizer->parameters();
+		QVariant var = _equalizer->parameterValue(plist[band]);
+		*val = var.toDouble();
+	}
+}
+
+void Player::enableEqualizer() {
+	_equalizer_enabled = true;
+	_path.insertEffect(_equalizer);
+	Config config;
+	config.setValue("equalizer/equalizer", "enabled");
+}
+
+void Player::disableEqualizer() {
+	_equalizer_enabled = false;
+	_path.removeEffect(_equalizer);
+	Config config;
+	config.setValue("equalizer/equalizer", "disabled");
+}
+
+void Player::setEqualizerValue(int band, double value) {
+	if (band < 0 || band > 9 || value < -24 || value > 12) {
+		return;
+	}
+	QList<Phonon::EffectParameter> plist = _equalizer->parameters();
+	_equalizer->setParameterValue(plist[band], QVariant::fromValue(value));
+	Config config;
+	config.setValue(QString("equalizer/band%1").arg(band), value);
 }

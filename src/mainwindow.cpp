@@ -28,6 +28,7 @@
 
 #include "library.h"
 #include "timerdialog.h"
+#include "equalizerdialog.h"
 
 using namespace SomePlayer::DataObjects;
 using namespace SomePlayer::Storage;
@@ -46,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	_library_form = new LibraryForm(_library, ui->stackedWidget);
 	_busy_widget = new BusyWidget(ui->stackedWidget);
 	_timer = new QTimer(this);
+	_equalizer_dialog = new EqualizerDialog(this);
 	ui->stackedWidget->insertWidget(0, _player_form);
 	ui->stackedWidget->insertWidget(1, _library_form);
 	ui->stackedWidget->insertWidget(2, _busy_widget);
@@ -54,6 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	QAction *clear_playlist = ui->menuLibrary->addAction("Clear current playlist");
 	QAction *add_files = ui->menuLibrary->addAction("Add file to current playlist");
 	QAction *set_timer = ui->menuBar->addAction("Set timer");
+	QAction *equalizer = ui->menuBar->addAction("Euqalizer");
 	connect(_player_form, SIGNAL(library()), this, SLOT(library()));
 	connect(_library_form, SIGNAL(player()), this, SLOT(player()));
 	connect(add_directory, SIGNAL(triggered()), this, SLOT(_add_directory()));
@@ -61,6 +64,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(clear_playlist, SIGNAL(triggered()), this, SLOT(_clear_current_playlist()));
 	connect(add_files, SIGNAL(triggered()), this, SLOT(_add_files()));
 	connect(set_timer, SIGNAL(triggered()), this, SLOT(_set_timer()));
+	connect(equalizer, SIGNAL(triggered()), this, SLOT(_equalizer()));
 	connect(_library, SIGNAL(done()), this, SLOT(library()));
 	connect(_library, SIGNAL(done()), _library_form, SLOT(refresh()));
 	connect(_library, SIGNAL(addingTracks(int)), _busy_widget, SLOT(setMax(int)));
@@ -75,6 +79,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(ui->prevButton, SIGNAL(clicked()), this, SLOT(_prevItem()));
 	connect(ui->fscreenButton, SIGNAL(clicked()), this, SLOT(_toggle_full_screen()));
 	connect(_timer, SIGNAL(timeout()), this, SLOT(_timeout()));
+	connect(_equalizer_dialog, SIGNAL(valueChanged(int,int)), this, SLOT(_equalizer_value_changed(int, int)));
+	connect(_equalizer_dialog, SIGNAL(equalizerEnabled()), _player_form, SLOT(enableEqualizer()));
+	connect(_equalizer_dialog, SIGNAL(equalizerDisabled()), _player_form, SLOT(disableEqualizer()));
 	hideSearchPanel();
 	library();
 }
@@ -260,4 +267,22 @@ void MainWindow::_set_timer() {
 void MainWindow::_timeout() {
 	_player_form->stop();
 	_timer->stop();
+}
+
+void MainWindow::_equalizer() {
+	if (_player_form->isEqualizerAvailable()) {
+		double val = 0;
+		for (int i = 0; i < 10; i++) {
+			_player_form->equalizerValue(i, &val);
+			_equalizer_dialog->setValue(i, (int)(val * 10 + 0.5));
+		}
+		_equalizer_dialog->setEqualizerEnabled(_player_form->isEqualizerEnabled());
+		_equalizer_dialog->exec();
+	} else {
+		QMessageBox::information(this, "Error", "No equalizer support. Please install gstreamer0.10-plugins-good-extra");
+	}
+}
+
+void MainWindow::_equalizer_value_changed(int band, int val) {
+	_player_form->setEqualizerValue(band, (val / 10.0));
 }

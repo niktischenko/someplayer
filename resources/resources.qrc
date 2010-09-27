@@ -26,5 +26,7 @@
         <file>window.png</file>
         <file>fullscreen.png</file>
         <file>volume.png</file>
+        <file>select_all.png</file>
+        <file>deselect_all.png</file>
     </qresource>
 </RCC>

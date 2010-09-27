@@ -20,7 +20,6 @@
 #include "dbstorage.h"
 #include <QSqlQuery>
 #include <QSqlResult>
-#include <QDebug>
 
 using namespace SomePlayer::Storage;
 using namespace SomePlayer::DataObjects;
@@ -323,7 +322,6 @@ void DbStorage::addTrack(Track track) {
 	int artist_id = _check_add_artist(artist);
 	int album_id = _check_add_album(album, artist_id);
 	if (artist_id == -1 || album_id == -1) {
-		qDebug () << "one";
 		//big bang
 		return;
 	}
@@ -331,7 +329,6 @@ void DbStorage::addTrack(Track track) {
 	query->bindValue(":source", source);
 	query->exec();
 	if (query->next()) {
-		qDebug () << "two";
 		// already in datebase, skip
 		return;
 	}
@@ -353,15 +350,12 @@ void DbStorage::addTrack(Track track) {
 			if (query->exec()) {
 				// ok
 			} else {
-				qDebug () << "three";
 				// big bang
 			}
 		} else {
-			qDebug () << "four";
 			// big bang
 		}
 	} else {
-		qDebug () << "five";
 		// big bang
 	}
 }
@@ -388,25 +382,16 @@ void DbStorage::updateTrackCount(Track track) {
 Track DbStorage::updateTrack(Track track) {
 	QSqlQuery *query = _remove_track_query;
 	query->bindValue(":id", track.id());
-	if (!query->exec()) {
-		qDebug() << "Problem here";
-	}
 	addTrack(track);
 	query = _get_track_by_source_query;
 	query->bindValue(":source", track.source());
 	query->exec();
 	if (query->next()) {
-		qDebug() << "enter";
 		int id = query->value(0).toInt();
-		qDebug() << id;
 		QString title = query->value(1).toString();
-		qDebug() << title;
 		QString artist = query->value(2).toString();
-		qDebug() << artist;
 		QString album = query->value(3).toString();
-		qDebug() << album;
 		QString source = query->value(4).toString();
-		qDebug() << source;
 		int count = query->value(5).toInt();
 		int length = query->value(6).toInt();
 		TrackMetadata meta(title, artist, album, length);

@@ -25,6 +25,7 @@
 #include "playerform.h"
 #include "libraryform.h"
 #include "busywidget.h"
+#include "equalizerdialog.h"
 #include "library.h"
 #include <QTimer>
 
@@ -66,12 +67,15 @@ private slots:
 	void _toggle_full_screen();
 	void _set_timer();
 	void _timeout();
+	void _equalizer();
+	void _equalizer_value_changed(int, int);
 private:
 	PlayerForm *_player_form;
 	LibraryForm *_library_form;
 	BusyWidget *_busy_widget;
 	Library *_library;
 	QTimer *_timer;
+	EqualizerDialog *_equalizer_dialog;
 };
 
 #endif // MAINWINDOW_H

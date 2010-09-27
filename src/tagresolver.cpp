@@ -18,7 +18,6 @@
  */
 
 #include "tagresolver.h"
-#include <QDebug>
 #include <QFile>
 #include <tag.h>
 #include <fileref.h>

@@ -19,7 +19,6 @@
 
 #include "busywidget.h"
 #include "ui_busywidget.h"
-#include <QDebug>
 
 BusyWidget::BusyWidget(QWidget *parent) :
     QWidget(parent),

@@ -26,9 +26,9 @@
 #include <QModelIndexList>
 #include "track.h"
 #include "playlist.h"
-#include <QDebug>
 #include <QTime>
 #include <QQueue>
+#include <QMessageBox>
 
 using namespace SomePlayer::DataObjects;
 
@@ -72,6 +72,7 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 	connect(ui->dynamicButton, SIGNAL(clicked()), this, SLOT(_dynamic_button()));
 	connect(ui->listView, SIGNAL(clicked(QModelIndex)), this, SLOT(_process_list_click(QModelIndex)));
 	connect(ui->addButton, SIGNAL(clicked()), this, SLOT(_add_button()));
+	connect(ui->selectAllButton, SIGNAL(clicked()), this, SLOT(_toggle_select_all_button()));
 	connect(ui->backButton, SIGNAL(clicked()), this, SLOT(_back_button()));
 	connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(_delete_button()));
 	connect(ui->useButton, SIGNAL(clicked()), this, SLOT(_use_button()));
@@ -283,7 +284,6 @@ void LibraryForm::_delete_button() {
 		int count = to_delete.count();
 		for (int i = count-1; i >= 0; i--) {
 			_current_playlist.removeTrackAt(to_delete.at(i));
-			qDebug() << "Removing from" << _current_playlist.name() << to_delete.at(i);
 		}
 		_current_tracks = _current_playlist.tracks();
 		_lib->savePlaylist(_current_playlist);
@@ -299,7 +299,6 @@ void LibraryForm::_delete_button() {
 		for (int i = count-1; i >= 0; i--) {
 			QString name = _model->item(to_delete.at(i))->text();
 			if (name != _CURRENT_PLAYLIST_SUBST_) {
-				qDebug() << "deleting " << name;
 				_lib->removePlaylist(name);
 				_model->removeRow(to_delete.at(i));
 			}
@@ -384,3 +383,14 @@ void LibraryForm::refresh() {
 		break;
 	}
 }
+
+void LibraryForm::_toggle_select_all_button() {
+	if (ui->listView->selectionModel()->selectedIndexes().count() == ui->listView->model()->rowCount()) {
+		ui->listView->selectionModel()->clearSelection();
+		ui->selectAllButton->setIcon(QIcon(":/icons/select_all.png"));
+	} else {
+		ui->listView->selectAll();
+		ui->selectAllButton->setIcon(QIcon(":/icons/deselect_all.png"));
+	}
+}
+

@@ -21,7 +21,6 @@
 #include "ui_playerform.h"
 #include "library.h"
 #include "player/player.h"
-#include <QDebug>
 #include <QTime>
 #include <QSlider>
 #include "trackrenderer.h"

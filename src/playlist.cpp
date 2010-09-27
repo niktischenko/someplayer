@@ -18,7 +18,6 @@
  */
 
 #include "playlist.h"
-#include <QDebug>
 
 using namespace SomePlayer::DataObjects;
 

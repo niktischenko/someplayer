@@ -48,7 +48,10 @@ class PlayerForm : public QWidget
 
 public:
 	explicit PlayerForm(Library *lib, QWidget *parent = 0);
-    ~PlayerForm();
+	~PlayerForm();
+	bool isEqualizerEnabled() { return _player->equalizerEnabled(); }
+	bool isEqualizerAvailable() { return _player->equalizerAvailable(); }
+
 signals:
 	void library();
 	void showSearchPanel();
@@ -62,6 +65,10 @@ public slots:
 	void cancelSearch();
 	void addFiles(QList<QString> files);
 	void stop();
+	void setEqualizerValue(int band, double value) { _player->setEqualizerValue(band, value); }
+	void equalizerValue(int band, double *value) { _player->equalizerValue(band, value); }
+	void enableEqualizer() { _player->enableEqualizer(); }
+	void disableEqualizer() { _player->disableEqualizer(); }
 
 private slots:
 	void _library();

@@ -18,7 +18,6 @@
  */
 
 #include "library.h"
-#include <QDebug>
 
 using namespace SomePlayer::DataObjects;
 using namespace SomePlayer::Storage;

@@ -60,6 +60,7 @@ private slots:
 	void _view_button();
 	void _dynamic_button();
 	void _playlists_button();
+	void _toggle_select_all_button();
 	void _add_button();
 	void _delete_button();
 	void _back_button();
