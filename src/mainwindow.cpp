@@ -119,9 +119,30 @@ void MainWindow::_add_directory() {
 
 void MainWindow::_save_playlist() {
 	QString name = QInputDialog::getText(this, "Playlist name", "Name:");
-	Playlist playlist = _library->getCurrentPlaylist();
-	playlist.setName(name);
-	_library->savePlaylist(playlist);
+	QList<QString> playlists = _library->getPlaylistsNames();
+	bool append = false;
+	if (playlists.contains(name)) {
+		if (QMessageBox::question(this, "Append to playlist?", "Playlist with name \""+name+"\" already exists.\n"
+					  "Dow you want to append current playlist to it?",
+					  QMessageBox::Ok, QMessageBox::Cancel) == QMessageBox::Ok) {
+			append = true;
+		} else {
+			append = false;
+		}
+	}
+	if (append) {
+		Playlist cur = _library->getCurrentPlaylist();
+		Playlist target = _library->getPlaylist(name);
+		QList<Track> tracks = cur.tracks();
+		foreach (Track track, tracks) {
+			target.addTrack(track);
+		}
+		_library->savePlaylist(target);
+	} else {
+		Playlist playlist = _library->getCurrentPlaylist();
+		playlist.setName(name);
+		_library->savePlaylist(playlist);
+	}
 }
 
 void MainWindow::_clear_current_playlist() {
