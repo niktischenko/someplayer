@@ -25,5 +25,6 @@
         <file>forward.png</file>
         <file>window.png</file>
         <file>fullscreen.png</file>
+        <file>volume.png</file>
     </qresource>
 </RCC>

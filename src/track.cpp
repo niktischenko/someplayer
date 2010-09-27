@@ -59,6 +59,10 @@ TrackMetadata Track::metadata() const {
 	return _metadata;
 }
 
+void Track::setMetadata(TrackMetadata meta) {
+	_metadata = meta;
+}
+
 QString Track::source() const {
 	return _source;
 }

@@ -61,6 +61,7 @@ public slots:
 	void prevItem();
 	void cancelSearch();
 	void addFiles(QList<QString> files);
+	void stop();
 
 private slots:
 	void _library();
@@ -74,10 +75,13 @@ private slots:
 	void _enqueue_track();
 	void _add_to_favorites();
 	void _add_to_playlists();
+	void _edit_tags();
 	void _state_changed(PlayerState);
 	void _toggle_repeat();
 	void _toggle_random();
+	void _toggle_volume();
 	void _track_decoded(Track);
+	void _volume_changed();
 
 private:
     Ui::PlayerForm *ui;

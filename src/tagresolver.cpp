@@ -50,3 +50,16 @@ void TagResolver::decode(QStringList files) {
 	}
 	emit done();
 }
+
+void TagResolver::updateTags(Track track) {
+	TagLib::FileRef file_ref(QFile::encodeName(track.source()).data());
+	if (!file_ref.isNull()) {
+		TagLib::Tag *tag = file_ref.tag();
+		if (NULL != tag) {
+			tag->setArtist(TagLib::String(track.metadata().artist().toStdWString()));
+			tag->setAlbum(TagLib::String(track.metadata().album().toStdWString()));
+			tag->setTitle(TagLib::String(track.metadata().title().toStdWString()));
+		}
+		file_ref.save();
+	}
+}

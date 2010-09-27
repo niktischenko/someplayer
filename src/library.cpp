@@ -18,6 +18,7 @@
  */
 
 #include "library.h"
+#include <QDebug>
 
 using namespace SomePlayer::DataObjects;
 using namespace SomePlayer::Storage;
@@ -141,4 +142,23 @@ void Library::_decoded(Track track) {
 void Library::_scanned(QStringList files) {
 	emit addingTracks(files.count());
 	_resolver->decode(files);
+}
+
+void Library::updateTrackMetadata(Track track) {
+	Track ntrack = track;
+	if (track.id() > 0) {
+		ntrack = _library_storage->updateTrack(track);
+	}
+	// update all playlists
+	QList<QString> playlists = getPlaylistsNames();
+	foreach (QString name, playlists) {
+		Playlist pl = getPlaylist(name);
+		QList<Track> tracks = pl.tracks();
+		int pos = tracks.indexOf(ntrack); // comparing using source
+		tracks.removeOne(ntrack); // comparing using source
+		tracks.insert(pos, ntrack);
+		pl.setTracks(tracks);
+		savePlaylist(pl);
+	}
+	_resolver->updateTags(ntrack);
 }

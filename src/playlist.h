@@ -42,6 +42,7 @@ namespace SomePlayer {
 			void addTrack(Track track);
 			void removeTrack(Track track);
 			void removeTrackAt(int id);
+			void setTracks(QList<Track>);
 			void clear();
 
 		private:

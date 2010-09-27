@@ -17,50 +17,31 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include "playlist.h"
-#include <QDebug>
+#ifndef EDITTAGSDIALOG_H
+#define EDITTAGSDIALOG_H
 
-using namespace SomePlayer::DataObjects;
+#include <QDialog>
+#include "someplayer.h"
+#include "trackmetainformation.h"
 
-Playlist::Playlist()
+using SomePlayer::DataObjects::TrackMetadata;
+namespace Ui {
+    class EditTagsDialog;
+}
+
+class EditTagsDialog : public QDialog
 {
-	_name = "New playlist";
-}
+    Q_OBJECT
 
-Playlist::Playlist(const Playlist &playlist) {
-	_name = playlist._name;
-	_tracks = playlist._tracks;
-}
+public:
+    explicit EditTagsDialog(QWidget *parent = 0);
+    ~EditTagsDialog();
+    void setTrackMetadata(TrackMetadata meta);
+    TrackMetadata meta();
 
-QString Playlist::name() {
-	return _name;
-}
+private:
+    Ui::EditTagsDialog *ui;
+    TrackMetadata _meta;
+};
 
-QList<Track> Playlist::tracks() {
-	return _tracks;
-}
-
-void Playlist::setName(QString name) {
-	_name = name;
-}
-
-void Playlist::addTrack(Track track) {
-	if (!_tracks.contains(track))
-		_tracks.append(track);
-}
-
-void Playlist::removeTrack(Track track) {
-	_tracks.removeOne(track);
-}
-
-void Playlist::removeTrackAt(int id) {
-	_tracks.removeAt(id);
-}
-
-void Playlist::setTracks(QList<Track> tracks) {
-	_tracks = tracks;
-}
-
-void Playlist::clear() {
-	_tracks.clear();
-}
+#endif // EDITTAGSDIALOG_H

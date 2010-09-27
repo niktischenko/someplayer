@@ -20,6 +20,7 @@
 #include "dbstorage.h"
 #include <QSqlQuery>
 #include <QSqlResult>
+#include <QDebug>
 
 using namespace SomePlayer::Storage;
 using namespace SomePlayer::DataObjects;
@@ -38,47 +39,53 @@ DbStorage::DbStorage(QString path) {
 
 void DbStorage::_prepare_queries() {
 	_get_artists_query = new QSqlQuery(db);
-	_get_artists_query->prepare("SELECT name FROM artist");
+	_get_artists_query->prepare("SELECT name FROM artist ORDER BY name");
 
 	_get_albums_for_artist_query = new QSqlQuery(db);
-	_get_albums_for_artist_query->prepare("SELECT name FROM album WHERE artist_id in (SELECT id from artist WHERE UPPER(name) = UPPER(:name));");
+	_get_albums_for_artist_query->prepare("SELECT name FROM album WHERE artist_id in (SELECT id from artist WHERE UPPER(name) = UPPER(:name)) ORDER BY name;");
 
 	_get_tracks_for_album_query = new QSqlQuery(db);
 	_get_tracks_for_album_query->prepare("SELECT id, title, source, count, length FROM tracks WHERE artist_id IN "
-										 "(SELECT id FROM artist WHERE UPPER(name) = UPPER(:artist_name)) AND album_id IN "
-										 "(SELECT id FROM album WHERE UPPER(name) = UPPER(:album_name));");
+								"(SELECT id FROM artist WHERE UPPER(name) = UPPER(:artist_name)) AND album_id IN "
+								"(SELECT id FROM album WHERE UPPER(name) = UPPER(:album_name));");
 
 	_get_favorites_query = new QSqlQuery(db);
 	_get_favorites_query->prepare("SELECT track_id as id, title, artist, album.name as album, source, count, length FROM "
-								  "(SELECT tracks.id AS track_id, artist.name AS artist, title, count, source, tracks.album_id, length FROM "
-								  "tracks JOIN artist ON tracks.artist_id = artist.id) "
-								  "JOIN album ON album_id = album.id WHERE track_id IN "
-								  "(SELECT track_id FROM favorites);");
+								"(SELECT tracks.id AS track_id, artist.name AS artist, title, count, source, tracks.album_id, length FROM "
+								"tracks JOIN artist ON tracks.artist_id = artist.id) "
+								"JOIN album ON album_id = album.id WHERE track_id IN "
+								"(SELECT track_id FROM favorites);");
 
 	_get_most_played_query = new QSqlQuery(db);
 	_get_most_played_query->prepare("SELECT track_id as id, title, artist, album.name as album, source, count, length FROM "
-									"(SELECT tracks.id AS track_id, artist.name AS artist, title, count, source, tracks.album_id, length FROM "
-									"tracks JOIN artist ON tracks.artist_id = artist.id) "
-									"JOIN album ON album_id = album.id ORDER BY count DESC "
-									"LIMIT 0, :max");
+								"(SELECT tracks.id AS track_id, artist.name AS artist, title, count, source, tracks.album_id, length FROM "
+								"tracks JOIN artist ON tracks.artist_id = artist.id) "
+								"JOIN album ON album_id = album.id ORDER BY count DESC "
+								"LIMIT 0, :max");
 
 	_get_never_played_query = new QSqlQuery(db);
 	_get_never_played_query->prepare("SELECT track_id as id, title, artist, album.name as album, source, count, length FROM "
-									 "(SELECT tracks.id AS track_id, artist.name AS artist, title, count, source, tracks.album_id, length FROM "
-									 "tracks JOIN artist ON tracks.artist_id = artist.id) "
-									 "JOIN album ON album_id = album.id "
-									 "WHERE count = 0");
+								"(SELECT tracks.id AS track_id, artist.name AS artist, title, count, source, tracks.album_id, length FROM "
+								"tracks JOIN artist ON tracks.artist_id = artist.id) "
+								"JOIN album ON album_id = album.id "
+								"WHERE count = 0");
 
 	_get_recently_added_query = new QSqlQuery(db);
 	_get_recently_added_query->prepare("SELECT track_id as id, title, artist, album.name as album, source, count, length FROM "
-									   "(SELECT tracks.id AS track_id, artist.name AS artist, title, count, source, tracks.album_id, length FROM "
-									   "tracks JOIN artist ON tracks.artist_id = artist.id) "
-									   "JOIN album ON album_id = album.id "
-									   "WHERE track_id IN "
-									   "(SELECT track_id FROM adding_date ORDER BY date DESC LIMIT 0, :max)");
+								"(SELECT tracks.id AS track_id, artist.name AS artist, title, count, source, tracks.album_id, length FROM "
+								"tracks JOIN artist ON tracks.artist_id = artist.id) "
+								"JOIN album ON album_id = album.id "
+								"WHERE track_id IN "
+								"(SELECT track_id FROM adding_date ORDER BY date DESC LIMIT 0, :max)");
 
 	_get_track_count = new QSqlQuery(db);
 	_get_track_count->prepare("SELECT count from tracks WHERE id = :id");
+
+	_get_track_by_source_query = new QSqlQuery(db);
+	_get_track_by_source_query->prepare("SELECT track_id AS id, title, artist, album.name AS album, source, count, length FROM "
+								"(SELECT tracks.id AS track_id, artist.name AS artist, title, count, tracks.album_id, length FROM "
+								"tracks JOIN artist ON tracks.artist_id = artist.id AND source = :source) "
+								"JOIN album ON album_id = album.id LIMIT 1");
 
 	_check_artist_query = new QSqlQuery(db);
 	_check_artist_query->prepare("SELECT id FROM artist WHERE UPPER(name) = UPPER(:name)");
@@ -106,35 +113,38 @@ void DbStorage::_prepare_queries() {
 
 	_update_track_count_query = new QSqlQuery(db);
 	_update_track_count_query->prepare("UPDATE tracks SET count = :count where id = :id");
+
+	_remove_track_query = new QSqlQuery(db);
+	_remove_track_query->prepare("DELETE FROM tracks WHERE id = :id");
 }
 
 void DbStorage::_create_database_structure() {
 	QSqlQuery *query = new QSqlQuery(db);
 	query->exec("create table artist (id integer primary key, "
-										"name text "
-										");");
+								"name text "
+								");");
 	query->exec("create table album (id integer primary key, "
-										"artist_id integer, "
-										"name text, "
-										"foreign key(artist_id) references arist(id) "
-										");");
+								"artist_id integer, "
+								"name text, "
+								"foreign key(artist_id) references arist(id) "
+								");");
 	query->exec("create table tracks (id integer primary key, "
-										"artist_id integer, "
-										"album_id integer, "
-										"title text, "
-										"source text, "
-										"count integer default 0, "
-										"length integer default 0, "
-										"foreign key(artist_id) references artist(id), "
-										"foreign key(album_id) references album(id) "
-										");");
+								"artist_id integer, "
+								"album_id integer, "
+								"title text, "
+								"source text, "
+								"count integer default 0, "
+								"length integer default 0, "
+								"foreign key(artist_id) references artist(id), "
+								"foreign key(album_id) references album(id) "
+								");");
 	query->exec("create table favorites (track_id integer, "
-										"foreign key(track_id) references tracks(id) "
-										");");
+								"foreign key(track_id) references tracks(id) "
+								");");
 	query->exec("create table adding_date (track_id integer, "
-										"date integer, "
-										"foreign key(track_id) references tracks(id) "
-										");");
+								"date integer, "
+								"foreign key(track_id) references tracks(id) "
+								");");
 }
 
 DbStorage::~DbStorage() {
@@ -145,6 +155,7 @@ DbStorage::~DbStorage() {
 	delete _get_never_played_query;
 	delete _get_recently_added_query;
 	delete _get_tracks_for_album_query;
+	delete _get_track_by_source_query;
 	delete _check_album_query;
 	delete _check_artist_query;
 	delete _check_track_query;
@@ -154,6 +165,7 @@ DbStorage::~DbStorage() {
 	delete _insert_track_query;
 	delete _insert_favorites_query;
 	delete _update_track_count_query;
+	delete _remove_track_query;
 	db.close();
 }
 
@@ -311,6 +323,7 @@ void DbStorage::addTrack(Track track) {
 	int artist_id = _check_add_artist(artist);
 	int album_id = _check_add_album(album, artist_id);
 	if (artist_id == -1 || album_id == -1) {
+		qDebug () << "one";
 		//big bang
 		return;
 	}
@@ -318,6 +331,7 @@ void DbStorage::addTrack(Track track) {
 	query->bindValue(":source", source);
 	query->exec();
 	if (query->next()) {
+		qDebug () << "two";
 		// already in datebase, skip
 		return;
 	}
@@ -339,12 +353,15 @@ void DbStorage::addTrack(Track track) {
 			if (query->exec()) {
 				// ok
 			} else {
+				qDebug () << "three";
 				// big bang
 			}
 		} else {
+			qDebug () << "four";
 			// big bang
 		}
 	} else {
+		qDebug () << "five";
 		// big bang
 	}
 }
@@ -366,6 +383,38 @@ void DbStorage::updateTrackCount(Track track) {
 		query->bindValue(":id", track.id());
 		query->exec();
 	}
+}
+
+Track DbStorage::updateTrack(Track track) {
+	QSqlQuery *query = _remove_track_query;
+	query->bindValue(":id", track.id());
+	if (!query->exec()) {
+		qDebug() << "Problem here";
+	}
+	addTrack(track);
+	query = _get_track_by_source_query;
+	query->bindValue(":source", track.source());
+	query->exec();
+	if (query->next()) {
+		qDebug() << "enter";
+		int id = query->value(0).toInt();
+		qDebug() << id;
+		QString title = query->value(1).toString();
+		qDebug() << title;
+		QString artist = query->value(2).toString();
+		qDebug() << artist;
+		QString album = query->value(3).toString();
+		qDebug() << album;
+		QString source = query->value(4).toString();
+		qDebug() << source;
+		int count = query->value(5).toInt();
+		int length = query->value(6).toInt();
+		TrackMetadata meta(title, artist, album, length);
+		Track ntrack(id, meta, source);
+		ntrack.setCount(count);
+		return ntrack;
+	}
+	return track;
 }
 
 int DbStorage::_check_add_artist(QString artist) {

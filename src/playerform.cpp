@@ -27,6 +27,7 @@
 #include "trackrenderer.h"
 #include <QResource>
 #include "playlistdialog.h"
+#include "edittagsdialog.h"
 
 using namespace SomePlayer::DataObjects;
 using namespace SomePlayer::Playback;
@@ -61,6 +62,9 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	} else {
 		ui->repeatButton->setIcon(QIcon(":/icons/repeat_inactive.png"));
 	}
+	ui->volumeSlider->setMinimum(0);
+	ui->volumeSlider->setMaximum(100);
+	ui->volumeSlider->hide();
 	_seek_slider = new QSlider(Qt::Horizontal);
 	_seek_slider->setEnabled(false);
 	ui->progressLayout->insertWidget(1, _seek_slider);
@@ -69,9 +73,10 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	ui->playlistView->setModel(_model);
 	_context_menu = new QMenu(ui->playlistView);
 	QAction *delete_action = _context_menu->addAction("Delete");
-	QAction *enqueue_action = _context_menu->addAction("Enqueue");
 	QAction *add_to_favorites = _context_menu->addAction("Add to favorites");
+	QAction *enqueue_action = _context_menu->addAction("Enqueue");
 	QAction *add_to_playlists = _context_menu->addAction("Add to playlists");
+	QAction *edit_tags = _context_menu->addAction("Edit tags");
 
 	_track_renderer = new TrackRenderer(this);
 	ui->playlistView->setItemDelegateForColumn(0, _track_renderer);
@@ -90,14 +95,17 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(ui->randomButton, SIGNAL(clicked()), this, SLOT(_toggle_random()));
 	connect(ui->repeatButton, SIGNAL(clicked()), this, SLOT(_toggle_repeat()));
 	connect(_seek_slider, SIGNAL(sliderReleased()), this, SLOT(_slider_released()));
+	connect(ui->volumeSlider, SIGNAL(sliderMoved(int)), _player, SLOT(setVolume(int)));
 	connect(ui->playlistView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(_custom_context_venu_requested(QPoint)));
 	connect(delete_action, SIGNAL(triggered()), this, SLOT(_delete_track()));
 	connect(enqueue_action, SIGNAL(triggered()), this, SLOT(_enqueue_track()));
 	connect(add_to_favorites, SIGNAL(triggered()), this, SLOT(_add_to_favorites()));
 	connect(add_to_playlists, SIGNAL(triggered()), this, SLOT(_add_to_playlists()));
+	connect(edit_tags, SIGNAL(triggered()), this, SLOT(_edit_tags()));
 	connect(_player, SIGNAL(stateChanged(PlayerState)), this, SLOT(_state_changed(PlayerState)));
 	connect(_player, SIGNAL(trackDone(Track)), _lib, SLOT(updateTrackCount(Track)));
 	connect(_tag_resolver, SIGNAL(decoded(Track)), this, SLOT(_track_decoded(Track)));
+	connect(ui->volumeButton, SIGNAL(clicked()), this, SLOT(_toggle_volume()));
 }
 
 PlayerForm::~PlayerForm()
@@ -297,11 +305,43 @@ void PlayerForm::_add_to_playlists() {
 	QList<QString> names = _lib->getPlaylistsNames();
 	names.removeOne(_CURRENT_PLAYLIST_SUBST_);
 	PlaylistDialog dialog(names, this);
-	dialog.exec();
-	QList<QString> selected = dialog.selected();
-	foreach (QString name, selected) {
-		Playlist pl = _lib->getPlaylist(name);
-		pl.addTrack(_current_playlist.tracks().at(id));
-		_lib->savePlaylist(pl);
+	if (dialog.exec() == QDialog::Accepted) {
+		QList<QString> selected = dialog.selected();
+		foreach (QString name, selected) {
+			Playlist pl = _lib->getPlaylist(name);
+			pl.addTrack(_current_playlist.tracks().at(id));
+			_lib->savePlaylist(pl);
+		}
 	}
+}
+
+void PlayerForm::_edit_tags() {
+	QList<QModelIndex> idx = ui->playlistView->selectionModel()->selectedIndexes();
+	Track track = _current_playlist.tracks().at(idx.first().row());
+
+	EditTagsDialog dialog(this);
+	dialog.setTrackMetadata(track.metadata());
+	if (dialog.exec() == QDialog::Accepted) {
+		track.setMetadata(dialog.meta());
+		_lib->updateTrackMetadata(track);
+		reload();
+	}
+}
+
+void PlayerForm::stop() {
+	_player->stop();
+}
+
+void PlayerForm::_toggle_volume() {
+	if (ui->volumeSlider->isVisible()) {
+		ui->volumeSlider->hide();
+	} else {
+		ui->volumeSlider->show();
+		ui->volumeSlider->setValue(_player->volume());
+	}
+}
+
+void PlayerForm::_volume_changed() {
+	int value = ui->volumeSlider->value();
+	_player->setVolume(value);
 }

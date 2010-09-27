@@ -90,6 +90,7 @@ namespace SomePlayer {
 			void addTrack(Track);
 			void addToFavorites(Track);
 			void updateTrackCount(Track);
+			void updateTrackMetadata(Track);
 		};
 
 	};

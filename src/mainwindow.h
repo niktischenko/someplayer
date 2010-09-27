@@ -26,6 +26,7 @@
 #include "libraryform.h"
 #include "busywidget.h"
 #include "library.h"
+#include <QTimer>
 
 namespace Ui {
 	class MainWindow;
@@ -63,11 +64,14 @@ private slots:
 	void _prevItem();
 	void _cancelSearch();
 	void _toggle_full_screen();
+	void _set_timer();
+	void _timeout();
 private:
 	PlayerForm *_player_form;
 	LibraryForm *_library_form;
 	BusyWidget *_busy_widget;
 	Library *_library;
+	QTimer *_timer;
 };
 
 #endif // MAINWINDOW_H

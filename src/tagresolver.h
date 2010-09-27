@@ -37,6 +37,7 @@ namespace SomePlayer {
 			explicit TagResolver(QObject *parent = 0);
 		public slots:
 			void decode (QStringList files);
+			void updateTags(Track);
 
 		signals:
 			void decoded(Track);

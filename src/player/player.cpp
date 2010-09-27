@@ -188,3 +188,6 @@ void Player::toggleRepeat() {
 	_config.setValue("playback/repeat", _repeat);
 }
 
+void Player::setVolume(int v) {
+	_output->setVolume(v*0.01);
+}

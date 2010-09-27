@@ -115,7 +115,9 @@ SOURCES += src/main.cpp\
     src/taglib/trueaudio/trueaudioproperties.cpp \
     src/taglib/trueaudio/trueaudiofile.cpp \
     src/taglib/wavpack/wavpackproperties.cpp \
-    src/taglib/wavpack/wavpackfile.cpp
+    src/taglib/wavpack/wavpackfile.cpp \
+    src/edittagsdialog.cpp \
+    src/timerdialog.cpp
 
 HEADERS  += src/mainwindow.h \
 		src/player/player.h \
@@ -208,13 +210,17 @@ HEADERS  += src/mainwindow.h \
     src/taglib/trueaudio/trueaudioproperties.h \
     src/taglib/trueaudio/trueaudiofile.h \
     src/taglib/wavpack/wavpackproperties.h \
-    src/taglib/wavpack/wavpackfile.h
+    src/taglib/wavpack/wavpackfile.h \
+    src/edittagsdialog.h \
+    src/timerdialog.h
 
 FORMS    += src/ui/mainwindow.ui \
     src/ui/playerform.ui \
     src/ui/libraryform.ui \
     src/ui/busywidget.ui \
-    src/playlistdialog.ui
+    src/ui/playlistdialog.ui \
+    src/ui/edittagsdialog.ui \
+    src/ui/timerdialog.ui
 
 CONFIG += mobility
 MOBILITY = 

@@ -41,6 +41,7 @@ namespace SomePlayer {
 			~Track();
 			Track &operator=(const Track &track);
 			TrackMetadata metadata() const; //read-write
+			void setMetadata(TrackMetadata meta);
 			QString source() const;
 			int id() const;
 			void setSource (QString source);

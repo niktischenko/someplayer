@@ -8,6 +8,7 @@
 #include "../playlist.h"
 #include <phonon/MediaObject>
 #include <phonon/AudioOutput>
+#include <phonon/VolumeSlider>
 #include <QStack>
 #include <QQueue>
 
@@ -31,6 +32,7 @@ namespace SomePlayer {
 
 			bool random() {return _random;}
 			bool repeat() {return _repeat;}
+			int volume() {return (int)(_output->volume()*100 + 0.5);}
 			Phonon::MediaObject* mediaObject() {return _player;}
 
 		signals:
@@ -51,6 +53,7 @@ namespace SomePlayer {
 			void toggleRandom();
 			void toggleRepeat();
 			void seek(int);
+			void setVolume(int);
 		private slots:
 			void _stateChanged(Phonon::State, Phonon::State);
 			void _tick(qint64);

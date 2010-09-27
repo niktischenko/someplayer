@@ -17,50 +17,34 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include "playlist.h"
-#include <QDebug>
+#include "edittagsdialog.h"
+#include "ui_edittagsdialog.h"
+#include "trackmetainformation.h"
 
 using namespace SomePlayer::DataObjects;
 
-Playlist::Playlist()
+EditTagsDialog::EditTagsDialog(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::EditTagsDialog)
 {
-	_name = "New playlist";
+    ui->setupUi(this);
 }
 
-Playlist::Playlist(const Playlist &playlist) {
-	_name = playlist._name;
-	_tracks = playlist._tracks;
+EditTagsDialog::~EditTagsDialog()
+{
+    delete ui;
 }
 
-QString Playlist::name() {
-	return _name;
+void EditTagsDialog::setTrackMetadata(TrackMetadata meta) {
+	_meta = meta;
+	ui->artistLineEdit->setText(meta.artist());
+	ui->albumLineEdit->setText(meta.album());
+	ui->titleLineEdit->setText(meta.title());
 }
 
-QList<Track> Playlist::tracks() {
-	return _tracks;
-}
-
-void Playlist::setName(QString name) {
-	_name = name;
-}
-
-void Playlist::addTrack(Track track) {
-	if (!_tracks.contains(track))
-		_tracks.append(track);
-}
-
-void Playlist::removeTrack(Track track) {
-	_tracks.removeOne(track);
-}
-
-void Playlist::removeTrackAt(int id) {
-	_tracks.removeAt(id);
-}
-
-void Playlist::setTracks(QList<Track> tracks) {
-	_tracks = tracks;
-}
-
-void Playlist::clear() {
-	_tracks.clear();
+TrackMetadata EditTagsDialog::meta() {
+	_meta.setArtist(ui->artistLineEdit->text());
+	_meta.setAlbum(ui->albumLineEdit->text());
+	_meta.setTitle(ui->titleLineEdit->text());
+	return _meta;
 }

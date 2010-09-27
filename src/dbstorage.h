@@ -55,6 +55,7 @@ namespace SomePlayer {
 			void addToFavorites(Track track);
 
 			void updateTrackCount(Track track);
+			Track updateTrack(Track);
 			void addTrack(Track track);
 
 		private:
@@ -74,6 +75,7 @@ namespace SomePlayer {
 			QSqlQuery *_get_never_played_query;
 			QSqlQuery *_get_recently_added_query;
 			QSqlQuery *_get_track_count;
+			QSqlQuery *_get_track_by_source_query;
 
 			QSqlQuery *_check_artist_query;
 			QSqlQuery *_check_album_query;
@@ -86,6 +88,8 @@ namespace SomePlayer {
 			QSqlQuery *_insert_favorites_query;
 
 			QSqlQuery *_update_track_count_query;
+
+			QSqlQuery *_remove_track_query;
 		};
 	};
 };

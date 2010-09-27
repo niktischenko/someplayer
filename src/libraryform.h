@@ -54,6 +54,7 @@ public slots:
 	void nextItem();
 	void prevItem();
 	void cancelSearch();
+	void refresh();
 private slots:
 	void _player();
 	void _view_button();

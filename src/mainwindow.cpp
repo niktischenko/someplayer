@@ -27,6 +27,7 @@
 #include "player/player.h"
 
 #include "library.h"
+#include "timerdialog.h"
 
 using namespace SomePlayer::DataObjects;
 using namespace SomePlayer::Storage;
@@ -44,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	_player_form = new PlayerForm(_library, ui->stackedWidget);
 	_library_form = new LibraryForm(_library, ui->stackedWidget);
 	_busy_widget = new BusyWidget(ui->stackedWidget);
+	_timer = new QTimer(this);
 	ui->stackedWidget->insertWidget(0, _player_form);
 	ui->stackedWidget->insertWidget(1, _library_form);
 	ui->stackedWidget->insertWidget(2, _busy_widget);
@@ -51,13 +53,16 @@ MainWindow::MainWindow(QWidget *parent) :
 	QAction *save_playlist = ui->menuLibrary->addAction("Save playlist");
 	QAction *clear_playlist = ui->menuLibrary->addAction("Clear current playlist");
 	QAction *add_files = ui->menuLibrary->addAction("Add file to current playlist");
+	QAction *set_timer = ui->menuBar->addAction("Set timer");
 	connect(_player_form, SIGNAL(library()), this, SLOT(library()));
 	connect(_library_form, SIGNAL(player()), this, SLOT(player()));
 	connect(add_directory, SIGNAL(triggered()), this, SLOT(_add_directory()));
 	connect(save_playlist, SIGNAL(triggered()), this, SLOT(_save_playlist()));
 	connect(clear_playlist, SIGNAL(triggered()), this, SLOT(_clear_current_playlist()));
 	connect(add_files, SIGNAL(triggered()), this, SLOT(_add_files()));
+	connect(set_timer, SIGNAL(triggered()), this, SLOT(_set_timer()));
 	connect(_library, SIGNAL(done()), this, SLOT(library()));
+	connect(_library, SIGNAL(done()), _library_form, SLOT(refresh()));
 	connect(_library, SIGNAL(addingTracks(int)), _busy_widget, SLOT(setMax(int)));
 	connect(_library, SIGNAL(trackAdded()), _busy_widget, SLOT(tick()));
 	connect(_library_form, SIGNAL(done()), this, SLOT(library()));
@@ -69,6 +74,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(ui->nextButton, SIGNAL(clicked()), this, SLOT(_nextItem()));
 	connect(ui->prevButton, SIGNAL(clicked()), this, SLOT(_prevItem()));
 	connect(ui->fscreenButton, SIGNAL(clicked()), this, SLOT(_toggle_full_screen()));
+	connect(_timer, SIGNAL(timeout()), this, SLOT(_timeout()));
 	hideSearchPanel();
 	library();
 }
@@ -85,7 +91,7 @@ void MainWindow::aboutQt() {
 }
 
 void MainWindow::about() {
-	QMessageBox::about(this, "About SomePlayer", "Alternate music player for Maemo 5 "
+	QMessageBox::about(this, QString("About SomePlayer v")+_SOMEPLAYER_VERSION_, "Alternate music player for Maemo 5 "
 					   "written in C++ with Qt4\n\n"
 					   "Author: Nikolay Tischenko aka \"somebody\" <niktischenko@gmail.com>");
 }
@@ -205,4 +211,32 @@ void MainWindow::_toggle_full_screen() {
 void MainWindow::_add_files() {
 	QStringList files = QFileDialog::getOpenFileNames(this, "Add file");
 	if (!files.isEmpty()) _player_form->addFiles(files);
+}
+
+void MainWindow::_set_timer() {
+	TimerDialog dialog(this);
+	dialog.init();
+	if (_timer->isActive()) {
+		dialog.showDisable();
+		int msec = _timer->interval();
+		int h = msec/3600000;
+		int m = msec/60000 - h * 60;
+		int s = msec/1000 - h * 3600 - m * 60;
+		dialog.setTime(h, m, s);
+	}
+	if (QDialog::Accepted == dialog.exec()) {
+		if (!dialog.timerDisabled()) {
+			int h, m, s;
+			dialog.getTime(&h, &m, &s);
+			_timer->setInterval(h*3600000+m*60000+s*1000);
+			_timer->start();
+		} else if (_timer->isActive()) {
+			_timer->stop();
+		}
+	}
+}
+
+void MainWindow::_timeout() {
+	_player_form->stop();
+	_timer->stop();
 }

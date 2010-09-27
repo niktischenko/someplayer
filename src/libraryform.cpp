@@ -358,3 +358,29 @@ void LibraryForm::cancelSearch() {
 	_search_pattern = "";
 	ui->listView->selectionModel()->clearSelection();
 }
+
+void LibraryForm::refresh() {
+	switch (_state) {
+	case STATE_ARTIST:
+		_view_button();
+		break;
+	case STATE_ALBUM:
+		__fill_model(_model, _lib->getAlbumsForArtist(_current_artist));
+		break;
+	case STATE_PLAYLIST:
+		_playlists_button();
+		break;
+	case STATE_DYNAMIC:
+		_dynamic_button();
+		break;
+	case STATE_PLAYLIST_TRACK:
+		_current_playlist = _lib->getPlaylist(_current_playlist.name());
+		_current_tracks = _current_playlist.tracks();
+		__fill_model_tracks(_model, _current_tracks);
+		break;
+	case STATE_TRACK:
+		_current_tracks = _lib->getTracksForAlbum(_current_album, _current_artist);
+		__fill_model_tracks(_model, _current_tracks);
+		break;
+	}
+}
