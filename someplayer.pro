@@ -118,7 +118,8 @@ SOURCES += src/main.cpp\
     src/taglib/wavpack/wavpackfile.cpp \
     src/edittagsdialog.cpp \
     src/timerdialog.cpp \
-    src/equalizerdialog.cpp
+    src/equalizerdialog.cpp \
+    src/saveplaylistdialog.cpp
 
 HEADERS  += src/mainwindow.h \
 		src/player/player.h \
@@ -214,7 +215,8 @@ HEADERS  += src/mainwindow.h \
     src/taglib/wavpack/wavpackfile.h \
     src/edittagsdialog.h \
     src/timerdialog.h \
-    src/equalizerdialog.h
+    src/equalizerdialog.h \
+    src/saveplaylistdialog.h
 
 FORMS    += src/ui/mainwindow.ui \
     src/ui/playerform.ui \
@@ -223,7 +225,8 @@ FORMS    += src/ui/mainwindow.ui \
     src/ui/playlistdialog.ui \
     src/ui/edittagsdialog.ui \
     src/ui/timerdialog.ui \
-    src/ui/equalizerdialog.ui
+    src/ui/equalizerdialog.ui \
+    src/ui/saveplaylistdialog.ui
 
 CONFIG += mobility
 MOBILITY = 

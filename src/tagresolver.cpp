@@ -19,6 +19,7 @@
 
 #include "tagresolver.h"
 #include <QFile>
+#include <QFileInfo>
 #include <tag.h>
 #include <fileref.h>
 
@@ -45,6 +46,14 @@ void TagResolver::decode(QStringList files) {
 					emit decoded(track);
 				}
 			}
+		} else { // workaround
+			TrackMetadata meta;
+			meta.setLength(0);
+			QFileInfo fi(filename);
+			meta.setArtist(fi.suffix().toUpper());
+			meta.setTitle(fi.baseName());
+			Track track(0, meta, filename);
+			emit decoded(track);
 		}
 	}
 	emit done();

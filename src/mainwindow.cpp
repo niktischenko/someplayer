@@ -29,6 +29,7 @@
 #include "library.h"
 #include "timerdialog.h"
 #include "equalizerdialog.h"
+#include "saveplaylistdialog.h"
 
 using namespace SomePlayer::DataObjects;
 using namespace SomePlayer::Storage;
@@ -125,30 +126,35 @@ void MainWindow::_add_directory() {
 }
 
 void MainWindow::_save_playlist() {
-	QString name = QInputDialog::getText(this, "Playlist name", "Name:");
 	QList<QString> playlists = _library->getPlaylistsNames();
-	bool append = false;
-	if (playlists.contains(name)) {
-		if (QMessageBox::question(this, "Append to playlist?", "Playlist with name \""+name+"\" already exists.\n"
-					  "Dow you want to append current playlist to it?",
-					  QMessageBox::Ok, QMessageBox::Cancel) == QMessageBox::Ok) {
-			append = true;
+	playlists.removeOne(_CURRENT_PLAYLIST_SUBST_);
+	SavePlaylistDialog dialog(this);
+	dialog.setPlaylistNames(playlists);
+	if (dialog.exec() == QDialog::Accepted) {
+		QString name = dialog.selectedName();
+		bool append = false;
+		if (playlists.contains(name)) {
+			if (QMessageBox::question(this, "Append to playlist?", "Playlist with name \""+name+"\" already exists.\n"
+						  "Dow you want to append current playlist to it?",
+						  QMessageBox::Ok, QMessageBox::Cancel) == QMessageBox::Ok) {
+				append = true;
+			} else {
+				append = false;
+			}
+		}
+		if (append) {
+			Playlist cur = _library->getCurrentPlaylist();
+			Playlist target = _library->getPlaylist(name);
+			QList<Track> tracks = cur.tracks();
+			foreach (Track track, tracks) {
+				target.addTrack(track);
+			}
+			_library->savePlaylist(target);
 		} else {
-			append = false;
+			Playlist playlist = _library->getCurrentPlaylist();
+			playlist.setName(name);
+			_library->savePlaylist(playlist);
 		}
-	}
-	if (append) {
-		Playlist cur = _library->getCurrentPlaylist();
-		Playlist target = _library->getPlaylist(name);
-		QList<Track> tracks = cur.tracks();
-		foreach (Track track, tracks) {
-			target.addTrack(track);
-		}
-		_library->savePlaylist(target);
-	} else {
-		Playlist playlist = _library->getCurrentPlaylist();
-		playlist.setName(name);
-		_library->savePlaylist(playlist);
 	}
 }
 

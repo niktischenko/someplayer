@@ -29,6 +29,40 @@ using namespace SomePlayer::Playback;
 using namespace SomePlayer::DataObjects;
 using namespace SomePlayer::Storage;
 
+int Randomizer::next() {
+	int res = 0;
+	if (_current == _rand.count()) {
+		_shuffle();
+		_current = 0;
+		res = next();
+	} else {
+		res = _rand.at(_current);
+	}
+	++_current;
+	return res;
+}
+
+void Randomizer::setPlaylist(QList<int> pl) {
+	_playlist = pl;
+	_current = 0;
+	_shuffle();
+}
+
+void Randomizer::_shuffle() {
+	_rand.clear();
+	// Fisher-Yates algorithm:
+	_rand = _playlist;
+	int cnt = _playlist.count();
+	int j = 0;
+	int tmp = 0;
+	for (int i = cnt-1; i > 0; i--) {
+		j = qrand() % (i+1);
+		tmp = _rand[i];
+		_rand[i] = _rand[j];
+		_rand[j] = tmp;
+	}
+}
+
 Player::Player(QObject *parent) :
     QObject(parent)
 {
@@ -105,7 +139,7 @@ void Player::next() {
 		_current = _prev_history.pop();
 	} else {
 		if (_random) {
-			_current = (count + (qrand()  + qrand() + qrand()) % count) % count;
+			_current = _randomizer.next();
 		} else {
 			_current = _current + 1;
 		}
@@ -180,6 +214,12 @@ void Player::setPlaylist(Playlist playlist) {
 	_history.clear();
 	_prev_history.clear();
 	_queue.clear();
+	QList<int> ids;
+	int count = playlist.tracks().count();
+	for (int i = 0; i < count; i++) {
+		ids.append(i);
+	}
+	_randomizer.setPlaylist(ids);
 }
 
 void Player::seek(int s) {

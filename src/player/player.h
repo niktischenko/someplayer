@@ -45,6 +45,17 @@ namespace SomePlayer {
 
 		enum PlayerState { PLAYER_STOPPED, PLAYER_PLAYING, PLAYER_PAUSED, PLAYER_LOADING, PLAYER_DONE, PLAYER_ERROR };
 
+		class Randomizer {
+		public:
+			void setPlaylist(QList<int>);
+			int next();
+		private:
+			QList<int> _playlist;
+			QList<int> _rand;
+			void _shuffle();
+			int _current;
+		};
+
 		class Player : public QObject
 		{
 			Q_OBJECT
@@ -85,6 +96,7 @@ namespace SomePlayer {
 			void _stateChanged(Phonon::State, Phonon::State);
 			void _tick(qint64);
 		private:
+			Randomizer _randomizer;
 			int _current;
 			Track _track; // current track (workaround)
 			bool _random;
