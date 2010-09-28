@@ -277,6 +277,7 @@ void MainWindow::_equalizer() {
 			_equalizer_dialog->setValue(i, (int)(val * 10 + 0.5));
 		}
 		_equalizer_dialog->setEqualizerEnabled(_player_form->isEqualizerEnabled());
+		_equalizer_dialog->reloadPresets();
 		_equalizer_dialog->exec();
 	} else {
 		QMessageBox::information(this, "Error", "No equalizer support. Please install gstreamer0.10-plugins-good-extra");

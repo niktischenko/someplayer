@@ -93,7 +93,8 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(_player, SIGNAL(tick(int,int)), this, SLOT(_tick(int,int)));
 	connect(ui->randomButton, SIGNAL(clicked()), this, SLOT(_toggle_random()));
 	connect(ui->repeatButton, SIGNAL(clicked()), this, SLOT(_toggle_repeat()));
-	connect(_seek_slider, SIGNAL(sliderReleased()), this, SLOT(_slider_released()));
+	connect(_seek_slider, SIGNAL(sliderMoved(int)), _player, SLOT(seek(int)));
+	//connect(_seek_slider, SIGNAL(sliderReleased()), this, SLOT(_slider_released()));
 	connect(ui->volumeSlider, SIGNAL(sliderMoved(int)), _player, SLOT(setVolume(int)));
 	connect(ui->playlistView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(_custom_context_venu_requested(QPoint)));
 	connect(delete_action, SIGNAL(triggered()), this, SLOT(_delete_track()));

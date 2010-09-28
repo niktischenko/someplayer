@@ -40,6 +40,7 @@ signals:
 public slots:
 	void setValue(int, int);
 	void setEqualizerEnabled(bool);
+	void reloadPresets();
 
 private slots:
 	void _value0_changed(int v) { emit valueChanged(0, v);}
@@ -52,8 +53,11 @@ private slots:
 	void _value7_changed(int v) { emit valueChanged(7, v);}
 	void _value8_changed(int v) { emit valueChanged(8, v);}
 	void _value9_changed(int v) { emit valueChanged(9, v);}
-
+	void _value_master_changed(int v);
 	void _state_changed();
+	void _save_preset();
+	void _load_preset(QString);
+
 private:
 	Ui::EqualizerDialog *ui;
 };

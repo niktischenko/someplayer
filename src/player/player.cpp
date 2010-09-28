@@ -35,8 +35,11 @@ Player::Player(QObject *parent) :
 	_player = new Phonon::MediaObject(this);
 	_output = new Phonon::AudioOutput(Phonon::MusicCategory, this);
 	_player->setTickInterval(1000);
-	_equalizer == NULL;
-	_equalizer_enabled == false;
+	_equalizer = NULL;
+	_equalizer_enabled = false;
+	connect(_player, SIGNAL(stateChanged(Phonon::State,Phonon::State)), this, SLOT(_stateChanged(Phonon::State,Phonon::State)));
+	connect(_player, SIGNAL(tick(qint64)), this, SLOT(_tick(qint64)));
+	_path = Phonon::createPath(_player, _output);
 	QList<Phonon::EffectDescription> effects = Phonon::BackendCapabilities::availableAudioEffects();
 	foreach (Phonon::EffectDescription desc, effects) {
 		if (desc.name() == "equalizer-10bands") {
@@ -47,7 +50,7 @@ Player::Player(QObject *parent) :
 					QVariant var = config.getValue(QString("equalizer/band%1").arg(i));
 					setEqualizerValue(i, var.toDouble());
 				}
-				_equalizer_enabled = true;
+				enableEqualizer();
 			} else if (config.getValue("equalizer/equalizer") == "") {
 				for (int i = 0; i < 10; i++) {
 					config.setValue(QString("equalizer/band%1").arg(i), 0);
@@ -55,9 +58,6 @@ Player::Player(QObject *parent) :
 			}
 		}
 	}
-	connect(_player, SIGNAL(stateChanged(Phonon::State,Phonon::State)), this, SLOT(_stateChanged(Phonon::State,Phonon::State)));
-	connect(_player, SIGNAL(tick(qint64)), this, SLOT(_tick(qint64)));
-	_path = Phonon::createPath(_player, _output);
 	int seed = QTime::currentTime().msec();
 	qsrand(seed);
 	_random = _config.getValue("playback/random").toBool();
@@ -159,7 +159,8 @@ void Player::_stateChanged(Phonon::State newState, Phonon::State /*oldState*/) {
 	case Phonon::BufferingState:
 		break;
 	case Phonon::ErrorState:
-		_state = PLAYER_ERROR;
+		play(); // force
+//		_state = PLAYER_ERROR;
 		break;
 	}
 }
@@ -217,6 +218,10 @@ void Player::setVolume(int v) {
 }
 
 void Player::equalizerValue(int band, double *val) {
+	if (_equalizer == NULL) {
+		*val = 0;
+		return;
+	}
 	if (band < 0 || band > 9) {
 		*val = -24;
 		return;
@@ -229,6 +234,8 @@ void Player::equalizerValue(int band, double *val) {
 }
 
 void Player::enableEqualizer() {
+	if (_equalizer == NULL)
+		return;
 	_equalizer_enabled = true;
 	_path.insertEffect(_equalizer);
 	Config config;
@@ -236,6 +243,8 @@ void Player::enableEqualizer() {
 }
 
 void Player::disableEqualizer() {
+	if (_equalizer == NULL)
+		return;
 	_equalizer_enabled = false;
 	_path.removeEffect(_equalizer);
 	Config config;
@@ -243,6 +252,8 @@ void Player::disableEqualizer() {
 }
 
 void Player::setEqualizerValue(int band, double value) {
+	if (_equalizer == NULL)
+		return;
 	if (band < 0 || band > 9 || value < -24 || value > 12) {
 		return;
 	}
