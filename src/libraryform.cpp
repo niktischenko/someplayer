@@ -381,6 +381,8 @@ void LibraryForm::refresh() {
 		_current_tracks = _lib->getTracksForAlbum(_current_album, _current_artist);
 		__fill_model_tracks(_model, _current_tracks);
 		break;
+	default:
+		return;
 	}
 }
 
