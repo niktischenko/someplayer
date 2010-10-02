@@ -23,6 +23,7 @@
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QFile>
+#include <QDesktopWidget>
 
 #include "player/player.h"
 
@@ -30,6 +31,7 @@
 #include "timerdialog.h"
 #include "equalizerdialog.h"
 #include "saveplaylistdialog.h"
+#include "settingsdialog.h"
 
 using namespace SomePlayer::DataObjects;
 using namespace SomePlayer::Storage;
@@ -39,10 +41,11 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui(new Ui::MainWindow)
 {
 	Config config;
+	_icons_theme = config.getValue("ui/iconstheme").toString();
 	_library = new Library(config.applicationDir(), config.applicationDir());
 	ui->setupUi(this);
-	connect(ui->actionAbout_Qt, SIGNAL(triggered()), this, SLOT(aboutQt()));
 	connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
+	connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(settings()));
 	setAnimated(true);
 	_player_form = new PlayerForm(_library, ui->stackedWidget);
 	_library_form = new LibraryForm(_library, ui->stackedWidget);
@@ -57,9 +60,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	QAction *clear_playlist = ui->menuLibrary->addAction("Clear current playlist");
 	QAction *add_files = ui->menuLibrary->addAction("Add file to current playlist");
 	QAction *set_timer = ui->menuBar->addAction("Set timer");
-	QAction *equalizer = ui->menuBar->addAction("Euqalizer");
+	QAction *equalizer = ui->menuBar->addAction("Equalizer");
 	connect(_player_form, SIGNAL(library()), this, SLOT(library()));
-	connect(_library_form, SIGNAL(player()), this, SLOT(player()));
+	connect(_library_form, SIGNAL(player(bool)), this, SLOT(player(bool)));
 	connect(add_directory, SIGNAL(triggered()), this, SLOT(_add_directory()));
 	connect(save_playlist, SIGNAL(triggered()), this, SLOT(_save_playlist()));
 	connect(clear_playlist, SIGNAL(triggered()), this, SLOT(_clear_current_playlist()));
@@ -83,6 +86,10 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(_equalizer_dialog, SIGNAL(valueChanged(int,int)), this, SLOT(_equalizer_value_changed(int, int)));
 	connect(_equalizer_dialog, SIGNAL(equalizerEnabled()), _player_form, SLOT(enableEqualizer()));
 	connect(_equalizer_dialog, SIGNAL(equalizerDisabled()), _player_form, SLOT(disableEqualizer()));
+	connect(QApplication::desktop(), SIGNAL(resized(int)), this, SLOT(_orientation_changed()));
+	updateIcons();
+	_library_form->updateIcons();
+	_player_form->updateIcons();
 	hideSearchPanel();
 	library();
 }
@@ -94,23 +101,22 @@ MainWindow::~MainWindow()
 	delete ui;
 }
 
-void MainWindow::aboutQt() {
-	QMessageBox::aboutQt(this, "About Qt");
-}
-
 void MainWindow::about() {
 	QMessageBox::about(this, QString("About SomePlayer v")+_SOMEPLAYER_VERSION_, "Alternate music player for Maemo 5 "
 					   "written in C++ with Qt4\n\n"
 					   "Author: Nikolay Tischenko aka \"somebody\" <niktischenko@gmail.com>");
 }
 
-void MainWindow::player() {
+void MainWindow::player(bool reread) {
+	Config config;
+	setAttribute(Qt::WA_Maemo5AutoOrientation, config.getValue("ui/portraitmode").toString() != "disabled");
 	ui->stackedWidget->setCurrentIndex(0);
-	_player_form->reload();
+	_player_form->reload(reread);
 	setWindowTitle("SomePlayer");
 }
 
 void MainWindow::library() {
+	setAttribute(Qt::WA_Maemo5AutoOrientation, false);
 	ui->menuBar->setEnabled(true);
 	ui->stackedWidget->setCurrentIndex(1);
 	showSearchPanel();
@@ -162,7 +168,7 @@ void MainWindow::_clear_current_playlist() {
 	Playlist playlist = _library->getCurrentPlaylist();
 	playlist.clear();
 	_library->saveCurrentPlaylist(playlist);
-	_player_form->reload();
+	_player_form->reload(true);
 }
 
 void MainWindow::showBusyWidget(QString caption) {
@@ -234,10 +240,10 @@ void MainWindow::_cancelSearch() {
 
 void MainWindow::_toggle_full_screen() {
 	if (isFullScreen()) {
-		ui->fscreenButton->setIcon(QIcon(":/icons/fullscreen.png"));
+		ui->fscreenButton->setIcon(QIcon(":/icons/"+_icons_theme+"/fullscreen.png"));
 		showNormal();
 	} else {
-		ui->fscreenButton->setIcon(QIcon(":/icons/window.png"));
+		ui->fscreenButton->setIcon(QIcon(":/icons/"+_icons_theme+"/window.png"));
 		showFullScreen();
 	}
 }
@@ -292,4 +298,38 @@ void MainWindow::_equalizer() {
 
 void MainWindow::_equalizer_value_changed(int band, int val) {
 	_player_form->setEqualizerValue(band, (val / 10.0));
+}
+
+void MainWindow::settings() {
+	SettingsDialog dialog;
+	dialog.exec();
+	updateIcons();
+	Config config;
+	_player_form->updateIcons();
+	_library_form->updateIcons();
+	_library_form->refresh();
+	if (ui->stackedWidget->currentIndex() == 0) { // player view
+		setAttribute(Qt::WA_Maemo5AutoOrientation, config.getValue("ui/portraitmode").toString() != "disabled");
+	}
+}
+
+void MainWindow::updateIcons() {
+	Config config;
+	_icons_theme = config.getValue("ui/iconstheme").toString();
+	ui->fscreenButton->setIcon(QIcon(":/icons/"+_icons_theme+"/fullscreen.png"));
+	ui->prevButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
+	ui->nextButton->setIcon(QIcon(":/icons/"+_icons_theme+"/forward.png"));
+	ui->searchButton->setIcon(QIcon(":/icons/"+_icons_theme+"/search.png"));
+
+}
+
+void MainWindow::_orientation_changed() {
+	QRect screenGeometry = QApplication::desktop()->screenGeometry();
+	if (screenGeometry.width() > screenGeometry.height()) {
+		_player_form->landscapeMode();
+		ui->toolsWidget->setVisible(true);
+	} else {
+		_player_form->portraitMode();
+		ui->toolsWidget->setVisible(false);
+	}
 }

@@ -68,6 +68,7 @@ namespace SomePlayer {
 			Phonon::MediaObject* mediaObject() {return _player;}
 			bool equalizerEnabled() {return _equalizer_enabled;}
 			bool equalizerAvailable() {return _equalizer != NULL;}
+			PlayerState state() {return _state;}
 
 		signals:
 			void stateChanged (PlayerState);

@@ -27,9 +27,11 @@
 #include <QResource>
 #include "playlistdialog.h"
 #include "edittagsdialog.h"
+#include "config.h"
 
 using namespace SomePlayer::DataObjects;
 using namespace SomePlayer::Playback;
+using namespace SomePlayer::Storage;
 
 inline void __fill_list(QStandardItemModel *_model, Playlist playlist) {
 	_model->clear();
@@ -50,16 +52,18 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_lib = lib;
 	_player = new Player(this);
 	_time = new QTime();
+	Config config;
+	_icons_theme = config.getValue("ui/iconstheme").toString();
 	ui->setupUi(this);
 	if (_player->random()) {
-		ui->randomButton->setIcon(QIcon(":/icons/random_active.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_active.png"));
 	} else {
-		ui->randomButton->setIcon(QIcon(":/icons/random_inactive.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_inactive.png"));
 	}
 	if (_player->repeat()) {
-		ui->repeatButton->setIcon(QIcon(":/icons/repeat_active.png"));
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_active.png"));
 	} else {
-		ui->repeatButton->setIcon(QIcon(":/icons/repeat_inactive.png"));
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_inactive.png"));
 	}
 	ui->volumeSlider->setMinimum(0);
 	ui->volumeSlider->setMaximum(100);
@@ -117,23 +121,25 @@ void PlayerForm::_library() {
 	emit library();
 }
 
-void PlayerForm::reload() {
+void PlayerForm::reload(bool reread) {
 	if (ui->stackedWidget->currentIndex() == 1) {
 		emit hideSearchPanel();
 	}
-	_current_playlist = _lib->getCurrentPlaylist();
-	_player->setPlaylist(_current_playlist);
-	__fill_list(_model, _current_playlist);
+	if (reread) {
+		_current_playlist = _lib->getCurrentPlaylist();
+		_player->setPlaylist(_current_playlist);
+		__fill_list(_model, _current_playlist);
+	}
 }
 
 void PlayerForm::_toggle_view() {
 	int index = ui->stackedWidget->currentIndex();
 	index = (!index % 2);
 	if (index) {
-		ui->viewButton->setIcon(QIcon(":/icons/playlist.png"));
+		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlist.png"));
 		emit hideSearchPanel();
 	} else {
-		ui->viewButton->setIcon(QIcon(":/icons/playback.png"));
+		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
 		emit showSearchPanel();
 	}
 	ui->stackedWidget->setCurrentIndex(index);
@@ -194,7 +200,7 @@ void PlayerForm::_delete_track() {
 	int id = idx.first().row();
 	_current_playlist.removeTrackAt(id);
 	_lib->saveCurrentPlaylist(_current_playlist);
-	reload();
+	reload(true);
 }
 
 void PlayerForm::_enqueue_track() {
@@ -211,7 +217,7 @@ void PlayerForm::_add_to_favorites() {
 
 void PlayerForm::_state_changed(PlayerState state) {
 	if (state == PLAYER_PLAYING) {
-		ui->playpauseButton->setIcon(QIcon(":/icons/pause.png"));
+		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/pause.png"));
 		_seek_slider->setEnabled(true);
 	} else {
 		if (state == PLAYER_STOPPED) {
@@ -219,25 +225,25 @@ void PlayerForm::_state_changed(PlayerState state) {
 			ui->doneTimeLabel->setText("00:00");
 			_seek_slider->setEnabled(false);
 		}
-		ui->playpauseButton->setIcon(QIcon(":/icons/play.png"));
+		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/play.png"));
 	}
 }
 
 void PlayerForm::_toggle_random() {
 	_player->toggleRandom();
 	if (_player->random()) {
-		ui->randomButton->setIcon(QIcon(":/icons/random_active.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_active.png"));
 	} else {
-		ui->randomButton->setIcon(QIcon(":/icons/random_inactive.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_inactive.png"));
 	}
 }
 
 void PlayerForm::_toggle_repeat() {
 	_player->toggleRepeat();
 	if (_player->repeat()) {
-		ui->repeatButton->setIcon(QIcon(":/icons/repeat_active.png"));
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_active.png"));
 	} else {
-		ui->repeatButton->setIcon(QIcon(":/icons/repeat_inactive.png"));
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_inactive.png"));
 	}
 }
 
@@ -324,7 +330,7 @@ void PlayerForm::_edit_tags() {
 	if (dialog.exec() == QDialog::Accepted) {
 		track.setMetadata(dialog.meta());
 		_lib->updateTrackMetadata(track);
-		reload();
+		reload(true);
 	}
 }
 
@@ -344,4 +350,44 @@ void PlayerForm::_toggle_volume() {
 void PlayerForm::_volume_changed() {
 	int value = ui->volumeSlider->value();
 	_player->setVolume(value);
+}
+
+void PlayerForm::updateIcons() {
+	Config config;
+	_icons_theme = config.getValue("ui/iconstheme").toString();
+	ui->libraryButton->setIcon(QIcon(":/icons/"+_icons_theme+"/library.png"));
+	if (ui->stackedWidget->currentIndex())
+		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlist.png"));
+	else
+		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
+	if (_player->random())
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_active.png"));
+	else
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_inactive.png"));
+	if (_player->repeat())
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_active.png"));
+	else
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_inactive.png"));
+	ui->prevButton->setIcon(QIcon(":/icons/"+_icons_theme+"/prev.png"));
+	if (_player->state() == PLAYER_PLAYING)
+		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/pause.png"));
+	else
+		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/play.png"));
+	ui->stopButton->setIcon(QIcon(":/icons/"+_icons_theme+"/stop.png"));
+	ui->nextButton->setIcon(QIcon(":/icons/"+_icons_theme+"/next.png"));
+	ui->volumeButton->setIcon(QIcon(":/icons/"+_icons_theme+"/volume.png"));
+}
+
+void PlayerForm::landscapeMode() {
+	ui->libraryButton->setVisible(true);
+	ui->repeatButton->setVisible(true);
+	ui->randomButton->setVisible(true);
+	ui->volumeButton->setVisible(true);
+}
+
+void PlayerForm::portraitMode() {
+	ui->libraryButton->setVisible(false);
+	ui->repeatButton->setVisible(false);
+	ui->randomButton->setVisible(false);
+	ui->volumeButton->setVisible(false);
 }

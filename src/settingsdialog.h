@@ -17,37 +17,36 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#ifndef SETTINGSDIALOG_H
+#define SETTINGSDIALOG_H
+
+#include <QDialog>
 #include "config.h"
-#include <QString>
-#include <QDir>
 
-using namespace SomePlayer::Storage;
+namespace Ui {
+	class SettingsDialog;
+}
 
-Config::Config()
+class SettingsDialog : public QDialog
 {
-	_settings = new QSettings(QString(applicationDir())+"/settings.ini", QSettings::IniFormat);
-	if (_settings->value("ui/iconstheme").toString() == "") {
-		_settings->setValue("ui/iconstheme", "white");
-	}
-}
+	Q_OBJECT
 
-Config::~Config() {
-	delete _settings;
-}
+public:
+	explicit SettingsDialog(QWidget *parent = 0);
+	~SettingsDialog();
 
-QString Config::applicationDir() {
-	QString path = QDir::homePath()+"/.someplayer";
-	QDir appdir(path);
-	if (!appdir.exists(path)) {
-		appdir.mkdir(path);
-	}
-	return path;
-}
+private:
+	Ui::SettingsDialog *ui;
 
-QVariant Config::getValue(QString key) {
-	return _settings->value(key);
-}
+private slots:
+	void _set_icons_white(bool);
+	void _set_icons_black(bool);
+	void _set_album_sorting_alphabet(bool);
+	void _set_album_sorting_date(bool);
+	void _set_track_lenght_show_yes(bool);
+	void _set_track_lenght_show_no(bool);
+	void _set_portrait_enabled(bool);
+	void _set_portrait_disabled(bool);
+};
 
-void Config::setValue(QString key, QVariant value) {
-	_settings->setValue(key, value);
-}
+#endif // SETTINGSDIALOG_H

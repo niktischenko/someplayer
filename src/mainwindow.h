@@ -46,14 +46,19 @@ public:
 private:
 	Ui::MainWindow *ui;
 
+signals:
+	void landscapeMode();
+	void portraitMode();
+
 public slots:
-	void aboutQt();
 	void about();
-	void player();
+	void player(bool);
 	void library();
+	void settings();
 	void showBusyWidget(QString);
 	void showSearchPanel();
 	void hideSearchPanel();
+	void updateIcons();
 private slots:
 	void _add_directory();
 	void _save_playlist();
@@ -69,6 +74,7 @@ private slots:
 	void _timeout();
 	void _equalizer();
 	void _equalizer_value_changed(int, int);
+	void _orientation_changed();
 private:
 	PlayerForm *_player_form;
 	LibraryForm *_library_form;
@@ -76,6 +82,8 @@ private:
 	Library *_library;
 	QTimer *_timer;
 	EqualizerDialog *_equalizer_dialog;
+
+	QString _icons_theme;
 };
 
 #endif // MAINWINDOW_H

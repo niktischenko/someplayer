@@ -84,7 +84,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/back.png</normaloff>:/icons/back.png</iconset>
+         <normaloff>:/icons/white/back.png</normaloff>:/icons/white/back.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -116,7 +116,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/select_all.png</normaloff>:/icons/select_all.png</iconset>
+         <normaloff>:/icons/white/select_all.png</normaloff>:/icons/white/select_all.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -148,7 +148,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/add.png</normaloff>:/icons/add.png</iconset>
+         <normaloff>:/icons/white/add.png</normaloff>:/icons/white/add.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -174,7 +174,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+         <normaloff>:/icons/white/delete.png</normaloff>:/icons/white/delete.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -206,7 +206,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/use.png</normaloff>:/icons/use.png</iconset>
+         <normaloff>:/icons/white/use.png</normaloff>:/icons/white/use.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -251,7 +251,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/player.png</normaloff>:/icons/player.png</iconset>
+         <normaloff>:/icons/white/player.png</normaloff>:/icons/white/player.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -329,7 +329,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/artists.png</normaloff>:/icons/artists.png</iconset>
+         <normaloff>:/icons/white/artists.png</normaloff>:/icons/white/artists.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -374,7 +374,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/dynamic.png</normaloff>:/icons/dynamic.png</iconset>
+         <normaloff>:/icons/white/dynamic.png</normaloff>:/icons/white/dynamic.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -413,7 +413,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/playlists.png</normaloff>:/icons/playlists.png</iconset>
+         <normaloff>:/icons/white/playlists.png</normaloff>:/icons/white/playlists.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>

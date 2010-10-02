@@ -58,7 +58,7 @@ signals:
 	void hideSearchPanel();
 
 public slots:
-	void reload();
+	void reload(bool);
 	void search(QString &);
 	void nextItem();
 	void prevItem();
@@ -69,6 +69,9 @@ public slots:
 	void equalizerValue(int band, double *value) { _player->equalizerValue(band, value); }
 	void enableEqualizer() { _player->enableEqualizer(); }
 	void disableEqualizer() { _player->disableEqualizer(); }
+	void updateIcons();
+	void portraitMode();
+	void landscapeMode();
 
 private slots:
 	void _library();
@@ -105,6 +108,8 @@ private:
 	TagResolver *_tag_resolver;
 	void _display_track(Track);
 	int _search_current_id;
+
+	QString _icons_theme;
 };
 
 #endif // PLAYERFORM_H

@@ -46,7 +46,7 @@ public:
 	explicit LibraryForm(Library *lib, QWidget *parent = 0);
     ~LibraryForm();
 signals:
-	void player();
+	void player(bool);
 	void busy(QString);
 	void done();
 public slots:
@@ -55,6 +55,7 @@ public slots:
 	void prevItem();
 	void cancelSearch();
 	void refresh();
+	void updateIcons();
 private slots:
 	void _player();
 	void _view_button();
@@ -78,12 +79,14 @@ private:
 	QList<Track> _current_tracks;
 	QString _search_pattern;
 	int _search_current_id;
+	bool _current_playlist_changed;
 
 	void _add_artist(QString artist);
 	void _add_album(QString artist, QString album);
 	void _add_track(Track track);
 	void _add_playlist(QString name);
 	void _delete_track(Track track);
+	QString _icons_theme;
 };
 
 #endif // LIBRARYFORM_H

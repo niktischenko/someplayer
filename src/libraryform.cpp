@@ -29,8 +29,10 @@
 #include <QTime>
 #include <QQueue>
 #include <QMessageBox>
+#include "config.h"
 
 using namespace SomePlayer::DataObjects;
+using namespace SomePlayer::Storage;
 
 inline QString __format_track_string(TrackMetadata meta) {
 	int minutes = meta.length() / 60;
@@ -52,9 +54,14 @@ inline void __fill_model(QStandardItemModel *model, QList<QString> data) {
 inline void __fill_model_tracks (QStandardItemModel *model, QList<Track> tracks) {
 	int count = tracks.count();
 	model->setRowCount(count);
+	Config config;
+	bool show_lenght = (config.getValue("ui/showtracklenght").toString() != "no");
 	for (int i = 0; i < count; i++) {
 		TrackMetadata meta = tracks.at(i).metadata();
-		model->setItem(i, 0, new QStandardItem(__format_track_string(meta)));
+		if (show_lenght)
+			model->setItem(i, 0, new QStandardItem(__format_track_string(meta)));
+		else
+			model->setItem(i, 0, new QStandardItem(meta.title()));
 	}
 }
 
@@ -77,16 +84,21 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 	connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(_delete_button()));
 	connect(ui->useButton, SIGNAL(clicked()), this, SLOT(_use_button()));
 	_view_button();
+	Config config;
+	_icons_theme = config.getValue("ui/iconstheme").toString();
+	_current_playlist_changed = true;
 }
 
 LibraryForm::~LibraryForm()
 {
-	_lib->saveCurrentPlaylist(_lib->getCurrentPlaylist());
-    delete ui;
+	_lib->saveCurrentPlaylist(_lib->getCurrentPlaylist()); // wtf?
+	_current_playlist_changed = true;
+	delete ui;
 }
 
 void LibraryForm::_player() {
-	emit player();
+	emit player(_current_playlist_changed);
+	_current_playlist_changed = false;
 }
 
 void LibraryForm::_view_button() {
@@ -121,6 +133,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 	switch (_state) {
 	case STATE_ARTIST:
 		__fill_model(_model, _lib->getAlbumsForArtist(data));
+		ui->listView->scrollToTop();
 		_current_artist = data;
 		_state = STATE_ALBUM;
 		ui->backButton->show();
@@ -130,6 +143,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 		_current_album = data;
 		_current_tracks = _lib->getTracksForAlbum(data, _current_artist);
 		__fill_model_tracks(_model, _current_tracks);
+		ui->listView->scrollToTop();
 		_state = STATE_TRACK;
 		ui->backButton->show();
 		ui->listLabel->setText(QString("Tracks from \"%1\" by \"%2\"").arg(_current_album).arg(_current_artist));
@@ -139,6 +153,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 			_current_playlist = _lib->getPlaylist(data);
 			_current_tracks = _current_playlist.tracks();
 			__fill_model_tracks(_model, _current_tracks);
+			ui->listView->scrollToTop();
 			_state = STATE_PLAYLIST_TRACK;
 			ui->backButton->show();
 			ui->deleteButton->show();
@@ -165,6 +180,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 			}
 			_current_tracks = _current_playlist.tracks();
 			__fill_model_tracks(_model, _current_tracks);
+			ui->listView->scrollToTop();
 			_state = STATE_PLAYLIST_TRACK;
 			ui->backButton->show();
 			ui->useButton->show();
@@ -233,6 +249,7 @@ void LibraryForm::_add_track(Track track) {
 	Playlist current = _lib->getCurrentPlaylist();
 	current.addTrack(track);
 	_lib->saveCurrentPlaylist(current);
+	_current_playlist_changed = true;
 }
 
 void LibraryForm::_add_playlist(QString name) {
@@ -247,14 +264,17 @@ void LibraryForm::_back_button() {
 	switch (_state) {
 	case STATE_ALBUM:
 		_view_button();
+		ui->listView->scrollToTop();
 		break;
 	case STATE_TRACK:
 		__fill_model(_model, _lib->getAlbumsForArtist(_current_artist));
+		ui->listView->scrollToTop();
 		_state = STATE_ALBUM;
 		ui->listLabel->setText(QString("Albums by \"%1\"").arg(_current_artist));
 		break;
 	case STATE_PLAYLIST_TRACK:
 		_playlists_button();
+		ui->listView->scrollToTop();
 	default:
 		return;
 	}
@@ -310,10 +330,12 @@ void LibraryForm::_delete_track(Track track) {
 	Playlist current = _lib->getCurrentPlaylist();
 	current.removeTrack(track);
 	_lib->saveCurrentPlaylist(current);
+	_current_playlist_changed = true;
 }
 
 void LibraryForm::_use_button() {
 	_lib->saveCurrentPlaylist(_current_playlist);
+	_current_playlist_changed = true;
 	_current_playlist = _lib->getCurrentPlaylist();
 }
 
@@ -389,10 +411,26 @@ void LibraryForm::refresh() {
 void LibraryForm::_toggle_select_all_button() {
 	if (ui->listView->selectionModel()->selectedIndexes().count() == ui->listView->model()->rowCount()) {
 		ui->listView->selectionModel()->clearSelection();
-		ui->selectAllButton->setIcon(QIcon(":/icons/select_all.png"));
+		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/select_all.png"));
 	} else {
 		ui->listView->selectAll();
-		ui->selectAllButton->setIcon(QIcon(":/icons/deselect_all.png"));
+		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"));
 	}
 }
 
+void LibraryForm::updateIcons() {
+	Config config;
+	_icons_theme = config.getValue("ui/iconstheme").toString();
+	ui->backButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
+	if (ui->listView->selectionModel()->selectedIndexes().count() == ui->listView->model()->rowCount())
+		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"));
+	else
+		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/select_all.png"));
+	ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
+	ui->deleteButton->setIcon(QIcon(":/icons/"+_icons_theme+"/delete.png"));
+	ui->useButton->setIcon(QIcon(":/icons/"+_icons_theme+"/use.png"));
+	ui->playerButton->setIcon(QIcon(":/icons/"+_icons_theme+"/player.png"));
+	ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/artists.png"));
+	ui->dynamicButton->setIcon(QIcon(":/icons/"+_icons_theme+"/dynamic.png"));
+	ui->playlistsButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlists.png"));
+}
