@@ -206,6 +206,12 @@ void PlayerForm::_custom_context_venu_requested(const QPoint &pos) {
 void PlayerForm::_delete_track() {
 	QList<QModelIndex> idx = ui->playlistView->selectionModel()->selectedIndexes();
 	int id = idx.first().row();
+	int aid = _track_renderer->activeRow();
+	if (aid > id) {
+		_track_renderer->setActiveRow(aid-1);
+	} else if (aid == id) {
+		_track_renderer->setActiveRow(-1);
+	}
 	_current_playlist.removeTrackAt(id);
 	_lib->saveCurrentPlaylist(_current_playlist);
 	reload(true);
