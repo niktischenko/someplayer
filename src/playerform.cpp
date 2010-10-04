@@ -88,11 +88,16 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 
 	connect(ui->libraryButton, SIGNAL(clicked()), this, SLOT(_library()));
 	connect(ui->viewButton, SIGNAL(clicked()), this, SLOT(_toggle_view()));
+	connect(ui->aViewButton, SIGNAL(clicked()), this, SLOT(_toggle_view()));
 	connect(ui->playlistView, SIGNAL(clicked(QModelIndex)), this, SLOT(_process_click(QModelIndex)));
 	connect(ui->playpauseButton, SIGNAL(clicked()), _player, SLOT(toggle()));
+	connect(ui->aPlayPauseButton, SIGNAL(clicked()), _player, SLOT(toggle()));
 	connect(ui->stopButton, SIGNAL(clicked()), _player, SLOT(stop()));
+	connect(ui->aStopButton, SIGNAL(clicked()), _player, SLOT(stop()));
 	connect(ui->nextButton, SIGNAL(clicked()), _player, SLOT(next()));
+	connect(ui->aNextButton, SIGNAL(clicked()), _player, SLOT(next()));
 	connect(ui->prevButton, SIGNAL(clicked()), _player, SLOT(prev()));
+	connect(ui->aPrevButton, SIGNAL(clicked()), _player, SLOT(prev()));
 	connect(_player, SIGNAL(trackChanged(Track)), this, SLOT(_track_changed(Track)));
 	connect(_player, SIGNAL(tick(int,int)), this, SLOT(_tick(int,int)));
 	connect(ui->randomButton, SIGNAL(clicked()), this, SLOT(_toggle_random()));
@@ -110,6 +115,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(_player, SIGNAL(trackDone(Track)), _lib, SLOT(updateTrackCount(Track)));
 	connect(_tag_resolver, SIGNAL(decoded(Track)), this, SLOT(_track_decoded(Track)));
 	connect(ui->volumeButton, SIGNAL(clicked()), this, SLOT(_toggle_volume()));
+	ui->topWidget->setVisible(false);
 }
 
 PlayerForm::~PlayerForm()
@@ -137,9 +143,11 @@ void PlayerForm::_toggle_view() {
 	index = (!index % 2);
 	if (index) {
 		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlist.png"));
+		ui->aViewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlist.png"));
 		emit hideSearchPanel();
 	} else {
 		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
+		ui->aViewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
 		emit showSearchPanel();
 	}
 	ui->stackedWidget->setCurrentIndex(index);
@@ -218,6 +226,7 @@ void PlayerForm::_add_to_favorites() {
 void PlayerForm::_state_changed(PlayerState state) {
 	if (state == PLAYER_PLAYING) {
 		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/pause.png"));
+		ui->aPlayPauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/pause.png"));
 		_seek_slider->setEnabled(true);
 	} else {
 		if (state == PLAYER_STOPPED) {
@@ -226,6 +235,7 @@ void PlayerForm::_state_changed(PlayerState state) {
 			_seek_slider->setEnabled(false);
 		}
 		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/play.png"));
+		ui->aPlayPauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/play.png"));
 	}
 }
 
@@ -356,10 +366,12 @@ void PlayerForm::updateIcons() {
 	Config config;
 	_icons_theme = config.getValue("ui/iconstheme").toString();
 	ui->libraryButton->setIcon(QIcon(":/icons/"+_icons_theme+"/library.png"));
-	if (ui->stackedWidget->currentIndex())
+	if (ui->stackedWidget->currentIndex()) {
 		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlist.png"));
-	else
+		ui->aViewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlist.png"));
+	} else {
 		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
+	}
 	if (_player->random())
 		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_active.png"));
 	else
@@ -369,25 +381,28 @@ void PlayerForm::updateIcons() {
 	else
 		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_inactive.png"));
 	ui->prevButton->setIcon(QIcon(":/icons/"+_icons_theme+"/prev.png"));
-	if (_player->state() == PLAYER_PLAYING)
+	ui->aPrevButton->setIcon(QIcon(":/icons/"+_icons_theme+"/prev.png"));
+	if (_player->state() == PLAYER_PLAYING) {
 		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/pause.png"));
-	else
+		ui->aPlayPauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/pause.png"));
+	} else {
 		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/play.png"));
+		ui->aPlayPauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/play.png"));
+	}
 	ui->stopButton->setIcon(QIcon(":/icons/"+_icons_theme+"/stop.png"));
+	ui->aStopButton->setIcon(QIcon(":/icons/"+_icons_theme+"/stop.png"));
 	ui->nextButton->setIcon(QIcon(":/icons/"+_icons_theme+"/next.png"));
+	ui->aNextButton->setIcon(QIcon(":/icons/"+_icons_theme+"/next.png"));
 	ui->volumeButton->setIcon(QIcon(":/icons/"+_icons_theme+"/volume.png"));
 }
 
 void PlayerForm::landscapeMode() {
-	ui->libraryButton->setVisible(true);
-	ui->repeatButton->setVisible(true);
-	ui->randomButton->setVisible(true);
-	ui->volumeButton->setVisible(true);
+	ui->bottomWidget->setVisible(true);
+	ui->topWidget->setVisible(false);
 }
 
 void PlayerForm::portraitMode() {
-	ui->libraryButton->setVisible(false);
-	ui->repeatButton->setVisible(false);
-	ui->randomButton->setVisible(false);
-	ui->volumeButton->setVisible(false);
+	ui->bottomWidget->setVisible(false);
+	ui->volumeSlider->setVisible(false);
+	ui->topWidget->setVisible(true);
 }
