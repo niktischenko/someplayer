@@ -302,3 +302,21 @@ void Player::setEqualizerValue(int band, double value) {
 	Config config;
 	config.setValue(QString("equalizer/band%1").arg(band), value);
 }
+
+QString Player::artist() {
+	if (_current < 0)
+		return "";
+	return _playlist.tracks().at(_current).metadata().artist();
+}
+
+QString Player::album() {
+	if (_current < 0)
+		return "";
+	return _playlist.tracks().at(_current).metadata().album();
+}
+
+QString Player::title() {
+	if (_current < 0)
+		return "";
+	return _playlist.tracks().at(_current).metadata().title();
+}

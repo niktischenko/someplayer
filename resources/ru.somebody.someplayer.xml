@@ -1,3 +1,4 @@
+<!--
 /*
  * SomePlayer - An alternate music player for Maemo 5
  * Copyright (C) 2010 Nikolay (somebody) Tischenko <niktischenko@gmail.com>
@@ -16,40 +17,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+-->
 
-#ifndef SOMEPLAYER
-#define SOMEPLAYER
+<node>
+	<interface name="ru.somebody.someplayer">
+		<method name="prev">
+			<annotation name="org.freedesktop.DBus.Method.NoReply" value="true" />
+		</method>
+		<method name="next">
+			<annotation name="org.freedesktop.DBus.Method.NoReply" value="true" />
+		</method>
+		<method name="toggle">
+			<annotation name="org.freedesktop.DBus.Method.NoReply" value="true" />
+		</method>
+		<method name="stop">
+			<annotation name="org.freedesktop.DBus.Method.NoReply" value="true" />
+		</method>
+		<method name="artist">
+			<arg type="s" direction="out"/>
+		</method>
+		<method name="album">
+			<arg type="s" direction="out"/>
+		</method>
+		<method name="title">
+			<arg type="s" direction="out"/>
+		</method>
+	</interface>
+</node>
 
-// common settings, constants and so on
-
-namespace SomePlayer {
-	namespace DataObjects {
-		class Track;
-		class TrackMetadata;
-		class TagResolver;
-		class Playlist;
-		class Library;
-	};
-	namespace Storage {
-	};
-	namespace Playback {
-	};
-};
-
-// common includes
-
-#include <QObject>
-#include <QString>
-#include <QStringList>
-#include <QList>
-#include <QMap>
-#include <QUrl>
-#include "config.h"
-
-#define _DYNAMIC_PLAYLIST_MAX_COUNT_ 50
-#define _SOMEPLAYER_VERSION_ "1.3.3"
-#define NDEBUG
-
-#define _SERVICE_NAME_ "ru.somebody.someplayer"
-
-#endif

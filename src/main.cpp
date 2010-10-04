@@ -23,7 +23,7 @@
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-	a.setApplicationName("someplayer");
+	a.setApplicationName("ru.somebody.someplayer");
 	MainWindow w;
 
 

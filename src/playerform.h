@@ -30,6 +30,7 @@
 #include <QTime>
 #include "trackrenderer.h"
 #include "tagresolver.h"
+#include "dbusadaptor.h"
 
 namespace Ui {
     class PlayerForm;
@@ -110,6 +111,7 @@ private:
 	int _search_current_id;
 
 	QString _icons_theme;
+	DBusAdaptop *_dbusadaptor;
 };
 
 #endif // PLAYERFORM_H

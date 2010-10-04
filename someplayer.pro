@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui phonon sql
+QT       += core gui phonon sql dbus
 
 TARGET = someplayer
 TEMPLATE = app
@@ -120,7 +120,8 @@ SOURCES += src/main.cpp\
     src/timerdialog.cpp \
     src/equalizerdialog.cpp \
     src/saveplaylistdialog.cpp \
-    src/settingsdialog.cpp
+    src/settingsdialog.cpp \
+    src/dbusadaptor.cpp
 
 HEADERS  += src/mainwindow.h \
 		src/player/player.h \
@@ -219,7 +220,8 @@ HEADERS  += src/mainwindow.h \
     src/equalizerdialog.h \
     src/saveplaylistdialog.h \
     src/settingsdialog.h \
-    src/abstractitemrenderer.h
+    src/abstractitemrenderer.h \
+    src/dbusadaptor.h
 
 FORMS    += src/ui/mainwindow.ui \
     src/ui/playerform.ui \

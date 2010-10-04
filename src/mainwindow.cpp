@@ -91,6 +91,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	_library_form->updateIcons();
 	_player_form->updateIcons();
 	hideSearchPanel();
+	_player_form->reload(true);
 	library();
 }
 

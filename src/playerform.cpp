@@ -116,6 +116,13 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(_tag_resolver, SIGNAL(decoded(Track)), this, SLOT(_track_decoded(Track)));
 	connect(ui->volumeButton, SIGNAL(clicked()), this, SLOT(_toggle_volume()));
 	ui->topWidget->setVisible(false);
+	setAttribute(Qt::WA_Maemo5StackedWindow);
+
+	// dbus
+	_dbusadaptor = new DBusAdaptop(_player);
+	QDBusConnection connection = QDBusConnection::sessionBus();
+	bool ret = connection.registerService(_SERVICE_NAME_);
+	ret = connection.registerObject("/", _player);
 }
 
 PlayerForm::~PlayerForm()

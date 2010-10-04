@@ -87,6 +87,7 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 	Config config;
 	_icons_theme = config.getValue("ui/iconstheme").toString();
 	_current_playlist_changed = true;
+	setAttribute(Qt::WA_Maemo5StackedWindow);
 }
 
 LibraryForm::~LibraryForm()

@@ -93,6 +93,9 @@ namespace SomePlayer {
 			void disableEqualizer();
 			void setEqualizerValue(int band, double value);
 			void equalizerValue(int band, double *);
+			QString artist();
+			QString album();
+			QString title();
 		private slots:
 			void _stateChanged(Phonon::State, Phonon::State);
 			void _tick(qint64);
