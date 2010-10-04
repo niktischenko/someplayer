@@ -218,7 +218,8 @@ HEADERS  += src/mainwindow.h \
     src/timerdialog.h \
     src/equalizerdialog.h \
     src/saveplaylistdialog.h \
-    src/settingsdialog.h
+    src/settingsdialog.h \
+    src/abstractitemrenderer.h
 
 FORMS    += src/ui/mainwindow.ui \
     src/ui/playerform.ui \

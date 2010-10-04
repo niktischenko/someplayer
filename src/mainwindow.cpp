@@ -189,12 +189,12 @@ void MainWindow::_toggle_search_line() {
 		ui->searchLine->show();
 		ui->nextButton->show();
 		ui->prevButton->show();
+		ui->searchLine->setFocus(Qt::MouseFocusReason);
 	}
 }
 
 void MainWindow::showSearchPanel() {
 	ui->searchButton->show();
-	ui->searchLine->setFocus();
 }
 
 void MainWindow::hideSearchPanel() {

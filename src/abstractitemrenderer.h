@@ -17,23 +17,29 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#ifndef TRACKRENDERER_H
-#define TRACKRENDERER_H
+#ifndef ABSTRACTITEMRENDERER_H
+#define ABSTRACTITEMRENDERER_H
 
 #include <QAbstractItemDelegate>
-#include "abstractitemrenderer.h"
 #include <QPainter>
 
-class TrackRenderer : public AbstractItemRenderer
+class AbstractItemRenderer : public QAbstractItemDelegate
 {
 	Q_OBJECT
 public:
-	explicit TrackRenderer(QObject *parent = 0);
-	void paint(QPainter *painter, const QStyleOptionViewItem &option,
-								const QModelIndex &index) const;
+	explicit AbstractItemRenderer(QObject *parent = 0) : QAbstractItemDelegate(parent) {}
 
-	QSize sizeHint(const QStyleOptionViewItem &option,
-						   const QModelIndex &index) const;
+signals:
+
+public slots:
+	void setActiveRow(int r) {_active_row = r;}
+	void setSearchRow(int r) {_search_row = r;}
+	int activeRow() {return _active_row;}
+	int searchRow() {return _search_row;}
+protected:
+	int _active_row;
+	int _search_row;
+
 };
 
-#endif // TRACKRENDERER_H
+#endif // ABSTRACTITEMRENDERER_H

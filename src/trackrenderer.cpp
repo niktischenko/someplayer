@@ -24,7 +24,7 @@
 #include <QColor>
 
 TrackRenderer::TrackRenderer(QObject *parent) :
-    QAbstractItemDelegate(parent)
+    AbstractItemRenderer(parent)
 {
 }
 
@@ -71,12 +71,4 @@ void TrackRenderer::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
 QSize TrackRenderer::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &/*index*/) const {
 	return QSize(option.rect.width(), 80);
-}
-
-void TrackRenderer::setActiveRow(int r) {
-	_active_row = r;
-}
-
-void TrackRenderer::setSearchRow(int r) {
-	_search_row = r;
 }

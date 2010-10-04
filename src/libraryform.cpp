@@ -124,6 +124,7 @@ void LibraryForm::_dynamic_button() {
 	_model->setItem(1, new QStandardItem("Most played"));
 	_model->setItem(2, new QStandardItem("Never played"));
 	_model->setItem(3, new QStandardItem("Recently added"));
+	ui->listLabel->setText("Dynamic playlists");
 	_state = STATE_DYNAMIC;
 }
 
