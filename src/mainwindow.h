@@ -56,25 +56,17 @@ public slots:
 	void library();
 	void settings();
 	void showBusyWidget(QString);
-	void showSearchPanel();
-	void hideSearchPanel();
-	void updateIcons();
 private slots:
 	void _add_directory();
 	void _save_playlist();
 	void _clear_current_playlist();
 	void _add_files();
-	void _toggle_search_line();
-	void _search(QString);
-	void _nextItem();
-	void _prevItem();
-	void _cancelSearch();
-	void _toggle_full_screen();
 	void _set_timer();
 	void _timeout();
 	void _equalizer();
 	void _equalizer_value_changed(int, int);
 	void _orientation_changed();
+	void _fullscreen(bool);
 private:
 	PlayerForm *_player_form;
 	LibraryForm *_library_form;
@@ -82,8 +74,6 @@ private:
 	Library *_library;
 	QTimer *_timer;
 	EqualizerDialog *_equalizer_dialog;
-
-	QString _icons_theme;
 };
 
 #endif // MAINWINDOW_H

@@ -32,40 +32,6 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_6">
          <item>
-          <widget class="QGroupBox" name="groupBox">
-           <property name="title">
-            <string/>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_2">
-            <item>
-             <widget class="QLabel" name="label">
-              <property name="text">
-               <string>Icons theme:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout">
-              <item>
-               <widget class="QRadioButton" name="iconsBButton">
-                <property name="text">
-                 <string>Black</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="iconsWButton">
-                <property name="text">
-                 <string>White</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
           <widget class="QGroupBox" name="albumSortingGroupBox">
            <property name="enabled">
             <bool>true</bool>
@@ -111,23 +77,30 @@
             <item>
              <widget class="QLabel" name="label_4">
               <property name="text">
-               <string>Enable portrait mode:</string>
+               <string>Orientation:</string>
               </property>
              </widget>
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_5">
               <item>
-               <widget class="QRadioButton" name="portraitEnableButton">
+               <widget class="QRadioButton" name="orientationLButton">
                 <property name="text">
-                 <string>Enable</string>
+                 <string>Landscape</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="portraitDisableButton">
+               <widget class="QRadioButton" name="orientationPButton">
                 <property name="text">
-                 <string>Disable</string>
+                 <string>Portrait</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="orientationAButton">
+                <property name="text">
+                 <string>Auto</string>
                 </property>
                </widget>
               </item>

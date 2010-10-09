@@ -39,14 +39,13 @@ private:
 	Ui::SettingsDialog *ui;
 
 private slots:
-	void _set_icons_white(bool);
-	void _set_icons_black(bool);
 	void _set_album_sorting_alphabet(bool);
 	void _set_album_sorting_date(bool);
 	void _set_track_lenght_show_yes(bool);
 	void _set_track_lenght_show_no(bool);
-	void _set_portrait_enabled(bool);
-	void _set_portrait_disabled(bool);
+	void _set_orientation_auto(bool);
+	void _set_orientation_portrait(bool);
+	void _set_orientation_landscape(bool);
 };
 
 #endif // SETTINGSDIALOG_H

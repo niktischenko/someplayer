@@ -25,7 +25,8 @@ int main(int argc, char *argv[])
 	QApplication a(argc, argv);
 	a.setApplicationName("ru.somebody.someplayer");
 	MainWindow w;
-
+	w.setAttribute(Qt::WA_Maemo5StackedWindow);
+	w.setWindowFlags(w.windowFlags() | Qt::Window);
 
 #if defined(Q_WS_S60)
 	w.showMaximized();

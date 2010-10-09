@@ -41,7 +41,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui(new Ui::MainWindow)
 {
 	Config config;
-	_icons_theme = config.getValue("ui/iconstheme").toString();
 	_library = new Library(config.applicationDir(), config.applicationDir());
 	ui->setupUi(this);
 	connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
@@ -75,24 +74,32 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(_library, SIGNAL(trackAdded()), _busy_widget, SLOT(tick()));
 	connect(_library_form, SIGNAL(done()), this, SLOT(library()));
 	connect(_library_form, SIGNAL(busy(QString)), this, SLOT(showBusyWidget(QString)));
-	connect(ui->searchButton, SIGNAL(clicked()), this, SLOT(_toggle_search_line()));
-	connect(_player_form, SIGNAL(showSearchPanel()), this, SLOT(showSearchPanel()));
-	connect(_player_form, SIGNAL(hideSearchPanel()), this, SLOT(hideSearchPanel()));
-	connect(ui->searchLine, SIGNAL(textChanged(QString)), this, SLOT(_search(QString)));
-	connect(ui->nextButton, SIGNAL(clicked()), this, SLOT(_nextItem()));
-	connect(ui->prevButton, SIGNAL(clicked()), this, SLOT(_prevItem()));
-	connect(ui->fscreenButton, SIGNAL(clicked()), this, SLOT(_toggle_full_screen()));
 	connect(_timer, SIGNAL(timeout()), this, SLOT(_timeout()));
 	connect(_equalizer_dialog, SIGNAL(valueChanged(int,int)), this, SLOT(_equalizer_value_changed(int, int)));
 	connect(_equalizer_dialog, SIGNAL(equalizerEnabled()), _player_form, SLOT(enableEqualizer()));
 	connect(_equalizer_dialog, SIGNAL(equalizerDisabled()), _player_form, SLOT(disableEqualizer()));
 	connect(QApplication::desktop(), SIGNAL(resized(int)), this, SLOT(_orientation_changed()));
-	updateIcons();
-	_library_form->updateIcons();
-	_player_form->updateIcons();
-	hideSearchPanel();
+	connect(_player_form, SIGNAL(fullscreen(bool)), this, SLOT(_fullscreen(bool)));
+	connect(_library_form, SIGNAL(fullscreen(bool)), this, SLOT(_fullscreen(bool)));
 	_player_form->reload(true);
 	library();
+	QString mode = config.getValue("ui/orientation").toString();
+	if (mode == "landscape") {
+		setAttribute(Qt::WA_Maemo5LandscapeOrientation);
+		_player_form->landscapeMode();
+		_library_form->landscapeMode();
+		_equalizer_dialog->landscapeMode();
+	} else if (mode == "portrait") {
+		setAttribute(Qt::WA_Maemo5PortraitOrientation);
+		_player_form->portraitMode();
+		_library_form->portraitMode();
+		_equalizer_dialog->portraitMode();
+	} else if (mode == "auto") { // initialization in landscape
+		_player_form->landscapeMode();
+		_library_form->landscapeMode();
+		_equalizer_dialog->landscapeMode();
+		setAttribute(Qt::WA_Maemo5AutoOrientation);
+	}
 }
 
 MainWindow::~MainWindow()
@@ -109,19 +116,17 @@ void MainWindow::about() {
 }
 
 void MainWindow::player(bool reread) {
-	Config config;
-	setAttribute(Qt::WA_Maemo5AutoOrientation, config.getValue("ui/portraitmode").toString() != "disabled");
 	ui->stackedWidget->setCurrentIndex(0);
 	_player_form->reload(reread);
 	setWindowTitle("SomePlayer");
+	_orientation_changed(); // workaround
 }
 
 void MainWindow::library() {
-	setAttribute(Qt::WA_Maemo5AutoOrientation, false);
 	ui->menuBar->setEnabled(true);
 	ui->stackedWidget->setCurrentIndex(1);
-	showSearchPanel();
 	setWindowTitle("SomePlayer Library");
+	_orientation_changed(); // workaround
 }
 
 void MainWindow::_add_directory() {
@@ -175,78 +180,7 @@ void MainWindow::_clear_current_playlist() {
 void MainWindow::showBusyWidget(QString caption) {
 	_busy_widget->setText(caption);
 	ui->menuBar->setEnabled(false);
-	hideSearchPanel();
 	ui->stackedWidget->setCurrentIndex(2);
-}
-
-void MainWindow::_toggle_search_line() {
-	if (ui->searchLine->isVisible()) {
-		ui->searchLine->setText("");
-		ui->searchLine->hide();
-		ui->nextButton->hide();
-		ui->prevButton->hide();
-		_cancelSearch();
-	} else {
-		ui->searchLine->show();
-		ui->nextButton->show();
-		ui->prevButton->show();
-		ui->searchLine->setFocus(Qt::MouseFocusReason);
-	}
-}
-
-void MainWindow::showSearchPanel() {
-	ui->searchButton->show();
-}
-
-void MainWindow::hideSearchPanel() {
-	ui->searchLine->setText("");
-	ui->searchLine->hide();
-	ui->nextButton->hide();
-	ui->prevButton->hide();
-	ui->searchButton->hide();
-	_cancelSearch();
-}
-
-void MainWindow::_search(QString pattern) {
-	if (ui->stackedWidget->currentIndex() == 0) { // player
-		_player_form->search(pattern);
-	} else if (ui->stackedWidget->currentIndex() == 1) { // library
-		_library_form->search(pattern);
-	}
-}
-
-void MainWindow::_nextItem() {
-	if (ui->stackedWidget->currentIndex() == 0) { // player
-		_player_form->nextItem();
-	} else if (ui->stackedWidget->currentIndex() == 1) { // library
-		_library_form->nextItem();
-	}
-}
-
-void MainWindow::_prevItem() {
-	if (ui->stackedWidget->currentIndex() == 0) { // player
-		_player_form->prevItem();
-	} else if (ui->stackedWidget->currentIndex() == 1) { // library
-		_library_form->prevItem();
-	}
-}
-
-void MainWindow::_cancelSearch() {
-	if (ui->stackedWidget->currentIndex() == 0) { // player
-		_player_form->cancelSearch();
-	} else if (ui->stackedWidget->currentIndex() == 1) { // library
-		_library_form->cancelSearch();
-	}
-}
-
-void MainWindow::_toggle_full_screen() {
-	if (isFullScreen()) {
-		ui->fscreenButton->setIcon(QIcon(":/icons/"+_icons_theme+"/fullscreen.png"));
-		showNormal();
-	} else {
-		ui->fscreenButton->setIcon(QIcon(":/icons/"+_icons_theme+"/window.png"));
-		showFullScreen();
-	}
 }
 
 void MainWindow::_add_files() {
@@ -304,33 +238,32 @@ void MainWindow::_equalizer_value_changed(int band, int val) {
 void MainWindow::settings() {
 	SettingsDialog dialog;
 	dialog.exec();
-	updateIcons();
 	Config config;
-	_player_form->updateIcons();
-	_library_form->updateIcons();
 	_library_form->refresh();
-	if (ui->stackedWidget->currentIndex() == 0) { // player view
-		setAttribute(Qt::WA_Maemo5AutoOrientation, config.getValue("ui/portraitmode").toString() != "disabled");
+	QString mode = config.getValue("ui/orientation").toString();
+	if (mode == "landscape") {
+		setAttribute(Qt::WA_Maemo5LandscapeOrientation);
+	} else if (mode == "portrait") {
+		setAttribute(Qt::WA_Maemo5PortraitOrientation);
+	} else if (mode == "auto") {
+		setAttribute(Qt::WA_Maemo5AutoOrientation);
 	}
-}
-
-void MainWindow::updateIcons() {
-	Config config;
-	_icons_theme = config.getValue("ui/iconstheme").toString();
-	ui->fscreenButton->setIcon(QIcon(":/icons/"+_icons_theme+"/fullscreen.png"));
-	ui->prevButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
-	ui->nextButton->setIcon(QIcon(":/icons/"+_icons_theme+"/forward.png"));
-	ui->searchButton->setIcon(QIcon(":/icons/"+_icons_theme+"/search.png"));
-
 }
 
 void MainWindow::_orientation_changed() {
 	QRect screenGeometry = QApplication::desktop()->screenGeometry();
 	if (screenGeometry.width() > screenGeometry.height()) {
 		_player_form->landscapeMode();
-		ui->toolsWidget->setVisible(true);
+		_library_form->landscapeMode();
+		_equalizer_dialog->landscapeMode();
 	} else {
 		_player_form->portraitMode();
-		ui->toolsWidget->setVisible(false);
+		_library_form->portraitMode();
+		_equalizer_dialog->portraitMode();
 	}
+}
+
+void MainWindow::_fullscreen(bool f) {
+	if (f) showFullScreen();
+	else showNormal();
 }

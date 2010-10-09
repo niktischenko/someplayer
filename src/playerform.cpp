@@ -27,6 +27,7 @@
 #include <QResource>
 #include "playlistdialog.h"
 #include "edittagsdialog.h"
+#include <QSpacerItem>
 #include "config.h"
 
 using namespace SomePlayer::DataObjects;
@@ -38,9 +39,11 @@ inline void __fill_list(QStandardItemModel *_model, Playlist playlist) {
 	QList<Track> tracks = playlist.tracks();
 	int count = tracks.count();
 	_model->setRowCount(count);
+	QTime time;
 	for (int i = 0; i < count; i++) {
 		TrackMetadata meta = tracks.at(i).metadata();
-		QString t = meta.title()+"#_#"+meta.artist()+"#_#"+meta.album();
+		time.setHMS(0, meta.length()/60, meta.length() % 60);
+		QString t = meta.title()+"#_#"+meta.artist()+"#_#"+meta.album()+"#_#"+time.toString("mm:ss");
 		_model->setItem(i, 0, new QStandardItem(t));
 	}
 }
@@ -52,26 +55,25 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_lib = lib;
 	_player = new Player(this);
 	_time = new QTime();
-	Config config;
-	_icons_theme = config.getValue("ui/iconstheme").toString();
 	ui->setupUi(this);
 	if (_player->random()) {
-		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_active.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/white/random_active.png"));
 	} else {
-		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_inactive.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/white/random_inactive.png"));
 	}
 	if (_player->repeat()) {
-		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_active.png"));
+		ui->repeatButton->setIcon(QIcon(":/icons/white/repeat_active.png"));
 	} else {
-		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_inactive.png"));
+		ui->repeatButton->setIcon(QIcon(":/icons/white/repeat_inactive.png"));
 	}
 	ui->volumeSlider->setMinimum(0);
 	ui->volumeSlider->setMaximum(100);
 	ui->volumeSlider->hide();
-	_seek_slider = new QSlider(Qt::Horizontal);
-	_seek_slider->setEnabled(false);
-	ui->progressLayout->insertWidget(1, _seek_slider);
-	_seek_slider->setTracking(false);
+	ui->seekSlider->setEnabled(false);
+	ui->progressLayout->removeItem(ui->seekSpacer);
+	_tools_widget = new ToolsWidget(this);
+	ui->toolsLayout->insertWidget(0, _tools_widget);
+	_tools_widget->hide();
 	_model = new QStandardItemModel(0, 2, this);
 	ui->playlistView->setModel(_model);
 	_context_menu = new QMenu(ui->playlistView);
@@ -82,30 +84,26 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	QAction *edit_tags = _context_menu->addAction("Edit tags");
 
 	_track_renderer = new TrackRenderer(this);
+	_track_renderer->setActiveRow(-1);
+	_track_renderer->setSearchRow(-1);
 	ui->playlistView->setItemDelegateForColumn(0, _track_renderer);
 
 	_tag_resolver = new TagResolver(this);
 
 	connect(ui->libraryButton, SIGNAL(clicked()), this, SLOT(_library()));
 	connect(ui->viewButton, SIGNAL(clicked()), this, SLOT(_toggle_view()));
-	connect(ui->aViewButton, SIGNAL(clicked()), this, SLOT(_toggle_view()));
 	connect(ui->playlistView, SIGNAL(clicked(QModelIndex)), this, SLOT(_process_click(QModelIndex)));
 	connect(ui->playpauseButton, SIGNAL(clicked()), _player, SLOT(toggle()));
-	connect(ui->aPlayPauseButton, SIGNAL(clicked()), _player, SLOT(toggle()));
-	connect(ui->stopButton, SIGNAL(clicked()), _player, SLOT(stop()));
-	connect(ui->aStopButton, SIGNAL(clicked()), _player, SLOT(stop()));
 	connect(ui->nextButton, SIGNAL(clicked()), _player, SLOT(next()));
-	connect(ui->aNextButton, SIGNAL(clicked()), _player, SLOT(next()));
+	connect(ui->stopButton, SIGNAL(clicked()), _player, SLOT(stop()));
 	connect(ui->prevButton, SIGNAL(clicked()), _player, SLOT(prev()));
-	connect(ui->aPrevButton, SIGNAL(clicked()), _player, SLOT(prev()));
 	connect(_player, SIGNAL(trackChanged(Track)), this, SLOT(_track_changed(Track)));
 	connect(_player, SIGNAL(tick(int,int)), this, SLOT(_tick(int,int)));
 	connect(ui->randomButton, SIGNAL(clicked()), this, SLOT(_toggle_random()));
 	connect(ui->repeatButton, SIGNAL(clicked()), this, SLOT(_toggle_repeat()));
-	connect(_seek_slider, SIGNAL(sliderMoved(int)), _player, SLOT(seek(int)));
-	//connect(_seek_slider, SIGNAL(sliderReleased()), this, SLOT(_slider_released()));
+	connect(ui->seekSlider, SIGNAL(sliderMoved(int)), _player, SLOT(seek(int)));
 	connect(ui->volumeSlider, SIGNAL(sliderMoved(int)), _player, SLOT(setVolume(int)));
-	connect(ui->playlistView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(_custom_context_venu_requested(QPoint)));
+	connect(ui->playlistView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(_custom_context_menu_requested(QPoint)));
 	connect(delete_action, SIGNAL(triggered()), this, SLOT(_delete_track()));
 	connect(enqueue_action, SIGNAL(triggered()), this, SLOT(_enqueue_track()));
 	connect(add_to_favorites, SIGNAL(triggered()), this, SLOT(_add_to_favorites()));
@@ -115,8 +113,11 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(_player, SIGNAL(trackDone(Track)), _lib, SLOT(updateTrackCount(Track)));
 	connect(_tag_resolver, SIGNAL(decoded(Track)), this, SLOT(_track_decoded(Track)));
 	connect(ui->volumeButton, SIGNAL(clicked()), this, SLOT(_toggle_volume()));
-	ui->topWidget->setVisible(false);
-	setAttribute(Qt::WA_Maemo5StackedWindow);
+	connect(ui->moreButton, SIGNAL(clicked()), this, SLOT(_tools_widget_toggle()));
+	connect(_tools_widget, SIGNAL(search(QString)), this, SLOT(search(QString)));
+	connect(_tools_widget, SIGNAL(nextSearch()), this, SLOT(nextItem()));
+	connect(_tools_widget, SIGNAL(prevSearch()), this, SLOT(prevItem()));
+	connect(_tools_widget, SIGNAL(toggleFullscreen(bool)), this, SIGNAL(fullscreen(bool)));
 
 	// dbus
 	_dbusadaptor = new DBusAdaptop(_player);
@@ -135,9 +136,6 @@ void PlayerForm::_library() {
 }
 
 void PlayerForm::reload(bool reread) {
-	if (ui->stackedWidget->currentIndex() == 1) {
-		emit hideSearchPanel();
-	}
 	if (reread) {
 		_current_playlist = _lib->getCurrentPlaylist();
 		_player->setPlaylist(_current_playlist);
@@ -149,13 +147,11 @@ void PlayerForm::_toggle_view() {
 	int index = ui->stackedWidget->currentIndex();
 	index = (!index % 2);
 	if (index) {
-		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlist.png"));
-		ui->aViewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlist.png"));
-		emit hideSearchPanel();
+		ui->viewButton->setIcon(QIcon(":/icons/white/playlist.png"));
+		ui->moreButton->setEnabled(false);
 	} else {
-		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
-		ui->aViewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
-		emit showSearchPanel();
+		ui->viewButton->setIcon(QIcon(":/icons/white/playback.png"));
+		ui->moreButton->setEnabled(true);
 	}
 	ui->stackedWidget->setCurrentIndex(index);
 }
@@ -189,8 +185,8 @@ void PlayerForm::_display_track(Track track) {
 	ui->artistAlbumLabel->setText(QString("<b>%1</b><br/>%2").
 								  arg(track.metadata().artist()).
 								  arg(track.metadata().album()));
-	_seek_slider->setMinimum(0);
-	_seek_slider->setMaximum(track.metadata().length());
+	ui->seekSlider->setMinimum(0);
+	ui->seekSlider->setMaximum(track.metadata().length());
 	_tick(0, track.metadata().length());
 }
 
@@ -199,14 +195,14 @@ void PlayerForm::_tick(int done, int all) {
 	ui->allTimeLabel->setText(_time->toString("mm:ss"));
 	_time->setHMS(0, done/60, done%60);
 	ui->doneTimeLabel->setText(_time->toString("mm:ss"));
-	_seek_slider->setValue(done);
+	ui->seekSlider->setValue(done);
 }
 
 void PlayerForm::_slider_released() {
-	_player->seek(_seek_slider->value());
+	_player->seek(ui->seekSlider->value());
 }
 
-void PlayerForm::_custom_context_venu_requested(const QPoint &pos) {
+void PlayerForm::_custom_context_menu_requested(const QPoint &pos) {
 	_context_menu->exec(pos);
 }
 
@@ -238,39 +234,37 @@ void PlayerForm::_add_to_favorites() {
 
 void PlayerForm::_state_changed(PlayerState state) {
 	if (state == PLAYER_PLAYING) {
-		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/pause.png"));
-		ui->aPlayPauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/pause.png"));
-		_seek_slider->setEnabled(true);
+		ui->playpauseButton->setIcon(QIcon(":/icons/white/pause.png"));
+		ui->seekSlider->setEnabled(true);
 	} else {
 		if (state == PLAYER_STOPPED) {
-			_seek_slider->setValue(0);
+			ui->seekSlider->setValue(0);
 			ui->doneTimeLabel->setText("00:00");
-			_seek_slider->setEnabled(false);
+			ui->seekSlider->setEnabled(false);
 		}
-		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/play.png"));
-		ui->aPlayPauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/play.png"));
+		ui->playpauseButton->setIcon(QIcon(":/icons/white/play.png"));
 	}
 }
 
 void PlayerForm::_toggle_random() {
 	_player->toggleRandom();
 	if (_player->random()) {
-		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_active.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/white/random_active.png"));
 	} else {
-		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_inactive.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/white/random_inactive.png"));
 	}
 }
 
 void PlayerForm::_toggle_repeat() {
 	_player->toggleRepeat();
 	if (_player->repeat()) {
-		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_active.png"));
+		ui->repeatButton->setIcon(QIcon(":/icons/white/repeat_active.png"));
 	} else {
-		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_inactive.png"));
+		ui->repeatButton->setIcon(QIcon(":/icons/white/repeat_inactive.png"));
 	}
 }
 
-void PlayerForm::search(QString &pattern) {
+void PlayerForm::search(QString pattern) {
 	_search_pattern = pattern;
 	_search_current_id = -1;
 	nextItem();
@@ -375,47 +369,25 @@ void PlayerForm::_volume_changed() {
 	_player->setVolume(value);
 }
 
-void PlayerForm::updateIcons() {
-	Config config;
-	_icons_theme = config.getValue("ui/iconstheme").toString();
-	ui->libraryButton->setIcon(QIcon(":/icons/"+_icons_theme+"/library.png"));
-	if (ui->stackedWidget->currentIndex()) {
-		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlist.png"));
-		ui->aViewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlist.png"));
-	} else {
-		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
-	}
-	if (_player->random())
-		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_active.png"));
-	else
-		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_inactive.png"));
-	if (_player->repeat())
-		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_active.png"));
-	else
-		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_inactive.png"));
-	ui->prevButton->setIcon(QIcon(":/icons/"+_icons_theme+"/prev.png"));
-	ui->aPrevButton->setIcon(QIcon(":/icons/"+_icons_theme+"/prev.png"));
-	if (_player->state() == PLAYER_PLAYING) {
-		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/pause.png"));
-		ui->aPlayPauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/pause.png"));
-	} else {
-		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/play.png"));
-		ui->aPlayPauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/play.png"));
-	}
-	ui->stopButton->setIcon(QIcon(":/icons/"+_icons_theme+"/stop.png"));
-	ui->aStopButton->setIcon(QIcon(":/icons/"+_icons_theme+"/stop.png"));
-	ui->nextButton->setIcon(QIcon(":/icons/"+_icons_theme+"/next.png"));
-	ui->aNextButton->setIcon(QIcon(":/icons/"+_icons_theme+"/next.png"));
-	ui->volumeButton->setIcon(QIcon(":/icons/"+_icons_theme+"/volume.png"));
-}
-
 void PlayerForm::landscapeMode() {
-	ui->bottomWidget->setVisible(true);
-	ui->topWidget->setVisible(false);
+	ui->progressLayout->removeItem(ui->seekSpacer);
+	ui->progressLayout->insertWidget(1, ui->seekSlider);
+	ui->progressWidget->setVisible(false);
 }
 
 void PlayerForm::portraitMode() {
-	ui->bottomWidget->setVisible(false);
-	ui->volumeSlider->setVisible(false);
-	ui->topWidget->setVisible(true);
+	ui->progressLayout->insertSpacerItem(1, ui->seekSpacer);
+	ui->progressWidget->layout()->addWidget(ui->seekSlider);
+	ui->progressWidget->setVisible(true);
+}
+
+void PlayerForm::_tools_widget_toggle() {
+	if (_tools_widget->isVisible()) {
+		ui->moreButton->setIcon(QIcon(":/icons/white/more.png"));
+		_tools_widget->hide();
+		cancelSearch();
+	} else {
+		ui->moreButton->setIcon(QIcon(":/icons/white/unmore.png"));
+		_tools_widget->show();
+	}
 }

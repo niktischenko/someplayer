@@ -29,34 +29,30 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 {
 	ui->setupUi(this);
 	Config config;
-	QString iconsTheme = config.getValue("ui/iconstheme").toString();
 	QString albumSorting = config.getValue("ui/albumsorting").toString();
 	QString showTrackLenght = config.getValue("ui/showtracklenght").toString();
-	QString portraitEnabled = config.getValue("ui/portraitmode").toString();
-	ui->iconsWButton->setChecked(true);		// "white" by default
+	QString orientation = config.getValue("ui/orientation").toString();
 	ui->albumsSortAButton->setChecked(true);	// defaule sorting
 	ui->showTrackLenghtYButton->setChecked(true);	// show by default
-	ui->portraitEnableButton->setChecked(true);	// enabled by default
-	if (iconsTheme == "black") {
-		ui->iconsBButton->setChecked(true);
-	}
+	ui->orientationLButton->setChecked(true);
 	if (albumSorting == "date") {
 		ui->albumsSortDButton->setChecked(true);
 	}
 	if (showTrackLenght == "no") {
 		ui->showTrackLenghtNButton->setChecked(true);
 	}
-	if (portraitEnabled == "disabled") {
-		ui->portraitDisableButton->setChecked(true);
+	if (orientation == "portrait") {
+		ui->orientationPButton->setChecked(true);
+	} else if (orientation == "auty") {
+		ui->orientationAButton->setChecked(true);
 	}
-	connect (ui->iconsBButton, SIGNAL(toggled(bool)), this, SLOT(_set_icons_black(bool)));
-	connect (ui->iconsWButton, SIGNAL(toggled(bool)), this, SLOT(_set_icons_white(bool)));
 	connect (ui->albumsSortAButton, SIGNAL(toggled(bool)), this, SLOT(_set_album_sorting_alphabet(bool)));
 	connect (ui->albumsSortDButton, SIGNAL(toggled(bool)), this, SLOT(_set_album_sorting_date(bool)));
 	connect (ui->showTrackLenghtNButton, SIGNAL(toggled(bool)), this, SLOT(_set_track_lenght_show_no(bool)));
 	connect (ui->showTrackLenghtYButton, SIGNAL(toggled(bool)), this, SLOT(_set_track_lenght_show_yes(bool)));
-	connect (ui->portraitDisableButton, SIGNAL(toggled(bool)), this, SLOT(_set_portrait_disabled(bool)));
-	connect (ui->portraitEnableButton, SIGNAL(toggled(bool)), this, SLOT(_set_portrait_enabled(bool)));
+	connect (ui->orientationAButton, SIGNAL(toggled(bool)), this, SLOT(_set_orientation_auto(bool)));
+	connect (ui->orientationLButton, SIGNAL(toggled(bool)), this, SLOT(_set_orientation_landscape(bool)));
+	connect (ui->orientationPButton, SIGNAL(toggled(bool)), this, SLOT(_set_orientation_portrait(bool)));
 
 	// disabled to 1.4.0
 	ui->albumSortingGroupBox->setVisible(false);
@@ -65,18 +61,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 SettingsDialog::~SettingsDialog()
 {
 	delete ui;
-}
-
-void SettingsDialog::_set_icons_black(bool checked) {
-	if (!checked) return;
-	Config config;
-	config.setValue("ui/iconstheme", "black");
-}
-
-void SettingsDialog::_set_icons_white(bool checked) {
-	if (!checked) return;
-	Config config;
-	config.setValue("ui/iconstheme", "white");
 }
 
 void SettingsDialog::_set_album_sorting_date(bool checked) {
@@ -103,14 +87,21 @@ void SettingsDialog::_set_track_lenght_show_yes(bool checked) {
 	config.setValue("ui/showtracklenght", "yes");
 }
 
-void SettingsDialog::_set_portrait_disabled(bool checked) {
+void SettingsDialog::_set_orientation_auto(bool checked) {
 	if (!checked) return;
 	Config config;
-	config.setValue("ui/portraitmode", "disabled");
+	config.setValue("ui/orientation", "auto");
 }
 
-void SettingsDialog::_set_portrait_enabled(bool checked) {
+void SettingsDialog::_set_orientation_landscape(bool checked) {
 	if (!checked) return;
 	Config config;
-	config.setValue("ui/portraitmode", "enabled");
+	config.setValue("ui/orientation", "landscape");
 }
+
+void SettingsDialog::_set_orientation_portrait(bool checked) {
+	if (!checked) return;
+	Config config;
+	config.setValue("ui/orientation", "portrait");
+}
+

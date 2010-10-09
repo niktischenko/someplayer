@@ -44,25 +44,26 @@ void TrackRenderer::paint(QPainter *painter, const QStyleOptionViewItem &option,
 	QPen spen (QColor::fromRgb(100, 150, 220));
 	QPen sspen (QColor::fromRgb(100, 220, 150));
 
-	f.setBold(true);
-	painter->setFont(f);
 	f.setBold(false);
 	painter->setPen(npen);
 	painter->drawLine(x1, y1, x2, y1);
 	if (index.row() == _search_row) {
+		f.setBold(true);
 		painter->setPen(sspen);
 	} else if (index.row() == _active_row) {
+		f.setBold(true);
 		painter->setPen(spen);
 	} else {
 		painter->setPen(pen);
 	}
-	painter->drawText(x1, y1 + 2*(y2-y1)/5, meta[0]);
+	painter->setFont(f);
+	painter->drawText(x1+10, y1 + 1*(y2-y1)/2, meta[0]);
 	fp.setBold(false);
 	fp.setPointSize(f.pointSize()*3/4);
 	painter->setFont(fp);
 	painter->setPen(apen);
-	painter->drawText((x2+x1)/2, y1 + 4*(y2-y1)/6, meta[1]);
-	painter->drawText((x2+x1)/2, y1 + 11*(y2-y1)/12, meta[2]);
+	painter->drawText(x1+10, y1 + 3*(y2-y1)/5, (x2-x1)-100, 2*fp.pointSize(), Qt::AlignAbsolute, QString("%1 (%2)").arg(meta[2]).arg(meta[1]));
+	painter->drawText(x2-60, y1 + 3*(y2-y1)/5, 55, 2*fp.pointSize(), Qt::AlignAbsolute, QString("%1").arg(meta[3]));
 	painter->setPen(npen);
 	painter->drawLine(x1, y2, x2, y2);
 	painter->setFont(f);

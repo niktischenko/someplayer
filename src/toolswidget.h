@@ -17,34 +17,36 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include "config.h"
-#include <QString>
-#include <QDir>
+#ifndef TOOLSWIDGET_H
+#define TOOLSWIDGET_H
 
-using namespace SomePlayer::Storage;
+#include <QWidget>
 
-Config::Config()
+namespace Ui {
+	class ToolsWidget;
+}
+
+class ToolsWidget : public QWidget
 {
-	_settings = new QSettings(QString(applicationDir())+"/settings.ini", QSettings::IniFormat);
-}
+	Q_OBJECT
 
-Config::~Config() {
-	delete _settings;
-}
+public:
+	explicit ToolsWidget(QWidget *parent = 0);
+	~ToolsWidget();
+	void reset();
 
-QString Config::applicationDir() {
-	QString path = QDir::homePath()+"/.someplayer";
-	QDir appdir(path);
-	if (!appdir.exists(path)) {
-		appdir.mkdir(path);
-	}
-	return path;
-}
+signals:
+	void toggleFullscreen(bool);
+	void search(QString);
+	void nextSearch();
+	void prevSearch();
 
-QVariant Config::getValue(QString key) {
-	return _settings->value(key);
-}
+private:
+	Ui::ToolsWidget *ui;
+	bool _fullscreen;
 
-void Config::setValue(QString key, QVariant value) {
-	_settings->setValue(key, value);
-}
+private slots:
+	void _fullscreen_button();
+};
+
+#endif // TOOLSWIDGET_H

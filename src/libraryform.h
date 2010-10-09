@@ -27,6 +27,7 @@
 #include <QStandardItem>
 #include <QModelIndex>
 #include "playlist.h"
+#include "toolswidget.h"
 
 namespace Ui {
     class LibraryForm;
@@ -49,13 +50,15 @@ signals:
 	void player(bool);
 	void busy(QString);
 	void done();
+	void fullscreen(bool);
 public slots:
-	void search(QString &);
+	void search(QString);
 	void nextItem();
 	void prevItem();
 	void cancelSearch();
 	void refresh();
-	void updateIcons();
+	void landscapeMode();
+	void portraitMode();
 private slots:
 	void _player();
 	void _view_button();
@@ -67,9 +70,10 @@ private slots:
 	void _back_button();
 	void _use_button();
 	void _process_list_click(QModelIndex);
+	void _more_button();
 
 private:
-    Ui::LibraryForm *ui;
+	Ui::LibraryForm *ui;
 	Library *_lib;
 	QStandardItemModel *_model;
 	LibraryFormListState _state;
@@ -80,13 +84,13 @@ private:
 	QString _search_pattern;
 	int _search_current_id;
 	bool _current_playlist_changed;
+	ToolsWidget *_tools_widget;
 
 	void _add_artist(QString artist);
 	void _add_album(QString artist, QString album);
 	void _add_track(Track track);
 	void _add_playlist(QString name);
 	void _delete_track(Track track);
-	QString _icons_theme;
 };
 
 #endif // LIBRARYFORM_H

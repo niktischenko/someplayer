@@ -17,34 +17,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include "config.h"
-#include <QString>
-#include <QDir>
+#include "toolswidget.h"
+#include "ui_toolswidget.h"
 
-using namespace SomePlayer::Storage;
-
-Config::Config()
+ToolsWidget::ToolsWidget(QWidget *parent) :
+		QWidget(parent),
+		ui(new Ui::ToolsWidget)
 {
-	_settings = new QSettings(QString(applicationDir())+"/settings.ini", QSettings::IniFormat);
+	ui->setupUi(this);
+	_fullscreen = false;
+	connect (ui->fscreenButton, SIGNAL(clicked()), this, SLOT(_fullscreen_button()));
+	connect (ui->nextButton, SIGNAL(clicked()), this, SIGNAL(nextSearch()));
+	connect (ui->prevButton, SIGNAL(clicked()), this, SIGNAL(prevSearch()));
+	connect (ui->searchLine, SIGNAL(textEdited(QString)), this, SIGNAL(search(QString)));
 }
 
-Config::~Config() {
-	delete _settings;
+ToolsWidget::~ToolsWidget()
+{
+	delete ui;
 }
 
-QString Config::applicationDir() {
-	QString path = QDir::homePath()+"/.someplayer";
-	QDir appdir(path);
-	if (!appdir.exists(path)) {
-		appdir.mkdir(path);
-	}
-	return path;
+void ToolsWidget::_fullscreen_button() {
+	_fullscreen = !_fullscreen;
+	emit toggleFullscreen(_fullscreen);
+	ui->fscreenButton->setIcon(QIcon(_fullscreen ? ":/icons/white/window.png" : ":/icons/white/fullscreen.png"));
 }
 
-QVariant Config::getValue(QString key) {
-	return _settings->value(key);
-}
-
-void Config::setValue(QString key, QVariant value) {
-	_settings->setValue(key, value);
+void ToolsWidget::reset() {
+	ui->searchLine->setText("");
 }

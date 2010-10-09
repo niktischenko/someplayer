@@ -41,6 +41,8 @@ public slots:
 	void setValue(int, int);
 	void setEqualizerEnabled(bool);
 	void reloadPresets();
+	void landscapeMode();
+	void portraitMode();
 
 private slots:
 	void _value0_changed(int v) { emit valueChanged(0, v);}

@@ -278,6 +278,8 @@ void Player::enableEqualizer() {
 		return;
 	_equalizer_enabled = true;
 	_path.insertEffect(_equalizer);
+	if (_state == PLAYER_PAUSED)
+		pause();
 	Config config;
 	config.setValue("equalizer/equalizer", "enabled");
 }

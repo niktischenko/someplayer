@@ -28,7 +28,8 @@
     </widget>
    </item>
    <item>
-    <widget class="QListWidget" name="listWidget"/>
+    <widget class="QListWidget" name="listWidget">
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">

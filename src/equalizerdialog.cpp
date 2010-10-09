@@ -204,3 +204,15 @@ void EqualizerDialog::_load_preset(QString name) {
 	ui->band9Slider->setValue(config.getValue("equalizer_preset_"+name+"/band9").toInt());
 	_value9_changed(ui->band9Slider->value());
 }
+
+void EqualizerDialog::landscapeMode() {
+	ui->thorizontalLayout->insertWidget(0, ui->enableToggleButton);
+	ui->thorizontalLayout->addWidget(ui->saveButton);
+	ui->bhorizontalLayout->removeItem(ui->chorizontalSpacer);
+}
+
+void EqualizerDialog::portraitMode() {
+	ui->bhorizontalLayout->insertWidget(0, ui->enableToggleButton);
+	ui->bhorizontalLayout->addItem(ui->chorizontalSpacer);
+	ui->bhorizontalLayout->addWidget(ui->saveButton);
+}

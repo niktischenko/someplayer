@@ -31,6 +31,7 @@
 #include "trackrenderer.h"
 #include "tagresolver.h"
 #include "dbusadaptor.h"
+#include "toolswidget.h"
 
 namespace Ui {
     class PlayerForm;
@@ -55,12 +56,11 @@ public:
 
 signals:
 	void library();
-	void showSearchPanel();
-	void hideSearchPanel();
+	void fullscreen(bool);
 
 public slots:
 	void reload(bool);
-	void search(QString &);
+	void search(QString);
 	void nextItem();
 	void prevItem();
 	void cancelSearch();
@@ -70,7 +70,6 @@ public slots:
 	void equalizerValue(int band, double *value) { _player->equalizerValue(band, value); }
 	void enableEqualizer() { _player->enableEqualizer(); }
 	void disableEqualizer() { _player->disableEqualizer(); }
-	void updateIcons();
 	void portraitMode();
 	void landscapeMode();
 
@@ -81,7 +80,7 @@ private slots:
 	void _track_changed(Track);
 	void _tick(int, int);
 	void _slider_released();
-	void _custom_context_venu_requested ( const QPoint & pos );
+	void _custom_context_menu_requested ( const QPoint & pos );
 	void _delete_track();
 	void _enqueue_track();
 	void _add_to_favorites();
@@ -93,6 +92,7 @@ private slots:
 	void _toggle_volume();
 	void _track_decoded(Track);
 	void _volume_changed();
+	void _tools_widget_toggle();
 
 private:
     Ui::PlayerForm *ui;
@@ -104,13 +104,13 @@ private:
 	QSlider *_seek_slider;
 	QMenu *_context_menu;
 	QString _search_pattern;
+	ToolsWidget *_tools_widget;
 
 	TrackRenderer *_track_renderer;
 	TagResolver *_tag_resolver;
 	void _display_track(Track);
 	int _search_current_id;
 
-	QString _icons_theme;
 	DBusAdaptop *_dbusadaptor;
 };
 
