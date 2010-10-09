@@ -46,3 +46,7 @@ void ToolsWidget::_fullscreen_button() {
 void ToolsWidget::reset() {
 	ui->searchLine->setText("");
 }
+
+void ToolsWidget::setFocus() {
+	ui->searchLine->setFocus();
+}

@@ -34,6 +34,7 @@ public:
 	explicit ToolsWidget(QWidget *parent = 0);
 	~ToolsWidget();
 	void reset();
+	void setFocus();
 
 signals:
 	void toggleFullscreen(bool);

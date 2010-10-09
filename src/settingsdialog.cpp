@@ -43,7 +43,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 	}
 	if (orientation == "portrait") {
 		ui->orientationPButton->setChecked(true);
-	} else if (orientation == "auty") {
+	} else if (orientation == "auto") {
 		ui->orientationAButton->setChecked(true);
 	}
 	connect (ui->albumsSortAButton, SIGNAL(toggled(bool)), this, SLOT(_set_album_sorting_alphabet(bool)));

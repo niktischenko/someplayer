@@ -118,6 +118,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(_tools_widget, SIGNAL(nextSearch()), this, SLOT(nextItem()));
 	connect(_tools_widget, SIGNAL(prevSearch()), this, SLOT(prevItem()));
 	connect(_tools_widget, SIGNAL(toggleFullscreen(bool)), this, SIGNAL(fullscreen(bool)));
+	ui->viewButton->setIcon(QIcon(":/icons/white/playback.png"));
 
 	// dbus
 	_dbusadaptor = new DBusAdaptop(_player);
@@ -385,9 +386,11 @@ void PlayerForm::_tools_widget_toggle() {
 	if (_tools_widget->isVisible()) {
 		ui->moreButton->setIcon(QIcon(":/icons/white/more.png"));
 		_tools_widget->hide();
+		_tools_widget->reset();
 		cancelSearch();
 	} else {
 		ui->moreButton->setIcon(QIcon(":/icons/white/unmore.png"));
 		_tools_widget->show();
+		_tools_widget->setFocus();
 	}
 }
