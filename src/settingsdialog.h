@@ -46,6 +46,10 @@ private slots:
 	void _set_orientation_auto(bool);
 	void _set_orientation_portrait(bool);
 	void _set_orientation_landscape(bool);
+	void _set_icons_white(bool);
+	void _set_icons_black(bool);
+	void _set_gradient_yes(bool);
+	void _set_gradient_no(bool);
 };
 
 #endif // SETTINGSDIALOG_H

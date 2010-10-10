@@ -32,6 +32,7 @@
 #include <QMessageBox>
 #include "config.h"
 #include <QSpacerItem>
+#include <QDebug>
 
 using namespace SomePlayer::DataObjects;
 using namespace SomePlayer::Storage;
@@ -72,6 +73,8 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
     ui(new Ui::LibraryForm)
 {
 	_lib = lib;
+	Config config;
+	_icons_theme = config.getValue("ui/iconstheme").toString();
 	_model = new QStandardItemModel(this);
 	_state = STATE_NONE;
 	_tools_widget = new ToolsWidget(this);
@@ -95,6 +98,8 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 	connect(ui->moreButton, SIGNAL(clicked()), this, SLOT(_more_button()));
 	_view_button();
 	_current_playlist_changed = true;
+	_top_gradient = ui->topWidget->styleSheet();
+	_bottom_gradient = ui->bottomWidget->styleSheet();
 }
 
 LibraryForm::~LibraryForm()
@@ -117,7 +122,7 @@ void LibraryForm::_view_button() {
 	ui->backButton->setEnabled(false);
 	ui->listLabel->setText("Artists");
 	ui->addButton->setEnabled(true);
-	ui->addButton->setIcon(QIcon(":/icons/white/add.png"));
+	ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
 	ui->deleteButton->setEnabled(false);
 	ui->deleteButton->setIcon(QIcon());
 	ui->useButton->setEnabled(false);
@@ -129,7 +134,7 @@ void LibraryForm::_dynamic_button() {
 	ui->useButton->setIcon(QIcon());
 	ui->backButton->setEnabled(false);
 	ui->addButton->setEnabled(true);
-	ui->addButton->setIcon(QIcon(":/icons/white/add.png"));
+	ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
 	ui->deleteButton->setEnabled(false);
 	ui->deleteButton->setIcon(QIcon());
 	_model->clear();
@@ -172,9 +177,9 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 			_state = STATE_PLAYLIST_TRACK;
 			ui->backButton->setEnabled(true);
 			ui->deleteButton->setEnabled(true);
-			ui->deleteButton->setIcon(QIcon(":/icons/white/delete.png"));
+			ui->deleteButton->setIcon(QIcon(":/icons/"+_icons_theme+"/delete.png"));
 			ui->useButton->setEnabled(true);
-			ui->useButton->setIcon(QIcon(":/icons/white/use.png"));
+			ui->useButton->setIcon(QIcon(":/icons/"+_icons_theme+"/use.png"));
 			ui->listLabel->setText(QString("Tracks in playlist \"%1\"").arg(data));
 		}
 		break;
@@ -201,9 +206,9 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 			_state = STATE_PLAYLIST_TRACK;
 			ui->backButton->setEnabled(true);
 			ui->useButton->setEnabled(true);
-			ui->useButton->setIcon(QIcon(":/icons/white/use.png"));
+			ui->useButton->setIcon(QIcon(":/icons/"+_icons_theme+"/use.png"));
 			ui->addButton->setEnabled(true);
-			ui->addButton->setIcon(QIcon(":/icons/white/add.png"));
+			ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
 			ui->listLabel->setText(_current_playlist.name());
 		}
 	default:
@@ -217,31 +222,42 @@ void LibraryForm::_add_button() {
 	QModelIndexList selected = ui->listView->selectionModel()->selectedIndexes();
 	ui->listView->selectionModel()->clearSelection();
 	emit busy(QString("<H1>Adding... Please wait</H1>"));
+	Playlist cur = _lib->getCurrentPlaylist();
 	switch (_state) {
 	case STATE_ARTIST:
 		foreach (QModelIndex id, selected) {
-			_add_artist(id.data().toString());
+			_add_artist(&cur, id.data().toString());
 		}
+		_lib->saveCurrentPlaylist(cur);
+		_current_playlist_changed = true;
 		break;
 	case STATE_ALBUM:
 		foreach (QModelIndex id, selected) {
-			_add_album(_current_artist, id.data().toString());
+			_add_album(&cur, _current_artist, id.data().toString());
 		}
+		_lib->saveCurrentPlaylist(cur);
+		_current_playlist_changed = true;
 		break;
 	case STATE_TRACK:
 		foreach (QModelIndex id, selected) {
-			_add_track(_current_tracks.at(id.row()));
+			_add_track(&cur, _current_tracks.at(id.row()));
 		}
+		_lib->saveCurrentPlaylist(cur);
+		_current_playlist_changed = true;
 		break;
 	case STATE_PLAYLIST:
 		foreach (QModelIndex id, selected) {
-			_add_playlist(id.data().toString());
+			_add_playlist(&cur, id.data().toString());
 		}
+		_lib->saveCurrentPlaylist(cur);
+		_current_playlist_changed = true;
 		break;
 	case STATE_PLAYLIST_TRACK:
 		foreach (QModelIndex id, selected) {
-			_add_track(_current_tracks.at(id.row()));
+			_add_track(&cur, _current_tracks.at(id.row()));
 		}
+		_lib->saveCurrentPlaylist(cur);
+		_current_playlist_changed = true;
 		break;
 	default:
 		emit done();
@@ -251,32 +267,29 @@ void LibraryForm::_add_button() {
 }
 
 
-void LibraryForm::_add_artist(QString artist) {
+void LibraryForm::_add_artist(Playlist *cur, QString artist) {
 	QList<QString> albums = _lib->getAlbumsForArtist(artist);
 	foreach(QString album, albums) {
-		_add_album(artist, album);
+		_add_album(cur, artist, album);
 	}
 }
 
-void LibraryForm::_add_album(QString artist, QString album) {
+void LibraryForm::_add_album(Playlist *cur, QString artist, QString album) {
 	QList<Track> tracks = _lib->getTracksForAlbum(album, artist);
 	foreach(Track track, tracks) {
-		_add_track(track);
+		_add_track(cur, track);
 	}
 }
 
-void LibraryForm::_add_track(Track track) {
-	Playlist current = _lib->getCurrentPlaylist();
-	current.addTrack(track);
-	_lib->saveCurrentPlaylist(current);
-	_current_playlist_changed = true;
+void LibraryForm::_add_track(Playlist *cur, Track track) {
+	cur->addTrack(track);
 }
 
-void LibraryForm::_add_playlist(QString name) {
+void LibraryForm::_add_playlist(Playlist *cur, QString name) {
 	Playlist playlist = _lib->getPlaylist(name);
 	QList<Track> tracks = playlist.tracks();
 	foreach (Track track, tracks) {
-		_add_track(track);
+		_add_track(cur, track);
 	}
 }
 
@@ -307,10 +320,10 @@ void LibraryForm::_playlists_button() {
 	_state = STATE_PLAYLIST;
 	ui->backButton->setEnabled(false);
 	ui->listLabel->setText("Playlists");
-	ui->addButton->setEnabled(false);
-	ui->addButton->setIcon(QIcon());
+	ui->addButton->setEnabled(true);
+	ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
 	ui->deleteButton->setEnabled(true);
-	ui->deleteButton->setIcon(QIcon(":/icons/white/delete.png"));
+	ui->deleteButton->setIcon(QIcon(":/icons/"+_icons_theme+"/delete.png"));
 	ui->useButton->setEnabled(false);
 	ui->useButton->setIcon(QIcon());
 }
@@ -435,28 +448,155 @@ void LibraryForm::refresh() {
 void LibraryForm::_toggle_select_all_button() {
 	if (ui->listView->selectionModel()->selectedIndexes().count() == ui->listView->model()->rowCount()) {
 		ui->listView->selectionModel()->clearSelection();
-		ui->selectAllButton->setIcon(QIcon(":/icons/white/select_all.png"));
+		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/select_all.png"));
 	} else {
 		ui->listView->selectAll();
-		ui->selectAllButton->setIcon(QIcon(":/icons/white/deselect_all.png"));
+		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"));
 	}
 }
 
 void LibraryForm::landscapeMode() {
+	landscape = true;
+	ui->topWidget->hide();
+	ui->bottomWidget->hide();
+
+	ui->lverticalLayout->removeItem(ui->lverticalSpacer_0);
+	ui->lverticalLayout->removeItem(ui->lverticalSpacer_1);
+	ui->lverticalLayout->removeItem(ui->lverticalSpacer_2);
+	ui->lverticalLayout->removeItem(ui->lverticalSpacer_3);
+	ui->lverticalLayout->addWidget(ui->backButton);
+	ui->lverticalLayout->addItem(ui->lverticalSpacer_0);
+	ui->lverticalLayout->addWidget(ui->addButton);
+	ui->lverticalLayout->addItem(ui->lverticalSpacer_1);
+	ui->lverticalLayout->addWidget(ui->deleteButton);
+	ui->lverticalLayout->addItem(ui->lverticalSpacer_2);
+	ui->lverticalLayout->addWidget(ui->useButton);
+	ui->lverticalLayout->addItem(ui->lverticalSpacer_3);
+	ui->lverticalLayout->addWidget(ui->playerButton);
+
+	ui->rverticalLayout->removeItem(ui->rverticalSpacer_0);
+	ui->rverticalLayout->removeItem(ui->rverticalSpacer_1);
+	ui->rverticalLayout->removeItem(ui->rverticalSpacer_2);
+	ui->rverticalLayout->removeItem(ui->rverticalSpacer_3);
+	ui->rverticalLayout->addWidget(ui->moreButton);
+	ui->rverticalLayout->addItem(ui->rverticalSpacer_0);
+	ui->rverticalLayout->addWidget(ui->selectAllButton);
+	ui->rverticalLayout->addItem(ui->rverticalSpacer_1);
+	ui->rverticalLayout->addWidget(ui->viewButton);
+	ui->rverticalLayout->addItem(ui->rverticalSpacer_2);
+	ui->rverticalLayout->addWidget(ui->dynamicButton);
+	ui->rverticalLayout->addItem(ui->rverticalSpacer_3);
+	ui->rverticalLayout->addWidget(ui->playlistsButton);
+
+	if (_tools_widget->isVisible()) {
+		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/more_l.png"));
+	} else {
+		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/unmore_l.png"));
+	}
 }
 
 void LibraryForm::portraitMode() {
+	landscape = false;
+
+	ui->topWidget->show();
+	ui->bottomWidget->show();
+
+	ui->lverticalLayout->removeItem(ui->lverticalSpacer_0);
+	ui->lverticalLayout->removeItem(ui->lverticalSpacer_1);
+	ui->lverticalLayout->removeItem(ui->lverticalSpacer_2);
+	ui->lverticalLayout->removeItem(ui->lverticalSpacer_3);
+
+	ui->rverticalLayout->removeItem(ui->rverticalSpacer_0);
+	ui->rverticalLayout->removeItem(ui->rverticalSpacer_1);
+	ui->rverticalLayout->removeItem(ui->rverticalSpacer_2);
+	ui->rverticalLayout->removeItem(ui->rverticalSpacer_3);
+
+	ui->topWidget->layout()->removeItem(ui->thorizontalSpacer_0);
+	ui->topWidget->layout()->removeItem(ui->thorizontalSpacer_1);
+	ui->topWidget->layout()->removeItem(ui->thorizontalSpacer_2);
+	ui->topWidget->layout()->removeItem(ui->thorizontalSpacer_3);
+	ui->topWidget->layout()->removeItem(ui->thorizontalSpacer_4);
+	ui->topWidget->layout()->addWidget(ui->backButton);
+	ui->topWidget->layout()->addItem(ui->thorizontalSpacer_0);
+	ui->topWidget->layout()->addWidget(ui->deleteButton);
+	ui->topWidget->layout()->addItem(ui->thorizontalSpacer_1);
+	ui->topWidget->layout()->addWidget(ui->addButton);
+	ui->topWidget->layout()->addItem(ui->thorizontalSpacer_2);
+	ui->topWidget->layout()->addWidget(ui->useButton);
+	ui->topWidget->layout()->addItem(ui->thorizontalSpacer_3);
+	ui->topWidget->layout()->addWidget(ui->selectAllButton);
+	ui->topWidget->layout()->addItem(ui->thorizontalSpacer_4);
+	ui->topWidget->layout()->addWidget(ui->moreButton);
+
+	ui->bottomWidget->layout()->removeItem(ui->bhorizontalSpacer_0);
+	ui->bottomWidget->layout()->removeItem(ui->bhorizontalSpacer_1);
+	ui->bottomWidget->layout()->removeItem(ui->bhorizontalSpacer_2);
+	ui->bottomWidget->layout()->addWidget(ui->playerButton);
+	ui->bottomWidget->layout()->addItem(ui->bhorizontalSpacer_0);
+	ui->bottomWidget->layout()->addWidget(ui->viewButton);
+	ui->bottomWidget->layout()->addItem(ui->bhorizontalSpacer_1);
+	ui->bottomWidget->layout()->addWidget(ui->dynamicButton);
+	ui->bottomWidget->layout()->addItem(ui->bhorizontalSpacer_2);
+	ui->bottomWidget->layout()->addWidget(ui->playlistsButton);
+
+	if (_tools_widget->isVisible()) {
+		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/unmore.png"));
+	} else {
+		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/more.png"));
+	}
 }
 
 void LibraryForm::_more_button() {
 	if (_tools_widget->isVisible()) {
-		ui->moreButton->setIcon(QIcon(":/icons/white/more.png"));
+		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/unmore_l.png" : ":/icons/"+_icons_theme+"/more.png"));
 		_tools_widget->hide();
 		_tools_widget->reset();
 		cancelSearch();
 	} else {
-		ui->moreButton->setIcon(QIcon(":/icons/white/unmore.png"));
+		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/more_l.png" : ":/icons/"+_icons_theme+"/unmore.png"));
 		_tools_widget->show();
 		_tools_widget->setFocus();
+	}
+}
+
+
+void LibraryForm::updateIcons() {
+	Config config;
+	_icons_theme = config.getValue("ui/iconstheme").toString();
+	_tools_widget->updateIcons();
+	if (!ui->addButton->icon().isNull()) {
+		ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
+	}
+	if (!ui->deleteButton->icon().isNull()) {
+		ui->deleteButton->setIcon(QIcon(":/icons/"+_icons_theme+"/delete.png"));
+	}
+	if (!ui->useButton->icon().isNull()) {
+		ui->useButton->setIcon(QIcon(":/icons/"+_icons_theme+"/use.png"));
+	}
+	ui->backButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
+	ui->dynamicButton->setIcon(QIcon(":/icons/"+_icons_theme+"/dynamic.png"));
+	if (_tools_widget->isVisible()) {
+		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/more_l.png" : ":/icons/"+_icons_theme+"/unmore.png"));
+	} else {
+		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/unmore_l.png" : ":/icons/"+_icons_theme+"/more.png"));
+	}
+	ui->playerButton->setIcon(QIcon(":/icons/"+_icons_theme+"/player.png"));
+	ui->playlistsButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlists.png"));
+	ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/artists.png"));
+	if (ui->listView->selectionModel()->selectedRows().count() == _model->rowCount()) {
+		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/unselect_all.png"));
+	} else {
+		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/select_all.png"));
+	}
+}
+
+void LibraryForm::checkGradient() {
+	Config config;
+	if (config.getValue("ui/gradient").toString() == "yes") {
+		ui->bottomWidget->setStyleSheet(_bottom_gradient);
+		ui->topWidget->setStyleSheet(_top_gradient);
+	} else {
+		ui->topWidget->setStyleSheet("");
+		ui->bottomWidget->setStyleSheet("");
 	}
 }

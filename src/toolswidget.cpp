@@ -19,6 +19,10 @@
 
 #include "toolswidget.h"
 #include "ui_toolswidget.h"
+#include <QDesktopWidget>
+#include "config.h"
+
+using namespace SomePlayer::Storage;
 
 ToolsWidget::ToolsWidget(QWidget *parent) :
 		QWidget(parent),
@@ -30,6 +34,8 @@ ToolsWidget::ToolsWidget(QWidget *parent) :
 	connect (ui->nextButton, SIGNAL(clicked()), this, SIGNAL(nextSearch()));
 	connect (ui->prevButton, SIGNAL(clicked()), this, SIGNAL(prevSearch()));
 	connect (ui->searchLine, SIGNAL(textEdited(QString)), this, SIGNAL(search(QString)));
+	Config config;
+	_icons_theme = config.getValue("ui/iconstheme").toString();
 }
 
 ToolsWidget::~ToolsWidget()
@@ -40,7 +46,7 @@ ToolsWidget::~ToolsWidget()
 void ToolsWidget::_fullscreen_button() {
 	_fullscreen = !_fullscreen;
 	emit toggleFullscreen(_fullscreen);
-	ui->fscreenButton->setIcon(QIcon(_fullscreen ? ":/icons/white/window.png" : ":/icons/white/fullscreen.png"));
+	ui->fscreenButton->setIcon(QIcon(_fullscreen ? ":/icons/"+_icons_theme+"/window.png" : ":/icons/"+_icons_theme+"/fullscreen.png"));
 }
 
 void ToolsWidget::reset() {
@@ -49,4 +55,17 @@ void ToolsWidget::reset() {
 
 void ToolsWidget::setFocus() {
 	ui->searchLine->setFocus();
+}
+
+void ToolsWidget::updateIcons() {
+	Config config;
+	_icons_theme = config.getValue("ui/iconstheme").toString();
+	ui->fscreenButton->setIcon(QIcon(_fullscreen ? ":/icons/"+_icons_theme+"/window.png" : ":/icons/"+_icons_theme+"/fullscreen.png"));
+	ui->nextButton->setIcon(QIcon(":/icons/"+_icons_theme+"/forward.png"));
+	ui->prevButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
+}
+
+void ToolsWidget::show() {
+	updateIcons();
+	QWidget::show();
 }

@@ -59,6 +59,8 @@ public slots:
 	void refresh();
 	void landscapeMode();
 	void portraitMode();
+	void updateIcons();
+	void checkGradient();
 private slots:
 	void _player();
 	void _view_button();
@@ -85,11 +87,15 @@ private:
 	int _search_current_id;
 	bool _current_playlist_changed;
 	ToolsWidget *_tools_widget;
+	bool landscape;
+	QString _icons_theme;
+	QString _top_gradient;
+	QString _bottom_gradient;
 
-	void _add_artist(QString artist);
-	void _add_album(QString artist, QString album);
-	void _add_track(Track track);
-	void _add_playlist(QString name);
+	void _add_artist(Playlist *cur, QString artist);
+	void _add_album(Playlist *cur, QString artist, QString album);
+	void _add_track(Playlist *cur, Track track);
+	void _add_playlist(Playlist *cur, QString name);
 	void _delete_track(Track track);
 };
 

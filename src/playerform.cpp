@@ -53,18 +53,20 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
     ui(new Ui::PlayerForm)
 {
 	_lib = lib;
+	Config config;
+	_icons_theme = config.getValue("ui/iconstheme").toString();
 	_player = new Player(this);
 	_time = new QTime();
 	ui->setupUi(this);
 	if (_player->random()) {
-		ui->randomButton->setIcon(QIcon(":/icons/white/random_active.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_active.png"));
 	} else {
-		ui->randomButton->setIcon(QIcon(":/icons/white/random_inactive.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_inactive.png"));
 	}
 	if (_player->repeat()) {
-		ui->repeatButton->setIcon(QIcon(":/icons/white/repeat_active.png"));
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_active.png"));
 	} else {
-		ui->repeatButton->setIcon(QIcon(":/icons/white/repeat_inactive.png"));
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_inactive.png"));
 	}
 	ui->volumeSlider->setMinimum(0);
 	ui->volumeSlider->setMaximum(100);
@@ -118,7 +120,9 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(_tools_widget, SIGNAL(nextSearch()), this, SLOT(nextItem()));
 	connect(_tools_widget, SIGNAL(prevSearch()), this, SLOT(prevItem()));
 	connect(_tools_widget, SIGNAL(toggleFullscreen(bool)), this, SIGNAL(fullscreen(bool)));
-	ui->viewButton->setIcon(QIcon(":/icons/white/playback.png"));
+	ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
+	_top_gradient = ui->topWidget->styleSheet();
+	_bottom_gradient = ui->bottomWidget->styleSheet();
 
 	// dbus
 	_dbusadaptor = new DBusAdaptop(_player);
@@ -148,10 +152,10 @@ void PlayerForm::_toggle_view() {
 	int index = ui->stackedWidget->currentIndex();
 	index = (!index % 2);
 	if (index) {
-		ui->viewButton->setIcon(QIcon(":/icons/white/playlist.png"));
+		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlist.png"));
 		ui->moreButton->setEnabled(false);
 	} else {
-		ui->viewButton->setIcon(QIcon(":/icons/white/playback.png"));
+		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
 		ui->moreButton->setEnabled(true);
 	}
 	ui->stackedWidget->setCurrentIndex(index);
@@ -235,7 +239,7 @@ void PlayerForm::_add_to_favorites() {
 
 void PlayerForm::_state_changed(PlayerState state) {
 	if (state == PLAYER_PLAYING) {
-		ui->playpauseButton->setIcon(QIcon(":/icons/white/pause.png"));
+		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/pause.png"));
 		ui->seekSlider->setEnabled(true);
 	} else {
 		if (state == PLAYER_STOPPED) {
@@ -243,25 +247,25 @@ void PlayerForm::_state_changed(PlayerState state) {
 			ui->doneTimeLabel->setText("00:00");
 			ui->seekSlider->setEnabled(false);
 		}
-		ui->playpauseButton->setIcon(QIcon(":/icons/white/play.png"));
+		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/play.png"));
 	}
 }
 
 void PlayerForm::_toggle_random() {
 	_player->toggleRandom();
 	if (_player->random()) {
-		ui->randomButton->setIcon(QIcon(":/icons/white/random_active.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_active.png"));
 	} else {
-		ui->randomButton->setIcon(QIcon(":/icons/white/random_inactive.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_inactive.png"));
 	}
 }
 
 void PlayerForm::_toggle_repeat() {
 	_player->toggleRepeat();
 	if (_player->repeat()) {
-		ui->repeatButton->setIcon(QIcon(":/icons/white/repeat_active.png"));
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_active.png"));
 	} else {
-		ui->repeatButton->setIcon(QIcon(":/icons/white/repeat_inactive.png"));
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_inactive.png"));
 	}
 }
 
@@ -374,23 +378,146 @@ void PlayerForm::landscapeMode() {
 	ui->progressLayout->removeItem(ui->seekSpacer);
 	ui->progressLayout->insertWidget(1, ui->seekSlider);
 	ui->progressWidget->setVisible(false);
+
+	landscape = true;
+
+	ui->topWidget->hide();
+	ui->bottomWidget->hide();
+
+	ui->bhorizontalLayout->removeItem(ui->chorizontalSpacer_0);
+	ui->bhorizontalLayout->removeItem(ui->chorizontalSpacer_1);
+	ui->bhorizontalLayout->removeItem(ui->chorizontalSpacer_2);
+	ui->bhorizontalLayout->removeItem(ui->chorizontalSpacer_3);
+	ui->bhorizontalLayout->removeItem(ui->chorizontalSpacer_4);
+	ui->bhorizontalLayout->addWidget(ui->libraryButton);
+	ui->bhorizontalLayout->addItem(ui->chorizontalSpacer_0);
+	ui->bhorizontalLayout->addWidget(ui->viewButton);
+	ui->bhorizontalLayout->addItem(ui->chorizontalSpacer_1);
+	ui->bhorizontalLayout->addWidget(ui->randomButton);
+	ui->bhorizontalLayout->addWidget(ui->repeatButton);
+	ui->bhorizontalLayout->addItem(ui->chorizontalSpacer_2);
+	ui->bhorizontalLayout->addWidget(ui->prevButton);
+	ui->bhorizontalLayout->addWidget(ui->playpauseButton);
+	ui->bhorizontalLayout->addWidget(ui->nextButton);
+	ui->bhorizontalLayout->addWidget(ui->stopButton);
+	ui->bhorizontalLayout->addItem(ui->chorizontalSpacer_3);
+	ui->bhorizontalLayout->addWidget(ui->moreButton);
+	ui->bhorizontalLayout->addItem(ui->chorizontalSpacer_4);
+	ui->bhorizontalLayout->addWidget(ui->volumeButton);
+
+	if (_tools_widget->isVisible()) {
+		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/more.png"));
+	} else {
+		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/unmore.png"));
+	}
 }
 
 void PlayerForm::portraitMode() {
 	ui->progressLayout->insertSpacerItem(1, ui->seekSpacer);
 	ui->progressWidget->layout()->addWidget(ui->seekSlider);
 	ui->progressWidget->setVisible(true);
+
+	ui->topWidget->show();
+	ui->bottomWidget->show();
+
+	landscape = false;
+
+	ui->topWidget->layout()->removeItem(ui->thorizontalSpacer_0);
+	ui->topWidget->layout()->removeItem(ui->thorizontalSpacer_1);
+	ui->topWidget->layout()->removeItem(ui->thorizontalSpacer_2);
+	ui->topWidget->layout()->removeItem(ui->thorizontalSpacer_3);
+	ui->topWidget->layout()->addWidget(ui->prevButton);
+	ui->topWidget->layout()->addItem(ui->thorizontalSpacer_0);
+	ui->topWidget->layout()->addWidget(ui->stopButton);
+	ui->topWidget->layout()->addItem(ui->thorizontalSpacer_1);
+	ui->topWidget->layout()->addWidget(ui->playpauseButton);
+	ui->topWidget->layout()->addItem(ui->thorizontalSpacer_2);
+	ui->topWidget->layout()->addWidget(ui->nextButton);
+	ui->topWidget->layout()->addItem(ui->thorizontalSpacer_3);
+	ui->topWidget->layout()->addWidget(ui->moreButton);
+	ui->bhorizontalLayout->removeItem(ui->chorizontalSpacer_0);
+	ui->bhorizontalLayout->removeItem(ui->chorizontalSpacer_1);
+	ui->bhorizontalLayout->removeItem(ui->chorizontalSpacer_2);
+	ui->bhorizontalLayout->removeItem(ui->chorizontalSpacer_3);
+	ui->bhorizontalLayout->removeItem(ui->chorizontalSpacer_4);
+
+	ui->bottomWidget->layout()->removeItem(ui->bhorizontalSpacer_0);
+	ui->bottomWidget->layout()->removeItem(ui->bhorizontalSpacer_1);
+	ui->bottomWidget->layout()->removeItem(ui->bhorizontalSpacer_2);
+	ui->bottomWidget->layout()->removeItem(ui->bhorizontalSpacer_3);
+	ui->bottomWidget->layout()->addWidget(ui->libraryButton);
+	ui->bottomWidget->layout()->addItem(ui->bhorizontalSpacer_0);
+	ui->bottomWidget->layout()->addWidget(ui->viewButton);
+	ui->bottomWidget->layout()->addItem(ui->bhorizontalSpacer_1);
+	ui->bottomWidget->layout()->addWidget(ui->randomButton);
+	ui->bottomWidget->layout()->addItem(ui->bhorizontalSpacer_2);
+	ui->bottomWidget->layout()->addWidget(ui->repeatButton);
+	ui->bottomWidget->layout()->addItem(ui->bhorizontalSpacer_3);
+	ui->bottomWidget->layout()->addWidget(ui->volumeButton);
+
+	if (_tools_widget->isVisible()) {
+		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/unmore.png"));
+	} else {
+		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/more.png"));
+	}
 }
 
 void PlayerForm::_tools_widget_toggle() {
 	if (_tools_widget->isVisible()) {
-		ui->moreButton->setIcon(QIcon(":/icons/white/more.png"));
+		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/unmore.png" : ":/icons/"+_icons_theme+"/more.png"));
 		_tools_widget->hide();
 		_tools_widget->reset();
 		cancelSearch();
 	} else {
-		ui->moreButton->setIcon(QIcon(":/icons/white/unmore.png"));
+		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/more.png" : ":/icons/"+_icons_theme+"/unmore.png"));
 		_tools_widget->show();
 		_tools_widget->setFocus();
+	}
+}
+
+void PlayerForm::updateIcons() {
+	Config config;
+	_icons_theme = config.getValue("ui/iconstheme").toString();
+	_tools_widget->updateIcons();
+	ui->libraryButton->setIcon(QIcon(":/icons/"+_icons_theme+"/library.png"));
+	if (_tools_widget->isVisible()) {
+		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/unmore.png" : ":/icons/"+_icons_theme+"/more.png"));
+	} else {
+		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/more.png" : ":/icons/"+_icons_theme+"/unmore.png"));
+	}
+	ui->nextButton->setIcon(QIcon(":/icons/"+_icons_theme+"/next.png"));
+	ui->stopButton->setIcon(QIcon(":/icons/"+_icons_theme+"/stop.png"));
+	ui->prevButton->setIcon(QIcon(":/icons/"+_icons_theme+"/prev.png"));
+	ui->volumeButton->setIcon(QIcon(":/icons/"+_icons_theme+"/volume.png"));
+	if (_player->state() == PLAYER_PLAYING) {
+		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/pause.png"));
+	} else {
+		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/play.png"));
+	}
+	if (ui->stackedWidget->currentIndex()) {
+		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlist.png"));
+	} else {
+		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
+	}
+	if (_player->repeat()) {
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_active.png"));
+	} else {
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_inactive.png"));
+	}
+	if (_player->random()) {
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_active.png"));
+	} else {
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_inactive.png"));
+	}
+}
+
+void PlayerForm::checkGradient() {
+	Config config;
+	if (config.getValue("ui/gradient").toString() == "yes") {
+		ui->bottomWidget->setStyleSheet(_bottom_gradient);
+		ui->topWidget->setStyleSheet(_top_gradient);
+	} else {
+		ui->topWidget->setStyleSheet("");
+		ui->bottomWidget->setStyleSheet("");
 	}
 }

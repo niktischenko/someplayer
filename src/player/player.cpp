@@ -24,6 +24,7 @@
 #include <phonon/EffectParameter>
 #include "../config.h"
 #include <QTime>
+#include <QTimer>
 
 using namespace SomePlayer::Playback;
 using namespace SomePlayer::DataObjects;

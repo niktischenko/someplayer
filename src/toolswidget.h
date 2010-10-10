@@ -36,6 +36,10 @@ public:
 	void reset();
 	void setFocus();
 
+public slots:
+	void updateIcons();
+	void show();
+
 signals:
 	void toggleFullscreen(bool);
 	void search(QString);
@@ -45,6 +49,7 @@ signals:
 private:
 	Ui::ToolsWidget *ui;
 	bool _fullscreen;
+	QString _icons_theme;
 
 private slots:
 	void _fullscreen_button();

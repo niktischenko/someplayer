@@ -32,9 +32,13 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 	QString albumSorting = config.getValue("ui/albumsorting").toString();
 	QString showTrackLenght = config.getValue("ui/showtracklenght").toString();
 	QString orientation = config.getValue("ui/orientation").toString();
+	QString icons_theme = config.getValue("ui/iconstheme").toString();
+	QString gradient = config.getValue("ui/gradient").toString();
 	ui->albumsSortAButton->setChecked(true);	// defaule sorting
 	ui->showTrackLenghtYButton->setChecked(true);	// show by default
 	ui->orientationLButton->setChecked(true);
+	ui->iconsWButton->setChecked(true);
+	ui->gradientYButton->setChecked(true);
 	if (albumSorting == "date") {
 		ui->albumsSortDButton->setChecked(true);
 	}
@@ -46,6 +50,12 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 	} else if (orientation == "auto") {
 		ui->orientationAButton->setChecked(true);
 	}
+	if (icons_theme == "black") {
+		ui->iconstBButton->setChecked(true);
+	}
+	if (gradient == "no") {
+		ui->gradientNButton->setChecked(true);
+	}
 	connect (ui->albumsSortAButton, SIGNAL(toggled(bool)), this, SLOT(_set_album_sorting_alphabet(bool)));
 	connect (ui->albumsSortDButton, SIGNAL(toggled(bool)), this, SLOT(_set_album_sorting_date(bool)));
 	connect (ui->showTrackLenghtNButton, SIGNAL(toggled(bool)), this, SLOT(_set_track_lenght_show_no(bool)));
@@ -53,6 +63,10 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 	connect (ui->orientationAButton, SIGNAL(toggled(bool)), this, SLOT(_set_orientation_auto(bool)));
 	connect (ui->orientationLButton, SIGNAL(toggled(bool)), this, SLOT(_set_orientation_landscape(bool)));
 	connect (ui->orientationPButton, SIGNAL(toggled(bool)), this, SLOT(_set_orientation_portrait(bool)));
+	connect (ui->iconstBButton, SIGNAL(toggled(bool)), this, SLOT(_set_icons_black(bool)));
+	connect (ui->iconsWButton, SIGNAL(toggled(bool)), this, SLOT(_set_icons_white(bool)));
+	connect (ui->gradientNButton, SIGNAL(toggled(bool)), this, SLOT(_set_gradient_no(bool)));
+	connect (ui->gradientYButton, SIGNAL(toggled(bool)), this, SLOT(_set_gradient_yes(bool)));
 
 	// disabled to 1.4.0
 	ui->albumSortingGroupBox->setVisible(false);
@@ -105,3 +119,26 @@ void SettingsDialog::_set_orientation_portrait(bool checked) {
 	config.setValue("ui/orientation", "portrait");
 }
 
+void SettingsDialog::_set_icons_black(bool checked) {
+	if (!checked) return;
+	Config config;
+	config.setValue("ui/iconstheme", "black");
+}
+
+void SettingsDialog::_set_icons_white(bool checked) {
+	if (!checked) return;
+	Config config;
+	config.setValue("ui/iconstheme", "white");
+}
+
+void SettingsDialog::_set_gradient_no(bool checked) {
+	if (!checked) return;
+	Config config;
+	config.setValue("ui/gradient", "no");
+}
+
+void SettingsDialog::_set_gradient_yes(bool checked) {
+	if (!checked) return;
+	Config config;
+	config.setValue("ui/gradient", "yes");
+}

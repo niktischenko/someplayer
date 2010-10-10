@@ -72,6 +72,8 @@ public slots:
 	void disableEqualizer() { _player->disableEqualizer(); }
 	void portraitMode();
 	void landscapeMode();
+	void updateIcons();
+	void checkGradient();
 
 private slots:
 	void _library();
@@ -105,6 +107,10 @@ private:
 	QMenu *_context_menu;
 	QString _search_pattern;
 	ToolsWidget *_tools_widget;
+	bool landscape;
+	QString _icons_theme;
+	QString _top_gradient;
+	QString _bottom_gradient;
 
 	TrackRenderer *_track_renderer;
 	TagResolver *_tag_resolver;

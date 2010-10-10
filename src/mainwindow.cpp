@@ -100,6 +100,10 @@ MainWindow::MainWindow(QWidget *parent) :
 		_equalizer_dialog->landscapeMode();
 		setAttribute(Qt::WA_Maemo5AutoOrientation);
 	}
+	_library_form->updateIcons();
+	_player_form->updateIcons();
+	_player_form->checkGradient();
+	_library_form->checkGradient();
 }
 
 MainWindow::~MainWindow()
@@ -248,6 +252,10 @@ void MainWindow::settings() {
 	} else if (mode == "auto") {
 		setAttribute(Qt::WA_Maemo5AutoOrientation);
 	}
+	_player_form->updateIcons();
+	_library_form->updateIcons();
+	_player_form->checkGradient();
+	_library_form->checkGradient();
 }
 
 void MainWindow::_orientation_changed() {

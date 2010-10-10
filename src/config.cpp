@@ -26,6 +26,8 @@ using namespace SomePlayer::Storage;
 Config::Config()
 {
 	_settings = new QSettings(QString(applicationDir())+"/settings.ini", QSettings::IniFormat);
+	if (_settings->value("ui/iconstheme").toString() == "")
+		_settings->setValue("ui/iconstheme", "white");
 }
 
 Config::~Config() {
