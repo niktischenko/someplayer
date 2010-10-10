@@ -26,6 +26,8 @@
 #include <QStandardItemModel>
 #include <QStandardItem>
 #include <QModelIndex>
+#include <QItemSelectionModel>
+#include <QItemSelection>
 #include "playlist.h"
 #include "toolswidget.h"
 
@@ -72,6 +74,7 @@ private slots:
 	void _back_button();
 	void _use_button();
 	void _process_list_click(QModelIndex);
+	void _process_selection(QItemSelection, QItemSelection);
 	void _more_button();
 
 private:
