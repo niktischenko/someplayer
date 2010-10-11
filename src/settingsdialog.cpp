@@ -34,13 +34,13 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 	QString orientation = config.getValue("ui/orientation").toString();
 	QString icons_theme = config.getValue("ui/iconstheme").toString();
 	QString gradient = config.getValue("ui/gradient").toString();
-	ui->albumsSortAButton->setChecked(true);	// defaule sorting
+	ui->albumsSortDButton->setChecked(true);	// defaule sorting
 	ui->showTrackLenghtYButton->setChecked(true);	// show by default
 	ui->orientationLButton->setChecked(true);
 	ui->iconsWButton->setChecked(true);
 	ui->gradientYButton->setChecked(true);
-	if (albumSorting == "date") {
-		ui->albumsSortDButton->setChecked(true);
+	if (albumSorting == "alphabet") {
+		ui->albumsSortAButton->setChecked(true);
 	}
 	if (showTrackLenght == "no") {
 		ui->showTrackLenghtNButton->setChecked(true);
@@ -67,9 +67,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 	connect (ui->iconsWButton, SIGNAL(toggled(bool)), this, SLOT(_set_icons_white(bool)));
 	connect (ui->gradientNButton, SIGNAL(toggled(bool)), this, SLOT(_set_gradient_no(bool)));
 	connect (ui->gradientYButton, SIGNAL(toggled(bool)), this, SLOT(_set_gradient_yes(bool)));
-
-	// disabled to 1.4.0
-	ui->albumSortingGroupBox->setVisible(false);
 }
 
 SettingsDialog::~SettingsDialog()

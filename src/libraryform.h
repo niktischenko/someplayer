@@ -39,7 +39,7 @@ using SomePlayer::DataObjects::Library;
 using SomePlayer::DataObjects::Track;
 using SomePlayer::DataObjects::Playlist;
 
-enum LibraryFormListState {STATE_NONE, STATE_ARTIST, STATE_ALBUM, STATE_TRACK, STATE_PLAYLIST, STATE_PLAYLIST_TRACK, STATE_DYNAMIC};
+enum LibraryFormListState {STATE_NONE, STATE_ARTIST, STATE_ALBUM, STATE_TRACK, STATE_PLAYLIST, STATE_PLAYLIST_TRACK, STATE_DYNAMIC, STATE_SEARCH};
 
 class LibraryForm : public QWidget
 {
@@ -78,6 +78,8 @@ private slots:
 	void _process_dblclick(QModelIndex);
 	void _process_selection(QItemSelection, QItemSelection);
 	void _more_button();
+	void _search_button(bool);
+	void _search_in_library(QString);
 
 private:
 	Ui::LibraryForm *ui;

@@ -20,6 +20,7 @@
 #include "dbstorage.h"
 #include <QSqlQuery>
 #include <QSqlResult>
+#include <QDebug>
 
 using namespace SomePlayer::Storage;
 using namespace SomePlayer::DataObjects;
@@ -89,6 +90,14 @@ void DbStorage::_prepare_queries() {
 								"tracks JOIN artist ON tracks.artist_id = artist.id AND source = :source) "
 								"JOIN album ON album_id = album.id LIMIT 1");
 
+	_get_tracks_by_pattern_query = new QSqlQuery(db);
+	_get_tracks_by_pattern_query->prepare("SELECT id, title, artist, album, source, count, length, year FROM "
+					      "entire WHERE "
+					      "utitle LIKE (SELECT '%' || :ptitle || '%') OR "
+					      "album_uname LIKE (SELECT '%' || :palbum || '%') OR "
+					      "artist_uname LIKE (SELECT '%' || :partist || '%') "
+					      "ORDER BY artist_uname, year");
+
 	_check_artist_query = new QSqlQuery(db);
 	_check_artist_query->prepare("SELECT id FROM artist WHERE uname = :uname");
 
@@ -151,6 +160,21 @@ void DbStorage::_create_database_structure() {
 								"date integer, "
 								"foreign key(track_id) references tracks(id) "
 								");");
+	query->exec("create view entire as "
+		    "select id, title, artist_name as artist, album_name as album, source, count, length, album_year as year, utitle, artist_uname, album_uname from "
+			"tracks left join "
+				"(select artist.id as aartist_id, "
+				"artist.uname as artist_uname, "
+				"artist.name as artist_name, "
+				"album.uname as album_uname, "
+				"album.year as album_year, "
+				"album.id as aalbum_id, "
+				"album.name as album_name from "
+					"artist "
+					"join album "
+					"on album.artist_id = artist.id) "
+				"on aartist_id = tracks.artist_id "
+				"and aalbum_id = tracks.album_id");
 }
 
 DbStorage::~DbStorage() {
@@ -163,6 +187,7 @@ DbStorage::~DbStorage() {
 	delete _get_recently_added_query;
 	delete _get_tracks_for_album_query;
 	delete _get_track_by_source_query;
+	delete _get_tracks_by_pattern_query;
 	delete _check_album_query;
 	delete _check_artist_query;
 	delete _check_track_query;
@@ -460,4 +485,30 @@ int DbStorage::_check_add_album(QString album, int artist_id, int year) {
 			return -1;
 		}
 	}
+}
+
+QList<Track> DbStorage::search(QString pattern) {
+	QList <Track> found;
+	QSqlQuery *query = _get_tracks_by_pattern_query;
+	query->bindValue(":ptitle", pattern.toUpper()); // with :pattern only doesn't work
+	query->bindValue(":palbum", pattern.toUpper());
+	query->bindValue(":partist", pattern.toUpper());
+	query->exec();
+	// id, title, artist, album, source, count, length, year
+	while (query->next()) {
+		int id = query->value(0).toInt();
+		QString title = query->value(1).toString();
+		QString artist = query->value(2).toString();
+		QString album = query->value(3).toString();
+		QString source = query->value(4).toString();
+		int count = query->value(5).toInt();
+		int length = query->value(6).toInt();
+		int year = query->value(7).toInt();
+		TrackMetadata meta(title, artist, album, length);
+		meta.setYear(year);
+		Track track(id, meta, source);
+		track.setCount(count);
+		found.append(track);
+	}
+	return found;
 }

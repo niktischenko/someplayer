@@ -51,6 +51,8 @@ namespace SomePlayer {
 			Playlist getNeverPlayed();
 			Playlist getRecentlyAdded();
 
+			QList<Track> search(QString pattern);
+
 			void removeTrack(Track track);
 			void addToFavorites(Track track);
 
@@ -77,6 +79,7 @@ namespace SomePlayer {
 			QSqlQuery *_get_recently_added_query;
 			QSqlQuery *_get_track_count;
 			QSqlQuery *_get_track_by_source_query;
+			QSqlQuery *_get_tracks_by_pattern_query;
 
 			QSqlQuery *_check_artist_query;
 			QSqlQuery *_check_album_query;

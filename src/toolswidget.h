@@ -39,6 +39,7 @@ public:
 public slots:
 	void updateIcons();
 	void show();
+	void toggleArrows(bool);
 
 signals:
 	void toggleFullscreen(bool);

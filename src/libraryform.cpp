@@ -59,18 +59,28 @@ inline void __fill_model_album(QStandardItemModel *model, QMap<QString, int> dat
 	model->clear();
 	int count = data.count();
 	model->setRowCount(count);
-	QMap<int, QList<QString> > years;
-	foreach (QString name, data.keys()) {
-		years[data[name]].append(name);
-	}
-	QList<int> keys = years.keys();
-	qSort(keys);
-
 	int i = 0;
-	foreach (int year, keys) {
-		foreach (QString name, years[year]) {
+	Config config;
+	if (config.getValue("ui/albumsorting").toString() == "date") {
+		QMap<int, QList<QString> > years;
+		foreach (QString name, data.keys()) {
+			years[data[name]].append(name);
+		}
+		QList<int> keys = years.keys();
+		qSort(keys);
+
+		foreach (int year, keys) {
+			foreach (QString name, years[year]) {
+				model->setItem(i, 0, new QStandardItem(QIcon(":/icons/"+icons_theme+"/deselect_all.png"), ""));
+				model->setItem(i, 1, new QStandardItem(QString("[%1] %2").arg(year).arg(name)));
+				i++;
+			}
+		}
+	} else {
+		QList<QString> names = data.keys();
+		foreach (QString name, names) {
 			model->setItem(i, 0, new QStandardItem(QIcon(":/icons/"+icons_theme+"/deselect_all.png"), ""));
-			model->setItem(i, 1, new QStandardItem(QString("[%1] %2").arg(year).arg(name)));
+			model->setItem(i, 1, new QStandardItem(QString("[%1] %2").arg(data[name]).arg(name)));
 			i++;
 		}
 	}
@@ -104,6 +114,11 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 	_model->setColumnCount(2);
 	_state = STATE_NONE;
 	_tools_widget = new ToolsWidget(this);
+	QPushButton *search_in_library = new QPushButton(QIcon(":/icons/"+_icons_theme+"/search.png"), "", _tools_widget);
+	search_in_library->setFlat(true);
+	search_in_library->setCheckable(true);
+	_tools_widget->layout()->addItem(new QSpacerItem(20, 20));
+	_tools_widget->layout()->addWidget(search_in_library);
 	ui->setupUi(this);
 	ui->listView->setModel(_model);
 	ui->listView->setColumnWidth(0, 70);
@@ -127,6 +142,7 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 	connect(_tools_widget, SIGNAL(prevSearch()), this, SLOT(prevItem()));
 	connect(_tools_widget, SIGNAL(toggleFullscreen(bool)), this, SIGNAL(fullscreen(bool)));
 	connect(ui->moreButton, SIGNAL(clicked()), this, SLOT(_more_button()));
+	connect(search_in_library, SIGNAL(toggled(bool)), this, SLOT(_search_button(bool)));
 	_view_button();
 	_current_playlist_changed = true;
 	_top_gradient = ui->topWidget->styleSheet();
@@ -300,6 +316,13 @@ void LibraryForm::_add_button() {
 		_current_playlist_changed = true;
 		break;
 	case STATE_PLAYLIST_TRACK:
+		foreach (QModelIndex id, selected) {
+			_add_track(&cur, _current_tracks.at(id.row()));
+		}
+		_lib->saveCurrentPlaylist(cur);
+		_current_playlist_changed = true;
+		break;
+	case STATE_SEARCH:
 		foreach (QModelIndex id, selected) {
 			_add_track(&cur, _current_tracks.at(id.row()));
 		}
@@ -676,7 +699,7 @@ void LibraryForm::_process_selection(QItemSelection selected, QItemSelection des
 void LibraryForm::_process_dblclick(QModelIndex id) {
 	if (id.column() == 0)
 		return;
-	if (_state == STATE_TRACK || _state == STATE_PLAYLIST_TRACK) {
+	if (_state == STATE_TRACK || _state == STATE_PLAYLIST_TRACK || _state == STATE_SEARCH) {
 		Playlist cur = _lib->getCurrentPlaylist();
 		Track track = _current_tracks.at(id.row());
 		cur.addTrack(track);
@@ -687,3 +710,39 @@ void LibraryForm::_process_dblclick(QModelIndex id) {
 	}
 }
 
+void LibraryForm::_search_button(bool state) {
+	ui->moreButton->setEnabled(!state);
+	_tools_widget->toggleArrows(!state);
+	ui->backButton->setEnabled(!state);
+	_tools_widget->setFocus();
+	_tools_widget->reset();
+	if (state) {
+		ui->listLabel->setText("Search in library");
+		ui->deleteButton->setIcon(QIcon());
+		ui->deleteButton->setEnabled(false);
+		ui->useButton->setIcon(QIcon());
+		ui->useButton->setEnabled(false);
+		ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
+		ui->addButton->setEnabled(true);
+		disconnect(_tools_widget, SIGNAL(search(QString)), this, SLOT(search(QString)));
+		connect(_tools_widget, SIGNAL(search(QString)), this, SLOT(_search_in_library(QString)));
+		_model->clear();
+		_state = STATE_SEARCH;
+	} else {
+		_view_button();
+		connect(_tools_widget, SIGNAL(search(QString)), this, SLOT(search(QString)));
+		disconnect(_tools_widget, SIGNAL(search(QString)), this, SLOT(_search_in_library(QString)));
+	}
+}
+
+void LibraryForm::_search_in_library(QString pattern) {
+	pattern = pattern.trimmed();
+	if (pattern.isEmpty()) {
+		_model->clear();
+		return;
+	}
+	_current_tracks = _lib->search(pattern);
+	__fill_model_tracks(_model, _current_tracks, _icons_theme);
+	ui->listView->setColumnWidth(0, 70);
+	ui->listView->scrollToTop();
+}

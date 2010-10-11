@@ -69,3 +69,8 @@ void ToolsWidget::show() {
 	updateIcons();
 	QWidget::show();
 }
+
+void ToolsWidget::toggleArrows(bool state) {
+	ui->nextButton->setVisible(state);
+	ui->prevButton->setVisible(state);
+}
