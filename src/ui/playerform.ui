@@ -131,19 +131,6 @@
            </property>
           </widget>
          </item>
-         <item>
-          <widget class="QSlider" name="volumeSlider">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="invertedAppearance">
-            <bool>false</bool>
-           </property>
-           <property name="invertedControls">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
         </layout>
        </widget>
        <widget class="QWidget" name="page_2">
@@ -313,6 +300,19 @@
        </widget>
       </widget>
      </item>
+     <item>
+      <widget class="QSlider" name="volumeSlider">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="invertedAppearance">
+        <bool>false</bool>
+       </property>
+       <property name="invertedControls">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -438,7 +438,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/white/repeat_inactive.png</normaloff>:/icons/white/repeat_inactive.png</iconset>
+         <normaloff>:/icons/white/repeat_off.png</normaloff>:/icons/white/repeat_off.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -479,7 +479,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/white/random_inactive.png</normaloff>:/icons/white/random_inactive.png</iconset>
+         <normaloff>:/icons/white/random_off.png</normaloff>:/icons/white/random_off.png</iconset>
        </property>
        <property name="iconSize">
         <size>

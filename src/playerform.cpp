@@ -59,14 +59,16 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_time = new QTime();
 	ui->setupUi(this);
 	if (_player->random()) {
-		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_active.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_on.png"));
 	} else {
-		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_inactive.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_off.png"));
 	}
-	if (_player->repeat()) {
-		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_active.png"));
+	if (_player->repeat() == REPEAT_ALL) {
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_all.png"));
+	} else if (_player->repeat() == REPEAT_NO){
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_off.png"));
 	} else {
-		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_inactive.png"));
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_one.png"));
 	}
 	ui->volumeSlider->setMinimum(0);
 	ui->volumeSlider->setMaximum(100);
@@ -254,18 +256,20 @@ void PlayerForm::_state_changed(PlayerState state) {
 void PlayerForm::_toggle_random() {
 	_player->toggleRandom();
 	if (_player->random()) {
-		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_active.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_on.png"));
 	} else {
-		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_inactive.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_off.png"));
 	}
 }
 
 void PlayerForm::_toggle_repeat() {
 	_player->toggleRepeat();
-	if (_player->repeat()) {
-		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_active.png"));
+	if (_player->repeat() == REPEAT_ALL) {
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_all.png"));
+	} else if (_player->repeat() == REPEAT_NO){
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_off.png"));
 	} else {
-		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_inactive.png"));
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_one.png"));
 	}
 }
 
@@ -499,15 +503,17 @@ void PlayerForm::updateIcons() {
 	} else {
 		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
 	}
-	if (_player->repeat()) {
-		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_active.png"));
+	if (_player->repeat() == REPEAT_ALL) {
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_all.png"));
+	} else if (_player->repeat() == REPEAT_NO){
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_off.png"));
 	} else {
-		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_inactive.png"));
+		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_one.png"));
 	}
 	if (_player->random()) {
-		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_active.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_on.png"));
 	} else {
-		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_inactive.png"));
+		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_off.png"));
 	}
 }
 
@@ -519,5 +525,14 @@ void PlayerForm::checkGradient() {
 	} else {
 		ui->topWidget->setStyleSheet("");
 		ui->bottomWidget->setStyleSheet("");
+	}
+}
+
+void PlayerForm::play(Track track) {
+	reload(true);
+	int id = _current_playlist.tracks().indexOf(track);
+	if (id > 0) {
+		_player->setTrackId(id);
+		_player->play();
 	}
 }

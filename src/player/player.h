@@ -44,6 +44,7 @@ namespace SomePlayer {
 	namespace Playback {
 
 		enum PlayerState { PLAYER_STOPPED, PLAYER_PLAYING, PLAYER_PAUSED, PLAYER_LOADING, PLAYER_DONE, PLAYER_ERROR };
+		enum RepeatRule {REPEAT_NO, REPEAT_ALL, REPEAT_ONE};
 
 		class Randomizer {
 		public:
@@ -63,7 +64,7 @@ namespace SomePlayer {
 			explicit Player(QObject *parent = 0);
 
 			bool random() {return _random;}
-			bool repeat() {return _repeat;}
+			RepeatRule repeat() {return _repeat;}
 			int volume() {return (int)(_output->volume()*100 + 0.5);}
 			Phonon::MediaObject* mediaObject() {return _player;}
 			bool equalizerEnabled() {return _equalizer_enabled;}
@@ -104,7 +105,7 @@ namespace SomePlayer {
 			int _current;
 			Track _track; // current track (workaround)
 			bool _random;
-			bool _repeat;
+			RepeatRule _repeat;
 			bool _equalizer_enabled;
 			QStack<int> _history;
 			QQueue<int> _queue;

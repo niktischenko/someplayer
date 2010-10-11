@@ -93,6 +93,7 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 	connect(ui->playlistsButton, SIGNAL(clicked()), this, SLOT(_playlists_button()));
 	connect(ui->dynamicButton, SIGNAL(clicked()), this, SLOT(_dynamic_button()));
 	connect(ui->listView, SIGNAL(clicked(QModelIndex)), this, SLOT(_process_list_click(QModelIndex)));
+	connect(ui->listView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(_process_dblclick(QModelIndex)));
 	connect(ui->listView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
 		this, SLOT(_process_selection(QItemSelection,QItemSelection)));
 	connect(ui->addButton, SIGNAL(clicked()), this, SLOT(_add_button()));
@@ -225,6 +226,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 			ui->listView->setColumnWidth(0, 70);
 			ui->listView->scrollToTop();
 			_state = STATE_PLAYLIST_TRACK;
+			_is_dynamic = true;
 			ui->backButton->setEnabled(true);
 			ui->useButton->setEnabled(true);
 			ui->useButton->setIcon(QIcon(":/icons/"+_icons_theme+"/use.png"));
@@ -328,7 +330,12 @@ void LibraryForm::_back_button() {
 		ui->listLabel->setText(QString("Albums by \"%1\"").arg(_current_artist));
 		break;
 	case STATE_PLAYLIST_TRACK:
-		_playlists_button();
+		if (_is_dynamic) {
+			_dynamic_button();
+			_is_dynamic = false;
+		} else {
+			_playlists_button();
+		}
 		ui->listView->scrollToTop();
 	default:
 		return;
@@ -614,6 +621,7 @@ void LibraryForm::updateIcons() {
 	} else {
 		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/select_all.png"));
 	}
+	refresh();
 }
 
 void LibraryForm::checkGradient() {
@@ -641,3 +649,19 @@ void LibraryForm::_process_selection(QItemSelection selected, QItemSelection des
 		ui->listView->selectionModel()->select(id, QItemSelectionModel::Deselect);
 	}
 }
+
+void LibraryForm::_process_dblclick(QModelIndex id) {
+	if (id.column() == 0)
+		return;
+	if (_state == STATE_TRACK || _state == STATE_PLAYLIST_TRACK) {
+		qWarning() << "double clicked";
+		Playlist cur = _lib->getCurrentPlaylist();
+		Track track = _current_tracks.at(id.row());
+		cur.addTrack(track);
+		_lib->saveCurrentPlaylist(cur);
+		_current_playlist_changed = true;
+		emit addAndPlay(track);
+		ui->listView->clearSelection();
+	}
+}
+

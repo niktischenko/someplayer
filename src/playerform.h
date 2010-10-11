@@ -74,6 +74,7 @@ public slots:
 	void landscapeMode();
 	void updateIcons();
 	void checkGradient();
+	void play(Track);
 
 private slots:
 	void _library();

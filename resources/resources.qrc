@@ -1,37 +1,5 @@
 <RCC>
     <qresource prefix="/icons">
-        <file>white/add.png</file>
-        <file>white/artists.png</file>
-        <file>white/back.png</file>
-        <file>white/delete.png</file>
-        <file>white/deselect_all.png</file>
-        <file>white/dynamic.png</file>
-        <file>white/fav.png</file>
-        <file>white/forward.png</file>
-        <file>white/fullscreen.png</file>
-        <file>white/library.png</file>
-        <file>white/next.png</file>
-        <file>white/pause.png</file>
-        <file>white/play.png</file>
-        <file>white/playback.png</file>
-        <file>white/player.png</file>
-        <file>white/playlist.png</file>
-        <file>white/playlists.png</file>
-        <file>white/prev.png</file>
-        <file>white/random_active.png</file>
-        <file>white/random_inactive.png</file>
-        <file>white/repeat_active.png</file>
-        <file>white/repeat_inactive.png</file>
-        <file>white/search.png</file>
-        <file>white/select_all.png</file>
-        <file>white/stop.png</file>
-        <file>white/use.png</file>
-        <file>white/volume.png</file>
-        <file>white/window.png</file>
-        <file>white/more.png</file>
-        <file>white/unmore.png</file>
-        <file>white/more_l.png</file>
-        <file>white/unmore_l.png</file>
         <file>black/add.png</file>
         <file>black/artists.png</file>
         <file>black/back.png</file>
@@ -52,10 +20,11 @@
         <file>black/playlist.png</file>
         <file>black/playlists.png</file>
         <file>black/prev.png</file>
-        <file>black/random_active.png</file>
-        <file>black/random_inactive.png</file>
-        <file>black/repeat_active.png</file>
-        <file>black/repeat_inactive.png</file>
+        <file>black/random_off.png</file>
+        <file>black/random_on.png</file>
+        <file>black/repeat_all.png</file>
+        <file>black/repeat_off.png</file>
+        <file>black/repeat_one.png</file>
         <file>black/search.png</file>
         <file>black/select_all.png</file>
         <file>black/stop.png</file>
@@ -64,5 +33,38 @@
         <file>black/use.png</file>
         <file>black/volume.png</file>
         <file>black/window.png</file>
+        <file>white/add.png</file>
+        <file>white/artists.png</file>
+        <file>white/back.png</file>
+        <file>white/delete.png</file>
+        <file>white/deselect_all.png</file>
+        <file>white/dynamic.png</file>
+        <file>white/fav.png</file>
+        <file>white/forward.png</file>
+        <file>white/fullscreen.png</file>
+        <file>white/library.png</file>
+        <file>white/more_l.png</file>
+        <file>white/more.png</file>
+        <file>white/next.png</file>
+        <file>white/pause.png</file>
+        <file>white/play.png</file>
+        <file>white/playback.png</file>
+        <file>white/player.png</file>
+        <file>white/playlist.png</file>
+        <file>white/playlists.png</file>
+        <file>white/prev.png</file>
+        <file>white/random_off.png</file>
+        <file>white/random_on.png</file>
+        <file>white/repeat_all.png</file>
+        <file>white/repeat_off.png</file>
+        <file>white/repeat_one.png</file>
+        <file>white/search.png</file>
+        <file>white/select_all.png</file>
+        <file>white/stop.png</file>
+        <file>white/unmore_l.png</file>
+        <file>white/unmore.png</file>
+        <file>white/use.png</file>
+        <file>white/volume.png</file>
+        <file>white/window.png</file>
     </qresource>
 </RCC>

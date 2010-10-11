@@ -53,6 +53,7 @@ signals:
 	void busy(QString);
 	void done();
 	void fullscreen(bool);
+	void addAndPlay(Track);
 public slots:
 	void search(QString);
 	void nextItem();
@@ -74,6 +75,7 @@ private slots:
 	void _back_button();
 	void _use_button();
 	void _process_list_click(QModelIndex);
+	void _process_dblclick(QModelIndex);
 	void _process_selection(QItemSelection, QItemSelection);
 	void _more_button();
 
@@ -82,6 +84,7 @@ private:
 	Library *_lib;
 	QStandardItemModel *_model;
 	LibraryFormListState _state;
+	bool _is_dynamic; // workaround
 	QString _current_artist;
 	QString _current_album;
 	Playlist _current_playlist;

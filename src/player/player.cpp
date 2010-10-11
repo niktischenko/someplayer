@@ -96,7 +96,7 @@ Player::Player(QObject *parent) :
 	int seed = QTime::currentTime().msec();
 	qsrand(seed);
 	_random = _config.getValue("playback/random").toBool();
-	_repeat = _config.getValue("playback/repeat").toBool();
+	_repeat = (RepeatRule) _config.getValue("playback/repeat").toInt();
 	_current = -1;
 }
 
@@ -133,6 +133,11 @@ void Player::next() {
 		stop(); // empty playlist
 		return;
 	}
+	if (_repeat == REPEAT_ONE) {
+		_set_source();
+		play();
+		return;
+	}
 	_history.push(_current % count);
 	if (!_queue.isEmpty()) {
 		_current = _queue.dequeue();
@@ -145,8 +150,8 @@ void Player::next() {
 			_current = _current + 1;
 		}
 	}
-	if (_random && _history.count() >= count && !_repeat ||
-		!_repeat && _current >= count) {
+	if (_random && _history.count() >= count && _repeat == REPEAT_NO||
+		_repeat == REPEAT_NO && _current >= count) {
 		_history.clear();
 		stop();
 	} else {
@@ -250,7 +255,13 @@ void Player::toggleRandom() {
 }
 
 void Player::toggleRepeat() {
-	_repeat = !_repeat;
+	if (_repeat == REPEAT_NO) {
+		_repeat = REPEAT_ALL;
+	} else if (_repeat == REPEAT_ALL) {
+		_repeat = REPEAT_ONE;
+	} else if (_repeat == REPEAT_ONE) {
+		_repeat = REPEAT_NO;
+	}
 	_config.setValue("playback/repeat", _repeat);
 }
 

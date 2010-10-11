@@ -81,6 +81,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(QApplication::desktop(), SIGNAL(resized(int)), this, SLOT(_orientation_changed()));
 	connect(_player_form, SIGNAL(fullscreen(bool)), this, SLOT(_fullscreen(bool)));
 	connect(_library_form, SIGNAL(fullscreen(bool)), this, SLOT(_fullscreen(bool)));
+	connect(_library_form, SIGNAL(addAndPlay(Track)), _player_form, SLOT(play(Track)));
 	_player_form->reload(true);
 	library();
 	QString mode = config.getValue("ui/orientation").toString();
