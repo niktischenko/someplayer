@@ -54,7 +54,7 @@ QList<QString> Library::getArtists() {
 	return _library_storage->getArtists();
 }
 
-QList<QString> Library::getAlbumsForArtist(QString artist) {
+QMap<QString, int> Library::getAlbumsForArtist(QString artist) {
 	return _library_storage->getAlbumsForArtist(artist);
 }
 

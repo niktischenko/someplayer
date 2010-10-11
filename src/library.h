@@ -51,7 +51,7 @@ namespace SomePlayer {
 			void addFile(QString path);
 
 			QList<QString> getArtists();
-			QList<QString> getAlbumsForArtist(QString artist);
+			QMap<QString, int> getAlbumsForArtist(QString artist);
 			QList<Track> getTracksForAlbum(QString album, QString artist);
 
 			Playlist getFavorites();

@@ -215,6 +215,8 @@ void PlayerForm::_custom_context_menu_requested(const QPoint &pos) {
 
 void PlayerForm::_delete_track() {
 	QList<QModelIndex> idx = ui->playlistView->selectionModel()->selectedIndexes();
+	if (idx.isEmpty())
+		return;
 	int id = idx.first().row();
 	int aid = _track_renderer->activeRow();
 	if (aid > id) {
@@ -229,12 +231,16 @@ void PlayerForm::_delete_track() {
 
 void PlayerForm::_enqueue_track() {
 	QList<QModelIndex> idx = ui->playlistView->selectionModel()->selectedIndexes();
+	if (idx.isEmpty())
+		return;
 	int id = idx.first().row();
 	_player->enqueue(id);
 }
 
 void PlayerForm::_add_to_favorites() {
 	QList<QModelIndex> idx = ui->playlistView->selectionModel()->selectedIndexes();
+	if (idx.isEmpty())
+		return;
 	int id = idx.first().row();
 	_lib->addToFavorites(_current_playlist.tracks().at(id));
 }
@@ -332,6 +338,8 @@ void PlayerForm::_track_decoded(Track track) {
 
 void PlayerForm::_add_to_playlists() {
 	QList<QModelIndex> idx = ui->playlistView->selectionModel()->selectedIndexes();
+	if (idx.isEmpty())
+		return;
 	int id = idx.first().row();
 
 	QList<QString> names = _lib->getPlaylistsNames();
@@ -349,6 +357,8 @@ void PlayerForm::_add_to_playlists() {
 
 void PlayerForm::_edit_tags() {
 	QList<QModelIndex> idx = ui->playlistView->selectionModel()->selectedIndexes();
+	if (idx.isEmpty())
+		return;
 	Track track = _current_playlist.tracks().at(idx.first().row());
 
 	EditTagsDialog dialog(this);

@@ -43,7 +43,7 @@ namespace SomePlayer {
 			DbStorage(QString path);
 			~DbStorage();
 			QList<QString> getArtists();
-			QList<QString> getAlbumsForArtist(QString artist);
+			QMap<QString, int> getAlbumsForArtist(QString artist);
 			QList<Track> getTracksForAlbum(QString album, QString artist); // hm...
 
 			Playlist getFavorites();
@@ -64,11 +64,12 @@ namespace SomePlayer {
 			void _prepare_queries();
 
 			int _check_add_artist(QString artist);
-			int _check_add_album(QString album, int artist_id);
+			int _check_add_album(QString album, int artist_id, int year);
 
 			// queries
 			QSqlQuery *_get_artists_query;
-			QSqlQuery *_get_albums_for_artist_query;
+			QSqlQuery *_get_albums_for_artist_sort_name_query;
+			QSqlQuery *_get_albums_for_artist_sort_year_query;
 			QSqlQuery *_get_tracks_for_album_query;
 			QSqlQuery *_get_favorites_query;
 			QSqlQuery *_get_most_played_query;

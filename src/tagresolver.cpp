@@ -22,6 +22,7 @@
 #include <QFileInfo>
 #include <tag.h>
 #include <fileref.h>
+#include <QDebug>
 
 using namespace SomePlayer::DataObjects;
 
@@ -42,6 +43,7 @@ void TagResolver::decode(QStringList files) {
 							   QString::fromStdWString(tag->artist().toWString()),
 							   QString::fromStdWString(tag->album().toWString()),
 							   properties->length());
+					meta.setYear(tag->year());
 					Track track(0, meta, filename);
 					emit decoded(track);
 				}

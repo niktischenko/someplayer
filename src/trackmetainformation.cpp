@@ -34,6 +34,7 @@ TrackMetadata::TrackMetadata(QString title = "", QString artist = "", QString al
 TrackMetadata::TrackMetadata(const TrackMetadata &metadata) {
 	this->_metadata = metadata._metadata;
 	this->_length = metadata._length;
+	this->_year = metadata._year;
 }
 
 QString TrackMetadata::title() {
@@ -64,6 +65,10 @@ int TrackMetadata::length() {
 	return _length;
 }
 
+int TrackMetadata::year() {
+	return _year;
+}
+
 void TrackMetadata::setTitle(QString title) {
 	_metadata["TITLE"] = title;
 }
@@ -78,4 +83,8 @@ void TrackMetadata::setAlbum(QString album) {
 
 void TrackMetadata::setLength(int length) {
 	_length = length;
+}
+
+void TrackMetadata::setYear(int year) {
+	_year = year;
 }

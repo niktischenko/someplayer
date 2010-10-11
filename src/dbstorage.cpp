@@ -38,15 +38,18 @@ DbStorage::DbStorage(QString path) {
 
 void DbStorage::_prepare_queries() {
 	_get_artists_query = new QSqlQuery(db);
-	_get_artists_query->prepare("SELECT name FROM artist ORDER BY name");
+	_get_artists_query->prepare("SELECT name FROM artist ORDER BY uname");
 
-	_get_albums_for_artist_query = new QSqlQuery(db);
-	_get_albums_for_artist_query->prepare("SELECT name FROM album WHERE artist_id in (SELECT id from artist WHERE UPPER(name) = UPPER(:name)) ORDER BY name;");
+	_get_albums_for_artist_sort_name_query = new QSqlQuery(db);
+	_get_albums_for_artist_sort_name_query->prepare("SELECT name, year FROM album WHERE artist_id in (SELECT id from artist WHERE uname = :uname) ORDER BY uname;");
+
+	_get_albums_for_artist_sort_year_query = new QSqlQuery(db);
+	_get_albums_for_artist_sort_year_query->prepare("SELECT name, year FROM album WHERE artist_id in (SELECT id from artist WHERE uname = :uname) ORDER BY year;");
 
 	_get_tracks_for_album_query = new QSqlQuery(db);
 	_get_tracks_for_album_query->prepare("SELECT id, title, source, count, length FROM tracks WHERE artist_id IN "
-								"(SELECT id FROM artist WHERE UPPER(name) = UPPER(:artist_name)) AND album_id IN "
-								"(SELECT id FROM album WHERE UPPER(name) = UPPER(:album_name));");
+								"(SELECT id FROM artist WHERE uname = :artist_uname) AND album_id IN "
+								"(SELECT id FROM album WHERE uname = :album_uname);");
 
 	_get_favorites_query = new QSqlQuery(db);
 	_get_favorites_query->prepare("SELECT track_id as id, title, artist, album.name as album, source, count, length FROM "
@@ -87,22 +90,22 @@ void DbStorage::_prepare_queries() {
 								"JOIN album ON album_id = album.id LIMIT 1");
 
 	_check_artist_query = new QSqlQuery(db);
-	_check_artist_query->prepare("SELECT id FROM artist WHERE UPPER(name) = UPPER(:name)");
+	_check_artist_query->prepare("SELECT id FROM artist WHERE uname = :uname");
 
 	_check_album_query = new QSqlQuery(db);
-	_check_album_query->prepare("SELECT id FROM album WHERE UPPER(name) = UPPER(:name) AND artist_id = :artist_id");
+	_check_album_query->prepare("SELECT id FROM album WHERE uname = :uname AND artist_id = :artist_id");
 
 	_check_track_query = new QSqlQuery(db);
 	_check_track_query->prepare("SELECT id FROM tracks WHERE source = :source");
 
 	_insert_artist_query = new QSqlQuery(db);
-	_insert_artist_query->prepare("INSERT INTO artist (name) values (:name)");
+	_insert_artist_query->prepare("INSERT INTO artist (name, uname) values (:name, :uname)");
 
 	_insert_album_query = new QSqlQuery(db);
-	_insert_album_query->prepare("INSERT INTO album (name, artist_id) values (:name, :artist_id)");
+	_insert_album_query->prepare("INSERT INTO album (name, uname, artist_id, year) values (:name, :uname, :artist_id, :year)");
 
 	_insert_track_query = new QSqlQuery(db);
-	_insert_track_query->prepare("INSERT INTO tracks (title, artist_id, album_id, source, length) values (:title, :artist_id, :album_id, :source, :length)");
+	_insert_track_query->prepare("INSERT INTO tracks (title, utitle, artist_id, album_id, source, length) values (:title, :utitle, :artist_id, :album_id, :source, :length)");
 
 	_insert_date_query = new QSqlQuery(db);
 	_insert_date_query->prepare("INSERT INTO adding_date (track_id, date) values (:track_id, strftime('%s', 'now'))");
@@ -120,17 +123,21 @@ void DbStorage::_prepare_queries() {
 void DbStorage::_create_database_structure() {
 	QSqlQuery *query = new QSqlQuery(db);
 	query->exec("create table artist (id integer primary key, "
-								"name text "
+								"name text, "
+								"uname text "
 								");");
 	query->exec("create table album (id integer primary key, "
 								"artist_id integer, "
 								"name text, "
+								"uname text, "
+								"year int, "
 								"foreign key(artist_id) references arist(id) "
 								");");
 	query->exec("create table tracks (id integer primary key, "
 								"artist_id integer, "
 								"album_id integer, "
 								"title text, "
+								"utitle text, "
 								"source text, "
 								"count integer default 0, "
 								"length integer default 0, "
@@ -147,7 +154,8 @@ void DbStorage::_create_database_structure() {
 }
 
 DbStorage::~DbStorage() {
-	delete _get_albums_for_artist_query;
+	delete _get_albums_for_artist_sort_name_query;
+	delete _get_albums_for_artist_sort_year_query;
 	delete _get_artists_query;
 	delete _get_favorites_query;
 	delete _get_most_played_query;
@@ -179,14 +187,21 @@ QList<QString> DbStorage::getArtists() {
 	return artists;
 }
 
-QList<QString> DbStorage::getAlbumsForArtist(QString artist) {
-	QList<QString> albums;
-	QSqlQuery *query = _get_albums_for_artist_query;
-	query->bindValue(":name", artist);
+QMap<QString, int> DbStorage::getAlbumsForArtist(QString artist) {
+	QMap<QString, int> albums;
+	Config config;
+	QString sort = config.getValue("ui/albumsorting").toString();
+	QSqlQuery *query = NULL;
+	if (sort == "date") {
+		query = _get_albums_for_artist_sort_year_query;
+	} else {
+		query = _get_albums_for_artist_sort_name_query;
+	}
+	query->bindValue(":uname", artist.toUpper());
 	query->exec();
 	while (query->next()) {
 		QString name = query->value(0).toString();
-		albums.append(name);
+		albums[name] = query->value(1).toInt();
 	}
 	return albums;
 }
@@ -194,8 +209,8 @@ QList<QString> DbStorage::getAlbumsForArtist(QString artist) {
 QList<Track> DbStorage::getTracksForAlbum(QString album, QString artist) {
 	QList<Track> tracks;
 	QSqlQuery *query = _get_tracks_for_album_query;
-	query->bindValue(":artist_name", artist);
-	query->bindValue(":album_name", album);
+	query->bindValue(":artist_uname", artist.toUpper());
+	query->bindValue(":album_uname", album.toUpper());
 	query->exec();
 
 	while (query->next()) {
@@ -319,8 +334,9 @@ void DbStorage::addTrack(Track track) {
 	QString artist = track.metadata().artist();
 	QString album = track.metadata().album();
 	QString source = track.source();
+	int year = track.metadata().year();
 	int artist_id = _check_add_artist(artist);
-	int album_id = _check_add_album(album, artist_id);
+	int album_id = _check_add_album(album, artist_id, year);
 	if (artist_id == -1 || album_id == -1) {
 		//big bang
 		return;
@@ -334,6 +350,7 @@ void DbStorage::addTrack(Track track) {
 	}
 	query = _insert_track_query;
 	query->bindValue(":title", title);
+	query->bindValue(":utitle", title.toUpper());
 	query->bindValue(":artist_id", artist_id);
 	query->bindValue(":album_id", album_id);
 	query->bindValue(":source", source);
@@ -404,7 +421,7 @@ Track DbStorage::updateTrack(Track track) {
 
 int DbStorage::_check_add_artist(QString artist) {
 	QSqlQuery *query = _check_artist_query;
-	query->bindValue(":name", artist);
+	query->bindValue(":uname", artist.toUpper());
 	query->exec();
 	if (query->next()) {
 		int id = query->value(0).toInt();
@@ -412,6 +429,7 @@ int DbStorage::_check_add_artist(QString artist) {
 	} else {
 		query = _insert_artist_query;
 		query->bindValue(":name", artist);
+		query->bindValue(":uname", artist.toUpper());
 		if (query->exec()) {
 			return _check_add_artist(artist);
 		} else {
@@ -421,9 +439,9 @@ int DbStorage::_check_add_artist(QString artist) {
 	}
 }
 
-int DbStorage::_check_add_album(QString album, int artist_id) {
+int DbStorage::_check_add_album(QString album, int artist_id, int year) {
 	QSqlQuery *query = _check_album_query;
-	query->bindValue(":name", album);
+	query->bindValue(":uname", album.toUpper());
 	query->bindValue(":artist_id", artist_id);
 	query->exec();
 	if (query->next()) {
@@ -432,9 +450,11 @@ int DbStorage::_check_add_album(QString album, int artist_id) {
 	} else {
 		query = _insert_album_query;
 		query->bindValue(":name", album);
+		query->bindValue(":uname", album.toUpper());
 		query->bindValue(":artist_id", artist_id);
+		query->bindValue(":year", year);
 		if (query->exec()) {
-			return _check_add_album(album, artist_id);
+			return _check_add_album(album, artist_id, year);
 		} else {
 			// big bang
 			return -1;

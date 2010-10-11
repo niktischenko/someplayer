@@ -55,6 +55,27 @@ inline void __fill_model(QStandardItemModel *model, QList<QString> data, QString
 	}
 }
 
+inline void __fill_model_album(QStandardItemModel *model, QMap<QString, int> data, QString icons_theme) {
+	model->clear();
+	int count = data.count();
+	model->setRowCount(count);
+	QMap<int, QList<QString> > years;
+	foreach (QString name, data.keys()) {
+		years[data[name]].append(name);
+	}
+	QList<int> keys = years.keys();
+	qSort(keys);
+
+	int i = 0;
+	foreach (int year, keys) {
+		foreach (QString name, years[year]) {
+			model->setItem(i, 0, new QStandardItem(QIcon(":/icons/"+icons_theme+"/deselect_all.png"), ""));
+			model->setItem(i, 1, new QStandardItem(QString("[%1] %2").arg(year).arg(name)));
+			i++;
+		}
+	}
+}
+
 inline void __fill_model_tracks (QStandardItemModel *model, QList<Track> tracks, QString icons_theme) {
 	int count = tracks.count();
 	model->setRowCount(count);
@@ -168,9 +189,10 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 	}
 	if (_state == STATE_NONE) return;
 	QString data = index.data().toString();
+	QRegExp regexp("\\[\\d+\\]\\ (.*)");
 	switch (_state) {
 	case STATE_ARTIST:
-		__fill_model(_model, _lib->getAlbumsForArtist(data), _icons_theme);
+		__fill_model_album(_model, _lib->getAlbumsForArtist(data), _icons_theme);
 		ui->listView->setColumnWidth(0, 70);
 		ui->listView->scrollToTop();
 		_current_artist = data;
@@ -179,14 +201,16 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 		ui->listLabel->setText(QString("Albums by \"%1\"").arg(_current_artist));
 		break;
 	case STATE_ALBUM:
-		_current_album = data;
-		_current_tracks = _lib->getTracksForAlbum(data, _current_artist);
-		__fill_model_tracks(_model, _current_tracks, _icons_theme);
-		ui->listView->setColumnWidth(0, 70);
-		ui->listView->scrollToTop();
-		_state = STATE_TRACK;
-		ui->backButton->setEnabled(true);
-		ui->listLabel->setText(QString("Tracks from \"%1\" by \"%2\"").arg(_current_album).arg(_current_artist));
+		if (regexp.indexIn(data) != -1) {
+			_current_album = regexp.cap(1).trimmed();
+			_current_tracks = _lib->getTracksForAlbum(_current_album, _current_artist);
+			__fill_model_tracks(_model, _current_tracks, _icons_theme);
+			ui->listView->setColumnWidth(0, 70);
+			ui->listView->scrollToTop();
+			_state = STATE_TRACK;
+			ui->backButton->setEnabled(true);
+			ui->listLabel->setText(QString("Tracks from \"%1\" by \"%2\"").arg(_current_album).arg(_current_artist));
+		}
 		break;
 	case STATE_PLAYLIST:
 		{
@@ -291,8 +315,8 @@ void LibraryForm::_add_button() {
 
 
 void LibraryForm::_add_artist(Playlist *cur, QString artist) {
-	QList<QString> albums = _lib->getAlbumsForArtist(artist);
-	foreach(QString album, albums) {
+	QMap<QString, int> albums = _lib->getAlbumsForArtist(artist);
+	foreach(QString album, albums.keys()) {
 		_add_album(cur, artist, album);
 	}
 }
@@ -323,7 +347,7 @@ void LibraryForm::_back_button() {
 		ui->listView->scrollToTop();
 		break;
 	case STATE_TRACK:
-		__fill_model(_model, _lib->getAlbumsForArtist(_current_artist), _icons_theme);
+		__fill_model_album(_model, _lib->getAlbumsForArtist(_current_artist), _icons_theme);
 		ui->listView->setColumnWidth(0, 70);
 		ui->listView->scrollToTop();
 		_state = STATE_ALBUM;
@@ -413,7 +437,6 @@ void LibraryForm::search(QString pattern) {
 }
 
 void LibraryForm::nextItem() {
-	qWarning() << "searching" << _search_pattern;
 	QString data = _model->index(_search_current_id, 0).data().toString();
 	for (int i = _search_current_id+1; i < _model->rowCount(); i++) {
 		data = _model->index(i, 1).data().toString();
@@ -454,7 +477,7 @@ void LibraryForm::refresh() {
 		_view_button();
 		break;
 	case STATE_ALBUM:
-		__fill_model(_model, _lib->getAlbumsForArtist(_current_artist), _icons_theme);
+		__fill_model_album(_model, _lib->getAlbumsForArtist(_current_artist), _icons_theme);
 		ui->listView->setColumnWidth(0, 70);
 		break;
 	case STATE_PLAYLIST:
@@ -654,7 +677,6 @@ void LibraryForm::_process_dblclick(QModelIndex id) {
 	if (id.column() == 0)
 		return;
 	if (_state == STATE_TRACK || _state == STATE_PLAYLIST_TRACK) {
-		qWarning() << "double clicked";
 		Playlist cur = _lib->getCurrentPlaylist();
 		Track track = _current_tracks.at(id.row());
 		cur.addTrack(track);

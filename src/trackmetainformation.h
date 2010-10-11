@@ -42,15 +42,18 @@ namespace SomePlayer {
 			QString artist();
 			QString album();
 			int length();
+			int year();
 
 			void setTitle(QString title);
 			void setArtist(QString artist);
 			void setAlbum(QString album);
 			void setLength(int length);
+			void setYear(int year);
 
 		private:
 			QMap<QString, QString> _metadata;
 			int _length;
+			int _year;
 		};
 	};
 };
