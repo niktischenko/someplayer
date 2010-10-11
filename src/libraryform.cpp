@@ -286,6 +286,7 @@ void LibraryForm::_add_button() {
 	ui->listView->selectionModel()->clearSelection();
 	emit busy(QString("<H1>Adding... Please wait</H1>"));
 	Playlist cur = _lib->getCurrentPlaylist();
+	QRegExp regexp("\\[\\d+\\]\\ (.*)");
 	switch (_state) {
 	case STATE_ARTIST:
 		foreach (QModelIndex id, selected) {
@@ -296,7 +297,9 @@ void LibraryForm::_add_button() {
 		break;
 	case STATE_ALBUM:
 		foreach (QModelIndex id, selected) {
-			_add_album(&cur, _current_artist, id.data().toString());
+			if (regexp.indexIn(id.data().toString()) != -1) {
+				_add_album(&cur, _current_artist, regexp.cap(1).trimmed());
+			}
 		}
 		_lib->saveCurrentPlaylist(cur);
 		_current_playlist_changed = true;
