@@ -23,24 +23,16 @@
 #include "someplayer.h"
 #include "storage.h"
 #include "playlist.h"
-#include <QRegExp>
 
 #define _CURRENT_PLAYLIST_NAME_ "___current"
 #define _CURRENT_PLAYLIST_SUBST_ "Now playing"
-#define _PLAYLIST_FILE_EXTENSION_ "spls"
-#define _PLAYLIST_SIGNATURE_ "#SOMEPLAYLIST"
-#define _PLAYLIST_META_KEYWORD_ "#META"
-#define _PLAYLIST_PATH_KEYWORD_ "#PATH"
+#define _PLAYLIST_FILE_EXTENSION_ "xspf"
 
-// format:
-/*
- #SOMEPLAYLIST
- #META [ID][seconds],::artist::,::album::,::title::
- #PATH file_path
- #META [ID][seconds],::artist::,::album::,::title::
- #PATH file_path
- ...
- */
+// format: XSPF (http://xspf.org)
+// required elements:
+// <extension application="http://example.com">
+// <cl:clip title="TITLE" artist="ARTIST" album="ALBUM"/>
+// </extension>
 
 // represents file-level storage
 // it store data into separate files (e.g. playlist)
@@ -65,8 +57,6 @@ namespace SomePlayer {
 			void saveCurrentPlaylist(Playlist playlist);
 		private:
 			QString _path_prefix;
-			QRegExp _meta_regexp;
-			QRegExp _path_regexp;
 		};
 
 	};

@@ -22,15 +22,13 @@
 #include <QDirIterator>
 #include <QFileInfo>
 #include <QTextStream>
-#include <QRegExp>
+#include <QtXml/QtXml>
 
 using namespace SomePlayer::Storage;
 using namespace SomePlayer::DataObjects;
 
 FileStorage::FileStorage(QString path) {
 	_path_prefix = path;
-	_meta_regexp.setPattern("#META\\ +\\[(\\d+)\\]\\[(\\d+)\\].*::(.+)::,::(.+)::,::(.+)::");
-	_path_regexp.setPattern("#PATH (.+)");
 
 	Playlist current = getCurrentPlaylist();
 	if (current.name() == PLAYLIST_BAD_NAME) {
@@ -52,25 +50,37 @@ Playlist FileStorage::getPlaylist(QString name) {
 	playlist.setName(PLAYLIST_BAD_NAME);
 	if (playlistFile.exists()) {
 		playlist.setName(name);
+		QDomDocument doc;
 		playlistFile.open(QFile::ReadOnly);
-		QTextStream stream(&playlistFile);
-		QString buffer = stream.readLine();
-		if (buffer.startsWith(_PLAYLIST_SIGNATURE_)) {
-			while (!stream.atEnd()) {
-				buffer = stream.readLine();
-				if (_meta_regexp.indexIn(buffer) != -1) {
-					int id = _meta_regexp.cap(1).toInt();
-					int seconds = _meta_regexp.cap(2).toInt();
-					QString artist = _meta_regexp.cap(3);
-					QString album = _meta_regexp.cap(4);
-					QString title = _meta_regexp.cap(5);
-					buffer = stream.readLine();
-					if (_path_regexp.indexIn(buffer) != -1) {
-						QString source = _path_regexp.cap(1);
-						TrackMetadata meta(title, artist, album, seconds);
-						Track track(id, meta, source);
-						playlist.addTrack(track);
+		doc.setContent(&playlistFile);
+		playlistFile.close();
+		QDomElement eplaylist = doc.documentElement();
+		if (eplaylist.tagName() == "playlist") {
+			QDomElement etracklist = eplaylist.firstChildElement("trackList");
+			if (!etracklist.isNull()) {
+				QDomElement etrack = etracklist.firstChildElement("track");
+				while (!etrack.isNull()) {
+					QDomElement elocation = etrack.firstChildElement("location");
+					QDomElement eextension = etrack.firstChildElement("extension");
+					if (!eextension.isNull()) {
+						QDomElement ecl_clip = eextension.firstChildElement("cl:clip");
+						if (!ecl_clip.isNull()) {
+							QString artist = ecl_clip.attribute("artist");
+							QString album = ecl_clip.attribute("album");
+							QString title = ecl_clip.attribute("title");
+							QDomElement eduration = etrack.firstChildElement("duration");
+							if (!eduration.isNull()) {
+								QVariant duration = eduration.text();
+								QByteArray basource;
+								basource.append(elocation.text());
+								QString source = QUrl::fromEncoded(basource).toLocalFile();
+								TrackMetadata meta(title, artist, album, duration.toInt()/1000);
+								Track track(0, meta, source);
+								playlist.addTrack(track);
+							}
+						}
 					}
+					etrack = etrack.nextSiblingElement("track");
 				}
 			}
 		}
@@ -107,14 +117,37 @@ void FileStorage::savePlaylist(Playlist playlist) {
 	}
 	playlistFile.open(QFile::WriteOnly);
 	QTextStream stream(&playlistFile);
-	stream << _PLAYLIST_SIGNATURE_ << endl;
-	const QList<Track> &tracks = playlist.tracks();
-	foreach (Track track, tracks) {
-		stream << _PLAYLIST_META_KEYWORD_ << " [" << track.id() << "]" << "[" << track.metadata().length() << "],::"
-				<< track.metadata().artist() << "::,::" << track.metadata().album() << "::,::"
-				<< track.metadata().title() << "::" << endl;
-		stream << _PLAYLIST_PATH_KEYWORD_ << " " << track.source() << endl;
+	QDomDocument doc;
+	QDomElement root = doc.createElement("playlist");
+	root.setAttribute("version", "1");
+	root.setAttribute("xmlns", "http://xspf.org/ns/0/");
+	root.setAttribute("xmlns:cl", "http://example.com");
+	QDomElement tracklist = doc.createElement("trackList");
+	foreach (Track track, playlist.tracks()) {
+		QDomElement etrack = doc.createElement("track");
+		QDomElement elocation = doc.createElement("location");
+		QDomElement eextension = doc.createElement("extension");
+		QDomElement ecl_clip = doc.createElement("cl:clip");
+		QDomElement etitle = doc.createElement("title");
+		QDomElement eduration = doc.createElement("duration");
+		etitle.appendChild(doc.createTextNode(QString("%1 - %2").arg(track.metadata().artist()).arg(track.metadata().title())));
+		ecl_clip.setAttribute("title", track.metadata().title());
+		ecl_clip.setAttribute("artist", track.metadata().artist());
+		ecl_clip.setAttribute("album", track.metadata().album());
+		eextension.appendChild(ecl_clip);
+		eextension.setAttribute("application", "http://example.com");
+		elocation.appendChild(doc.createTextNode(QString("%1").arg(QUrl::fromLocalFile(track.source()).toEncoded().constData())));
+		eduration.appendChild(doc.createTextNode(QString("%1").arg(track.metadata().length()*1000)));
+		etrack.appendChild(elocation);
+		etrack.appendChild(eextension);
+		etrack.appendChild(etitle);
+		etrack.appendChild(eduration);
+		tracklist.appendChild(etrack);
 	}
+	root.appendChild(tracklist);
+	doc.appendChild(root);
+	stream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+	stream << doc.toString();
 }
 
 void FileStorage::removePlaylist(Playlist playlist) {
