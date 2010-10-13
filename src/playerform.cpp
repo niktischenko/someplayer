@@ -72,6 +72,8 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	}
 	ui->volumeSlider->setMinimum(0);
 	ui->volumeSlider->setMaximum(100);
+	ui->volumeSlider->setValue(config.getValue("playback/volume").toInt());
+	_player->setVolume(ui->volumeSlider->value());
 	ui->volumeSlider->hide();
 	ui->seekSlider->setEnabled(false);
 	ui->progressLayout->removeItem(ui->seekSpacer);

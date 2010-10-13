@@ -413,7 +413,8 @@ void LibraryForm::_delete_button() {
 		ui->listView->selectionModel()->clearSelection();
 		QQueue<int> to_delete;
 		foreach (QModelIndex id, selected) {
-			to_delete.append(id.row());
+			if (!to_delete.contains(id.row()))
+				to_delete.append(id.row());
 		}
 		qSort(to_delete);
 		int count = to_delete.count();
@@ -429,12 +430,13 @@ void LibraryForm::_delete_button() {
 		QModelIndexList selected = ui->listView->selectionModel()->selectedIndexes();
 		QQueue<int> to_delete;
 		foreach (QModelIndex id, selected) {
-			to_delete.append(id.row());
+			if (!to_delete.contains(id.row()))
+				to_delete.append(id.row());
 		}
 		qSort(to_delete);
 		int count = to_delete.count();
 		for (int i = count-1; i >= 0; i--) {
-			QString name = _model->item(to_delete.at(i))->text();
+			QString name = _model->item(to_delete.at(i), 1)->text();
 			if (name != _CURRENT_PLAYLIST_SUBST_) {
 				_lib->removePlaylist(name);
 				_model->removeRow(to_delete.at(i));
