@@ -29,6 +29,7 @@ TrackMetadata::TrackMetadata(QString title = "", QString artist = "", QString al
 	_metadata["ARTIST"] = artist == "" ? _UNKNOWN_ARTIST_ : artist.trimmed();
 	_metadata["ALBUM"] = album == "" ? _UNKNOWN_ALBUM_ : album.trimmed();
 	_length = length;
+	_year = 0;
 }
 
 TrackMetadata::TrackMetadata(const TrackMetadata &metadata) {
