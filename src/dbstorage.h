@@ -78,12 +78,11 @@ namespace SomePlayer {
 			QSqlQuery *_get_never_played_query;
 			QSqlQuery *_get_recently_added_query;
 			QSqlQuery *_get_track_count;
-			QSqlQuery *_get_track_by_source_query;
 			QSqlQuery *_get_tracks_by_pattern_query;
+			QSqlQuery *_get_track_id_by_source_query;
 
 			QSqlQuery *_check_artist_query;
 			QSqlQuery *_check_album_query;
-			QSqlQuery *_check_track_query;
 
 			QSqlQuery *_insert_artist_query;
 			QSqlQuery *_insert_album_query;

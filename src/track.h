@@ -36,14 +36,13 @@ namespace SomePlayer {
 		public:
 			Track();
 			Track(const Track &track);
-			Track(int id, TrackMetadata metadata, QString source);
+			Track(TrackMetadata metadata, QString source);
 			Track(QString source);
 			~Track();
 			Track &operator=(const Track &track);
 			TrackMetadata metadata() const; //read-write
 			void setMetadata(TrackMetadata meta);
 			QString source() const;
-			int id() const;
 			void setSource (QString source);
 			int count() const; //count of plays
 			void setCount(int count); //for restoring from database and counting from player
@@ -53,7 +52,6 @@ namespace SomePlayer {
 			TrackMetadata _metadata;
 			QString _source;
 			int _count;
-			int _id;
 			TagResolver *_resolver;
 		private slots:
 			void decoded(Track);

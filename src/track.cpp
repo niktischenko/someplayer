@@ -26,8 +26,7 @@ using namespace SomePlayer::DataObjects;
 Track::Track() : QObject() {
 }
 
-Track::Track(int id, TrackMetadata metadata, QString source) : QObject() {
-	_id = id;
+Track::Track(TrackMetadata metadata, QString source) : QObject() {
 	_metadata = metadata;
 	if (_metadata.title() == _UNKNOWN_TRACK_) {
 		QFileInfo info(source);
@@ -40,7 +39,6 @@ Track::Track(int id, TrackMetadata metadata, QString source) : QObject() {
 Track::Track(const Track &track) : QObject() {
 	this->_metadata = track.metadata();
 	this->_source = track.source();
-	this->_id = track._id;
 	this->_count = track._count;
 }
 
@@ -52,7 +50,6 @@ Track::Track(QString source) :QObject() {
 	foo << source;
 	_resolver->decode(foo);
 	_count = 0;
-	_id = -1;
 }
 
 TrackMetadata Track::metadata() const {
@@ -65,10 +62,6 @@ void Track::setMetadata(TrackMetadata meta) {
 
 QString Track::source() const {
 	return _source;
-}
-
-int Track::id() const {
-	return _id;
 }
 
 void Track::setSource(QString source) {
@@ -84,14 +77,12 @@ void Track::setCount(int count) {
 }
 
 void Track::decoded(Track track) {
-	_id = track.id();
 	_source = track.source();
 	_metadata = track.metadata();
 	delete _resolver;
 }
 
 Track &Track::operator =(const Track &track) {
-	_id = track.id();
 	_source = track.source();
 	_metadata = track.metadata();
 	_count = track._count;

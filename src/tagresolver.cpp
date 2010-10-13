@@ -44,7 +44,7 @@ void TagResolver::decode(QStringList files) {
 							   QString::fromStdWString(tag->album().toWString()),
 							   properties->length());
 					meta.setYear(tag->year());
-					Track track(0, meta, filename);
+					Track track(meta, filename);
 					emit decoded(track);
 				}
 			}
@@ -54,7 +54,7 @@ void TagResolver::decode(QStringList files) {
 			QFileInfo fi(filename);
 			meta.setArtist(fi.suffix().toUpper());
 			meta.setTitle(fi.baseName());
-			Track track(0, meta, filename);
+			Track track(meta, filename);
 			emit decoded(track);
 		}
 	}

@@ -84,12 +84,6 @@ void DbStorage::_prepare_queries() {
 	_get_track_count = new QSqlQuery(db);
 	_get_track_count->prepare("SELECT count from tracks WHERE id = :id");
 
-	_get_track_by_source_query = new QSqlQuery(db);
-	_get_track_by_source_query->prepare("SELECT track_id AS id, title, artist, album.name AS album, source, count, length FROM "
-								"(SELECT tracks.id AS track_id, artist.name AS artist, title, count, tracks.album_id, length FROM "
-								"tracks JOIN artist ON tracks.artist_id = artist.id AND source = :source) "
-								"JOIN album ON album_id = album.id LIMIT 1");
-
 	_get_tracks_by_pattern_query = new QSqlQuery(db);
 	_get_tracks_by_pattern_query->prepare("SELECT id, title, artist, album, source, count, length, year FROM "
 					      "entire WHERE "
@@ -98,14 +92,14 @@ void DbStorage::_prepare_queries() {
 					      "artist_uname LIKE (SELECT '%' || :partist || '%') "
 					      "ORDER BY artist_uname, year");
 
+	_get_track_id_by_source_query = new QSqlQuery(db);
+	_get_track_id_by_source_query->prepare("SELECT id FROM tracks WHERE source = :source");
+
 	_check_artist_query = new QSqlQuery(db);
 	_check_artist_query->prepare("SELECT id FROM artist WHERE uname = :uname");
 
 	_check_album_query = new QSqlQuery(db);
 	_check_album_query->prepare("SELECT id FROM album WHERE uname = :uname AND artist_id = :artist_id");
-
-	_check_track_query = new QSqlQuery(db);
-	_check_track_query->prepare("SELECT id FROM tracks WHERE source = :source");
 
 	_insert_artist_query = new QSqlQuery(db);
 	_insert_artist_query->prepare("INSERT INTO artist (name, uname) values (:name, :uname)");
@@ -186,11 +180,10 @@ DbStorage::~DbStorage() {
 	delete _get_never_played_query;
 	delete _get_recently_added_query;
 	delete _get_tracks_for_album_query;
-	delete _get_track_by_source_query;
 	delete _get_tracks_by_pattern_query;
 	delete _check_album_query;
 	delete _check_artist_query;
-	delete _check_track_query;
+	delete _get_track_id_by_source_query;
 	delete _insert_album_query;
 	delete _insert_artist_query;
 	delete _insert_date_query;
@@ -239,13 +232,12 @@ QList<Track> DbStorage::getTracksForAlbum(QString album, QString artist) {
 	query->exec();
 
 	while (query->next()) {
-		int id = query->value(0).toInt();
 		QString title = query->value(1).toString();
 		QString source = query->value(2).toString();
 		int count = query->value(3).toInt();
 		int length = query->value(4).toInt();
 		TrackMetadata meta (title, artist, album, length);
-		Track track(id, meta, source);
+		Track track(meta, source);
 		track.setCount(count);
 		tracks.append(track);
 	}
@@ -258,7 +250,6 @@ Playlist DbStorage::getFavorites() {
 	QSqlQuery *query = _get_favorites_query;
 	query->exec();
 	while(query->next()) {
-		int id = query->value(0).toInt();
 		QString title = query->value(1).toString();
 		QString artist = query->value(2).toString();
 		QString album = query->value(3).toString();
@@ -266,7 +257,7 @@ Playlist DbStorage::getFavorites() {
 		int count = query->value(5).toInt();
 		int length = query->value(6).toInt();
 		TrackMetadata meta(title, artist, album, length);
-		Track track(id, meta, source);
+		Track track(meta, source);
 		track.setCount(count);
 		playlist.addTrack(track);
 		playlist.setName("Favorites");
@@ -280,7 +271,6 @@ Playlist DbStorage::getMostPlayed() {
 	query->bindValue(":max", _DYNAMIC_PLAYLIST_MAX_COUNT_);
 	query->exec();
 	while (query->next()) {
-		int id = query->value(0).toInt();
 		QString title = query->value(1).toString();
 		QString artist = query->value(2).toString();
 		QString album = query->value(3).toString();
@@ -288,7 +278,7 @@ Playlist DbStorage::getMostPlayed() {
 		int count = query->value(5).toInt();
 		int length = query->value(6).toInt();
 		TrackMetadata meta(title, artist, album, length);
-		Track track(id, meta, source);
+		Track track(meta, source);
 		track.setCount(count);
 		playlist.addTrack(track);
 		playlist.setName("Most popular");
@@ -302,7 +292,6 @@ Playlist DbStorage::getNeverPlayed() {
 	query->bindValue(":max", _DYNAMIC_PLAYLIST_MAX_COUNT_);
 	query->exec();
 	while (query->next()) {
-		int id = query->value(0).toInt();
 		QString title = query->value(1).toString();
 		QString artist = query->value(2).toString();
 		QString album = query->value(3).toString();
@@ -310,7 +299,7 @@ Playlist DbStorage::getNeverPlayed() {
 		int count = query->value(5).toInt();
 		int length = query->value(6).toInt();
 		TrackMetadata meta(title, artist, album, length);
-		Track track(id, meta, source);
+		Track track(meta, source);
 		track.setCount(count);
 		playlist.addTrack(track);
 		playlist.setName("Never played");
@@ -324,7 +313,6 @@ Playlist DbStorage::getRecentlyAdded() {
 	query->bindValue(":max", _DYNAMIC_PLAYLIST_MAX_COUNT_);
 	query->exec();
 	while (query->next()) {
-		int id = query->value(0).toInt();
 		QString title = query->value(1).toString();
 		QString artist = query->value(2).toString();
 		QString album = query->value(3).toString();
@@ -332,7 +320,7 @@ Playlist DbStorage::getRecentlyAdded() {
 		int count = query->value(5).toInt();
 		int length = query->value(6).toInt();
 		TrackMetadata meta(title, artist, album, length);
-		Track track(id, meta, source);
+		Track track(meta, source);
 		track.setCount(count);
 		playlist.addTrack(track);
 		playlist.setName("Recently added");
@@ -341,17 +329,22 @@ Playlist DbStorage::getRecentlyAdded() {
 }
 
 void DbStorage::removeTrack(Track track) {
-	int id = track.id();
-	QSqlQuery *query = new QSqlQuery(db);
-	query->prepare("DELETE FROM tracks WHERE id = :id;");
-	query->bindValue(":id", id);
+	QSqlQuery *query = _get_track_id_by_source_query;
+	query->bindValue(":source", track.source());
 	query->exec();
-	query->prepare("DELETE FROM favorites WHERE track_id = :id;");
-	query->bindValue(":id", id);
-	query->exec();
-	query->prepare("DELETE FROM adding_date WHERE id = :id;");
-	query->bindValue(":id", id);
-	query->exec();
+	if (query->next()) {
+		int id = query->value(0).toInt();
+		query = new QSqlQuery(db);
+		query->prepare("DELETE FROM tracks WHERE id = :id;");
+		query->bindValue(":id", id);
+		query->exec();
+		query->prepare("DELETE FROM favorites WHERE track_id = :id;");
+		query->bindValue(":id", id);
+		query->exec();
+		query->prepare("DELETE FROM adding_date WHERE id = :id;");
+		query->bindValue(":id", id);
+		query->exec();
+	}
 }
 
 void DbStorage::addTrack(Track track) {
@@ -366,7 +359,7 @@ void DbStorage::addTrack(Track track) {
 		//big bang
 		return;
 	}
-	QSqlQuery *query = _check_track_query;
+	QSqlQuery *query = _get_track_id_by_source_query;
 	query->bindValue(":source", source);
 	query->exec();
 	if (query->next()) {
@@ -382,7 +375,7 @@ void DbStorage::addTrack(Track track) {
 	query->bindValue(":length", track.metadata().length());
 	if (query->exec()) {
 		//ok
-		query = _check_track_query;
+		query = _get_track_id_by_source_query;
 		query->bindValue(":source", source);
 		query->exec();
 		if (query->next()) {
@@ -403,43 +396,47 @@ void DbStorage::addTrack(Track track) {
 }
 
 void DbStorage::addToFavorites(Track track) {
-	QSqlQuery *query = _insert_favorites_query;
-	query->bindValue(":track_id", track.id());
-	query->exec();
-}
-
-void DbStorage::updateTrackCount(Track track) {
-	QSqlQuery *query = _get_track_count;
-	query->bindValue(":id", track.id());
-	query->exec();
-	if (query->next()) {
-		int count = query->value(0).toInt();
-		query = _update_track_count_query;
-		query->bindValue(":count", count+1);
-		query->bindValue(":id", track.id());
-		query->exec();
-	}
-}
-
-Track DbStorage::updateTrack(Track track) {
-	QSqlQuery *query = _remove_track_query;
-	query->bindValue(":id", track.id());
-	addTrack(track);
-	query = _get_track_by_source_query;
+	QSqlQuery *query = _get_track_id_by_source_query;
 	query->bindValue(":source", track.source());
 	query->exec();
 	if (query->next()) {
 		int id = query->value(0).toInt();
-		QString title = query->value(1).toString();
-		QString artist = query->value(2).toString();
-		QString album = query->value(3).toString();
-		QString source = query->value(4).toString();
-		int count = query->value(5).toInt();
-		int length = query->value(6).toInt();
-		TrackMetadata meta(title, artist, album, length);
-		Track ntrack(id, meta, source);
-		ntrack.setCount(count);
-		return ntrack;
+		query = _insert_favorites_query;
+		query->bindValue(":track_id", id);
+		query->exec();
+	}
+}
+
+void DbStorage::updateTrackCount(Track track) {
+	QSqlQuery *query = _get_track_id_by_source_query;
+	query->bindValue(":source", track.source());
+	query->exec();
+	if (query->next()) {
+		int id = query->value(0).toInt();
+		query = _get_track_count;
+		query->bindValue(":id", id);
+		query->exec();
+		if (query->next()) {
+			int count = query->value(0).toInt();
+			query = _update_track_count_query;
+			query->bindValue(":count", count+1);
+			query->bindValue(":id", id);
+			query->exec();
+		}
+	}
+}
+
+Track DbStorage::updateTrack(Track track) {
+	QSqlQuery *query = _get_track_id_by_source_query;
+	query->bindValue(":source", track.source());
+	query->exec();
+	if (query->next()) { // found track in library
+		int id = query->value(0).toInt();
+		qWarning() << "found " << id;
+		query = _remove_track_query;
+		query->bindValue(":id", id);
+		query->exec();
+		addTrack(track);
 	}
 	return track;
 }
@@ -496,7 +493,6 @@ QList<Track> DbStorage::search(QString pattern) {
 	query->exec();
 	// id, title, artist, album, source, count, length, year
 	while (query->next()) {
-		int id = query->value(0).toInt();
 		QString title = query->value(1).toString();
 		QString artist = query->value(2).toString();
 		QString album = query->value(3).toString();
@@ -506,7 +502,7 @@ QList<Track> DbStorage::search(QString pattern) {
 		int year = query->value(7).toInt();
 		TrackMetadata meta(title, artist, album, length);
 		meta.setYear(year);
-		Track track(id, meta, source);
+		Track track(meta, source);
 		track.setCount(count);
 		found.append(track);
 	}

@@ -144,10 +144,7 @@ void Library::_scanned(QStringList files) {
 }
 
 void Library::updateTrackMetadata(Track track) {
-	Track ntrack = track;
-	if (track.id() > 0) {
-		ntrack = _library_storage->updateTrack(track);
-	}
+	Track ntrack = _library_storage->updateTrack(track);
 	// update all playlists
 	QList<QString> playlists = getPlaylistsNames();
 	foreach (QString name, playlists) {

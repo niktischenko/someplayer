@@ -543,7 +543,7 @@ void PlayerForm::checkGradient() {
 void PlayerForm::play(Track track) {
 	reload(true);
 	int id = _current_playlist.tracks().indexOf(track);
-	if (id > 0) {
+	if (id >= 0) {
 		_player->setTrackId(id);
 		_player->play();
 	}

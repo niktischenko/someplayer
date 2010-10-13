@@ -75,7 +75,7 @@ Playlist FileStorage::getPlaylist(QString name) {
 								basource.append(elocation.text());
 								QString source = QUrl::fromEncoded(basource).toLocalFile();
 								TrackMetadata meta(title, artist, album, duration.toInt()/1000);
-								Track track(0, meta, source);
+								Track track(meta, source);
 								playlist.addTrack(track);
 							}
 						}
