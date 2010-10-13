@@ -129,6 +129,7 @@ void MainWindow::player(bool reread) {
 
 void MainWindow::library() {
 	ui->menuBar->setEnabled(true);
+	_library_form->refresh();
 	ui->stackedWidget->setCurrentIndex(1);
 	setWindowTitle("SomePlayer Library");
 	_orientation_changed(); // workaround

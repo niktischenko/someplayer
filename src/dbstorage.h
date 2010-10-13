@@ -68,6 +68,8 @@ namespace SomePlayer {
 			int _check_add_artist(QString artist);
 			int _check_add_album(QString album, int artist_id, int year);
 
+			void _cleanup();
+
 			// queries
 			QSqlQuery *_get_artists_query;
 			QSqlQuery *_get_albums_for_artist_sort_name_query;
@@ -93,6 +95,8 @@ namespace SomePlayer {
 			QSqlQuery *_update_track_count_query;
 
 			QSqlQuery *_remove_track_query;
+			QSqlQuery *_remove_empty_artists_query;
+			QSqlQuery *_remove_empty_albums_query;
 		};
 	};
 };

@@ -121,6 +121,20 @@ void DbStorage::_prepare_queries() {
 
 	_remove_track_query = new QSqlQuery(db);
 	_remove_track_query->prepare("DELETE FROM tracks WHERE id = :id");
+
+	_remove_empty_albums_query = new QSqlQuery(db);
+	_remove_empty_albums_query->prepare("DELETE FROM album WHERE album.id IN "
+					    "(SELECT id FROM "
+					    "(SELECT COUNT(tracks.id) AS cnt, album.id FROM "
+					    "album LEFT OUTER JOIN tracks ON album.id = tracks.album_id "
+					    "GROUP BY album.id) WHERE cnt = 0)");
+
+	_remove_empty_artists_query = new QSqlQuery(db);
+	_remove_empty_artists_query->prepare("DELETE FROM artist WHERE artist.id IN "
+					     "(SELECT id FROM "
+					     "(SELECT COUNT(tracks.id) AS cnt, artist.id FROM "
+					     "artist LEFT OUTER JOIN tracks ON artist.id = tracks.artist_id "
+					     "GROUP BY artist.id) WHERE cnt = 0)");
 }
 
 void DbStorage::_create_database_structure() {
@@ -432,11 +446,11 @@ Track DbStorage::updateTrack(Track track) {
 	query->exec();
 	if (query->next()) { // found track in library
 		int id = query->value(0).toInt();
-		qWarning() << "found " << id;
 		query = _remove_track_query;
 		query->bindValue(":id", id);
 		query->exec();
 		addTrack(track);
+		_cleanup();
 	}
 	return track;
 }
@@ -507,4 +521,9 @@ QList<Track> DbStorage::search(QString pattern) {
 		found.append(track);
 	}
 	return found;
+}
+
+void DbStorage::_cleanup() {
+	_remove_empty_albums_query->exec();
+	_remove_empty_artists_query->exec();
 }
