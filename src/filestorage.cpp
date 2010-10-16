@@ -23,6 +23,9 @@
 #include <QFileInfo>
 #include <QTextStream>
 #include <QtXml/QtXml>
+// legacy _start_
+#include <QRegExp>
+// legacy _end_
 
 using namespace SomePlayer::Storage;
 using namespace SomePlayer::DataObjects;
@@ -45,45 +48,84 @@ QList<Playlist> FileStorage::getPlaylists() {
 Playlist FileStorage::getPlaylist(QString name) {
 	if (name == _CURRENT_PLAYLIST_SUBST_)
 		name = _CURRENT_PLAYLIST_NAME_;
-	QFile playlistFile (_path_prefix+"/"+name+"."+_PLAYLIST_FILE_EXTENSION_);
+	QFile playlistFile (_path_prefix+"/"+name+"."+_PLAYLIST_FILE_EXTENSION_OLD_); // remove OLD_ in next version
 	Playlist playlist;
 	playlist.setName(PLAYLIST_BAD_NAME);
+	// legacy _start_
 	if (playlistFile.exists()) {
-		playlist.setName(name);
-		QDomDocument doc;
+		qWarning() << "Old playlist file format deteced";
+		QRegExp meta_regexp;
+		meta_regexp.setPattern("#META\\ +\\[(\\d+)\\]\\[(\\d+)\\].*::(.+)::,::(.+)::,::(.+)::");
+		QRegExp path_regexp;
+		path_regexp.setPattern("#PATH (.+)");
 		playlistFile.open(QFile::ReadOnly);
-		doc.setContent(&playlistFile);
-		playlistFile.close();
-		QDomElement eplaylist = doc.documentElement();
-		if (eplaylist.tagName() == "playlist") {
-			QDomElement etracklist = eplaylist.firstChildElement("trackList");
-			if (!etracklist.isNull()) {
-				QDomElement etrack = etracklist.firstChildElement("track");
-				while (!etrack.isNull()) {
-					QDomElement elocation = etrack.firstChildElement("location");
-					QDomElement eextension = etrack.firstChildElement("extension");
-					if (!eextension.isNull()) {
-						QDomElement ecl_clip = eextension.firstChildElement("cl:clip");
-						if (!ecl_clip.isNull()) {
-							QString artist = ecl_clip.attribute("artist");
-							QString album = ecl_clip.attribute("album");
-							QString title = ecl_clip.attribute("title");
-							QDomElement eduration = etrack.firstChildElement("duration");
-							if (!eduration.isNull()) {
-								QVariant duration = eduration.text();
-								QByteArray basource;
-								basource.append(elocation.text());
-								QString source = QUrl::fromEncoded(basource).toLocalFile();
-								TrackMetadata meta(title, artist, album, duration.toInt()/1000);
-								Track track(meta, source);
-								playlist.addTrack(track);
-							}
-						}
+		QTextStream stream(&playlistFile);
+		QString buffer = stream.readLine();
+		if (buffer.startsWith("#SOMEPLAYLIST")) {
+			while (!stream.atEnd()) {
+				buffer = stream.readLine();
+				if (meta_regexp.indexIn(buffer) != -1) {
+					int seconds = meta_regexp.cap(2).toInt();
+					QString artist = meta_regexp.cap(3);
+					QString album = meta_regexp.cap(4);
+					QString title = meta_regexp.cap(5);
+					buffer = stream.readLine();
+					if (path_regexp.indexIn(buffer) != -1) {
+						QString source = path_regexp.cap(1);
+						TrackMetadata meta(title, artist, album, seconds);
+						Track track(meta, source);
+						playlist.addTrack(track);
 					}
-					etrack = etrack.nextSiblingElement("track");
 				}
 			}
 		}
+		playlist.setName(name);
+		qWarning() << "Saving playlist in new format";
+		savePlaylist(playlist);
+		playlistFile.close();
+		playlistFile.remove();
+	} else {
+		playlistFile.setFileName(_path_prefix+"/"+name+"."+_PLAYLIST_FILE_EXTENSION_);
+	// legacy _end_
+		if (playlistFile.exists()) {
+			playlist.setName(name);
+			QDomDocument doc;
+			playlistFile.open(QFile::ReadOnly);
+			doc.setContent(&playlistFile);
+			playlistFile.close();
+			QDomElement eplaylist = doc.documentElement();
+			if (eplaylist.tagName() == "playlist") {
+				QDomElement etracklist = eplaylist.firstChildElement("trackList");
+				if (!etracklist.isNull()) {
+					QDomElement etrack = etracklist.firstChildElement("track");
+					while (!etrack.isNull()) {
+						QDomElement elocation = etrack.firstChildElement("location");
+						QDomElement eextension = etrack.firstChildElement("extension");
+						if (!eextension.isNull()) {
+							QDomElement ecl_clip = eextension.firstChildElement("cl:clip");
+							if (!ecl_clip.isNull()) {
+								QString artist = ecl_clip.attribute("artist");
+								QString album = ecl_clip.attribute("album");
+								QString title = ecl_clip.attribute("title");
+								QDomElement eduration = etrack.firstChildElement("duration");
+								if (!eduration.isNull()) {
+									QVariant duration = eduration.text();
+									QByteArray basource;
+									basource.append(elocation.text());
+									QString source = QUrl::fromEncoded(basource).toLocalFile();
+									TrackMetadata meta(title, artist, album, duration.toInt()/1000);
+									Track track(meta, source);
+									playlist.addTrack(track);
+								}
+							}
+						}
+						etrack = etrack.nextSiblingElement("track");
+					}
+				}
+			}
+	// legacy _start_
+		}
+	// legacy _end_
 	}
 	return playlist;
 }
@@ -102,6 +144,14 @@ QStringList FileStorage::getPlaylistsNames() {
 			    name = _CURRENT_PLAYLIST_SUBST_;
 			playlistNames.append(name);
 		}
+		// legacy _start_
+		else if (suffix == _PLAYLIST_FILE_EXTENSION_OLD_){
+			QString name = info.fileName().replace(QString(".%1").arg(_PLAYLIST_FILE_EXTENSION_OLD_), "", Qt::CaseInsensitive);
+			if (name == _CURRENT_PLAYLIST_NAME_)
+			    name = _CURRENT_PLAYLIST_SUBST_;
+			playlistNames.append(name);
+		}
+		// legacy _end_
 	}
 	return playlistNames;
 }

@@ -27,6 +27,9 @@
 #define _CURRENT_PLAYLIST_NAME_ "___current"
 #define _CURRENT_PLAYLIST_SUBST_ "Now playing"
 #define _PLAYLIST_FILE_EXTENSION_ "xspf"
+// legacy _start_
+#define _PLAYLIST_FILE_EXTENSION_OLD_ "spls"
+// legacy _end_
 
 // format: XSPF (http://xspf.org)
 // required elements:
