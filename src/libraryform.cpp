@@ -147,6 +147,7 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 	_current_playlist_changed = true;
 	_top_gradient = ui->topWidget->styleSheet();
 	_bottom_gradient = ui->bottomWidget->styleSheet();
+	_is_dynamic = false;
 }
 
 LibraryForm::~LibraryForm()
