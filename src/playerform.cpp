@@ -83,6 +83,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_model = new QStandardItemModel(0, 2, this);
 	ui->playlistView->setModel(_model);
 	_context_menu = new QMenu(ui->playlistView);
+	QAction *clear_playlist = _context_menu->addAction("Clear playlist");
 	QAction *delete_action = _context_menu->addAction("Delete");
 	QAction *add_to_favorites = _context_menu->addAction("Add to favorites");
 	QAction *enqueue_action = _context_menu->addAction("Enqueue");
@@ -110,6 +111,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(ui->seekSlider, SIGNAL(sliderMoved(int)), _player, SLOT(seek(int)));
 	connect(ui->volumeSlider, SIGNAL(sliderMoved(int)), _player, SLOT(setVolume(int)));
 	connect(ui->playlistView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(_custom_context_menu_requested(QPoint)));
+	connect(clear_playlist, SIGNAL(triggered()), this, SIGNAL(clearPlaylist()));
 	connect(delete_action, SIGNAL(triggered()), this, SLOT(_delete_track()));
 	connect(enqueue_action, SIGNAL(triggered()), this, SLOT(_enqueue_track()));
 	connect(add_to_favorites, SIGNAL(triggered()), this, SLOT(_add_to_favorites()));
@@ -497,9 +499,9 @@ void PlayerForm::updateIcons() {
 	_tools_widget->updateIcons();
 	ui->libraryButton->setIcon(QIcon(":/icons/"+_icons_theme+"/library.png"));
 	if (_tools_widget->isVisible()) {
-		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/unmore.png" : ":/icons/"+_icons_theme+"/more.png"));
+		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/" + _icons_theme + "/unmore.png" : ":/icons/" + _icons_theme + "/more.png"));
 	} else {
-		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/more.png" : ":/icons/"+_icons_theme+"/unmore.png"));
+		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/" + _icons_theme + "/more.png" : ":/icons/" + _icons_theme + "/unmore.png"));
 	}
 	ui->nextButton->setIcon(QIcon(":/icons/"+_icons_theme+"/next.png"));
 	ui->stopButton->setIcon(QIcon(":/icons/"+_icons_theme+"/stop.png"));

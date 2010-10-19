@@ -122,7 +122,8 @@ SOURCES += src/main.cpp\
     src/saveplaylistdialog.cpp \
     src/settingsdialog.cpp \
     src/dbusadaptor.cpp \
-    src/toolswidget.cpp
+    src/toolswidget.cpp \
+    src/managelibraryform.cpp
 
 HEADERS  += src/mainwindow.h \
 		src/player/player.h \
@@ -223,7 +224,8 @@ HEADERS  += src/mainwindow.h \
     src/settingsdialog.h \
     src/abstractitemrenderer.h \
     src/dbusadaptor.h \
-    src/toolswidget.h
+    src/toolswidget.h \
+    src/managelibraryform.h
 
 FORMS    += src/ui/mainwindow.ui \
     src/ui/playerform.ui \
@@ -235,7 +237,8 @@ FORMS    += src/ui/mainwindow.ui \
     src/ui/equalizerdialog.ui \
     src/ui/saveplaylistdialog.ui \
     src/ui/settingsdialog.ui \
-    src/ui/toolswidget.ui
+    src/ui/toolswidget.ui \
+    src/ui/managelibraryform.ui
 
 CONFIG += mobility
 MOBILITY = 

@@ -26,6 +26,7 @@
 #include "libraryform.h"
 #include "busywidget.h"
 #include "equalizerdialog.h"
+#include "managelibraryform.h"
 #include "library.h"
 #include <QTimer>
 
@@ -52,12 +53,13 @@ signals:
 
 public slots:
 	void about();
-	void player(bool);
+	void player();
 	void library();
 	void settings();
 	void showBusyWidget(QString);
 private slots:
-	void _add_directory();
+	void _manage_library();
+//	void _add_directory();
 	void _save_playlist();
 	void _clear_current_playlist();
 	void _add_files();
@@ -74,6 +76,7 @@ private:
 	Library *_library;
 	QTimer *_timer;
 	EqualizerDialog *_equalizer_dialog;
+	ManageLibraryForm *_manage_library_form;
 };
 
 #endif // MAINWINDOW_H

@@ -21,12 +21,13 @@
 #include <QSqlQuery>
 #include <QSqlResult>
 #include <QDebug>
+#include <QFileInfo>
 
 using namespace SomePlayer::Storage;
 using namespace SomePlayer::DataObjects;
 
 DbStorage::DbStorage(QString path) {
-	QString dbname = path+_DATABASE_NAME_;
+	QString dbname = path + _DATABASE_NAME_;
 	db = QSqlDatabase::addDatabase("QSQLITE");
 	db.setDatabaseName(dbname);
 	if (!db.open()) {
@@ -95,11 +96,17 @@ void DbStorage::_prepare_queries() {
 	_get_track_id_by_source_query = new QSqlQuery(db);
 	_get_track_id_by_source_query->prepare("SELECT id FROM tracks WHERE source = :source");
 
+	_get_directories_query = new QSqlQuery(db);
+	_get_directories_query->prepare("SELECT id, path FROM directories");
+
 	_check_artist_query = new QSqlQuery(db);
 	_check_artist_query->prepare("SELECT id FROM artist WHERE uname = :uname");
 
 	_check_album_query = new QSqlQuery(db);
 	_check_album_query->prepare("SELECT id FROM album WHERE uname = :uname AND artist_id = :artist_id");
+
+	_check_directory_query = new QSqlQuery(db);
+	_check_directory_query->prepare("SELECT id from directories WHERE path = :path");
 
 	_insert_artist_query = new QSqlQuery(db);
 	_insert_artist_query->prepare("INSERT INTO artist (name, uname) values (:name, :uname)");
@@ -108,13 +115,16 @@ void DbStorage::_prepare_queries() {
 	_insert_album_query->prepare("INSERT INTO album (name, uname, artist_id, year) values (:name, :uname, :artist_id, :year)");
 
 	_insert_track_query = new QSqlQuery(db);
-	_insert_track_query->prepare("INSERT INTO tracks (title, utitle, artist_id, album_id, source, length) values (:title, :utitle, :artist_id, :album_id, :source, :length)");
+	_insert_track_query->prepare("INSERT INTO tracks (title, utitle, artist_id, album_id, source, directory, length) values (:title, :utitle, :artist_id, :album_id, :source, :directory_id, :length)");
 
 	_insert_date_query = new QSqlQuery(db);
 	_insert_date_query->prepare("INSERT INTO adding_date (track_id, date) values (:track_id, strftime('%s', 'now'))");
 
 	_insert_favorites_query = new QSqlQuery(db);
 	_insert_favorites_query->prepare("INSERT INTO favorites (track_id) values (:track_id)");
+
+	_insert_directory_query = new QSqlQuery(db);
+	_insert_directory_query->prepare("INSERT INTO directories (path) values (:path)");
 
 	_update_track_count_query = new QSqlQuery(db);
 	_update_track_count_query->prepare("UPDATE tracks SET count = :count where id = :id");
@@ -156,6 +166,7 @@ void DbStorage::_create_database_structure() {
 								"title text, "
 								"utitle text, "
 								"source text, "
+								"directory integer, "
 								"count integer default 0, "
 								"length integer default 0, "
 								"foreign key(artist_id) references artist(id), "
@@ -183,6 +194,8 @@ void DbStorage::_create_database_structure() {
 					"on album.artist_id = artist.id) "
 				"on aartist_id = tracks.artist_id "
 				"and aalbum_id = tracks.album_id");
+
+	query->exec("create table directories (id integer primary key, path text)");
 }
 
 DbStorage::~DbStorage() {
@@ -195,14 +208,17 @@ DbStorage::~DbStorage() {
 	delete _get_recently_added_query;
 	delete _get_tracks_for_album_query;
 	delete _get_tracks_by_pattern_query;
+	delete _get_directories_query;
 	delete _check_album_query;
 	delete _check_artist_query;
+	delete _check_directory_query;
 	delete _get_track_id_by_source_query;
 	delete _insert_album_query;
 	delete _insert_artist_query;
 	delete _insert_date_query;
 	delete _insert_track_query;
 	delete _insert_favorites_query;
+	delete _insert_directory_query;
 	delete _update_track_count_query;
 	delete _remove_track_query;
 	db.close();
@@ -366,6 +382,8 @@ void DbStorage::addTrack(Track track) {
 	QString artist = track.metadata().artist();
 	QString album = track.metadata().album();
 	QString source = track.source();
+	QFileInfo info(source);
+	QString path = info.canonicalPath();
 	int year = track.metadata().year();
 	int artist_id = _check_add_artist(artist);
 	int album_id = _check_add_album(album, artist_id, year);
@@ -386,6 +404,7 @@ void DbStorage::addTrack(Track track) {
 	query->bindValue(":artist_id", artist_id);
 	query->bindValue(":album_id", album_id);
 	query->bindValue(":source", source);
+	query->bindValue(":directory", _check_add_directory(path));
 	query->bindValue(":length", track.metadata().length());
 	if (query->exec()) {
 		//ok
@@ -526,4 +545,28 @@ QList<Track> DbStorage::search(QString pattern) {
 void DbStorage::_cleanup() {
 	_remove_empty_albums_query->exec();
 	_remove_empty_artists_query->exec();
+}
+
+int DbStorage::_check_add_directory(QString path) {
+	QSqlQuery *query = _check_directory_query;
+	query->bindValue(":path", path);
+	query->exec();
+	if (query->next()) {
+		return query->value(0).toInt();
+	} else {
+		query = _insert_directory_query;
+		query->bindValue(":path", path);
+		query->exec();
+		return _check_add_directory(path);
+	}
+}
+
+QList<QString> DbStorage::getDirectories() {
+	QSqlQuery *query = _get_directories_query;
+	query->exec();
+	QList<QString> directories;
+	while (query->next()) {
+		directories.append(query->value(1).toString());
+	}
+	return directories;
 }

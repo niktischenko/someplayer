@@ -48,7 +48,7 @@ QList<Playlist> FileStorage::getPlaylists() {
 Playlist FileStorage::getPlaylist(QString name) {
 	if (name == _CURRENT_PLAYLIST_SUBST_)
 		name = _CURRENT_PLAYLIST_NAME_;
-	QFile playlistFile (_path_prefix+"/"+name+"."+_PLAYLIST_FILE_EXTENSION_OLD_); // remove OLD_ in next version
+	QFile playlistFile (_path_prefix + "/" + name + "." + _PLAYLIST_FILE_EXTENSION_OLD_); // remove OLD_ in next version
 	Playlist playlist;
 	playlist.setName(PLAYLIST_BAD_NAME);
 	// legacy _start_
@@ -85,7 +85,7 @@ Playlist FileStorage::getPlaylist(QString name) {
 		playlistFile.close();
 		playlistFile.remove();
 	} else {
-		playlistFile.setFileName(_path_prefix+"/"+name+"."+_PLAYLIST_FILE_EXTENSION_);
+		playlistFile.setFileName(_path_prefix + "/" + name + "." + _PLAYLIST_FILE_EXTENSION_);
 	// legacy _end_
 		if (playlistFile.exists()) {
 			playlist.setName(name);
@@ -160,7 +160,7 @@ void FileStorage::savePlaylist(Playlist playlist) {
 	QString name = playlist.name();
 	if (playlist.name() == _CURRENT_PLAYLIST_SUBST_)
 		name = _CURRENT_PLAYLIST_NAME_;
-	QString filename = _path_prefix + "/" +name+"."_PLAYLIST_FILE_EXTENSION_;
+	QString filename = _path_prefix + "/" + name + "."_PLAYLIST_FILE_EXTENSION_;
 	QFile playlistFile(filename);
 	if (playlistFile.exists()) {
 		playlistFile.remove();

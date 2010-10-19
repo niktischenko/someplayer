@@ -57,6 +57,7 @@ public:
 signals:
 	void library();
 	void fullscreen(bool);
+	void clearPlaylist();
 
 public slots:
 	void reload(bool);

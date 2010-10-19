@@ -46,44 +46,39 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 	connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(settings()));
 	setAnimated(true);
-	_player_form = new PlayerForm(_library, ui->stackedWidget);
-	_library_form = new LibraryForm(_library, ui->stackedWidget);
-	_busy_widget = new BusyWidget(ui->stackedWidget);
+	setAttribute(Qt::WA_Maemo5StackedWindow);
+	_player_form = new PlayerForm(_library, this);
+	ui->centralWidget->layout()->addWidget(_player_form);
+	_library_form = new LibraryForm(_library, this);
+	_library_form->setAttribute(Qt::WA_Maemo5StackedWindow);
+	_library_form->setWindowFlags(_library_form->windowFlags() | Qt::Window);
+	_busy_widget = new BusyWidget(this);
+	ui->centralWidget->layout()->addWidget(_busy_widget);
+	_busy_widget->hide();
 	_timer = new QTimer(this);
 	_equalizer_dialog = new EqualizerDialog(this);
-	ui->stackedWidget->insertWidget(0, _player_form);
-	ui->stackedWidget->insertWidget(1, _library_form);
-	ui->stackedWidget->insertWidget(2, _busy_widget);
-	QAction *add_directory = ui->menuLibrary->addAction("Add directory");
-	QAction *save_playlist = ui->menuLibrary->addAction("Save playlist");
-	QAction *clear_playlist = ui->menuLibrary->addAction("Clear current playlist");
-	QAction *add_files = ui->menuLibrary->addAction("Add file to current playlist");
-	QAction *set_timer = ui->menuBar->addAction("Set timer");
-	QAction *equalizer = ui->menuBar->addAction("Equalizer");
+	_manage_library_form = new ManageLibraryForm(_library, this);
+	_manage_library_form->setAttribute(Qt::WA_Maemo5StackedWindow);
+	_manage_library_form->setWindowFlags(Qt::Window | _manage_library_form->windowFlags());
 	connect(_player_form, SIGNAL(library()), this, SLOT(library()));
-	connect(_library_form, SIGNAL(player(bool)), this, SLOT(player(bool)));
-	connect(add_directory, SIGNAL(triggered()), this, SLOT(_add_directory()));
-	connect(save_playlist, SIGNAL(triggered()), this, SLOT(_save_playlist()));
-	connect(clear_playlist, SIGNAL(triggered()), this, SLOT(_clear_current_playlist()));
-	connect(add_files, SIGNAL(triggered()), this, SLOT(_add_files()));
-	connect(set_timer, SIGNAL(triggered()), this, SLOT(_set_timer()));
-	connect(equalizer, SIGNAL(triggered()), this, SLOT(_equalizer()));
+	connect(_library_form, SIGNAL(refreshPlayer()), this, SLOT(player()));
+	connect(ui->actionManageLibrary, SIGNAL(triggered()), this, SLOT(_manage_library()));
+	connect(ui->actionSavePlaylist, SIGNAL(triggered()), this, SLOT(_save_playlist()));
+	connect(_player_form, SIGNAL(clearPlaylist()), this, SLOT(_clear_current_playlist()));
+	connect(ui->actionSetTimer, SIGNAL(triggered()), this, SLOT(_set_timer()));
+	connect(ui->actionEqualizer, SIGNAL(triggered()), this, SLOT(_equalizer()));
 	connect(_library, SIGNAL(done()), this, SLOT(library()));
 	connect(_library, SIGNAL(done()), _library_form, SLOT(refresh()));
 	connect(_library, SIGNAL(addingTracks(int)), _busy_widget, SLOT(setMax(int)));
 	connect(_library, SIGNAL(trackAdded()), _busy_widget, SLOT(tick()));
-	connect(_library_form, SIGNAL(done()), this, SLOT(library()));
-	connect(_library_form, SIGNAL(busy(QString)), this, SLOT(showBusyWidget(QString)));
 	connect(_timer, SIGNAL(timeout()), this, SLOT(_timeout()));
 	connect(_equalizer_dialog, SIGNAL(valueChanged(int,int)), this, SLOT(_equalizer_value_changed(int, int)));
 	connect(_equalizer_dialog, SIGNAL(equalizerEnabled()), _player_form, SLOT(enableEqualizer()));
 	connect(_equalizer_dialog, SIGNAL(equalizerDisabled()), _player_form, SLOT(disableEqualizer()));
 	connect(QApplication::desktop(), SIGNAL(resized(int)), this, SLOT(_orientation_changed()));
 	connect(_player_form, SIGNAL(fullscreen(bool)), this, SLOT(_fullscreen(bool)));
-	connect(_library_form, SIGNAL(fullscreen(bool)), this, SLOT(_fullscreen(bool)));
 	connect(_library_form, SIGNAL(addAndPlay(Track)), _player_form, SLOT(play(Track)));
 	_player_form->reload(true);
-	library();
 	QString mode = config.getValue("ui/orientation").toString();
 	if (mode == "landscape") {
 		setAttribute(Qt::WA_Maemo5LandscapeOrientation);
@@ -105,6 +100,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	_player_form->updateIcons();
 	_player_form->checkGradient();
 	_library_form->checkGradient();
+	setWindowTitle("SomePlayer");
 }
 
 MainWindow::~MainWindow()
@@ -120,27 +116,22 @@ void MainWindow::about() {
 					   "Author: Nikolay Tischenko aka \"somebody\" <niktischenko@gmail.com>");
 }
 
-void MainWindow::player(bool reread) {
-	ui->stackedWidget->setCurrentIndex(0);
-	_player_form->reload(reread);
-	setWindowTitle("SomePlayer");
+void MainWindow::player() {
+	_player_form->reload(true);
 	_orientation_changed(); // workaround
 }
 
 void MainWindow::library() {
 	ui->menuBar->setEnabled(true);
-	_library_form->refresh();
-	ui->stackedWidget->setCurrentIndex(1);
-	setWindowTitle("SomePlayer Library");
+	_library_form->show();
 	_orientation_changed(); // workaround
+	_busy_widget->hide();
+	_manage_library_form->hide();
+	_player_form->show();
 }
 
-void MainWindow::_add_directory() {
-	QString directory = QFileDialog::getExistingDirectory (this, "Select directory", "/home/user/MyDocs", QFileDialog::ShowDirsOnly );
-	if (!directory.isEmpty()) {
-		showBusyWidget("<H1>Scanning... Please wait</H1>");
-		_library->addDirectory(directory);
-	}
+void MainWindow::_manage_library() {
+	_manage_library_form->show();
 }
 
 void MainWindow::_save_playlist() {
@@ -186,7 +177,8 @@ void MainWindow::_clear_current_playlist() {
 void MainWindow::showBusyWidget(QString caption) {
 	_busy_widget->setText(caption);
 	ui->menuBar->setEnabled(false);
-	ui->stackedWidget->setCurrentIndex(2);
+	_player_form->hide();
+	_busy_widget->show();
 }
 
 void MainWindow::_add_files() {

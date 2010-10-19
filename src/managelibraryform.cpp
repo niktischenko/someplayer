@@ -17,44 +17,30 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#ifndef TOOLSWIDGET_H
-#define TOOLSWIDGET_H
+#include "managelibraryform.h"
+#include "ui_managelibraryform.h"
+#include "library.h"
+#include <QFileDialog>
 
-#include <QWidget>
+using namespace SomePlayer::DataObjects;
 
-namespace Ui {
-	class ToolsWidget;
+ManageLibraryForm::ManageLibraryForm(Library *library, QWidget *parent) :
+		QWidget(parent),
+		ui(new Ui::ManageLibraryForm),
+		_library (library)
+{
+	ui->setupUi(this);
+	connect(ui->addButton, SIGNAL(clicked()), this, SLOT(add()));
 }
 
-class ToolsWidget : public QWidget
+ManageLibraryForm::~ManageLibraryForm()
 {
-	Q_OBJECT
+	delete ui;
+}
 
-public:
-	explicit ToolsWidget(QWidget *parent = 0);
-	~ToolsWidget();
-	void reset();
-	void setFocus();
-
-public slots:
-	void updateIcons();
-	void show();
-	void toggleArrows(bool);
-	void hideFSButton();
-
-signals:
-	void toggleFullscreen(bool);
-	void search(QString);
-	void nextSearch();
-	void prevSearch();
-
-private:
-	Ui::ToolsWidget *ui;
-	bool _fullscreen;
-	QString _icons_theme;
-
-private slots:
-	void _fullscreen_button();
-};
-
-#endif // TOOLSWIDGET_H
+void ManageLibraryForm::add() {
+	QString directory = QFileDialog::getExistingDirectory (this, "Select directory", "/home/user/MyDocs", QFileDialog::ShowDirsOnly );
+	if (!directory.isEmpty()) {
+		_library->addDirectory(directory);
+	}
+}

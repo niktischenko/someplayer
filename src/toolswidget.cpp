@@ -74,3 +74,7 @@ void ToolsWidget::toggleArrows(bool state) {
 	ui->nextButton->setVisible(state);
 	ui->prevButton->setVisible(state);
 }
+
+void ToolsWidget::hideFSButton() {
+	ui->fscreenButton->hide();
+}

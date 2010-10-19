@@ -42,6 +42,7 @@ namespace SomePlayer {
 		public:
 			DbStorage(QString path);
 			~DbStorage();
+			QList<QString> getDirectories();
 			QList<QString> getArtists();
 			QMap<QString, int> getAlbumsForArtist(QString artist);
 			QList<Track> getTracksForAlbum(QString album, QString artist); // hm...
@@ -67,6 +68,7 @@ namespace SomePlayer {
 
 			int _check_add_artist(QString artist);
 			int _check_add_album(QString album, int artist_id, int year);
+			int _check_add_directory(QString path);
 
 			void _cleanup();
 
@@ -82,15 +84,18 @@ namespace SomePlayer {
 			QSqlQuery *_get_track_count;
 			QSqlQuery *_get_tracks_by_pattern_query;
 			QSqlQuery *_get_track_id_by_source_query;
+			QSqlQuery *_get_directories_query;
 
 			QSqlQuery *_check_artist_query;
 			QSqlQuery *_check_album_query;
+			QSqlQuery *_check_directory_query;
 
 			QSqlQuery *_insert_artist_query;
 			QSqlQuery *_insert_album_query;
 			QSqlQuery *_insert_track_query;
 			QSqlQuery *_insert_date_query;
 			QSqlQuery *_insert_favorites_query;
+			QSqlQuery *_insert_directory_query;
 
 			QSqlQuery *_update_track_count_query;
 

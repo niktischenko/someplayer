@@ -123,8 +123,8 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 	ui->listView->setModel(_model);
 	ui->listView->setColumnWidth(0, 70);
 	ui->toolsLayout->addWidget(_tools_widget);
+	_tools_widget->hideFSButton();
 	_tools_widget->hide();
-	connect(ui->playerButton, SIGNAL(clicked()), this, SLOT(_player()));
 	connect(ui->viewButton, SIGNAL(clicked()), this, SLOT(_view_button()));
 	connect(ui->playlistsButton, SIGNAL(clicked()), this, SLOT(_playlists_button()));
 	connect(ui->dynamicButton, SIGNAL(clicked()), this, SLOT(_dynamic_button()));
@@ -140,11 +140,10 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 	connect(_tools_widget, SIGNAL(search(QString)), this, SLOT(search(QString)));
 	connect(_tools_widget, SIGNAL(nextSearch()), this, SLOT(nextItem()));
 	connect(_tools_widget, SIGNAL(prevSearch()), this, SLOT(prevItem()));
-	connect(_tools_widget, SIGNAL(toggleFullscreen(bool)), this, SIGNAL(fullscreen(bool)));
 	connect(ui->moreButton, SIGNAL(clicked()), this, SLOT(_more_button()));
 	connect(search_in_library, SIGNAL(toggled(bool)), this, SLOT(_search_button(bool)));
+	connect(ui->playerButton, SIGNAL(clicked()), this, SLOT(hide()));
 	_view_button();
-	_current_playlist_changed = true;
 	_top_gradient = ui->topWidget->styleSheet();
 	_bottom_gradient = ui->bottomWidget->styleSheet();
 	_is_dynamic = false;
@@ -152,14 +151,7 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 
 LibraryForm::~LibraryForm()
 {
-	_lib->saveCurrentPlaylist(_lib->getCurrentPlaylist()); // wtf?
-	_current_playlist_changed = true;
 	delete ui;
-}
-
-void LibraryForm::_player() {
-	emit player(_current_playlist_changed);
-	_current_playlist_changed = false;
 }
 
 void LibraryForm::_view_button() {
@@ -285,7 +277,6 @@ void LibraryForm::_add_button() {
 	if (_state == STATE_NONE) return;
 	QModelIndexList selected = ui->listView->selectionModel()->selectedIndexes();
 	ui->listView->selectionModel()->clearSelection();
-	emit busy(QString("<H1>Adding... Please wait</H1>"));
 	Playlist cur = _lib->getCurrentPlaylist();
 	QRegExp regexp("\\[\\d+\\]\\ (.*)");
 	switch (_state) {
@@ -294,7 +285,7 @@ void LibraryForm::_add_button() {
 			_add_artist(&cur, id.data().toString());
 		}
 		_lib->saveCurrentPlaylist(cur);
-		_current_playlist_changed = true;
+		emit refreshPlayer();
 		break;
 	case STATE_ALBUM:
 		foreach (QModelIndex id, selected) {
@@ -303,41 +294,39 @@ void LibraryForm::_add_button() {
 			}
 		}
 		_lib->saveCurrentPlaylist(cur);
-		_current_playlist_changed = true;
+		emit refreshPlayer();
 		break;
 	case STATE_TRACK:
 		foreach (QModelIndex id, selected) {
 			_add_track(&cur, _current_tracks.at(id.row()));
 		}
 		_lib->saveCurrentPlaylist(cur);
-		_current_playlist_changed = true;
+		emit refreshPlayer();
 		break;
 	case STATE_PLAYLIST:
 		foreach (QModelIndex id, selected) {
 			_add_playlist(&cur, id.data().toString());
 		}
 		_lib->saveCurrentPlaylist(cur);
-		_current_playlist_changed = true;
+		emit refreshPlayer();
 		break;
 	case STATE_PLAYLIST_TRACK:
 		foreach (QModelIndex id, selected) {
 			_add_track(&cur, _current_tracks.at(id.row()));
 		}
 		_lib->saveCurrentPlaylist(cur);
-		_current_playlist_changed = true;
+		emit refreshPlayer();
 		break;
 	case STATE_SEARCH:
 		foreach (QModelIndex id, selected) {
 			_add_track(&cur, _current_tracks.at(id.row()));
 		}
 		_lib->saveCurrentPlaylist(cur);
-		_current_playlist_changed = true;
+		emit refreshPlayer();
 		break;
 	default:
-		emit done();
 		return;
 	}
-	emit done();
 }
 
 
@@ -424,7 +413,7 @@ void LibraryForm::_delete_button() {
 		}
 		_current_tracks = _current_playlist.tracks();
 		_lib->savePlaylist(_current_playlist);
-		_current_playlist_changed = true;
+		emit refreshPlayer();
 		__fill_model_tracks(_model, _current_tracks, _icons_theme);
 		ui->listView->setColumnWidth(0, 70);
 	} else if (_state == STATE_PLAYLIST) {
@@ -450,12 +439,12 @@ void LibraryForm::_delete_track(Track track) {
 	Playlist current = _lib->getCurrentPlaylist();
 	current.removeTrack(track);
 	_lib->saveCurrentPlaylist(current);
-	_current_playlist_changed = true;
+	emit refreshPlayer();
 }
 
 void LibraryForm::_use_button() {
 	_lib->saveCurrentPlaylist(_current_playlist);
-	_current_playlist_changed = true;
+	emit refreshPlayer();
 	_current_playlist = _lib->getCurrentPlaylist();
 }
 
@@ -665,11 +654,10 @@ void LibraryForm::updateIcons() {
 	} else {
 		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/unmore_l.png" : ":/icons/"+_icons_theme+"/more.png"));
 	}
-	ui->playerButton->setIcon(QIcon(":/icons/"+_icons_theme+"/player.png"));
 	ui->playlistsButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlists.png"));
 	ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/artists.png"));
 	if (ui->listView->selectionModel()->selectedRows().count() == _model->rowCount()) {
-		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/unselect_all.png"));
+		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"));
 	} else {
 		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/select_all.png"));
 	}
@@ -710,7 +698,7 @@ void LibraryForm::_process_dblclick(QModelIndex id) {
 		Track track = _current_tracks.at(id.row());
 		cur.addTrack(track);
 		_lib->saveCurrentPlaylist(cur);
-		_current_playlist_changed = true;
+		emit refreshPlayer();
 		emit addAndPlay(track);
 		ui->listView->clearSelection();
 	}

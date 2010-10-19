@@ -17,44 +17,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#ifndef TOOLSWIDGET_H
-#define TOOLSWIDGET_H
+#ifndef MANAGELIBRARYFORM_H
+#define MANAGELIBRARYFORM_H
 
 #include <QWidget>
+#include "someplayer.h"
 
 namespace Ui {
-	class ToolsWidget;
+	class ManageLibraryForm;
 }
 
-class ToolsWidget : public QWidget
+using SomePlayer::DataObjects::Library;
+
+class ManageLibraryForm : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit ToolsWidget(QWidget *parent = 0);
-	~ToolsWidget();
-	void reset();
-	void setFocus();
-
-public slots:
-	void updateIcons();
-	void show();
-	void toggleArrows(bool);
-	void hideFSButton();
-
-signals:
-	void toggleFullscreen(bool);
-	void search(QString);
-	void nextSearch();
-	void prevSearch();
-
-private:
-	Ui::ToolsWidget *ui;
-	bool _fullscreen;
-	QString _icons_theme;
+	explicit ManageLibraryForm(Library *library, QWidget *parent = 0);
+	~ManageLibraryForm();
 
 private slots:
-	void _fullscreen_button();
+	void add();
+
+private:
+	Ui::ManageLibraryForm *ui;
+	Library *_library;
 };
 
-#endif // TOOLSWIDGET_H
+#endif // MANAGELIBRARYFORM_H
