@@ -54,12 +54,19 @@ namespace SomePlayer {
 
 			QList<Track> search(QString pattern);
 
+			int getArtistsCount();
+			int getAlbumsCount();
+			int getTracksCount();
+
 			void removeTrack(Track track);
 			void addToFavorites(Track track);
 
 			void updateTrackCount(Track track);
 			Track updateTrack(Track);
 			void addTrack(Track track);
+
+			void deleteTracksFrom(QString path);
+			void checkTracksFrom(QString path);
 
 		private:
 			QSqlDatabase db;
@@ -81,10 +88,14 @@ namespace SomePlayer {
 			QSqlQuery *_get_most_played_query;
 			QSqlQuery *_get_never_played_query;
 			QSqlQuery *_get_recently_added_query;
-			QSqlQuery *_get_track_count;
+			QSqlQuery *_get_track_count_query;
 			QSqlQuery *_get_tracks_by_pattern_query;
 			QSqlQuery *_get_track_id_by_source_query;
 			QSqlQuery *_get_directories_query;
+			QSqlQuery *_get_artists_count_query;
+			QSqlQuery *_get_albums_count_query;
+			QSqlQuery *_get_tracks_count_query;
+			QSqlQuery *_get_tracks_source_from_query;
 
 			QSqlQuery *_check_artist_query;
 			QSqlQuery *_check_album_query;
@@ -102,6 +113,8 @@ namespace SomePlayer {
 			QSqlQuery *_remove_track_query;
 			QSqlQuery *_remove_empty_artists_query;
 			QSqlQuery *_remove_empty_albums_query;
+			QSqlQuery *_remove_tracks_from_query;
+			QSqlQuery *_remove_directory_query;
 		};
 	};
 };

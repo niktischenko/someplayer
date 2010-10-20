@@ -52,8 +52,8 @@
     <property name="title">
      <string>Tools</string>
     </property>
-    <addaction name="actionEqualizer"/>
     <addaction name="actionSetTimer"/>
+    <addaction name="actionEqualizer"/>
    </widget>
    <widget class="QMenu" name="menuPlayer">
     <property name="title">
@@ -94,6 +94,9 @@
   <action name="actionSavePlaylist">
    <property name="text">
     <string>Save playlist</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
  </widget>

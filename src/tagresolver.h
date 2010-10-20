@@ -42,6 +42,7 @@ namespace SomePlayer {
 		signals:
 			void decoded(Track);
 			void done();
+			void started();
 		};
 	};
 };

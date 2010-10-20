@@ -58,6 +58,7 @@ signals:
 	void library();
 	void fullscreen(bool);
 	void clearPlaylist();
+	void refreshLibrary();
 
 public slots:
 	void reload(bool);

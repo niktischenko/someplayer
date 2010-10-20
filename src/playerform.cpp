@@ -371,6 +371,7 @@ void PlayerForm::_edit_tags() {
 		track.setMetadata(dialog.meta());
 		_lib->updateTrackMetadata(track);
 		reload(true);
+		emit refreshLibrary();
 	}
 }
 

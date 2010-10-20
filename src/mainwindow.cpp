@@ -50,16 +50,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	_player_form = new PlayerForm(_library, this);
 	ui->centralWidget->layout()->addWidget(_player_form);
 	_library_form = new LibraryForm(_library, this);
-	_library_form->setAttribute(Qt::WA_Maemo5StackedWindow);
-	_library_form->setWindowFlags(_library_form->windowFlags() | Qt::Window);
-	_busy_widget = new BusyWidget(this);
-	ui->centralWidget->layout()->addWidget(_busy_widget);
-	_busy_widget->hide();
 	_timer = new QTimer(this);
 	_equalizer_dialog = new EqualizerDialog(this);
 	_manage_library_form = new ManageLibraryForm(_library, this);
-	_manage_library_form->setAttribute(Qt::WA_Maemo5StackedWindow);
-	_manage_library_form->setWindowFlags(Qt::Window | _manage_library_form->windowFlags());
 	connect(_player_form, SIGNAL(library()), this, SLOT(library()));
 	connect(_library_form, SIGNAL(refreshPlayer()), this, SLOT(player()));
 	connect(ui->actionManageLibrary, SIGNAL(triggered()), this, SLOT(_manage_library()));
@@ -67,10 +60,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(_player_form, SIGNAL(clearPlaylist()), this, SLOT(_clear_current_playlist()));
 	connect(ui->actionSetTimer, SIGNAL(triggered()), this, SLOT(_set_timer()));
 	connect(ui->actionEqualizer, SIGNAL(triggered()), this, SLOT(_equalizer()));
-	connect(_library, SIGNAL(done()), this, SLOT(library()));
 	connect(_library, SIGNAL(done()), _library_form, SLOT(refresh()));
-	connect(_library, SIGNAL(addingTracks(int)), _busy_widget, SLOT(setMax(int)));
-	connect(_library, SIGNAL(trackAdded()), _busy_widget, SLOT(tick()));
+	connect(_player_form, SIGNAL(refreshLibrary()), _library_form, SLOT(refresh()));
+	connect(_manage_library_form, SIGNAL(refreshLibrary()), _library_form, SLOT(refresh()));
 	connect(_timer, SIGNAL(timeout()), this, SLOT(_timeout()));
 	connect(_equalizer_dialog, SIGNAL(valueChanged(int,int)), this, SLOT(_equalizer_value_changed(int, int)));
 	connect(_equalizer_dialog, SIGNAL(equalizerEnabled()), _player_form, SLOT(enableEqualizer()));
@@ -98,6 +90,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	}
 	_library_form->updateIcons();
 	_player_form->updateIcons();
+	_manage_library_form->updateIcons();
 	_player_form->checkGradient();
 	_library_form->checkGradient();
 	setWindowTitle("SomePlayer");
@@ -125,12 +118,11 @@ void MainWindow::library() {
 	ui->menuBar->setEnabled(true);
 	_library_form->show();
 	_orientation_changed(); // workaround
-	_busy_widget->hide();
 	_manage_library_form->hide();
-	_player_form->show();
 }
 
 void MainWindow::_manage_library() {
+	_manage_library_form->refresh();
 	_manage_library_form->show();
 }
 
@@ -172,13 +164,6 @@ void MainWindow::_clear_current_playlist() {
 	playlist.clear();
 	_library->saveCurrentPlaylist(playlist);
 	_player_form->reload(true);
-}
-
-void MainWindow::showBusyWidget(QString caption) {
-	_busy_widget->setText(caption);
-	ui->menuBar->setEnabled(false);
-	_player_form->hide();
-	_busy_widget->show();
 }
 
 void MainWindow::_add_files() {
@@ -248,6 +233,7 @@ void MainWindow::settings() {
 	}
 	_player_form->updateIcons();
 	_library_form->updateIcons();
+	_manage_library_form->updateIcons();
 	_player_form->checkGradient();
 	_library_form->checkGradient();
 }

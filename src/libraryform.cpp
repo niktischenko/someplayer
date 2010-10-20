@@ -147,6 +147,8 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 	_top_gradient = ui->topWidget->styleSheet();
 	_bottom_gradient = ui->bottomWidget->styleSheet();
 	_is_dynamic = false;
+	setAttribute(Qt::WA_Maemo5StackedWindow);
+	setWindowFlags(Qt::Window | windowFlags());
 }
 
 LibraryForm::~LibraryForm()
@@ -524,7 +526,15 @@ void LibraryForm::_toggle_select_all_button() {
 		ui->listView->selectionModel()->clearSelection();
 		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/select_all.png"));
 	} else {
+		disconnect(ui->listView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
+			   this, SLOT(_process_selection(QItemSelection,QItemSelection)));
 		ui->listView->selectAll();
+		int cnt = _model->rowCount();
+		for (int i = 0; i < cnt; i++) {
+			_model->item(i)->setIcon(QIcon(":/icons/"+_icons_theme+"/select_all.png"));
+		}
+		connect(ui->listView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
+			   this, SLOT(_process_selection(QItemSelection,QItemSelection)));
 		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"));
 	}
 }
@@ -655,6 +665,7 @@ void LibraryForm::updateIcons() {
 		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/unmore_l.png" : ":/icons/"+_icons_theme+"/more.png"));
 	}
 	ui->playlistsButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlists.png"));
+	ui->playerButton->setIcon(QIcon(":/icons/"+_icons_theme+"/player.png"));
 	ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/artists.png"));
 	if (ui->listView->selectionModel()->selectedRows().count() == _model->rowCount()) {
 		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"));

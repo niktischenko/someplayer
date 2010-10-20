@@ -22,6 +22,11 @@
 
 #include <QWidget>
 #include "someplayer.h"
+#include <QStandardItemModel>
+#include "config.h"
+#include "busywidget.h"
+#include <QItemSelection>
+#include <QItemSelectionModel>
 
 namespace Ui {
 	class ManageLibraryForm;
@@ -37,12 +42,26 @@ public:
 	explicit ManageLibraryForm(Library *library, QWidget *parent = 0);
 	~ManageLibraryForm();
 
+signals:
+	void refreshLibrary();
+
+public slots:
+	void refresh();
+	void updateIcons();
+
 private slots:
-	void add();
+	void _add();
+	void _process_selection(QItemSelection, QItemSelection);
+	void _delete_selected();
+	void _update_selected();
+	void _update_all();
 
 private:
 	Ui::ManageLibraryForm *ui;
 	Library *_library;
+	QStandardItemModel *_model;
+	QString _icons_theme;
+	BusyWidget *_busy_widget;
 };
 
 #endif // MANAGELIBRARYFORM_H

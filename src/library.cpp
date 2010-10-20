@@ -24,6 +24,7 @@ using namespace SomePlayer::Storage;
 
 #include "mediascanner.h"
 #include <QDir>
+#include <QDebug>
 
 Library::Library(QString databasePath, QString playlistsPath) : QObject(0) {
 	_library_storage = new DbStorage(databasePath);
@@ -31,6 +32,7 @@ Library::Library(QString databasePath, QString playlistsPath) : QObject(0) {
 	_scanner = new MediaScanner();
 	_resolver = new TagResolver(this);
 	connect(_scanner, SIGNAL(scanFinish(QStringList)), this, SLOT(_scanned(QStringList)));
+	connect(_resolver, SIGNAL(started()), this, SIGNAL(started()));
 	connect(_resolver, SIGNAL(done()), this, SIGNAL(done()));
 	connect(_resolver, SIGNAL(decoded(Track)), this, SLOT(_decoded(Track)));
 }
@@ -40,9 +42,10 @@ Library::~Library() {
 	delete _playlist_storage;
 }
 
-void Library::addDirectory(QString path) {
+void Library::addDirectory(QString path, bool async) {
 	_scanner->init(path);
-	_scanner->start(QThread::LowestPriority);
+	if (async) _scanner->start(QThread::LowestPriority);
+	else _scanner->run();
 }
 
 void Library::addFile(QString path) {
@@ -134,12 +137,12 @@ void Library::saveCurrentPlaylist(const Playlist &playlist) {
 }
 
 void Library::_decoded(Track track) {
-	emit trackAdded();
+	emit tick();
 	addTrack(track);
 }
 
 void Library::_scanned(QStringList files) {
-	emit addingTracks(files.count());
+	emit allCount(files.count());
 	_resolver->decode(files);
 }
 
@@ -161,4 +164,58 @@ void Library::updateTrackMetadata(Track track) {
 
 QList<Track> Library::search(QString pattern) {
 	return _library_storage->search(pattern);
+}
+
+QList<QString> Library::getDirectories() {
+	return _library_storage->getDirectories();
+}
+
+int Library::getArtistsCount() {
+	return _library_storage->getArtistsCount();
+}
+
+int Library::getAlbumsCount() {
+	return _library_storage->getAlbumsCount();
+}
+
+int Library::getTracksCount() {
+	return _library_storage->getTracksCount();
+}
+
+void Library::updateAll() {
+	QList<QString> directories = _library_storage->getDirectories();
+	updateDirectories(directories);
+}
+
+void Library::updateDirectories(QList<QString> directories) {
+	foreach (QString directory, directories) {
+		_library_storage->checkTracksFrom(directory);
+		addDirectory(directory, false);
+	}
+}
+
+void Library::deleteDirectories(QList<QString> directories) {
+	foreach (QString directory, directories) {
+		_library_storage->deleteTracksFrom(directory);
+	}
+}
+
+void Library::updatePlaylists() {
+	emit started();
+	QList<QString> playlists = getPlaylistsNames();
+	emit allCount(playlists.count());
+	foreach (QString name, playlists) {
+		Playlist playlist = getPlaylist(name);
+		QList<Track> tracks = playlist.tracks();
+		QList<Track> ntracks;
+		foreach (const Track &track, tracks) {
+			if (QFile::exists(track.source())) {
+				ntracks.append(track);
+			}
+		}
+		playlist.setTracks(ntracks);
+		savePlaylist(playlist);
+		emit tick();
+	}
+	emit done();
 }

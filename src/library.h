@@ -47,9 +47,10 @@ namespace SomePlayer {
 			Library(QString databasePath, QString playlistsPath);
 			~Library();
 
-			void addDirectory(QString path);
+			void addDirectory(QString path, bool async = true);
 			void addFile(QString path);
 
+			QList<QString> getDirectories();
 			QList<QString> getArtists();
 			QMap<QString, int> getAlbumsForArtist(QString artist);
 			QList<Track> getTracksForAlbum(QString album, QString artist);
@@ -61,6 +62,10 @@ namespace SomePlayer {
 			Playlist getNeverPlayed();
 			Playlist getRecentlyAdded();
 
+			int getArtistsCount();
+			int getAlbumsCount();
+			int getTracksCount();
+
 			QList<Playlist> getPlaylists();
 			QStringList getPlaylistsNames();
 			Playlist getPlaylist(QString name);
@@ -71,11 +76,16 @@ namespace SomePlayer {
 			Playlist getCurrentPlaylist();
 			void saveCurrentPlaylist(const Playlist &playlist);
 
+			void updateDirectories(QList<QString> directories);
+			void updateAll();
+			void deleteDirectories(QList<QString> directories);
+
 		signals:
+			void started();
 			void done();
 			void busy(QString);
-			void addingTracks(int);
-			void trackAdded();
+			void allCount(int);
+			void tick();
 
 		private:
 			DbStorage *_library_storage;
@@ -93,6 +103,7 @@ namespace SomePlayer {
 			void addToFavorites(Track);
 			void updateTrackCount(Track);
 			void updateTrackMetadata(Track);
+			void updatePlaylists();
 		};
 
 	};

@@ -82,8 +82,8 @@ void DbStorage::_prepare_queries() {
 								"WHERE track_id IN "
 								"(SELECT track_id FROM adding_date ORDER BY date DESC LIMIT 0, :max)");
 
-	_get_track_count = new QSqlQuery(db);
-	_get_track_count->prepare("SELECT count from tracks WHERE id = :id");
+	_get_track_count_query = new QSqlQuery(db);
+	_get_track_count_query->prepare("SELECT count from tracks WHERE id = :id");
 
 	_get_tracks_by_pattern_query = new QSqlQuery(db);
 	_get_tracks_by_pattern_query->prepare("SELECT id, title, artist, album, source, count, length, year FROM "
@@ -98,6 +98,18 @@ void DbStorage::_prepare_queries() {
 
 	_get_directories_query = new QSqlQuery(db);
 	_get_directories_query->prepare("SELECT id, path FROM directories");
+
+	_get_artists_count_query = new QSqlQuery(db);
+	_get_artists_count_query->prepare("SELECT COUNT(id) AS cnt FROM artist");
+
+	_get_albums_count_query = new QSqlQuery(db);
+	_get_albums_count_query->prepare("SELECT COUNT(id) AS cnt FROM album");
+
+	_get_tracks_count_query = new QSqlQuery(db);
+	_get_tracks_count_query->prepare("SELECT COUNT(id) AS cnt FROM tracks");
+
+	_get_tracks_source_from_query = new QSqlQuery(db);
+	_get_tracks_source_from_query->prepare("SELECT source FROM tracks WHERE directory = :directory_id");
 
 	_check_artist_query = new QSqlQuery(db);
 	_check_artist_query->prepare("SELECT id FROM artist WHERE uname = :uname");
@@ -145,6 +157,12 @@ void DbStorage::_prepare_queries() {
 					     "(SELECT COUNT(tracks.id) AS cnt, artist.id FROM "
 					     "artist LEFT OUTER JOIN tracks ON artist.id = tracks.artist_id "
 					     "GROUP BY artist.id) WHERE cnt = 0)");
+
+	_remove_tracks_from_query = new QSqlQuery(db);
+	_remove_tracks_from_query->prepare("DELETE FROM tracks WHERE directory = :directory_id");
+
+	_remove_directory_query = new QSqlQuery(db);
+	_remove_directory_query->prepare("DELETE FROM directories WHERE path = :path");
 }
 
 void DbStorage::_create_database_structure() {
@@ -209,6 +227,10 @@ DbStorage::~DbStorage() {
 	delete _get_tracks_for_album_query;
 	delete _get_tracks_by_pattern_query;
 	delete _get_directories_query;
+	delete _get_artists_count_query;
+	delete _get_albums_count_query;
+	delete _get_tracks_count_query;
+	delete _get_tracks_source_from_query;
 	delete _check_album_query;
 	delete _check_artist_query;
 	delete _check_directory_query;
@@ -221,6 +243,8 @@ DbStorage::~DbStorage() {
 	delete _insert_directory_query;
 	delete _update_track_count_query;
 	delete _remove_track_query;
+	delete _remove_directory_query;
+	delete _remove_tracks_from_query;
 	db.close();
 }
 
@@ -446,7 +470,7 @@ void DbStorage::updateTrackCount(Track track) {
 	query->exec();
 	if (query->next()) {
 		int id = query->value(0).toInt();
-		query = _get_track_count;
+		query = _get_track_count_query;
 		query->bindValue(":id", id);
 		query->exec();
 		if (query->next()) {
@@ -569,4 +593,67 @@ QList<QString> DbStorage::getDirectories() {
 		directories.append(query->value(1).toString());
 	}
 	return directories;
+}
+
+int DbStorage::getArtistsCount() {
+	QSqlQuery *query = _get_artists_count_query;
+	query->exec();
+	if (query->next()) {
+		return query->value(0).toInt();
+	}
+	return 0;
+}
+
+int DbStorage::getAlbumsCount() {
+	QSqlQuery *query = _get_albums_count_query;
+	query->exec();
+	if (query->next()) {
+		return query->value(0).toInt();
+	}
+	return 0;
+}
+
+int DbStorage::getTracksCount() {
+	QSqlQuery *query = _get_tracks_count_query;
+	query->exec();
+	if (query->next()) {
+		return query->value(0).toInt();
+	}
+	return 0;
+}
+
+void DbStorage::deleteTracksFrom(QString path) {
+	QSqlQuery *query = _check_directory_query;
+	query->bindValue(":path", path);
+	query->exec();
+	if (query->next()) {
+		int id = query->value(0).toInt();
+		query = _remove_tracks_from_query;
+		query->bindValue(":directory_id", id);
+		query->exec();
+		query = _remove_directory_query;
+		query->bindValue(":path", path);
+		query->exec();
+		_cleanup();
+	}
+}
+
+void DbStorage::checkTracksFrom(QString path) {
+	QSqlQuery *query = _check_directory_query;
+	query->bindValue(":path", path);
+	query->exec();
+	if (query->next()) {
+		int id = query->value(0).toInt();
+		query = _get_tracks_source_from_query;
+		query->bindValue(":directory_id", id);
+		query->exec();
+		while (query->next()) {
+			QString source = query->value(0).toString();
+			if (!QFile::exists(source)) {
+				Track track(TrackMetadata(), source);	// removeTrack uses only source field, so
+				removeTrack(track);			// we can use this method
+			}
+		}
+		_cleanup();
+	}
 }

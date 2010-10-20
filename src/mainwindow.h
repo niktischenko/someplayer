@@ -56,10 +56,8 @@ public slots:
 	void player();
 	void library();
 	void settings();
-	void showBusyWidget(QString);
 private slots:
 	void _manage_library();
-//	void _add_directory();
 	void _save_playlist();
 	void _clear_current_playlist();
 	void _add_files();

@@ -32,6 +32,7 @@ TagResolver::TagResolver(QObject *parent) :
 }
 
 void TagResolver::decode(QStringList files) {
+	emit started();
 	foreach (QString filename, files) {
 		TagLib::FileRef file_ref(QFile::encodeName(filename).data());
 		if (!file_ref.isNull()) {

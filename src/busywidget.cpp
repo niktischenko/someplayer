@@ -33,10 +33,6 @@ BusyWidget::~BusyWidget()
     delete ui;
 }
 
-void BusyWidget::setText(QString text) {
-	ui->label->setText(text);
-}
-
 void BusyWidget::setMax(int max) {
 	ui->progressBar->setMaximum(max);
 	ui->progressBar->setValue(0);

@@ -33,7 +33,6 @@ class BusyWidget : public QWidget
 public:
 	explicit BusyWidget(QWidget *parent = 0);
 	~BusyWidget();
-	void setText(QString text);
 public slots:
 	void setMax(int);
 	void tick();
