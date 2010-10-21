@@ -128,7 +128,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/white/update.png</normaloff>:/icons/white/update.png</iconset>
+         <normaloff>:/icons/white/update-all.png</normaloff>:/icons/white/update-all.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -167,7 +167,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/white/update.png</normaloff>:/icons/white/update.png</iconset>
+         <normaloff>:/icons/white/update-pls.png</normaloff>:/icons/white/update-pls.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>

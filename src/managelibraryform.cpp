@@ -97,8 +97,8 @@ void ManageLibraryForm::updateIcons() {
 	ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
 	ui->deleteButton->setIcon(QIcon(":/icons/"+_icons_theme+"/delete.png"));
 	ui->updateButton->setIcon(QIcon(":/icons/"+_icons_theme+"/update.png"));
-	ui->updateAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/update.png"));
-	ui->updatePlsButton->setIcon(QIcon(":/icons/"+_icons_theme+"/update.png"));
+	ui->updateAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/update-all.png"));
+	ui->updatePlsButton->setIcon(QIcon(":/icons/"+_icons_theme+"/update-pls.png"));
 	refresh();
 }
 
