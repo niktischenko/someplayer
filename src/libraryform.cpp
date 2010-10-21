@@ -114,11 +114,11 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 	_model->setColumnCount(2);
 	_state = STATE_NONE;
 	_tools_widget = new ToolsWidget(this);
-	QPushButton *search_in_library = new QPushButton(QIcon(":/icons/"+_icons_theme+"/search.png"), "", _tools_widget);
-	search_in_library->setFlat(true);
-	search_in_library->setCheckable(true);
+	_search_in_library_button = new QPushButton(QIcon(":/icons/"+_icons_theme+"/search.png"), "", _tools_widget);
+	_search_in_library_button->setFlat(true);
+	_search_in_library_button->setCheckable(true);
 	_tools_widget->layout()->addItem(new QSpacerItem(20, 20));
-	_tools_widget->layout()->addWidget(search_in_library);
+	_tools_widget->layout()->addWidget(_search_in_library_button);
 	ui->setupUi(this);
 	ui->listView->setModel(_model);
 	ui->listView->setColumnWidth(0, 70);
@@ -141,7 +141,7 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 	connect(_tools_widget, SIGNAL(nextSearch()), this, SLOT(nextItem()));
 	connect(_tools_widget, SIGNAL(prevSearch()), this, SLOT(prevItem()));
 	connect(ui->moreButton, SIGNAL(clicked()), this, SLOT(_more_button()));
-	connect(search_in_library, SIGNAL(toggled(bool)), this, SLOT(_search_button(bool)));
+	connect(_search_in_library_button, SIGNAL(toggled(bool)), this, SLOT(_search_button(bool)));
 	connect(ui->playerButton, SIGNAL(clicked()), this, SLOT(hide()));
 	_view_button();
 	_top_gradient = ui->topWidget->styleSheet();
@@ -149,6 +149,10 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 	_is_dynamic = false;
 	setAttribute(Qt::WA_Maemo5StackedWindow);
 	setWindowFlags(Qt::Window | windowFlags());
+	ui->addButton->setEnabled(false);
+	ui->addButton->setIcon(QIcon());
+	ui->deleteButton->setEnabled(false);
+	ui->deleteButton->setIcon(QIcon());
 }
 
 LibraryForm::~LibraryForm()
@@ -162,21 +166,21 @@ void LibraryForm::_view_button() {
 	ui->listView->setColumnWidth(0, 70);
 	_state = STATE_ARTIST;
 	ui->backButton->setEnabled(false);
+	ui->backButton->setIcon(QIcon());
 	ui->listLabel->setText("Artists");
-	ui->addButton->setEnabled(true);
-	ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
-	ui->deleteButton->setEnabled(false);
-	ui->deleteButton->setIcon(QIcon());
 	ui->useButton->setEnabled(false);
 	ui->useButton->setIcon(QIcon());
+	ui->addButton->setEnabled(false);
+	ui->addButton->setIcon(QIcon());
+	ui->deleteButton->setEnabled(false);
+	ui->deleteButton->setIcon(QIcon());
 }
 
 void LibraryForm::_dynamic_button() {
 	ui->useButton->setEnabled(false);
 	ui->useButton->setIcon(QIcon());
 	ui->backButton->setEnabled(false);
-	ui->addButton->setEnabled(true);
-	ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
+	ui->backButton->setIcon(QIcon());
 	ui->deleteButton->setEnabled(false);
 	ui->deleteButton->setIcon(QIcon());
 	_model->clear();
@@ -192,6 +196,10 @@ void LibraryForm::_dynamic_button() {
 	ui->listView->setColumnWidth(0, 70);
 	ui->listLabel->setText("Dynamic playlists");
 	_state = STATE_DYNAMIC;
+	ui->addButton->setEnabled(false);
+	ui->addButton->setIcon(QIcon());
+	ui->deleteButton->setEnabled(false);
+	ui->deleteButton->setIcon(QIcon());
 }
 
 void LibraryForm::_process_list_click(QModelIndex index) {
@@ -209,6 +217,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 		_current_artist = data;
 		_state = STATE_ALBUM;
 		ui->backButton->setEnabled(true);
+		ui->backButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
 		ui->listLabel->setText(QString("Albums by \"%1\"").arg(_current_artist));
 		break;
 	case STATE_ALBUM:
@@ -220,6 +229,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 			ui->listView->scrollToTop();
 			_state = STATE_TRACK;
 			ui->backButton->setEnabled(true);
+			ui->backButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
 			ui->listLabel->setText(QString("Tracks from \"%1\" by \"%2\"").arg(_current_album).arg(_current_artist));
 		}
 		break;
@@ -231,9 +241,9 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 			ui->listView->setColumnWidth(0, 70);
 			ui->listView->scrollToTop();
 			_state = STATE_PLAYLIST_TRACK;
+			_is_dynamic = false;
 			ui->backButton->setEnabled(true);
-			ui->deleteButton->setEnabled(true);
-			ui->deleteButton->setIcon(QIcon(":/icons/"+_icons_theme+"/delete.png"));
+			ui->backButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
 			ui->useButton->setEnabled(true);
 			ui->useButton->setIcon(QIcon(":/icons/"+_icons_theme+"/use.png"));
 			ui->listLabel->setText(QString("Tracks in playlist \"%1\"").arg(data));
@@ -263,15 +273,18 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 			_state = STATE_PLAYLIST_TRACK;
 			_is_dynamic = true;
 			ui->backButton->setEnabled(true);
+			ui->backButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
 			ui->useButton->setEnabled(true);
 			ui->useButton->setIcon(QIcon(":/icons/"+_icons_theme+"/use.png"));
-			ui->addButton->setEnabled(true);
-			ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
 			ui->listLabel->setText(_current_playlist.name());
 		}
 	default:
 		return;
 	}
+	ui->addButton->setEnabled(false);
+	ui->addButton->setIcon(QIcon());
+	ui->deleteButton->setEnabled(false);
+	ui->deleteButton->setIcon(QIcon());
 	QTimer::singleShot(100, ui->listView, SLOT(clearSelection())); // workaround
 }
 
@@ -390,13 +403,14 @@ void LibraryForm::_playlists_button() {
 	ui->listView->setColumnWidth(0, 70);
 	_state = STATE_PLAYLIST;
 	ui->backButton->setEnabled(false);
+	ui->backButton->setIcon(QIcon());
 	ui->listLabel->setText("Playlists");
-	ui->addButton->setEnabled(true);
-	ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
-	ui->deleteButton->setEnabled(true);
-	ui->deleteButton->setIcon(QIcon(":/icons/"+_icons_theme+"/delete.png"));
 	ui->useButton->setEnabled(false);
 	ui->useButton->setIcon(QIcon());
+	ui->addButton->setEnabled(false);
+	ui->addButton->setIcon(QIcon());
+	ui->deleteButton->setEnabled(false);
+	ui->deleteButton->setIcon(QIcon());
 }
 
 void LibraryForm::_delete_button() {
@@ -536,6 +550,8 @@ void LibraryForm::_toggle_select_all_button() {
 		connect(ui->listView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
 			   this, SLOT(_process_selection(QItemSelection,QItemSelection)));
 		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"));
+		ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
+		ui->addButton->setEnabled(true);
 	}
 }
 
@@ -657,21 +673,30 @@ void LibraryForm::updateIcons() {
 	if (!ui->useButton->icon().isNull()) {
 		ui->useButton->setIcon(QIcon(":/icons/"+_icons_theme+"/use.png"));
 	}
-	ui->backButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
-	ui->dynamicButton->setIcon(QIcon(":/icons/"+_icons_theme+"/dynamic.png"));
+	if (!ui->backButton->icon().isNull()) {
+		ui->backButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
+	}
+	if (!ui->dynamicButton->icon().isNull()) {
+		ui->dynamicButton->setIcon(QIcon(":/icons/"+_icons_theme+"/dynamic.png"));
+	}
 	if (_tools_widget->isVisible()) {
 		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/more_l.png" : ":/icons/"+_icons_theme+"/unmore.png"));
 	} else {
 		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/unmore_l.png" : ":/icons/"+_icons_theme+"/more.png"));
 	}
-	ui->playlistsButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlists.png"));
+	if (!ui->playlistsButton->icon().isNull()) {
+		ui->playlistsButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlists.png"));
+	}
 	ui->playerButton->setIcon(QIcon(":/icons/"+_icons_theme+"/player.png"));
-	ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/artists.png"));
+	if (!ui->viewButton->icon().isNull()) {
+		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/artists.png"));
+	}
 	if (ui->listView->selectionModel()->selectedRows().count() == _model->rowCount()) {
 		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"));
 	} else {
 		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/select_all.png"));
 	}
+	_search_in_library_button->setIcon(QIcon(":/icons/"+_icons_theme+"/search.png"));
 	refresh();
 }
 
@@ -699,6 +724,19 @@ void LibraryForm::_process_selection(QItemSelection selected, QItemSelection des
 		}
 		ui->listView->selectionModel()->select(id, QItemSelectionModel::Deselect);
 	}
+	if (ui->listView->selectionModel()->selectedRows().count() > 0) {
+		ui->addButton->setEnabled(true);
+		ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
+		if (_state == STATE_PLAYLIST || (_state == STATE_PLAYLIST_TRACK && !_is_dynamic)) {
+			ui->deleteButton->setEnabled(true);
+			ui->deleteButton->setIcon(QIcon(":/icons/"+_icons_theme+"/delete.png"));
+		}
+	} else {
+		ui->addButton->setEnabled(false);
+		ui->addButton->setIcon(QIcon());
+		ui->deleteButton->setEnabled(false);
+		ui->deleteButton->setIcon(QIcon());
+	}
 }
 
 void LibraryForm::_process_dblclick(QModelIndex id) {
@@ -719,6 +757,7 @@ void LibraryForm::_search_button(bool state) {
 	ui->moreButton->setEnabled(!state);
 	_tools_widget->toggleArrows(!state);
 	ui->backButton->setEnabled(!state);
+	ui->backButton->setIcon(state ? QIcon() : QIcon(":/icons/"+_icons_theme+"/back.png"));
 	_tools_widget->setFocus();
 	_tools_widget->reset();
 	if (state) {
@@ -727,13 +766,23 @@ void LibraryForm::_search_button(bool state) {
 		ui->deleteButton->setEnabled(false);
 		ui->useButton->setIcon(QIcon());
 		ui->useButton->setEnabled(false);
-		ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
-		ui->addButton->setEnabled(true);
+		ui->viewButton->setIcon(QIcon());
+		ui->viewButton->setEnabled(false);
+		ui->dynamicButton->setIcon(QIcon());
+		ui->dynamicButton->setEnabled(false);
+		ui->playlistsButton->setIcon(QIcon());
+		ui->playlistsButton->setEnabled(false);
 		disconnect(_tools_widget, SIGNAL(search(QString)), this, SLOT(search(QString)));
 		connect(_tools_widget, SIGNAL(search(QString)), this, SLOT(_search_in_library(QString)));
 		_model->clear();
 		_state = STATE_SEARCH;
 	} else {
+		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/artists.png"));
+		ui->viewButton->setEnabled(true);
+		ui->dynamicButton->setIcon(QIcon(":/icons/"+_icons_theme+"/dynamic.png"));
+		ui->dynamicButton->setEnabled(true);
+		ui->playlistsButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlists.png"));
+		ui->playlistsButton->setEnabled(true);
 		_view_button();
 		connect(_tools_widget, SIGNAL(search(QString)), this, SLOT(search(QString)));
 		disconnect(_tools_widget, SIGNAL(search(QString)), this, SLOT(_search_in_library(QString)));

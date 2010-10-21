@@ -28,6 +28,7 @@
 #include <QModelIndex>
 #include <QItemSelectionModel>
 #include <QItemSelection>
+#include <QPushButton>
 #include "playlist.h"
 #include "toolswidget.h"
 
@@ -90,6 +91,7 @@ private:
 	QString _search_pattern;
 	int _search_current_id;
 	ToolsWidget *_tools_widget;
+	QPushButton *_search_in_library_button;
 	bool landscape;
 	QString _icons_theme;
 	QString _top_gradient;
