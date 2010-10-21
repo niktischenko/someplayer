@@ -41,6 +41,7 @@ public slots:
 	void show();
 	void toggleArrows(bool);
 	void hideFSButton();
+	void setFullscreenState(bool);
 
 signals:
 	void toggleFullscreen(bool);

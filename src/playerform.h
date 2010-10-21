@@ -28,6 +28,7 @@
 #include <QSlider>
 #include <QMenu>
 #include <QTime>
+#include <QPushButton>
 #include "trackrenderer.h"
 #include "tagresolver.h"
 #include "dbusadaptor.h"
@@ -110,6 +111,7 @@ private:
 	QMenu *_context_menu;
 	QString _search_pattern;
 	ToolsWidget *_tools_widget;
+	QPushButton *_fscreen_button;
 	bool landscape;
 	QString _icons_theme;
 	QString _top_gradient;

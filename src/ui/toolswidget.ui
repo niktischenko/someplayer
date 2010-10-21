@@ -47,6 +47,9 @@
       <iconset resource="../../resources/resources.qrc">
        <normaloff>:/icons/white/fullscreen.png</normaloff>:/icons/white/fullscreen.png</iconset>
      </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
      <property name="flat">
       <bool>true</bool>
      </property>

@@ -46,7 +46,6 @@ ToolsWidget::~ToolsWidget()
 void ToolsWidget::_fullscreen_button() {
 	_fullscreen = !_fullscreen;
 	emit toggleFullscreen(_fullscreen);
-	ui->fscreenButton->setIcon(QIcon(_fullscreen ? ":/icons/"+_icons_theme+"/window.png" : ":/icons/"+_icons_theme+"/fullscreen.png"));
 }
 
 void ToolsWidget::reset() {
@@ -60,7 +59,7 @@ void ToolsWidget::setFocus() {
 void ToolsWidget::updateIcons() {
 	Config config;
 	_icons_theme = config.getValue("ui/iconstheme").toString();
-	ui->fscreenButton->setIcon(QIcon(_fullscreen ? ":/icons/"+_icons_theme+"/window.png" : ":/icons/"+_icons_theme+"/fullscreen.png"));
+	ui->fscreenButton->setIcon(QIcon(":/icons/"+_icons_theme+"/fullscreen.png"));
 	ui->nextButton->setIcon(QIcon(":/icons/"+_icons_theme+"/forward.png"));
 	ui->prevButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
 }
@@ -77,4 +76,9 @@ void ToolsWidget::toggleArrows(bool state) {
 
 void ToolsWidget::hideFSButton() {
 	ui->fscreenButton->hide();
+}
+
+void ToolsWidget::setFullscreenState(bool on) {
+	ui->fscreenButton->setChecked(on);
+	_fullscreen = on;
 }

@@ -70,6 +70,16 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	} else {
 		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_one.png"));
 	}
+
+	_fscreen_button = new QPushButton(this);
+	_fscreen_button->setFlat(true);
+	_fscreen_button->setIcon(QIcon(":/icons/"+_icons_theme+"/fullscreen.png"));
+	_fscreen_button->setCheckable(true);
+	_fscreen_button->setMinimumSize(70, 70);
+	_fscreen_button->setMaximumSize(70, 70);
+	_fscreen_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	_fscreen_button->hide();
+
 	ui->volumeSlider->setMinimum(0);
 	ui->volumeSlider->setMaximum(100);
 	ui->volumeSlider->setValue(config.getValue("playback/volume").toInt());
@@ -126,6 +136,9 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(_tools_widget, SIGNAL(nextSearch()), this, SLOT(nextItem()));
 	connect(_tools_widget, SIGNAL(prevSearch()), this, SLOT(prevItem()));
 	connect(_tools_widget, SIGNAL(toggleFullscreen(bool)), this, SIGNAL(fullscreen(bool)));
+	connect(_tools_widget, SIGNAL(toggleFullscreen(bool)), _fscreen_button, SLOT(setChecked(bool)));
+	connect(_fscreen_button, SIGNAL(clicked(bool)), this, SIGNAL(fullscreen(bool)));
+	connect(_fscreen_button, SIGNAL(clicked(bool)), _tools_widget, SLOT(setFullscreenState(bool)));
 	ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
 	_top_gradient = ui->topWidget->styleSheet();
 	_bottom_gradient = ui->bottomWidget->styleSheet();
@@ -159,10 +172,12 @@ void PlayerForm::_toggle_view() {
 	index = (!index % 2);
 	if (index) {
 		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playlist.png"));
-		ui->moreButton->setEnabled(false);
+		ui->moreButton->hide();
+		_fscreen_button->show();
 	} else {
 		ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
-		ui->moreButton->setEnabled(true);
+		ui->moreButton->show();
+		_fscreen_button->hide();
 	}
 	ui->stackedWidget->setCurrentIndex(index);
 }
@@ -421,6 +436,7 @@ void PlayerForm::landscapeMode() {
 	ui->bhorizontalLayout->addWidget(ui->stopButton);
 	ui->bhorizontalLayout->addItem(ui->chorizontalSpacer_3);
 	ui->bhorizontalLayout->addWidget(ui->moreButton);
+	ui->bhorizontalLayout->addWidget(_fscreen_button);
 	ui->bhorizontalLayout->addItem(ui->chorizontalSpacer_4);
 	ui->bhorizontalLayout->addWidget(ui->volumeButton);
 
@@ -454,6 +470,7 @@ void PlayerForm::portraitMode() {
 	ui->topWidget->layout()->addWidget(ui->nextButton);
 	ui->topWidget->layout()->addItem(ui->thorizontalSpacer_3);
 	ui->topWidget->layout()->addWidget(ui->moreButton);
+	ui->topWidget->layout()->addWidget(_fscreen_button);
 	ui->bhorizontalLayout->removeItem(ui->chorizontalSpacer_0);
 	ui->bhorizontalLayout->removeItem(ui->chorizontalSpacer_1);
 	ui->bhorizontalLayout->removeItem(ui->chorizontalSpacer_2);
