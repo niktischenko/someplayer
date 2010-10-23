@@ -60,7 +60,6 @@ private slots:
 	void _manage_library();
 	void _save_playlist();
 	void _clear_current_playlist();
-	void _add_files();
 	void _set_timer();
 	void _timeout();
 	void _equalizer();

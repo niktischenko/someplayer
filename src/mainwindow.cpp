@@ -166,11 +166,6 @@ void MainWindow::_clear_current_playlist() {
 	_player_form->reload(true);
 }
 
-void MainWindow::_add_files() {
-	QStringList files = QFileDialog::getOpenFileNames(this, "Add file");
-	if (!files.isEmpty()) _player_form->addFiles(files);
-}
-
 void MainWindow::_set_timer() {
 	TimerDialog dialog(this);
 	dialog.init();
