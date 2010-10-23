@@ -129,7 +129,27 @@ void MainWindow::_manage_library() {
 void MainWindow::_save_playlist() {
 	QList<QString> playlists = _library->getPlaylistsNames();
 	playlists.removeOne(_CURRENT_PLAYLIST_SUBST_);
-	SavePlaylistDialog dialog(this);
+	Playlist cur = _library->getCurrentPlaylist();
+	// construct playlist name if possible
+	QString suggest_name;
+	QList<Track> tracks = cur.tracks();
+	QString artist = tracks.at(0).metadata().artist(), album = tracks.at(0).metadata().album();
+	foreach (Track t, tracks) {
+		if (t.metadata().album() != album)
+			album = "";
+		if (t.metadata().artist() != artist)
+			artist = "";
+	}
+	if (album.isEmpty() && artist.isEmpty()) {
+		suggest_name = "New playlist";
+	} else if (album.isEmpty()) {
+		suggest_name = artist;
+	} else {
+		suggest_name = QString("%1 - %2").arg(artist).arg(album);
+	}
+
+	// constructed
+	SavePlaylistDialog dialog(suggest_name, this);
 	dialog.setPlaylistNames(playlists);
 	if (dialog.exec() == QDialog::Accepted) {
 		QString name = dialog.selectedName();
@@ -144,7 +164,6 @@ void MainWindow::_save_playlist() {
 			}
 		}
 		if (append) {
-			Playlist cur = _library->getCurrentPlaylist();
 			Playlist target = _library->getPlaylist(name);
 			QList<Track> tracks = cur.tracks();
 			foreach (Track track, tracks) {
@@ -152,9 +171,8 @@ void MainWindow::_save_playlist() {
 			}
 			_library->savePlaylist(target);
 		} else {
-			Playlist playlist = _library->getCurrentPlaylist();
-			playlist.setName(name);
-			_library->savePlaylist(playlist);
+			cur.setName(name);
+			_library->savePlaylist(cur);
 		}
 	}
 }

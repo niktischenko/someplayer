@@ -20,13 +20,14 @@
 #include "saveplaylistdialog.h"
 #include "ui_saveplaylistdialog.h"
 
-SavePlaylistDialog::SavePlaylistDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::SavePlaylistDialog)
+SavePlaylistDialog::SavePlaylistDialog(QString suggestName, QWidget *parent) :
+		QDialog(parent),
+		ui(new Ui::SavePlaylistDialog)
 {
 	ui->setupUi(this);
 	selectedItem = "";
 	connect(ui->listWidget, SIGNAL(activated(QModelIndex)), this, SLOT(_select_item(QModelIndex)));
+	ui->lineEdit->setText(suggestName);
 }
 
 SavePlaylistDialog::~SavePlaylistDialog()
@@ -36,7 +37,6 @@ SavePlaylistDialog::~SavePlaylistDialog()
 
 void SavePlaylistDialog::setPlaylistNames(QList<QString> names) {
 	ui->listWidget->addItems(names);
-	ui->lineEdit->setText("New playlist");
 }
 
 QString SavePlaylistDialog::selectedName() {

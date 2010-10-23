@@ -33,7 +33,7 @@ class SavePlaylistDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit SavePlaylistDialog(QWidget *parent = 0);
+	explicit SavePlaylistDialog(QString suggestName, QWidget *parent = 0);
 	~SavePlaylistDialog();
 	void setPlaylistNames(QList<QString>);
 	QString selectedName();
