@@ -6,9 +6,7 @@
         <file>black/delete.png</file>
         <file>black/deselect_all.png</file>
         <file>black/dynamic.png</file>
-        <file>black/fav.png</file>
         <file>black/forward.png</file>
-        <file>black/fullscreen.png</file>
         <file>black/library.png</file>
         <file>black/more_l.png</file>
         <file>black/more.png</file>
@@ -32,14 +30,12 @@
         <file>black/unmore.png</file>
         <file>black/use.png</file>
         <file>black/volume.png</file>
-        <file>black/window.png</file>
         <file>white/add.png</file>
         <file>white/artists.png</file>
         <file>white/back.png</file>
         <file>white/delete.png</file>
         <file>white/deselect_all.png</file>
         <file>white/dynamic.png</file>
-        <file>white/fav.png</file>
         <file>white/forward.png</file>
         <file>white/fullscreen.png</file>
         <file>white/library.png</file>
@@ -65,7 +61,6 @@
         <file>white/unmore.png</file>
         <file>white/use.png</file>
         <file>white/volume.png</file>
-        <file>white/window.png</file>
         <file>white/update.png</file>
         <file>black/update.png</file>
         <file>white/update-all.png</file>
