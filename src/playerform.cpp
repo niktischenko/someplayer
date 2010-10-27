@@ -39,12 +39,14 @@ inline void __fill_list(QStandardItemModel *_model, Playlist playlist) {
 	QList<Track> tracks = playlist.tracks();
 	int count = tracks.count();
 	_model->setRowCount(count);
+	_model->setColumnCount(2);
 	QTime time;
 	for (int i = 0; i < count; i++) {
 		TrackMetadata meta = tracks.at(i).metadata();
 		time.setHMS(0, meta.length()/60, meta.length() % 60);
 		QString t = meta.title()+"#_#"+meta.artist()+"#_#"+meta.album()+"#_#"+time.toString("mm:ss");
-		_model->setItem(i, 0, new QStandardItem(t));
+		_model->setItem(i, 1, new QStandardItem(t));
+		_model->setItem(i, 0, new QStandardItem(""));
 	}
 }
 
@@ -103,13 +105,15 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_track_renderer = new TrackRenderer(this);
 	_track_renderer->setActiveRow(-1);
 	_track_renderer->setSearchRow(-1);
+	ui->playlistView->setItemDelegateForColumn(1, _track_renderer);
 	ui->playlistView->setItemDelegateForColumn(0, _track_renderer);
 
 	_tag_resolver = new TagResolver(this);
 
 	connect(ui->libraryButton, SIGNAL(clicked()), this, SLOT(_library()));
 	connect(ui->viewButton, SIGNAL(clicked()), this, SLOT(_toggle_view()));
-	connect(ui->playlistView, SIGNAL(clicked(QModelIndex)), this, SLOT(_process_click(QModelIndex)));
+	connect(ui->playlistView, SIGNAL(activated(QModelIndex)), this, SLOT(_process_click(QModelIndex)));
+	connect(ui->playlistView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(_process_dbl_click(QModelIndex)));
 	connect(ui->playpauseButton, SIGNAL(clicked()), _player, SLOT(toggle()));
 	connect(ui->nextButton, SIGNAL(clicked()), _player, SLOT(next()));
 	connect(ui->stopButton, SIGNAL(clicked()), _player, SLOT(stop()));
@@ -164,6 +168,7 @@ void PlayerForm::reload(bool reread) {
 		_current_playlist = _lib->getCurrentPlaylist();
 		_player->setPlaylist(_current_playlist);
 		__fill_list(_model, _current_playlist);
+		ui->playlistView->setColumnWidth(0, 50);
 	}
 }
 
@@ -183,13 +188,17 @@ void PlayerForm::_toggle_view() {
 }
 
 void PlayerForm::_process_click(QModelIndex index) {
-	int id = index.row();
-	_player->stop();
-	_player->setTrackId(id);
-	_player->play();
-	_track_renderer->setActiveRow(id);
-	ui->playlistView->hide();
-	ui->playlistView->show();
+	if (index.column() == 1) {
+		int id = index.row();
+		_player->stop();
+		_player->setTrackId(id);
+		_player->play();
+		_track_renderer->setActiveRow(id);
+	} else {
+		_custom_context_menu_requested(ui->playlistView->rect().center());
+	}
+//	ui->playlistView->hide();
+//	ui->playlistView->show();
 }
 
 void PlayerForm::_track_changed(Track track) {
@@ -351,6 +360,7 @@ void PlayerForm::addFiles(QList<QString> files) {
 void PlayerForm::_track_decoded(Track track) {
 	_current_playlist.addTrack(track);
 	__fill_list(_model, _current_playlist);
+	ui->playlistView->setColumnWidth(0, 50);
 	_lib->saveCurrentPlaylist(_current_playlist);
 	_player->setPlaylist(_current_playlist);
 }
@@ -567,4 +577,8 @@ void PlayerForm::play(Track track) {
 		_player->setTrackId(id);
 		_player->play();
 	}
+}
+
+void PlayerForm::_process_dbl_click(QModelIndex) {
+	_custom_context_menu_requested(ui->playlistView->rect().center());
 }

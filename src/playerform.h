@@ -83,6 +83,7 @@ private slots:
 	void _library();
 	void _toggle_view();
 	void _process_click(QModelIndex);
+	void _process_dbl_click(QModelIndex);
 	void _track_changed(Track);
 	void _tick(int, int);
 	void _slider_released();
