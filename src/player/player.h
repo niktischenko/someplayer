@@ -27,7 +27,6 @@
 #include "../playlist.h"
 #include <phonon/MediaObject>
 #include <phonon/AudioOutput>
-#include <phonon/VolumeSlider>
 #include <phonon/Effect>
 #include <phonon/Path>
 #include <QStack>
@@ -65,7 +64,6 @@ namespace SomePlayer {
 
 			bool random() {return _random;}
 			RepeatRule repeat() {return _repeat;}
-			int volume() {return (int)(_output->volume()*100 + 0.5);}
 			Phonon::MediaObject* mediaObject() {return _player;}
 			bool equalizerEnabled() {return _equalizer_enabled;}
 			bool equalizerAvailable() {return _equalizer != NULL;}
@@ -89,7 +87,6 @@ namespace SomePlayer {
 			void toggleRandom();
 			void toggleRepeat();
 			void seek(int);
-			void setVolume(int);
 			void enableEqualizer();
 			void disableEqualizer();
 			void setEqualizerValue(int band, double value);

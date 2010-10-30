@@ -81,6 +81,7 @@ public slots:
 
 private slots:
 	void _library();
+	void _dirview();
 	void _toggle_view();
 	void _process_click(QModelIndex);
 	void _track_changed(Track);
@@ -95,9 +96,7 @@ private slots:
 	void _state_changed(PlayerState);
 	void _toggle_repeat();
 	void _toggle_random();
-	void _toggle_volume();
 	void _track_decoded(Track);
-	void _volume_changed();
 	void _tools_widget_toggle();
 
 private:

@@ -81,12 +81,6 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_fscreen_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	_fscreen_button->hide();
 
-	ui->volumeSlider->setMinimum(0);
-	ui->volumeSlider->setMaximum(100);
-	ui->volumeSlider->setValue(config.getValue("playback/volume").toInt());
-	_player->setVolume(ui->volumeSlider->value());
-	ui->volumeSlider->hide();
-	ui->seekSlider->setEnabled(false);
 	ui->progressLayout->removeItem(ui->seekSpacer);
 	_tools_widget = new ToolsWidget(this);
 	ui->toolsLayout->insertWidget(0, _tools_widget);
@@ -121,7 +115,6 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(ui->randomButton, SIGNAL(clicked()), this, SLOT(_toggle_random()));
 	connect(ui->repeatButton, SIGNAL(clicked()), this, SLOT(_toggle_repeat()));
 	connect(ui->seekSlider, SIGNAL(sliderMoved(int)), _player, SLOT(seek(int)));
-	connect(ui->volumeSlider, SIGNAL(sliderMoved(int)), _player, SLOT(setVolume(int)));
 	connect(ui->playlistView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(_custom_context_menu_requested(QPoint)));
 	connect(clear_playlist, SIGNAL(triggered()), this, SIGNAL(clearPlaylist()));
 	connect(delete_action, SIGNAL(triggered()), this, SLOT(_delete_track()));
@@ -132,7 +125,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(_player, SIGNAL(stateChanged(PlayerState)), this, SLOT(_state_changed(PlayerState)));
 	connect(_player, SIGNAL(trackDone(Track)), _lib, SLOT(updateTrackCount(Track)));
 	connect(_tag_resolver, SIGNAL(decoded(Track)), this, SLOT(_track_decoded(Track)));
-	connect(ui->volumeButton, SIGNAL(clicked()), this, SLOT(_toggle_volume()));
+	connect(ui->dirButton, SIGNAL(clicked()), this, SLOT(_dirview()));
 	connect(ui->moreButton, SIGNAL(clicked()), this, SLOT(_tools_widget_toggle()));
 	connect(_tools_widget, SIGNAL(search(QString)), this, SLOT(search(QString)));
 	connect(_tools_widget, SIGNAL(nextSearch()), this, SLOT(nextItem()));
@@ -400,18 +393,8 @@ void PlayerForm::stop() {
 	_player->stop();
 }
 
-void PlayerForm::_toggle_volume() {
-	if (ui->volumeSlider->isVisible()) {
-		ui->volumeSlider->hide();
-	} else {
-		ui->volumeSlider->show();
-		ui->volumeSlider->setValue(_player->volume());
-	}
-}
+void PlayerForm::_dirview() {
 
-void PlayerForm::_volume_changed() {
-	int value = ui->volumeSlider->value();
-	_player->setVolume(value);
 }
 
 void PlayerForm::landscapeMode() {
@@ -444,7 +427,7 @@ void PlayerForm::landscapeMode() {
 	ui->bhorizontalLayout->addWidget(ui->moreButton);
 	ui->bhorizontalLayout->addWidget(_fscreen_button);
 	ui->bhorizontalLayout->addItem(ui->chorizontalSpacer_4);
-	ui->bhorizontalLayout->addWidget(ui->volumeButton);
+	ui->bhorizontalLayout->addWidget(ui->dirButton);
 
 	if (_tools_widget->isVisible()) {
 		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/more.png"));
@@ -495,7 +478,7 @@ void PlayerForm::portraitMode() {
 	ui->bottomWidget->layout()->addItem(ui->bhorizontalSpacer_2);
 	ui->bottomWidget->layout()->addWidget(ui->repeatButton);
 	ui->bottomWidget->layout()->addItem(ui->bhorizontalSpacer_3);
-	ui->bottomWidget->layout()->addWidget(ui->volumeButton);
+	ui->bottomWidget->layout()->addWidget(ui->dirButton);
 
 	if (_tools_widget->isVisible()) {
 		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/unmore.png"));
@@ -531,7 +514,7 @@ void PlayerForm::updateIcons() {
 	ui->nextButton->setIcon(QIcon(":/icons/"+_icons_theme+"/next.png"));
 	ui->stopButton->setIcon(QIcon(":/icons/"+_icons_theme+"/stop.png"));
 	ui->prevButton->setIcon(QIcon(":/icons/"+_icons_theme+"/prev.png"));
-	ui->volumeButton->setIcon(QIcon(":/icons/"+_icons_theme+"/volume.png"));
+	ui->dirButton->setIcon(QIcon(":/icons/"+_icons_theme+"/directory.png"));
 	if (_player->state() == PLAYER_PLAYING) {
 		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/pause.png"));
 	} else {

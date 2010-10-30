@@ -29,7 +29,6 @@
         <file>black/unmore_l.png</file>
         <file>black/unmore.png</file>
         <file>black/use.png</file>
-        <file>black/volume.png</file>
         <file>white/add.png</file>
         <file>white/artists.png</file>
         <file>white/back.png</file>
@@ -60,7 +59,6 @@
         <file>white/unmore_l.png</file>
         <file>white/unmore.png</file>
         <file>white/use.png</file>
-        <file>white/volume.png</file>
         <file>white/update.png</file>
         <file>black/update.png</file>
         <file>white/update-all.png</file>
@@ -69,5 +67,7 @@
         <file>black/update-pls.png</file>
         <file>white/arrow_r.png</file>
         <file>black/arrow_r.png</file>
+        <file>black/directory.png</file>
+        <file>white/directory.png</file>
     </qresource>
 </RCC>

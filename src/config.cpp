@@ -32,9 +32,6 @@ Config::Config()
 		_settings->setValue("ui/albumsorting", "date");
 	if (_settings->value("ui/gradient").toString() == "")
 		_settings->setValue("ui/gradient", "yes");
-	if (_settings->value("playback/volume").isNull()) {
-		_settings->setValue("playback/volume", 100);
-	}
 }
 
 Config::~Config() {

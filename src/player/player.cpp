@@ -265,11 +265,6 @@ void Player::toggleRepeat() {
 	_config.setValue("playback/repeat", _repeat);
 }
 
-void Player::setVolume(int v) {
-	_output->setVolume(v*0.01);
-	_config.setValue("playback/volume", v);
-}
-
 void Player::equalizerValue(int band, double *val) {
 	if (_equalizer == NULL) {
 		*val = 0;
