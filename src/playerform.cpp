@@ -137,6 +137,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
 	_top_gradient = ui->topWidget->styleSheet();
 	_bottom_gradient = ui->bottomWidget->styleSheet();
+	ui->countdownWidget->hide();
 
 	// dbus
 	_dbusadaptor = new DBusAdaptop(_player);
@@ -563,4 +564,13 @@ void PlayerForm::play(Track track) {
 		_player->setTrackId(_current_playlist.tracks().count()-1);
 		_player->play();
 	}
+}
+
+void PlayerForm::showCountdown(QString text) {
+	ui->countdownWidget->show();
+	ui->timeLabel->setText(text);
+}
+
+void PlayerForm::hideCountdown() {
+	ui->countdownWidget->hide();
 }

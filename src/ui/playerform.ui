@@ -113,6 +113,32 @@
           </layout>
          </item>
          <item>
+          <widget class="QWidget" name="countdownWidget" native="true">
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <property name="margin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Music off:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="timeLabel">
+              <property name="text">
+               <string>00:00:00</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
           <widget class="QTableView" name="playlistView">
            <property name="contextMenuPolicy">
             <enum>Qt::CustomContextMenu</enum>
@@ -376,7 +402,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset>
          <normaloff>:/icons/white/library.png</normaloff>:/icons/white/library.png</iconset>
        </property>
        <property name="flat">
@@ -421,7 +447,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset>
          <normaloff>:/icons/white/playlist.png</normaloff>:/icons/white/playlist.png</iconset>
        </property>
        <property name="checkable">
@@ -469,7 +495,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset>
          <normaloff>:/icons/white/repeat_off.png</normaloff>:/icons/white/repeat_off.png</iconset>
        </property>
        <property name="iconSize">
@@ -510,7 +536,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset>
          <normaloff>:/icons/white/random_off.png</normaloff>:/icons/white/random_off.png</iconset>
        </property>
        <property name="iconSize">
@@ -564,7 +590,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset>
          <normaloff>:/icons/white/prev.png</normaloff>:/icons/white/prev.png</iconset>
        </property>
        <property name="flat">
@@ -596,7 +622,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset>
          <normaloff>:/icons/white/play.png</normaloff>:/icons/white/play.png</iconset>
        </property>
        <property name="flat">
@@ -628,7 +654,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset>
          <normaloff>:/icons/white/next.png</normaloff>:/icons/white/next.png</iconset>
        </property>
        <property name="flat">
@@ -660,7 +686,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset>
          <normaloff>:/icons/white/stop.png</normaloff>:/icons/white/stop.png</iconset>
        </property>
        <property name="flat">
@@ -705,7 +731,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset>
          <normaloff>:/icons/white/more.png</normaloff>:/icons/white/more.png</iconset>
        </property>
        <property name="flat">
@@ -744,7 +770,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset>
          <normaloff>:/icons/white/directory.png</normaloff>:/icons/white/directory.png</iconset>
        </property>
        <property name="flat">
@@ -829,8 +855,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../resources/resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

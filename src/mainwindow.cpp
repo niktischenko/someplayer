@@ -199,7 +199,7 @@ void MainWindow::_set_timer() {
 	dialog.init();
 	if (_timer->isActive()) {
 		dialog.showDisable();
-		int msec = _timer->interval();
+		int msec = _timeout_interval;
 		int h = msec/3600000;
 		int m = msec/60000 - h * 60;
 		int s = msec/1000 - h * 3600 - m * 60;
@@ -209,17 +209,32 @@ void MainWindow::_set_timer() {
 		if (!dialog.timerDisabled()) {
 			int h, m, s;
 			dialog.getTime(&h, &m, &s);
-			_timer->setInterval(h*3600000+m*60000+s*1000);
+			_timeout_interval = h*3600000+m*60000+s*1000;
+			_timer->setInterval(1000);
+			_timer->setSingleShot(false);
 			_timer->start();
 		} else if (_timer->isActive()) {
 			_timer->stop();
+			_player_form->hideCountdown();
 		}
 	}
 }
 
 void MainWindow::_timeout() {
-	_player_form->stop();
-	_timer->stop();
+	_timeout_interval -= 1000;
+	if (_timeout_interval <= 0) {
+		_player_form->stop();
+		_player_form->hideCountdown();
+		_timer->stop();
+	} else {
+		int h = _timeout_interval / 3600000;
+		int m = (_timeout_interval / 60000) - 60*h;
+		int s = (_timeout_interval / 1000) - 3600*h - 60*m;
+		QString hp = h < 10 ? QString("0%1").arg(h) : QString("%1").arg(h);
+		QString mp = m < 10 ? QString("0%1").arg(m) : QString("%1").arg(m);
+		QString sp = s < 10 ? QString("0%1").arg(s) : QString("%1").arg(s);
+		_player_form->showCountdown(hp+":"+mp+":"+sp);
+	}
 }
 
 void MainWindow::_equalizer() {

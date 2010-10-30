@@ -78,6 +78,7 @@ private:
 	QTimer *_timer;
 	EqualizerDialog *_equalizer_dialog;
 	ManageLibraryForm *_manage_library_form;
+	int _timeout_interval;
 };
 
 #endif // MAINWINDOW_H

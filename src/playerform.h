@@ -79,6 +79,8 @@ public slots:
 	void updateIcons();
 	void checkGradient();
 	void play(Track);
+	void showCountdown(QString);
+	void hideCountdown();
 
 private slots:
 	void _library();
