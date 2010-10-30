@@ -394,7 +394,7 @@ void PlayerForm::stop() {
 }
 
 void PlayerForm::_dirview() {
-
+	emit dirView();
 }
 
 void PlayerForm::landscapeMode() {
@@ -555,6 +555,12 @@ void PlayerForm::play(Track track) {
 	int id = _current_playlist.tracks().indexOf(track);
 	if (id >= 0) {
 		_player->setTrackId(id);
+		_player->play();
+	} else {
+		_current_playlist.addTrack(track);
+		_lib->saveCurrentPlaylist(_current_playlist);
+		reload(true);
+		_player->setTrackId(_current_playlist.tracks().count()-1);
 		_player->play();
 	}
 }

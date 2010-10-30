@@ -36,6 +36,7 @@ namespace SomePlayer {
 		public:
 			explicit MediaScanner(QObject *parent = 0);
 			void run();
+			QStringList singleScan(QString);
 
 		signals:
 			void scanFinish(QStringList);
@@ -49,7 +50,7 @@ namespace SomePlayer {
 			QStringList REGISTERED_FILE_EXTENSIONS;
 			QStringList _foundMedia;
 
-			void _scan_directory(QDir);
+			QStringList _scan_directory(QDir);
 		};
 
 	};

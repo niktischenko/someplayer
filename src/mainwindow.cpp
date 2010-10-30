@@ -50,6 +50,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	_player_form = new PlayerForm(_library, this);
 	ui->centralWidget->layout()->addWidget(_player_form);
 	_library_form = new LibraryForm(_library, this);
+	_directory_form = new DirectoryView(this);
+	_directory_form->hide();
 	_timer = new QTimer(this);
 	_equalizer_dialog = new EqualizerDialog(this);
 	_manage_library_form = new ManageLibraryForm(_library, this);
@@ -70,6 +72,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(QApplication::desktop(), SIGNAL(resized(int)), this, SLOT(_orientation_changed()));
 	connect(_player_form, SIGNAL(fullscreen(bool)), this, SLOT(_fullscreen(bool)));
 	connect(_library_form, SIGNAL(addAndPlay(Track)), _player_form, SLOT(play(Track)));
+	connect(_directory_form, SIGNAL(addAndPlay(Track)), _player_form, SLOT(play(Track)));
+	connect(_player_form, SIGNAL(dirView()), _directory_form, SLOT(show()));
+	connect(_directory_form, SIGNAL(addTracks(QList<Track>)), this, SLOT(_add_tracks(QList<Track>)));
 	_player_form->reload(true);
 	QString mode = config.getValue("ui/orientation").toString();
 	if (mode == "landscape") {
@@ -77,22 +82,27 @@ MainWindow::MainWindow(QWidget *parent) :
 		_player_form->landscapeMode();
 		_library_form->landscapeMode();
 		_equalizer_dialog->landscapeMode();
+		_directory_form->lanscapeMode();
 	} else if (mode == "portrait") {
 		setAttribute(Qt::WA_Maemo5PortraitOrientation);
 		_player_form->portraitMode();
 		_library_form->portraitMode();
 		_equalizer_dialog->portraitMode();
+		_directory_form->portraitMode();
 	} else if (mode == "auto") { // initialization in landscape
 		_player_form->landscapeMode();
 		_library_form->landscapeMode();
 		_equalizer_dialog->landscapeMode();
+		_directory_form->lanscapeMode();
 		setAttribute(Qt::WA_Maemo5AutoOrientation);
 	}
 	_library_form->updateIcons();
 	_player_form->updateIcons();
 	_manage_library_form->updateIcons();
+	_directory_form->updateIcons();
 	_player_form->checkGradient();
 	_library_form->checkGradient();
+	_directory_form->updateGradient();
 	setWindowTitle("SomePlayer");
 }
 
@@ -249,6 +259,8 @@ void MainWindow::settings() {
 	_manage_library_form->updateIcons();
 	_player_form->checkGradient();
 	_library_form->checkGradient();
+	_directory_form->updateIcons();
+	_directory_form->updateGradient();
 }
 
 void MainWindow::_orientation_changed() {
@@ -257,14 +269,25 @@ void MainWindow::_orientation_changed() {
 		_player_form->landscapeMode();
 		_library_form->landscapeMode();
 		_equalizer_dialog->landscapeMode();
+		_directory_form->lanscapeMode();
 	} else {
 		_player_form->portraitMode();
 		_library_form->portraitMode();
 		_equalizer_dialog->portraitMode();
+		_directory_form->portraitMode();
 	}
 }
 
 void MainWindow::_fullscreen(bool f) {
 	if (f) showFullScreen();
 	else showNormal();
+}
+
+void MainWindow::_add_tracks(QList<Track> tracks) {
+	Playlist cur = _library->getCurrentPlaylist();
+	foreach (Track track, tracks) {
+		cur.addTrack(track);
+	}
+	_library->saveCurrentPlaylist(cur);
+	_player_form->reload(true);
 }

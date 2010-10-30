@@ -60,6 +60,7 @@ signals:
 	void fullscreen(bool);
 	void clearPlaylist();
 	void refreshLibrary();
+	void dirView();
 
 public slots:
 	void reload(bool);

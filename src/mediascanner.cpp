@@ -35,11 +35,17 @@ void MediaScanner::run() {
 		return;
 	_foundMedia.clear();
 	_scan_directory(_dir);
+	_foundMedia = _scan_directory(_dir);
 	emit scanFinish(_foundMedia);
 	_stopped = true;
 }
 
-void MediaScanner::_scan_directory(QDir dir) {
+QStringList MediaScanner::singleScan(QString path) {
+	_dir = path;
+	return _scan_directory(_dir);
+}
+
+QStringList MediaScanner::_scan_directory(QDir dir) {
 	QFileInfoList items = dir.entryInfoList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
 	foreach (QFileInfo info, items) {
 		if (info.isDir()) {
@@ -53,6 +59,7 @@ void MediaScanner::_scan_directory(QDir dir) {
 			}
 		}
 	}
+	return _foundMedia;
 }
 
 void MediaScanner::stop() {

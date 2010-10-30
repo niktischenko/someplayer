@@ -27,6 +27,7 @@
 #include "busywidget.h"
 #include "equalizerdialog.h"
 #include "managelibraryform.h"
+#include "directoryview.h"
 #include "library.h"
 #include <QTimer>
 
@@ -35,6 +36,7 @@ namespace Ui {
 }
 
 using SomePlayer::DataObjects::Library;
+using SomePlayer::DataObjects::Track;
 
 class MainWindow : public QMainWindow
 {
@@ -66,10 +68,12 @@ private slots:
 	void _equalizer_value_changed(int, int);
 	void _orientation_changed();
 	void _fullscreen(bool);
+	void _add_tracks(QList<Track>);
 private:
 	PlayerForm *_player_form;
 	LibraryForm *_library_form;
 	BusyWidget *_busy_widget;
+	DirectoryView *_directory_form;
 	Library *_library;
 	QTimer *_timer;
 	EqualizerDialog *_equalizer_dialog;

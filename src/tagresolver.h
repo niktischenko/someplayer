@@ -38,6 +38,7 @@ namespace SomePlayer {
 		public slots:
 			void decode (QStringList files);
 			void updateTags(Track);
+			Track decodeOne (QString filepath);
 
 		signals:
 			void decoded(Track);

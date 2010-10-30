@@ -69,5 +69,7 @@
         <file>black/arrow_r.png</file>
         <file>black/directory.png</file>
         <file>white/directory.png</file>
+        <file>black/home.png</file>
+        <file>white/home.png</file>
     </qresource>
 </RCC>
