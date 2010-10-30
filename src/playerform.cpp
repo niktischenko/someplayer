@@ -46,7 +46,6 @@ inline void __fill_list(QStandardItemModel *_model, Playlist playlist) {
 		time.setHMS(0, meta.length()/60, meta.length() % 60);
 		QString t = meta.title()+"#_#"+meta.artist()+"#_#"+meta.album()+"#_#"+time.toString("mm:ss");
 		_model->setItem(i, 1, new QStandardItem(t));
-		_model->setItem(i, 0, new QStandardItem(""));
 	}
 }
 
@@ -113,7 +112,6 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(ui->libraryButton, SIGNAL(clicked()), this, SLOT(_library()));
 	connect(ui->viewButton, SIGNAL(clicked()), this, SLOT(_toggle_view()));
 	connect(ui->playlistView, SIGNAL(activated(QModelIndex)), this, SLOT(_process_click(QModelIndex)));
-	connect(ui->playlistView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(_process_dbl_click(QModelIndex)));
 	connect(ui->playpauseButton, SIGNAL(clicked()), _player, SLOT(toggle()));
 	connect(ui->nextButton, SIGNAL(clicked()), _player, SLOT(next()));
 	connect(ui->stopButton, SIGNAL(clicked()), _player, SLOT(stop()));
@@ -197,8 +195,6 @@ void PlayerForm::_process_click(QModelIndex index) {
 	} else {
 		_custom_context_menu_requested(ui->playlistView->rect().center());
 	}
-//	ui->playlistView->hide();
-//	ui->playlistView->show();
 }
 
 void PlayerForm::_track_changed(Track track) {
@@ -314,15 +310,15 @@ void PlayerForm::search(QString pattern) {
 }
 
 void PlayerForm::nextItem() {
-	QString data = _model->index(_search_current_id, 0).data().toString();
+	QString data = _model->index(_search_current_id, 1).data().toString();
 	for (int i = _search_current_id+1; i < _model->rowCount(); i++) {
-		data = _model->index(i, 0).data().toString();
+		data = _model->index(i, 1).data().toString();
 		if (data.contains(_search_pattern, Qt::CaseInsensitive)) {
 			_search_current_id = i;
 			break;
 		}
 	}
-	QModelIndex id = _model->index(_search_current_id, 0);
+	QModelIndex id = _model->index(_search_current_id, 1);
 	_track_renderer->setSearchRow(_search_current_id);
 	ui->playlistView->scrollTo(id);
 	ui->playlistView->hide();
@@ -330,15 +326,15 @@ void PlayerForm::nextItem() {
 }
 
 void PlayerForm::prevItem() {
-	QString data = _model->index(_search_current_id, 0).data().toString();
+	QString data = _model->index(_search_current_id, 1).data().toString();
 	for (int i = _search_current_id-1; i >= 0; i--) {
-		data = _model->index(i, 0).data().toString();
+		data = _model->index(i, 1).data().toString();
 		if (data.contains(_search_pattern, Qt::CaseInsensitive)) {
 			_search_current_id = i;
 			break;
 		}
 	}
-	QModelIndex id = _model->index(_search_current_id, 0);
+	QModelIndex id = _model->index(_search_current_id, 1);
 	_track_renderer->setSearchRow(_search_current_id);
 	ui->playlistView->scrollTo(id);
 	ui->playlistView->hide();
@@ -348,7 +344,7 @@ void PlayerForm::prevItem() {
 void PlayerForm::cancelSearch() {
 	_search_pattern = "";
 	_track_renderer->setSearchRow(-1);
-	ui->playlistView->scrollTo(_model->index(_track_renderer->activeRow(), 0));
+	ui->playlistView->scrollTo(_model->index(_track_renderer->activeRow(), 1));
 	ui->playlistView->hide();
 	ui->playlistView->show();
 }
@@ -525,6 +521,7 @@ void PlayerForm::updateIcons() {
 	Config config;
 	_icons_theme = config.getValue("ui/iconstheme").toString();
 	_tools_widget->updateIcons();
+	_track_renderer->updateIcons();
 	ui->libraryButton->setIcon(QIcon(":/icons/"+_icons_theme+"/library.png"));
 	if (_tools_widget->isVisible()) {
 		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/" + _icons_theme + "/unmore.png" : ":/icons/" + _icons_theme + "/more.png"));
@@ -577,8 +574,4 @@ void PlayerForm::play(Track track) {
 		_player->setTrackId(id);
 		_player->play();
 	}
-}
-
-void PlayerForm::_process_dbl_click(QModelIndex) {
-	_custom_context_menu_requested(ui->playlistView->rect().center());
 }

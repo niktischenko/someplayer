@@ -23,6 +23,7 @@
 #include <QAbstractItemDelegate>
 #include "abstractitemrenderer.h"
 #include <QPainter>
+#include <QPen>
 #include "someplayer.h"
 
 class TrackRenderer : public AbstractItemRenderer
@@ -35,9 +36,13 @@ public:
 
 	QSize sizeHint(const QStyleOptionViewItem &option,
 						   const QModelIndex &index) const;
+	void updateIcons();
 
 private:
 	QString _icons_theme;
+	QPen _apen;
+	QPen _spen;
+	QPen _sspen;
 };
 
 #endif // TRACKRENDERER_H

@@ -67,5 +67,7 @@
         <file>white/update-pls.png</file>
         <file>black/update-all.png</file>
         <file>black/update-pls.png</file>
+        <file>white/arrow_r.png</file>
+        <file>black/arrow_r.png</file>
     </qresource>
 </RCC>
