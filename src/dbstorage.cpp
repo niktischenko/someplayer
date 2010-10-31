@@ -88,9 +88,7 @@ void DbStorage::_prepare_queries() {
 	_get_tracks_by_pattern_query = new QSqlQuery(db);
 	_get_tracks_by_pattern_query->prepare("SELECT id, title, artist, album, source, count, length, year FROM "
 					      "entire WHERE "
-					      "utitle LIKE (SELECT '%' || :ptitle || '%') OR "
-					      "album_uname LIKE (SELECT '%' || :palbum || '%') OR "
-					      "artist_uname LIKE (SELECT '%' || :partist || '%') "
+					      "utitle LIKE (SELECT '%' || :ptitle || '%') "
 					      "ORDER BY artist_uname, year");
 
 	_get_track_id_by_source_query = new QSqlQuery(db);
@@ -541,12 +539,10 @@ int DbStorage::_check_add_album(QString album, int artist_id, int year) {
 	}
 }
 
-QList<Track> DbStorage::search(QString pattern) {
+QList<Track> DbStorage::searchTracks(QString pattern) {
 	QList <Track> found;
 	QSqlQuery *query = _get_tracks_by_pattern_query;
 	query->bindValue(":ptitle", pattern.toUpper()); // with :pattern only doesn't work
-	query->bindValue(":palbum", pattern.toUpper());
-	query->bindValue(":partist", pattern.toUpper());
 	query->exec();
 	// id, title, artist, album, source, count, length, year
 	while (query->next()) {

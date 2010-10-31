@@ -809,7 +809,7 @@ void LibraryForm::_search_in_library(QString pattern) {
 		_model->clear();
 		return;
 	}
-	_current_tracks = _lib->search(pattern);
+	_current_tracks = _lib->searchTracks(pattern);
 	__fill_model_tracks(_model, _current_tracks, _icons_theme);
 	ui->listView->setColumnWidth(0, 70);
 	ui->listView->scrollToTop();

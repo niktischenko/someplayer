@@ -56,7 +56,7 @@ namespace SomePlayer {
 			QList<Track> getTracksForAlbum(QString album, QString artist);
 			QList<Track> getAllTracksForArtist(QString artist);
 
-			QList<Track> search(QString pattern);
+			QList<Track> searchTracks(QString pattern);
 
 			Playlist getFavorites();
 			Playlist getMostPlayed();

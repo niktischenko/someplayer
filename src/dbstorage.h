@@ -52,7 +52,7 @@ namespace SomePlayer {
 			Playlist getNeverPlayed();
 			Playlist getRecentlyAdded();
 
-			QList<Track> search(QString pattern);
+			QList<Track> searchTracks(QString pattern);
 
 			int getArtistsCount();
 			int getAlbumsCount();

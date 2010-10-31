@@ -171,8 +171,8 @@ void Library::updateTrackMetadata(Track track) {
 	_resolver->updateTags(ntrack);
 }
 
-QList<Track> Library::search(QString pattern) {
-	return _library_storage->search(pattern);
+QList<Track> Library::searchTracks(QString pattern) {
+	return _library_storage->searchTracks(pattern);
 }
 
 QList<QString> Library::getDirectories() {
