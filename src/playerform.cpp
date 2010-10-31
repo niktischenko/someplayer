@@ -81,7 +81,6 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_fscreen_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	_fscreen_button->hide();
 
-	ui->progressLayout->removeItem(ui->seekSpacer);
 	_tools_widget = new ToolsWidget(this);
 	ui->toolsLayout->insertWidget(0, _tools_widget);
 	_tools_widget->hide();
@@ -102,6 +101,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	ui->playlistView->setItemDelegateForColumn(0, _track_renderer);
 
 	_tag_resolver = new TagResolver(this);
+	_coverfinder = new CoverFinder(this);
 
 	connect(ui->libraryButton, SIGNAL(clicked()), this, SLOT(_library()));
 	connect(ui->viewButton, SIGNAL(clicked()), this, SLOT(_toggle_view()));
@@ -134,6 +134,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(_tools_widget, SIGNAL(toggleFullscreen(bool)), _fscreen_button, SLOT(setChecked(bool)));
 	connect(_fscreen_button, SIGNAL(clicked(bool)), this, SIGNAL(fullscreen(bool)));
 	connect(_fscreen_button, SIGNAL(clicked(bool)), _tools_widget, SLOT(setFullscreenState(bool)));
+	connect(_coverfinder, SIGNAL(found(QImage)), this, SLOT(_display_cover(QImage)));
 	ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
 	_top_gradient = ui->topWidget->styleSheet();
 	_bottom_gradient = ui->bottomWidget->styleSheet();
@@ -213,6 +214,7 @@ void PlayerForm::_display_track(Track track) {
 	ui->seekSlider->setMinimum(0);
 	ui->seekSlider->setMaximum(track.metadata().length());
 	_tick(0, track.metadata().length());
+	_coverfinder->find(QFileInfo(track.source()).absolutePath());
 }
 
 void PlayerForm::_tick(int done, int all) {
@@ -399,11 +401,32 @@ void PlayerForm::_dirview() {
 }
 
 void PlayerForm::landscapeMode() {
-	ui->progressLayout->removeItem(ui->seekSpacer);
-	ui->progressLayout->insertWidget(1, ui->seekSlider);
-	ui->progressWidget->setVisible(false);
-
 	landscape = true;
+
+	ui->widget->layout()->removeItem(ui->coverLayout);
+	ui->widget->layout()->removeItem(ui->controlLayout);
+	ui->controlLayout->removeItem(ui->countHLayout);
+	ui->controlLayout->removeItem(ui->cverticalSpacer_0);
+	ui->controlLayout->removeWidget(ui->titleLabel);
+	ui->controlLayout->removeItem(ui->coverLayout);
+	ui->controlLayout->removeItem(ui->cverticalSpacer_1);
+	ui->controlLayout->removeItem(ui->seekLayout);
+	ui->controlLayout->removeItem(ui->progressLayout);
+	ui->controlLayout->removeItem(ui->cverticalSpacer_2);
+	ui->controlLayout->removeWidget(ui->artistAlbumLabel);
+	ui->controlLayout->removeItem(ui->cverticalSpacer_3);
+	ui->controlLayout->addItem(ui->countHLayout);
+	ui->controlLayout->addItem(ui->cverticalSpacer_0);
+	ui->controlLayout->addWidget(ui->titleLabel);
+	ui->controlLayout->addItem(ui->cverticalSpacer_1);
+	ui->controlLayout->addItem(ui->progressLayout);
+	ui->controlLayout->addItem(ui->seekLayout);
+	ui->controlLayout->addItem(ui->cverticalSpacer_2);
+	ui->controlLayout->addWidget(ui->artistAlbumLabel);
+	ui->controlLayout->addItem(ui->cverticalSpacer_3);
+
+	((QGridLayout *)ui->widget->layout())->addItem(ui->coverLayout, 0, 0);
+	((QGridLayout *)ui->widget->layout())->addItem(ui->controlLayout, 0, 1);
 
 	ui->topWidget->hide();
 	ui->bottomWidget->hide();
@@ -438,14 +461,35 @@ void PlayerForm::landscapeMode() {
 }
 
 void PlayerForm::portraitMode() {
-	ui->progressLayout->insertSpacerItem(1, ui->seekSpacer);
-	ui->progressWidget->layout()->addWidget(ui->seekSlider);
-	ui->progressWidget->setVisible(true);
-
 	ui->topWidget->show();
 	ui->bottomWidget->show();
 
 	landscape = false;
+
+	ui->widget->layout()->removeItem(ui->coverLayout);
+	ui->widget->layout()->removeItem(ui->controlLayout);
+	ui->controlLayout->removeItem(ui->countHLayout);
+	ui->controlLayout->removeItem(ui->cverticalSpacer_0);
+	ui->controlLayout->removeWidget(ui->titleLabel);
+	ui->controlLayout->removeItem(ui->coverLayout);
+	ui->controlLayout->removeItem(ui->cverticalSpacer_1);
+	ui->controlLayout->removeItem(ui->seekLayout);
+	ui->controlLayout->removeItem(ui->progressLayout);
+	ui->controlLayout->removeItem(ui->cverticalSpacer_2);
+	ui->controlLayout->removeWidget(ui->artistAlbumLabel);
+	ui->controlLayout->removeItem(ui->cverticalSpacer_3);
+
+	ui->controlLayout->addItem(ui->countHLayout);
+	ui->controlLayout->addItem(ui->progressLayout);
+	ui->controlLayout->addItem(ui->seekLayout);
+	ui->controlLayout->addItem(ui->cverticalSpacer_0);
+	ui->controlLayout->addWidget(ui->titleLabel);
+	ui->controlLayout->addItem(ui->coverLayout);
+	ui->controlLayout->addWidget(ui->artistAlbumLabel);
+	ui->controlLayout->addItem(ui->cverticalSpacer_1);
+	ui->controlLayout->invalidate();
+
+	ui->widget->layout()->addItem(ui->controlLayout);
 
 	ui->topWidget->layout()->removeItem(ui->thorizontalSpacer_0);
 	ui->topWidget->layout()->removeItem(ui->thorizontalSpacer_1);
@@ -573,4 +617,8 @@ void PlayerForm::showCountdown(QString text) {
 
 void PlayerForm::hideCountdown() {
 	ui->countdownWidget->hide();
+}
+
+void PlayerForm::_display_cover(QImage image) {
+	ui->coverLabel->setPixmap(QPixmap::fromImage(image));
 }

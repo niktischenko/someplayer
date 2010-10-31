@@ -34,7 +34,7 @@ TagResolver::TagResolver(QObject *parent) :
 void TagResolver::decode(QStringList files) {
 	emit started();
 	foreach (QString filename, files) {
-		TagLib::FileRef file_ref(QFile::encodeName(filename).data());
+		TagLib::FileRef file_ref(QFile::encodeName(filename).data(), true, TagLib::AudioProperties::Fast);
 		if (!file_ref.isNull()) {
 			TagLib::Tag *tag = file_ref.tag();
 			if (NULL != tag) {
@@ -76,7 +76,7 @@ void TagResolver::updateTags(Track track) {
 }
 
 Track TagResolver::decodeOne(QString filename) {
-	TagLib::FileRef file_ref(QFile::encodeName(filename).data());
+	TagLib::FileRef file_ref(QFile::encodeName(filename).data(), true, TagLib::AudioProperties::Fast);
 	if (!file_ref.isNull()) {
 		TagLib::Tag *tag = file_ref.tag();
 		if (NULL != tag) {

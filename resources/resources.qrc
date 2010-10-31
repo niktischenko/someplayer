@@ -74,4 +74,7 @@
         <file>black/folder.png</file>
         <file>white/folder.png</file>
     </qresource>
+    <qresource prefix="/images">
+        <file>defaultcover.png</file>
+    </qresource>
 </RCC>

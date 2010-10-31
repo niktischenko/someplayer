@@ -33,6 +33,7 @@
 #include "tagresolver.h"
 #include "dbusadaptor.h"
 #include "toolswidget.h"
+#include "coverfinder.h"
 
 namespace Ui {
     class PlayerForm;
@@ -101,6 +102,7 @@ private slots:
 	void _toggle_random();
 	void _track_decoded(Track);
 	void _tools_widget_toggle();
+	void _display_cover(QImage);
 
 private:
     Ui::PlayerForm *ui;
@@ -108,6 +110,7 @@ private:
 	Playlist _current_playlist;
 	QTime *_time;
 	QStandardItemModel *_model;
+	CoverFinder *_coverfinder;
 	Player *_player;
 	QSlider *_seek_slider;
 	QMenu *_context_menu;

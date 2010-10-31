@@ -17,39 +17,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#ifndef SOMEPLAYER
-#define SOMEPLAYER
-
-// common settings, constants and so on
-
-namespace SomePlayer {
-	namespace DataObjects {
-		class Track;
-		class TrackMetadata;
-		class TagResolver;
-		class Playlist;
-		class Library;
-	};
-	namespace Storage {
-	};
-	namespace Playback {
-	};
-};
-
-// common includes
+#ifndef COVERFINDER_H
+#define COVERFINDER_H
 
 #include <QObject>
-#include <QString>
-#include <QStringList>
-#include <QList>
-#include <QMap>
-#include <QUrl>
-#include "config.h"
+#include <QImage>
+#include "someplayer.h"
 
-#define _DYNAMIC_PLAYLIST_MAX_COUNT_ 50
-#define _SOMEPLAYER_VERSION_ "1.4.0-dev"
-#define NDEBUG
+class CoverFinder : public QObject
+{
+	Q_OBJECT
+public:
+	explicit CoverFinder(QObject *parent = 0);
 
-#define _SERVICE_NAME_ "ru.somebody.someplayer"
+signals:
+	void found(QImage);
 
-#endif
+public slots:
+	bool find(QString path);
+	QImage &defaultCover();
+
+private:
+	QImage _defaultCover;
+	QStringList SUFFIXES;
+	QStringList NAMES;
+	QStringList DIRS;
+
+};
+
+#endif // COVERFINDER_H
