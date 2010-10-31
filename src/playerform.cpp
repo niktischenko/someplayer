@@ -288,7 +288,6 @@ void PlayerForm::_add_to_favorites() {
 		return;
 	int id = idx.first().row();
 	_lib->addToFavorites(_current_playlist.tracks().at(id));
-	qWarning() << "added to favorites: " << id << _current_playlist.tracks().at(id).metadata().title();
 }
 
 void PlayerForm::_state_changed(PlayerState state) {
@@ -668,7 +667,6 @@ void PlayerForm::_display_cover(QImage image) {
 
 void PlayerForm::_c_add_to_favorites() {
 	int id = _track_renderer->activeRow();
-	qWarning() << id;
 	if (id >= 0 && id < _current_playlist.tracks().count()) {
 		ui->playlistView->selectRow(id);
 		_add_to_favorites();
@@ -677,7 +675,6 @@ void PlayerForm::_c_add_to_favorites() {
 
 void PlayerForm::_c_delete_track() {
 	int id = _track_renderer->activeRow();
-	qWarning() << id;
 	if (id >= 0 && id < _current_playlist.tracks().count()) {
 		ui->playlistView->selectRow(id);
 		_delete_track();
@@ -686,7 +683,6 @@ void PlayerForm::_c_delete_track() {
 
 void PlayerForm::_c_add_to_playlists() {
 	int id = _track_renderer->activeRow();
-	qWarning() << id;
 	if (id >= 0 && id < _current_playlist.tracks().count()) {
 		ui->playlistView->selectRow(id);
 		_add_to_playlists();
@@ -695,7 +691,6 @@ void PlayerForm::_c_add_to_playlists() {
 
 void PlayerForm::_c_edit_tags() {
 	int id = _track_renderer->activeRow();
-	qWarning() << id;
 	if (id >= 0 && id < _current_playlist.tracks().count()) {
 		ui->playlistView->selectRow(id);
 		_edit_tags();
