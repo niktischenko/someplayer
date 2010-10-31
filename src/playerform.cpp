@@ -103,6 +103,13 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_tag_resolver = new TagResolver(this);
 	_coverfinder = new CoverFinder(this);
 
+	_cover = new ClickableLabel(this);
+	_cover->setMinimumSize(300, 300);
+	_cover->setMaximumSize(300, 300);
+	_cover->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	_cover->setScaledContents(true);
+	_cover->setPixmap(QPixmap::fromImage(_coverfinder->defaultCover()));
+
 	connect(ui->libraryButton, SIGNAL(clicked()), this, SLOT(_library()));
 	connect(ui->viewButton, SIGNAL(clicked()), this, SLOT(_toggle_view()));
 	connect(ui->playlistView, SIGNAL(activated(QModelIndex)), this, SLOT(_process_click(QModelIndex)));
@@ -135,16 +142,34 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(_fscreen_button, SIGNAL(clicked(bool)), this, SIGNAL(fullscreen(bool)));
 	connect(_fscreen_button, SIGNAL(clicked(bool)), _tools_widget, SLOT(setFullscreenState(bool)));
 	connect(_coverfinder, SIGNAL(found(QImage)), this, SLOT(_display_cover(QImage)));
+	connect(ui->caddButton, SIGNAL(clicked()), this, SLOT(_c_add_to_playlists()));
+	connect(ui->cdeleteButton, SIGNAL(clicked()), this, SLOT(_c_delete_track()));
+	connect(ui->cfavButton, SIGNAL(clicked()), this, SLOT(_c_add_to_favorites()));
+	connect(ui->ctagButton, SIGNAL(clicked()), this, SLOT(_c_edit_tags()));
+	connect(_cover, SIGNAL(clicked()), this, SLOT(_toggle_extra_buttons()));
 	ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
 	_top_gradient = ui->topWidget->styleSheet();
 	_bottom_gradient = ui->bottomWidget->styleSheet();
 	ui->countdownWidget->hide();
+
+	// constructing cover layout
+	ui->coverLayout->removeItem(ui->clverticalLayout_0);
+	ui->coverLayout->removeItem(ui->clverticalLayout_1);
+	ui->coverLayout->removeItem(ui->cbverticalSpacer);
+	ui->coverLayout->removeItem(ui->ctverticalSpacer);
+	((QGridLayout *)ui->coverLayout)->addItem(ui->ctverticalSpacer, 0, 1);
+	((QGridLayout *)ui->coverLayout)->addItem(ui->cbverticalSpacer, 2, 1);
+	((QGridLayout *)ui->coverLayout)->addItem(ui->clverticalLayout_0, 1, 0);
+	((QGridLayout *)ui->coverLayout)->addItem(ui->clverticalLayout_1, 1, 2);
+	((QGridLayout *)ui->coverLayout)->addWidget(_cover, 1, 1);
+	//
 
 	// dbus
 	_dbusadaptor = new DBusAdaptop(_player);
 	QDBusConnection connection = QDBusConnection::sessionBus();
 	bool ret = connection.registerService(_SERVICE_NAME_);
 	ret = connection.registerObject("/", _player);
+	_show_extra_buttons = false;
 }
 
 PlayerForm::~PlayerForm()
@@ -263,6 +288,7 @@ void PlayerForm::_add_to_favorites() {
 		return;
 	int id = idx.first().row();
 	_lib->addToFavorites(_current_playlist.tracks().at(id));
+	qWarning() << "added to favorites: " << id << _current_playlist.tracks().at(id).metadata().title();
 }
 
 void PlayerForm::_state_changed(PlayerState state) {
@@ -468,6 +494,7 @@ void PlayerForm::portraitMode() {
 
 	ui->widget->layout()->removeItem(ui->coverLayout);
 	ui->widget->layout()->removeItem(ui->controlLayout);
+
 	ui->controlLayout->removeItem(ui->countHLayout);
 	ui->controlLayout->removeItem(ui->cverticalSpacer_0);
 	ui->controlLayout->removeWidget(ui->titleLabel);
@@ -550,6 +577,21 @@ void PlayerForm::updateIcons() {
 	_icons_theme = config.getValue("ui/iconstheme").toString();
 	_tools_widget->updateIcons();
 	_track_renderer->updateIcons();
+	if (_show_extra_buttons) {
+		ui->caddButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
+		ui->cdeleteButton->setIcon(QIcon(":/icons/"+_icons_theme+"/delete.png"));
+		ui->cfavButton->setIcon(QIcon(":/icons/"+_icons_theme+"/fav.png"));
+		ui->ctagButton->setIcon(QIcon(":/icons/"+_icons_theme+"/tags.png"));
+	} else {
+		ui->caddButton->setIcon(QIcon());
+		ui->cdeleteButton->setIcon(QIcon());
+		ui->cfavButton->setIcon(QIcon());
+		ui->ctagButton->setIcon(QIcon());
+		ui->caddButton->setEnabled(false);
+		ui->cdeleteButton->setEnabled(false);
+		ui->cfavButton->setEnabled(false);
+		ui->ctagButton->setEnabled(false);
+	}
 	ui->libraryButton->setIcon(QIcon(":/icons/"+_icons_theme+"/library.png"));
 	if (_tools_widget->isVisible()) {
 		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/" + _icons_theme + "/unmore.png" : ":/icons/" + _icons_theme + "/more.png"));
@@ -560,6 +602,7 @@ void PlayerForm::updateIcons() {
 	ui->stopButton->setIcon(QIcon(":/icons/"+_icons_theme+"/stop.png"));
 	ui->prevButton->setIcon(QIcon(":/icons/"+_icons_theme+"/prev.png"));
 	ui->dirButton->setIcon(QIcon(":/icons/"+_icons_theme+"/directory.png"));
+
 	if (_player->state() == PLAYER_PLAYING) {
 		ui->playpauseButton->setIcon(QIcon(":/icons/"+_icons_theme+"/pause.png"));
 	} else {
@@ -620,5 +663,64 @@ void PlayerForm::hideCountdown() {
 }
 
 void PlayerForm::_display_cover(QImage image) {
-	ui->coverLabel->setPixmap(QPixmap::fromImage(image));
+	_cover->setPixmap(QPixmap::fromImage(image));
+}
+
+void PlayerForm::_c_add_to_favorites() {
+	int id = _track_renderer->activeRow();
+	qWarning() << id;
+	if (id >= 0 && id < _current_playlist.tracks().count()) {
+		ui->playlistView->selectRow(id);
+		_add_to_favorites();
+	}
+}
+
+void PlayerForm::_c_delete_track() {
+	int id = _track_renderer->activeRow();
+	qWarning() << id;
+	if (id >= 0 && id < _current_playlist.tracks().count()) {
+		ui->playlistView->selectRow(id);
+		_delete_track();
+	}
+}
+
+void PlayerForm::_c_add_to_playlists() {
+	int id = _track_renderer->activeRow();
+	qWarning() << id;
+	if (id >= 0 && id < _current_playlist.tracks().count()) {
+		ui->playlistView->selectRow(id);
+		_add_to_playlists();
+	}
+}
+
+void PlayerForm::_c_edit_tags() {
+	int id = _track_renderer->activeRow();
+	qWarning() << id;
+	if (id >= 0 && id < _current_playlist.tracks().count()) {
+		ui->playlistView->selectRow(id);
+		_edit_tags();
+	}
+}
+
+void PlayerForm::_toggle_extra_buttons() {
+	_show_extra_buttons = !_show_extra_buttons;
+	if (_show_extra_buttons) {
+		ui->caddButton->setEnabled(true);
+		ui->cdeleteButton->setEnabled(true);
+		ui->cfavButton->setEnabled(true);
+		ui->ctagButton->setEnabled(true);
+		ui->caddButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
+		ui->cdeleteButton->setIcon(QIcon(":/icons/"+_icons_theme+"/delete.png"));
+		ui->cfavButton->setIcon(QIcon(":/icons/"+_icons_theme+"/fav.png"));
+		ui->ctagButton->setIcon(QIcon(":/icons/"+_icons_theme+"/tags.png"));
+	} else {
+		ui->caddButton->setEnabled(false);
+		ui->cdeleteButton->setEnabled(false);
+		ui->cfavButton->setEnabled(false);
+		ui->ctagButton->setEnabled(false);
+		ui->caddButton->setIcon(QIcon());
+		ui->cdeleteButton->setIcon(QIcon());
+		ui->cfavButton->setIcon(QIcon());
+		ui->ctagButton->setIcon(QIcon());
+	}
 }

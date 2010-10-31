@@ -34,6 +34,7 @@
 #include "dbusadaptor.h"
 #include "toolswidget.h"
 #include "coverfinder.h"
+#include "clickablelabel.h"
 
 namespace Ui {
     class PlayerForm;
@@ -93,21 +94,27 @@ private slots:
 	void _slider_released();
 	void _custom_context_menu_requested ( const QPoint & pos );
 	void _delete_track();
+	void _c_delete_track();
 	void _enqueue_track();
 	void _add_to_favorites();
+	void _c_add_to_favorites();
 	void _add_to_playlists();
+	void _c_add_to_playlists();
 	void _edit_tags();
+	void _c_edit_tags();
 	void _state_changed(PlayerState);
 	void _toggle_repeat();
 	void _toggle_random();
 	void _track_decoded(Track);
 	void _tools_widget_toggle();
 	void _display_cover(QImage);
+	void _toggle_extra_buttons();
 
 private:
     Ui::PlayerForm *ui;
 	Library *_lib;
 	Playlist _current_playlist;
+	ClickableLabel *_cover;
 	QTime *_time;
 	QStandardItemModel *_model;
 	CoverFinder *_coverfinder;
@@ -121,6 +128,7 @@ private:
 	QString _icons_theme;
 	QString _top_gradient;
 	QString _bottom_gradient;
+	bool _show_extra_buttons;
 
 	TrackRenderer *_track_renderer;
 	TagResolver *_tag_resolver;

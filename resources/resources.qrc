@@ -73,6 +73,10 @@
         <file>white/home.png</file>
         <file>black/folder.png</file>
         <file>white/folder.png</file>
+        <file>black/fav.png</file>
+        <file>white/fav.png</file>
+        <file>black/tags.png</file>
+        <file>white/tags.png</file>
     </qresource>
     <qresource prefix="/images">
         <file>defaultcover.png</file>
