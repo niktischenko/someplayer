@@ -94,7 +94,7 @@ void DirectoryView::readDir(QString path) {
 	int i = 0;
 	foreach (QString str, dirnames) {
 		_model->setItem(i, 0, new QStandardItem(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"), ""));
-		_model->setItem(i, 1, new QStandardItem(str+"/"));
+		_model->setItem(i, 1, new QStandardItem(QIcon(":/icons/"+_icons_theme+"/folder.png"), str+"/"));
 		i++;
 	}
 	foreach (QString str, filenames) {

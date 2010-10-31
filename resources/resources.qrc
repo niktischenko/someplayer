@@ -71,5 +71,7 @@
         <file>white/directory.png</file>
         <file>black/home.png</file>
         <file>white/home.png</file>
+        <file>black/folder.png</file>
+        <file>white/folder.png</file>
     </qresource>
 </RCC>
