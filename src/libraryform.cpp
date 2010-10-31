@@ -58,9 +58,12 @@ inline void __fill_model(QStandardItemModel *model, QList<QString> data, QString
 inline void __fill_model_album(QStandardItemModel *model, QMap<QString, int> data, QString icons_theme) {
 	model->clear();
 	int count = data.count();
-	model->setRowCount(count);
+	model->setRowCount(count+1);
 	int i = 0;
 	Config config;
+	model->setItem(i, 0, new QStandardItem(QIcon(":/icons/"+icons_theme+"/deselect_all.png"), ""));
+	model->setItem(i, 1, new QStandardItem(QObject::tr("All tracks")));
+	i++;
 	if (config.getValue("ui/albumsorting").toString() == "date") {
 		QMap<int, QList<QString> > years;
 		foreach (QString name, data.keys()) {
@@ -231,6 +234,17 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 			ui->backButton->setEnabled(true);
 			ui->backButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
 			ui->listLabel->setText(QString("Tracks from \"%1\" by \"%2\"").arg(_current_album).arg(_current_artist));
+		} else {
+			if (index.row() == 0) { // all tracks
+				_current_tracks = _lib->getAllTracksForArtist(_current_artist);
+				__fill_model_tracks(_model, _current_tracks, _icons_theme);
+				ui->listView->setColumnWidth(0, 70);
+				ui->listView->scrollToTop();
+				_state = STATE_TRACK;
+				ui->backButton->setEnabled(true);
+				ui->backButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
+				ui->listLabel->setText(QString("All tracks by \"%1\"").arg(_current_artist));
+			}
 		}
 		break;
 	case STATE_PLAYLIST:

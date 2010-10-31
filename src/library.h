@@ -54,6 +54,7 @@ namespace SomePlayer {
 			QList<QString> getArtists();
 			QMap<QString, int> getAlbumsForArtist(QString artist);
 			QList<Track> getTracksForAlbum(QString album, QString artist);
+			QList<Track> getAllTracksForArtist(QString artist);
 
 			QList<Track> search(QString pattern);
 

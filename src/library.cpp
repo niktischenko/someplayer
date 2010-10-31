@@ -65,6 +65,15 @@ QList<Track> Library::getTracksForAlbum(QString album, QString artist) {
 	return _library_storage->getTracksForAlbum(album, artist);
 }
 
+QList<Track> Library::getAllTracksForArtist(QString artist) {
+	QList<Track> all;
+	QMap<QString, int> albumsmap = getAlbumsForArtist(artist);
+	QList<QString> albums = albumsmap.keys();
+	foreach (QString album, albums) {
+		all.append(getTracksForAlbum(album, artist));
+	}
+	return all;
+}
 
 // dynamic:
 
