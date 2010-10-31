@@ -170,7 +170,7 @@ void LibraryForm::_view_button() {
 	_state = STATE_ARTIST;
 	ui->backButton->setEnabled(false);
 	ui->backButton->setIcon(QIcon());
-	ui->listLabel->setText("Artists");
+	ui->listLabel->setText(tr("Artists"));
 	ui->useButton->setEnabled(false);
 	ui->useButton->setIcon(QIcon());
 	ui->addButton->setEnabled(false);
@@ -197,7 +197,7 @@ void LibraryForm::_dynamic_button() {
 	_model->setItem(3, 0, new QStandardItem(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"), ""));
 	_model->setItem(3, 1, new QStandardItem("Recently added"));
 	ui->listView->setColumnWidth(0, 70);
-	ui->listLabel->setText("Dynamic playlists");
+	ui->listLabel->setText(tr("Dynamic playlists"));
 	_state = STATE_DYNAMIC;
 	ui->addButton->setEnabled(false);
 	ui->addButton->setIcon(QIcon());
@@ -221,7 +221,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 		_state = STATE_ALBUM;
 		ui->backButton->setEnabled(true);
 		ui->backButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
-		ui->listLabel->setText(QString("Albums by \"%1\"").arg(_current_artist));
+		ui->listLabel->setText(QString(tr("Albums by \"%1\"")).arg(_current_artist));
 		break;
 	case STATE_ALBUM:
 		if (regexp.indexIn(data) != -1) {
@@ -233,7 +233,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 			_state = STATE_TRACK;
 			ui->backButton->setEnabled(true);
 			ui->backButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
-			ui->listLabel->setText(QString("Tracks from \"%1\" by \"%2\"").arg(_current_album).arg(_current_artist));
+			ui->listLabel->setText(QString(tr("Tracks from \"%1\" by \"%2\"")).arg(_current_album).arg(_current_artist));
 		} else {
 			if (index.row() == 0) { // all tracks
 				_current_tracks = _lib->getAllTracksForArtist(_current_artist);
@@ -243,7 +243,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 				_state = STATE_TRACK;
 				ui->backButton->setEnabled(true);
 				ui->backButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
-				ui->listLabel->setText(QString("All tracks by \"%1\"").arg(_current_artist));
+				ui->listLabel->setText(QString(tr("All tracks by \"%1\"")).arg(_current_artist));
 			}
 		}
 		break;
@@ -260,7 +260,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 			ui->backButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
 			ui->useButton->setEnabled(true);
 			ui->useButton->setIcon(QIcon(":/icons/"+_icons_theme+"/use.png"));
-			ui->listLabel->setText(QString("Tracks in playlist \"%1\"").arg(data));
+			ui->listLabel->setText(QString(tr("Tracks in playlist \"%1\"")).arg(data));
 		}
 		break;
 	case STATE_DYNAMIC:
@@ -396,7 +396,7 @@ void LibraryForm::_back_button() {
 		ui->listView->setColumnWidth(0, 70);
 		ui->listView->scrollToTop();
 		_state = STATE_ALBUM;
-		ui->listLabel->setText(QString("Albums by \"%1\"").arg(_current_artist));
+		ui->listLabel->setText(QString(tr("Albums by \"%1\"")).arg(_current_artist));
 		break;
 	case STATE_PLAYLIST_TRACK:
 		if (_is_dynamic) {
@@ -418,7 +418,7 @@ void LibraryForm::_playlists_button() {
 	_state = STATE_PLAYLIST;
 	ui->backButton->setEnabled(false);
 	ui->backButton->setIcon(QIcon());
-	ui->listLabel->setText("Playlists");
+	ui->listLabel->setText(tr("Playlists"));
 	ui->useButton->setEnabled(false);
 	ui->useButton->setIcon(QIcon());
 	ui->addButton->setEnabled(false);
@@ -775,7 +775,7 @@ void LibraryForm::_search_button(bool state) {
 	_tools_widget->setFocus();
 	_tools_widget->reset();
 	if (state) {
-		ui->listLabel->setText("Search in library");
+		ui->listLabel->setText(tr("Search in library"));
 		ui->deleteButton->setIcon(QIcon());
 		ui->deleteButton->setEnabled(false);
 		ui->useButton->setIcon(QIcon());

@@ -32,6 +32,8 @@ Config::Config()
 		_settings->setValue("ui/albumsorting", "date");
 	if (_settings->value("ui/gradient").toString() == "")
 		_settings->setValue("ui/gradient", "yes");
+	if (_settings->value("ui/language").toString() == "")
+		_settings->setValue("ui/language", "en");
 }
 
 Config::~Config() {

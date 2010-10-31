@@ -34,11 +34,13 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 	QString orientation = config.getValue("ui/orientation").toString();
 	QString icons_theme = config.getValue("ui/iconstheme").toString();
 	QString gradient = config.getValue("ui/gradient").toString();
+	QString language = config.getValue("ui/language").toString();
 	ui->albumsSortDButton->setChecked(true);	// defaule sorting
 	ui->showTrackLenghtYButton->setChecked(true);	// show by default
 	ui->orientationLButton->setChecked(true);
 	ui->iconsWButton->setChecked(true);
 	ui->gradientYButton->setChecked(true);
+	ui->engLangButton->setChecked(true);
 	if (albumSorting == "alphabet") {
 		ui->albumsSortAButton->setChecked(true);
 	}
@@ -56,6 +58,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 	if (gradient == "no") {
 		ui->gradientNButton->setChecked(true);
 	}
+	if (language == "ru") {
+		ui->ruLangButton->setChecked(true);
+	}
 	connect (ui->albumsSortAButton, SIGNAL(toggled(bool)), this, SLOT(_set_album_sorting_alphabet(bool)));
 	connect (ui->albumsSortDButton, SIGNAL(toggled(bool)), this, SLOT(_set_album_sorting_date(bool)));
 	connect (ui->showTrackLenghtNButton, SIGNAL(toggled(bool)), this, SLOT(_set_track_lenght_show_no(bool)));
@@ -67,6 +72,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 	connect (ui->iconsWButton, SIGNAL(toggled(bool)), this, SLOT(_set_icons_white(bool)));
 	connect (ui->gradientNButton, SIGNAL(toggled(bool)), this, SLOT(_set_gradient_no(bool)));
 	connect (ui->gradientYButton, SIGNAL(toggled(bool)), this, SLOT(_set_gradient_yes(bool)));
+	connect (ui->engLangButton, SIGNAL(toggled(bool)), this, SLOT(_set_lang_en(bool)));
+	connect (ui->ruLangButton, SIGNAL(toggled(bool)), this, SLOT(_set_lang_ru(bool)));
 }
 
 SettingsDialog::~SettingsDialog()
@@ -138,4 +145,16 @@ void SettingsDialog::_set_gradient_yes(bool checked) {
 	if (!checked) return;
 	Config config;
 	config.setValue("ui/gradient", "yes");
+}
+
+void SettingsDialog::_set_lang_en(bool checked) {
+	if (!checked) return;
+	Config config;
+	config.setValue("ui/language", "en");
+}
+
+void SettingsDialog::_set_lang_ru(bool checked) {
+	if (!checked) return;
+	Config config;
+	config.setValue("ui/language", "ru");
 }

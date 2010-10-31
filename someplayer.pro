@@ -270,3 +270,5 @@ OTHER_FILES += \
     src/taglib/toolkit/tlist.tcc \
     AUTHORS.TagLib \
     COPYING.LGPL
+
+TRANSLATIONS	=  resources/someplayer_ru.ts

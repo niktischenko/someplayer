@@ -50,6 +50,8 @@ private slots:
 	void _set_icons_black(bool);
 	void _set_gradient_yes(bool);
 	void _set_gradient_no(bool);
+	void _set_lang_en(bool);
+	void _set_lang_ru(bool);
 };
 
 #endif // SETTINGSDIALOG_H

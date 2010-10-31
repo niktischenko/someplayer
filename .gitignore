@@ -1,1 +1,4 @@
 someplayer.pro.user
+someplayer
+*.o
+*~

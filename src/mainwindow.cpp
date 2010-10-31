@@ -24,6 +24,7 @@
 #include <QInputDialog>
 #include <QFile>
 #include <QDesktopWidget>
+#include <QTranslator>
 
 #include "player/player.h"
 
@@ -276,6 +277,9 @@ void MainWindow::settings() {
 	_library_form->checkGradient();
 	_directory_form->updateIcons();
 	_directory_form->updateGradient();
+	QTranslator *translator = new QTranslator(this);
+	translator->load(QString("/opt/someplayer/someplayer_%1").arg(config.getValue("ui/language").toString()));
+	QApplication::installTranslator(translator);
 }
 
 void MainWindow::_orientation_changed() {
