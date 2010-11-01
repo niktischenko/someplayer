@@ -87,12 +87,12 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_model = new QStandardItemModel(0, 2, this);
 	ui->playlistView->setModel(_model);
 	_context_menu = new QMenu(ui->playlistView);
-	QAction *clear_playlist = _context_menu->addAction("Clear playlist");
-	QAction *delete_action = _context_menu->addAction("Delete");
-	QAction *add_to_favorites = _context_menu->addAction("Add to favorites");
-	QAction *enqueue_action = _context_menu->addAction("Enqueue");
-	QAction *add_to_playlists = _context_menu->addAction("Add to playlists");
-	QAction *edit_tags = _context_menu->addAction("Edit tags");
+	QAction *clear_playlist = _context_menu->addAction(tr("Clear playlist"));
+	QAction *delete_action = _context_menu->addAction(tr("Delete"));
+	QAction *add_to_favorites = _context_menu->addAction(tr("Add to favorites"));
+	QAction *enqueue_action = _context_menu->addAction(tr("Enqueue"));
+	QAction *add_to_playlists = _context_menu->addAction(tr("Add to playlists"));
+	QAction *edit_tags = _context_menu->addAction(tr("Edit tags"));
 
 	_track_renderer = new TrackRenderer(this);
 	_track_renderer->setActiveRow(-1);

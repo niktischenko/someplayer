@@ -218,25 +218,55 @@
         <translation>00:00:00</translation>
     </message>
     <message>
-        <location filename="../src/ui/playerform.ui" line="236"/>
+        <location filename="../src/ui/playerform.ui" line="488"/>
         <source>0/0</source>
         <translation>0/0</translation>
     </message>
     <message>
-        <location filename="../src/ui/playerform.ui" line="261"/>
+        <location filename="../src/ui/playerform.ui" line="524"/>
         <source>&lt;h3&gt;Title&lt;/h3&gt;</source>
         <translation>&lt;h3&gt;Название&lt;/h3&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/playerform.ui" line="286"/>
-        <location filename="../src/ui/playerform.ui" line="313"/>
+        <location filename="../src/ui/playerform.ui" line="551"/>
+        <location filename="../src/ui/playerform.ui" line="571"/>
         <source>00:00</source>
         <translation>00:00</translation>
     </message>
     <message>
-        <location filename="../src/ui/playerform.ui" line="347"/>
+        <location filename="../src/ui/playerform.ui" line="647"/>
         <source>&lt;b&gt;Artist&lt;/b&gt;&lt;br/&gt;album</source>
         <translation>&lt;b&gt;Исполнитель&lt;/b&gt;&lt;br/&gt;альбом</translation>
+    </message>
+    <message>
+        <location filename="../src/playerform.cpp" line="90"/>
+        <source>Clear playlist</source>
+        <translation>Очистить плейлист</translation>
+    </message>
+    <message>
+        <location filename="../src/playerform.cpp" line="91"/>
+        <source>Delete</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <location filename="../src/playerform.cpp" line="92"/>
+        <source>Add to favorites</source>
+        <translation>В любимые</translation>
+    </message>
+    <message>
+        <location filename="../src/playerform.cpp" line="93"/>
+        <source>Enqueue</source>
+        <translation>В очередь</translation>
+    </message>
+    <message>
+        <location filename="../src/playerform.cpp" line="94"/>
+        <source>Add to playlists</source>
+        <translation>Добавить в плейлисты</translation>
+    </message>
+    <message>
+        <location filename="../src/playerform.cpp" line="95"/>
+        <source>Edit tags</source>
+        <translation>Редактировать теги</translation>
     </message>
 </context>
 <context>
