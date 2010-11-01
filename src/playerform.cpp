@@ -432,22 +432,22 @@ void PlayerForm::landscapeMode() {
 	ui->widget->layout()->removeItem(ui->controlLayout);
 	ui->controlLayout->removeItem(ui->countHLayout);
 	ui->controlLayout->removeItem(ui->cverticalSpacer_0);
-	ui->controlLayout->removeWidget(ui->titleLabel);
+	ui->controlLayout->removeItem(ui->titleLayout);
 	ui->controlLayout->removeItem(ui->coverLayout);
 	ui->controlLayout->removeItem(ui->cverticalSpacer_1);
 	ui->controlLayout->removeItem(ui->seekLayout);
 	ui->controlLayout->removeItem(ui->progressLayout);
 	ui->controlLayout->removeItem(ui->cverticalSpacer_2);
-	ui->controlLayout->removeWidget(ui->artistAlbumLabel);
+	ui->controlLayout->removeItem(ui->artistAlbumLayout);
 	ui->controlLayout->removeItem(ui->cverticalSpacer_3);
 	ui->controlLayout->addItem(ui->countHLayout);
 	ui->controlLayout->addItem(ui->cverticalSpacer_0);
-	ui->controlLayout->addWidget(ui->titleLabel);
+	ui->controlLayout->addItem(ui->titleLayout);
 	ui->controlLayout->addItem(ui->cverticalSpacer_1);
 	ui->controlLayout->addItem(ui->progressLayout);
 	ui->controlLayout->addItem(ui->seekLayout);
 	ui->controlLayout->addItem(ui->cverticalSpacer_2);
-	ui->controlLayout->addWidget(ui->artistAlbumLabel);
+	ui->controlLayout->addItem(ui->artistAlbumLayout);
 	ui->controlLayout->addItem(ui->cverticalSpacer_3);
 
 	((QGridLayout *)ui->widget->layout())->addItem(ui->coverLayout, 0, 0);
@@ -496,22 +496,22 @@ void PlayerForm::portraitMode() {
 
 	ui->controlLayout->removeItem(ui->countHLayout);
 	ui->controlLayout->removeItem(ui->cverticalSpacer_0);
-	ui->controlLayout->removeWidget(ui->titleLabel);
+	ui->controlLayout->removeItem(ui->titleLayout);
 	ui->controlLayout->removeItem(ui->coverLayout);
 	ui->controlLayout->removeItem(ui->cverticalSpacer_1);
 	ui->controlLayout->removeItem(ui->seekLayout);
 	ui->controlLayout->removeItem(ui->progressLayout);
 	ui->controlLayout->removeItem(ui->cverticalSpacer_2);
-	ui->controlLayout->removeWidget(ui->artistAlbumLabel);
+	ui->controlLayout->removeItem(ui->artistAlbumLayout);
 	ui->controlLayout->removeItem(ui->cverticalSpacer_3);
 
 	ui->controlLayout->addItem(ui->countHLayout);
 	ui->controlLayout->addItem(ui->progressLayout);
 	ui->controlLayout->addItem(ui->seekLayout);
 	ui->controlLayout->addItem(ui->cverticalSpacer_0);
-	ui->controlLayout->addWidget(ui->titleLabel);
+	ui->controlLayout->addItem(ui->titleLayout);
 	ui->controlLayout->addItem(ui->coverLayout);
-	ui->controlLayout->addWidget(ui->artistAlbumLabel);
+	ui->controlLayout->addItem(ui->artistAlbumLayout);
 	ui->controlLayout->addItem(ui->cverticalSpacer_1);
 	ui->controlLayout->invalidate();
 
