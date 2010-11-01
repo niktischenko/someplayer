@@ -34,6 +34,8 @@ Config::Config()
 		_settings->setValue("ui/gradient", "yes");
 	if (_settings->value("ui/language").toString() == "")
 		_settings->setValue("ui/language", "en");
+	if (_settings->value("playback/player").isNull())
+		_settings->setValue("playback/player", "inner");
 }
 
 Config::~Config() {

@@ -24,7 +24,8 @@
 #include "someplayer.h"
 #include "playlist.h"
 #include <QStandardItemModel>
-#include "player/player.h"
+#include "player/abstractplayer.h"
+#include "player/playerfactory.h"
 #include <QSlider>
 #include <QMenu>
 #include <QTime>
@@ -43,7 +44,7 @@ namespace Ui {
 using SomePlayer::DataObjects::Library;
 using SomePlayer::DataObjects::Playlist;
 using SomePlayer::DataObjects::Track;
-using SomePlayer::Playback::Player;
+using SomePlayer::Playback::AbstractPlayer;
 using SomePlayer::Playback::PlayerState;
 using SomePlayer::DataObjects::TagResolver;
 
@@ -118,7 +119,7 @@ private:
 	QTime *_time;
 	QStandardItemModel *_model;
 	CoverFinder *_coverfinder;
-	Player *_player;
+	AbstractPlayer *_player;
 	QSlider *_seek_slider;
 	QMenu *_context_menu;
 	QString _search_pattern;

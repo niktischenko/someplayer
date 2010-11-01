@@ -126,7 +126,9 @@ SOURCES += src/main.cpp\
     src/managelibraryform.cpp \
     src/directoryview.cpp \
     src/coverfinder.cpp \
-    src/clickablelabel.cpp
+    src/clickablelabel.cpp \
+    src/player/abstractplayer.cpp \
+    src/player/playerfactory.cpp
 
 HEADERS  += src/mainwindow.h \
 		src/player/player.h \
@@ -231,7 +233,9 @@ HEADERS  += src/mainwindow.h \
     src/managelibraryform.h \
     src/directoryview.h \
     src/coverfinder.h \
-    src/clickablelabel.h
+    src/clickablelabel.h \
+    src/player/abstractplayer.h \
+    src/player/playerfactory.h
 
 FORMS    += src/ui/mainwindow.ui \
     src/ui/playerform.ui \

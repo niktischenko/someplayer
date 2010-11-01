@@ -65,7 +65,7 @@ void Randomizer::_shuffle() {
 }
 
 Player::Player(QObject *parent) :
-    QObject(parent)
+    AbstractPlayer(parent)
 {
 	_player = new Phonon::MediaObject(this);
 	_output = new Phonon::AudioOutput(Phonon::MusicCategory, this);
