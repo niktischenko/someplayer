@@ -180,10 +180,8 @@ void Player::prev() {
 void Player::_stateChanged(Phonon::State newState, Phonon::State /*oldState*/) {
 	switch (newState) {
 	case Phonon::PlayingState:
-		if (_state == PLAYER_LOADING) {
-			_state = PLAYER_PLAYING;
-			emit stateChanged(_state);
-		}
+		_state = PLAYER_PLAYING;
+		emit stateChanged(_state);
 		break;
 	case Phonon::StoppedState:
 		break;

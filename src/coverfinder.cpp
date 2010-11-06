@@ -27,15 +27,15 @@ CoverFinder::CoverFinder(QObject *parent) :
 		QObject(parent)
 {
 	_defaultCover = QImage(":/images/defaultcover.png");
-	SUFFIXES << "png" << "jpg" << "bmp" << "gif";
+	SUFFIXES << "png" << "jpg" << "jpeg" << "bmp" << "gif";
 	NAMES << "cover" << "folder" << "album";
-	DIRS << "cover" << "folder" << ".cover" << ".folder";
+	DIRS << "cover" << "folder" << ".cover" << ".folder" << ".mediaartlocal";
 }
 
 bool CoverFinder::find(QString path) {
 	QDir dir(path);
 	QFileInfoList items = dir.entryInfoList(QDir::Files);
-	QFileInfoList dirs = dir.entryInfoList(QDir::Dirs);
+	QFileInfoList dirs = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Hidden);
 	QFileInfoList pics;
 	foreach (QFileInfo item, items) {
 		if (SUFFIXES.contains(item.suffix().toLower())) {
@@ -54,7 +54,7 @@ bool CoverFinder::find(QString path) {
 		}
 	}
 	foreach(QFileInfo item, dirs) {
-		if (DIRS.contains(item.baseName().toLower())) {
+		if (DIRS.contains(item.fileName().toLower())) {
 			if (find(item.absoluteFilePath())) {
 				return true;
 			}
