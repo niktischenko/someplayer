@@ -133,7 +133,7 @@ void AttachedPictureFrame::parseFields(const ByteVector &data)
 
   d->textEncoding = String::Type(data[0]);
 
-  int pos = 1;
+  int pos = 1, poss = 1;
 
   d->mimeType = readStringField(data, String::Latin1, &pos);
   /* Now we need at least two more bytes available */	
@@ -143,9 +143,11 @@ void AttachedPictureFrame::parseFields(const ByteVector &data)
   }
 
   d->type = (TagLib::ID3v2::AttachedPictureFrame::Type)data[pos++];
+
+  poss = pos;
   d->description = readStringField(data, d->textEncoding, &pos);
 
-  d->data = data.mid(pos);
+  d->data = data.mid(poss);
 }
 
 ByteVector AttachedPictureFrame::renderFields() const
