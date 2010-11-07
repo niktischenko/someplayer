@@ -32,21 +32,19 @@ using namespace SomePlayer::Storage;
 
 int Randomizer::next() {
 	int res = 0;
-	if (_current == _rand.count()) {
+	if (_rand.count() == 0) {
 		_shuffle();
-		_current = 0;
 		res = next();
 	} else {
-		res = _rand.at(_current);
+		res = _rand.takeFirst();
 	}
-	++_current;
 	return res;
 }
 
 void Randomizer::setPlaylist(QList<int> pl) {
 	_playlist = pl;
-	_current = 0;
 	_shuffle();
+	_last = -1;
 }
 
 void Randomizer::_shuffle() {
@@ -62,6 +60,15 @@ void Randomizer::_shuffle() {
 		_rand[i] = _rand[j];
 		_rand[j] = tmp;
 	}
+	if (cnt > 1 && _last == _rand[0]) {
+		_rand.removeAt(0);
+		_rand.insert(qrand() % (cnt-1) + 1, _last);
+	}
+	_last = _rand.last();
+}
+
+void Randomizer::removeId(int id) {
+	_rand.removeOne(id);
 }
 
 Player::Player(QObject *parent) :
@@ -74,6 +81,7 @@ Player::Player(QObject *parent) :
 	_equalizer_enabled = false;
 	connect(_player, SIGNAL(stateChanged(Phonon::State,Phonon::State)), this, SLOT(_stateChanged(Phonon::State,Phonon::State)));
 	connect(_player, SIGNAL(tick(qint64)), this, SLOT(_tick(qint64)));
+	connect(_player, SIGNAL(finished()), this, SLOT(next()));
 	_path = Phonon::createPath(_player, _output);
 	QList<Phonon::EffectDescription> effects = Phonon::BackendCapabilities::availableAudioEffects();
 	foreach (Phonon::EffectDescription desc, effects) {
@@ -101,6 +109,9 @@ Player::Player(QObject *parent) :
 }
 
 void Player::setTrackId(int id) {
+	if (_random) {
+		_randomizer.removeId(id);
+	}
 	_current = id;
 	if (!_history.isEmpty() && _history.top() != _current || _history.isEmpty()) {
 		_history.push(_current);
@@ -183,22 +194,10 @@ void Player::_stateChanged(Phonon::State newState, Phonon::State /*oldState*/) {
 		_state = PLAYER_PLAYING;
 		emit stateChanged(_state);
 		break;
-	case Phonon::StoppedState:
-		break;
-	case Phonon::LoadingState:
-		break;
-	case Phonon::PausedState:
-		if (_state == PLAYER_PLAYING) {
-			next();
-		} else if (_state == PLAYER_ERROR) {
-			play();
-		}
-		break;
-	case Phonon::BufferingState:
-		break;
 	case Phonon::ErrorState:
 		play(); // force
-//		_state = PLAYER_ERROR;
+		break;
+	default:
 		break;
 	}
 }
@@ -228,9 +227,13 @@ void Player::setPlaylist(Playlist playlist) {
 
 void Player::seek(int s) {
 	_player->seek(s*1000);
+	if (s >= _track.metadata().length()) {
+		next();
+	}
 }
 
 void Player::play() {
+	qWarning() << _current;
 	if (_playlist.tracks().isEmpty())
 		return;
 	_state = PLAYER_PLAYING;
