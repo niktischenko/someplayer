@@ -35,6 +35,7 @@ signals:
 
 public slots:
 	bool find(QString path);
+	bool extract(QString file);
 	QImage &defaultCover();
 
 private:

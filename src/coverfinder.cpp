@@ -22,6 +22,9 @@
 #include <QDebug>
 #include <QDir>
 #include <QFileInfo>
+#include <mpegfile.h>
+#include <id3v2tag.h>
+#include <mpeg/id3v2/frames/attachedpictureframe.h>
 
 CoverFinder::CoverFinder(QObject *parent) :
 		QObject(parent)
@@ -29,7 +32,7 @@ CoverFinder::CoverFinder(QObject *parent) :
 	_defaultCover = QImage(":/images/defaultcover.png");
 	SUFFIXES << "png" << "jpg" << "jpeg" << "bmp" << "gif";
 	NAMES << "cover" << "folder" << "album";
-	DIRS << "cover" << "folder" << ".cover" << ".folder" << ".mediaartlocal";
+	DIRS << "cover" << "folder" << ".cover" << ".folder";
 }
 
 bool CoverFinder::find(QString path) {
@@ -66,4 +69,25 @@ bool CoverFinder::find(QString path) {
 
 QImage &CoverFinder::defaultCover() {
 	return _defaultCover;
+}
+
+bool CoverFinder::extract(QString file) {
+	QFileInfo info(file);
+	QString suffix = info.suffix().toLower();
+	TagLib::ID3v2::Tag *tag = NULL;
+	if (suffix == "mp3") {
+		TagLib::MPEG::File f(QFile::encodeName(file).data());
+		tag = f.ID3v2Tag();
+		if (f.isValid() && tag != NULL) {
+			TagLib::ID3v2::FrameList l = tag->frameList("APIC");
+			if (l.isEmpty())
+				return false;
+			TagLib::ID3v2::AttachedPictureFrame *pic = static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
+			QImage img;
+			img.loadFromData((const uchar *) pic->picture().data(), pic->picture().size());
+			emit found(img);
+			return true;
+		}
+	}
+	return false;
 }

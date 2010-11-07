@@ -239,7 +239,9 @@ void PlayerForm::_display_track(Track track) {
 	ui->seekSlider->setMinimum(0);
 	ui->seekSlider->setMaximum(track.metadata().length());
 	_tick(0, track.metadata().length());
-	_coverfinder->find(QFileInfo(track.source()).absolutePath());
+	if (!_coverfinder->extract(QFileInfo(track.source()).absoluteFilePath())) {
+		_coverfinder->find(QFileInfo(track.source()).absolutePath());
+	}
 }
 
 void PlayerForm::_tick(int done, int all) {
@@ -662,7 +664,8 @@ void PlayerForm::hideCountdown() {
 }
 
 void PlayerForm::_display_cover(QImage image) {
-	_cover->setPixmap(QPixmap::fromImage(image));
+	QPixmap p = QPixmap::fromImage(image);
+	_cover->setPixmap(p);
 }
 
 void PlayerForm::_c_add_to_favorites() {
