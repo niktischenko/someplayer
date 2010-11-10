@@ -479,9 +479,9 @@ void PlayerForm::landscapeMode() {
 	ui->bhorizontalLayout->addWidget(ui->dirButton);
 
 	if (_tools_widget->isVisible()) {
-		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/more.png"));
-	} else {
 		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/unmore.png"));
+	} else {
+		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/more.png"));
 	}
 }
 
@@ -560,12 +560,12 @@ void PlayerForm::portraitMode() {
 
 void PlayerForm::_tools_widget_toggle() {
 	if (_tools_widget->isVisible()) {
-		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/unmore.png" : ":/icons/"+_icons_theme+"/more.png"));
+		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/more.png"));
 		_tools_widget->hide();
 		_tools_widget->reset();
 		cancelSearch();
 	} else {
-		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/more.png" : ":/icons/"+_icons_theme+"/unmore.png"));
+		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/unmore.png"));
 		_tools_widget->show();
 		_tools_widget->setFocus();
 	}
@@ -593,9 +593,9 @@ void PlayerForm::updateIcons() {
 	}
 	ui->libraryButton->setIcon(QIcon(":/icons/"+_icons_theme+"/library.png"));
 	if (_tools_widget->isVisible()) {
-		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/" + _icons_theme + "/unmore.png" : ":/icons/" + _icons_theme + "/more.png"));
+		ui->moreButton->setIcon(QIcon(":/icons/" + _icons_theme + "/unmore.png"));
 	} else {
-		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/" + _icons_theme + "/more.png" : ":/icons/" + _icons_theme + "/unmore.png"));
+		ui->moreButton->setIcon(QIcon(":/icons/" + _icons_theme + "/more.png"));
 	}
 	ui->nextButton->setIcon(QIcon(":/icons/"+_icons_theme+"/next.png"));
 	ui->stopButton->setIcon(QIcon(":/icons/"+_icons_theme+"/stop.png"));
