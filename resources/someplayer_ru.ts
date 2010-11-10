@@ -119,7 +119,7 @@
         <translation>Плейлисты</translation>
     </message>
     <message>
-        <location filename="../src/libraryform.cpp" line="778"/>
+        <location filename="../src/libraryform.cpp" line="782"/>
         <source>Search in library</source>
         <translation>Поиск по библиотеке</translation>
     </message>
@@ -265,31 +265,37 @@
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="90"/>
+        <location filename="../src/playerform.cpp" line="726"/>
         <source>Clear playlist</source>
         <translation>Очистить плейлист</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="91"/>
+        <location filename="../src/playerform.cpp" line="727"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="92"/>
+        <location filename="../src/playerform.cpp" line="728"/>
         <source>Add to favorites</source>
         <translation>В любимые</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="93"/>
+        <location filename="../src/playerform.cpp" line="729"/>
         <source>Enqueue</source>
         <translation>В очередь</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="94"/>
+        <location filename="../src/playerform.cpp" line="730"/>
         <source>Add to playlists</source>
         <translation>Добавить в плейлисты</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="95"/>
+        <location filename="../src/playerform.cpp" line="731"/>
         <source>Edit tags</source>
         <translation>Редактировать теги</translation>
     </message>

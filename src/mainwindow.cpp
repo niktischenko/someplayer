@@ -278,12 +278,6 @@ void MainWindow::settings() {
 	_library_form->checkGradient();
 	_directory_form->updateIcons();
 	_directory_form->updateGradient();
-	if (config.getValue("ui/language").toString() != "en") {
-		_translator->load(QString("/opt/someplayer/someplayer_%1").arg(config.getValue("ui/language").toString()));
-		QApplication::installTranslator(_translator);
-	} else {
-		QApplication::removeTranslator(_translator);
-	}
 	updateTranslations();
 }
 
@@ -317,6 +311,13 @@ void MainWindow::_add_tracks(QList<Track> tracks) {
 }
 
 void MainWindow::updateTranslations() {
+	Config config;
+	if (config.getValue("ui/language").toString() != "en") {
+		_translator->load(QString("/opt/someplayer/someplayer_%1").arg(config.getValue("ui/language").toString()));
+		QApplication::installTranslator(_translator);
+	} else {
+		QApplication::removeTranslator(_translator);
+	}
 	ui->retranslateUi(this);
 	_player_form->updateTranslations();
 	_library_form->updateTranslations();

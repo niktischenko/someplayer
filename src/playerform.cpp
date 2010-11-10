@@ -723,4 +723,10 @@ void PlayerForm::_toggle_extra_buttons() {
 
 void PlayerForm::updateTranslations() {
 	ui->retranslateUi(this);
+	__clear_playlist->setText(tr("Clear playlist"));
+	__delete_action->setText(tr("Delete"));
+	__add_to_favorites->setText(tr("Add to favorites"));
+	__enqueue_action->setText(tr("Enqueue"));
+	__add_to_playlists->setText(tr("Add to playlists"));
+	__edit_tags->setText(tr("Edit tags"));
 }
