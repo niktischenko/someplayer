@@ -186,7 +186,7 @@ void DirectoryView::_add() {
 	QStringList files;
 	QStringList directories;
 	foreach (QModelIndex index, selected) {
-		if (!index.data().toString().endsWith("/")) {
+		if (index.row() >= _directories.count()) {
 			files << _files.at(index.row() - _directories.count());
 		} else {
 			directories << _directories.at(index.row());
