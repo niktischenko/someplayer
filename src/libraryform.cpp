@@ -566,6 +566,10 @@ void LibraryForm::_toggle_select_all_button() {
 		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"));
 		ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
 		ui->addButton->setEnabled(true);
+		if (_state == STATE_PLAYLIST || (_state == STATE_PLAYLIST_TRACK && !_is_dynamic)) {
+			ui->deleteButton->setEnabled(true);
+			ui->deleteButton->setIcon(QIcon(":/icons/"+_icons_theme+"/delete.png"));
+		}
 	}
 }
 
