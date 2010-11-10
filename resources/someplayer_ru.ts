@@ -8,6 +8,21 @@
         <source>Directories</source>
         <translation>Каталоги</translation>
     </message>
+    <message>
+        <location filename="../src/directoryview.cpp" line="87"/>
+        <source>Audioclips</source>
+        <translation>Аудиоклипы</translation>
+    </message>
+    <message>
+        <location filename="../src/directoryview.cpp" line="290"/>
+        <source>Inner memory</source>
+        <translation>Внутренняя память</translation>
+    </message>
+    <message>
+        <location filename="../src/directoryview.cpp" line="292"/>
+        <source>Memory card</source>
+        <translation>Карта памяти</translation>
+    </message>
 </context>
 <context>
     <name>EditTagsDialog</name>
