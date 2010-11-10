@@ -814,3 +814,7 @@ void LibraryForm::_search_in_library(QString pattern) {
 	ui->listView->setColumnWidth(0, 70);
 	ui->listView->scrollToTop();
 }
+
+void LibraryForm::updateTranslations() {
+	ui->retranslateUi(this);
+}

@@ -48,3 +48,7 @@ QList<QString> PlaylistDialog::selected() {
 	}
 	return _selected;
 }
+
+void PlaylistDialog::updateTranslations() {
+	ui->retranslateUi(this);
+}

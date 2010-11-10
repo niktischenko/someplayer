@@ -22,6 +22,7 @@
 
 #include <QMainWindow>
 #include <QMessageBox>
+#include <QTranslator>
 #include "playerform.h"
 #include "libraryform.h"
 #include "busywidget.h"
@@ -58,6 +59,7 @@ public slots:
 	void player();
 	void library();
 	void settings();
+	void updateTranslations();
 private slots:
 	void _manage_library();
 	void _save_playlist();
@@ -79,6 +81,7 @@ private:
 	EqualizerDialog *_equalizer_dialog;
 	ManageLibraryForm *_manage_library_form;
 	int _timeout_interval;
+	QTranslator *_translator;
 };
 
 #endif // MAINWINDOW_H

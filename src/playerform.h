@@ -83,6 +83,7 @@ public slots:
 	void play(Track);
 	void showCountdown(QString);
 	void hideCountdown();
+	void updateTranslations();
 
 private slots:
 	void _library();
@@ -129,6 +130,13 @@ private:
 	QString _top_gradient;
 	QString _bottom_gradient;
 	bool _show_extra_buttons;
+
+	QAction *__clear_playlist;
+	QAction *__delete_action;
+	QAction *__add_to_favorites;
+	QAction *__enqueue_action;
+	QAction *__add_to_playlists;
+	QAction *__edit_tags;
 
 	TrackRenderer *_track_renderer;
 	TagResolver *_tag_resolver;

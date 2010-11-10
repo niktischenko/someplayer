@@ -267,3 +267,7 @@ void DirectoryView::portraitMode() {
 	ui->topWidget->show();
 	ui->bottomWidget->show();
 }
+
+void DirectoryView::updateTranslations() {
+	ui->retranslateUi(this);
+}

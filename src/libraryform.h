@@ -62,6 +62,7 @@ public slots:
 	void portraitMode();
 	void updateIcons();
 	void checkGradient();
+	void updateTranslations();
 private slots:
 	void _view_button();
 	void _dynamic_button();

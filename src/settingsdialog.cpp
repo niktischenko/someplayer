@@ -158,3 +158,7 @@ void SettingsDialog::_set_lang_ru(bool checked) {
 	Config config;
 	config.setValue("ui/language", "ru");
 }
+
+void SettingsDialog::updateTranslations() {
+	ui->retranslateUi(this);
+}

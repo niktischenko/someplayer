@@ -36,6 +36,9 @@ public:
 
     QList<QString> selected();
 
+public slots:
+    void updateTranslations();
+
 private:
     Ui::PlaylistDialog *ui;
 

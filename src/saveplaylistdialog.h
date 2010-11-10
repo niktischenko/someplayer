@@ -38,6 +38,9 @@ public:
 	void setPlaylistNames(QList<QString>);
 	QString selectedName();
 
+public slots:
+	void updateTranslations();
+
 private slots:
 	void _select_item(QModelIndex);
 private:

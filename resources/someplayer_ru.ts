@@ -112,9 +112,14 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="14"/>
         <source>someplayer</source>
-        <translation>someplayer</translation>
+        <translation type="obsolete">someplayer</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.ui" line="14"/>
+        <source>SomePlayer</source>
+        <translatorcomment>SomePlayer</translatorcomment>
+        <translation>SomePlayer</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="40"/>
@@ -198,6 +203,11 @@
         <location filename="../src/ui/managelibraryform.ui" line="312"/>
         <source>0 tracks</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/managelibraryform.cpp" line="66"/>
+        <source>Select directory</source>
+        <translation>Выберите директорию</translation>
     </message>
 </context>
 <context>

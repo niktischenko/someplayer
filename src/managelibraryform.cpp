@@ -63,7 +63,7 @@ ManageLibraryForm::~ManageLibraryForm()
 }
 
 void ManageLibraryForm::_add() {
-	QString directory = QFileDialog::getExistingDirectory (this, "Select directory", DEFAULT_PATH_PREFIX, QFileDialog::ShowDirsOnly );
+	QString directory = QFileDialog::getExistingDirectory (this, tr("Select directory"), DEFAULT_PATH_PREFIX, QFileDialog::ShowDirsOnly );
 	if (!directory.isEmpty()) {
 		_library->addDirectory(directory);
 	}
@@ -160,4 +160,8 @@ void ManageLibraryForm::_update_all() {
 	_library->updateAll();
 	refresh();
 	emit refreshLibrary();
+}
+
+void ManageLibraryForm::updateTranslations() {
+	ui->retranslateUi(this);
 }

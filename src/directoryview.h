@@ -46,6 +46,7 @@ public:
 	void updateGradient();
 	void lanscapeMode();
 	void portraitMode();
+	void updateTranslations();
 
 signals:
 	void addAndPlay(Track);

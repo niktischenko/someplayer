@@ -43,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	Config config;
 	_library = new Library(config.applicationDir(), config.applicationDir());
+	_translator = new QTranslator(this);
 	ui->setupUi(this);
 	connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 	connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(settings()));
@@ -277,9 +278,13 @@ void MainWindow::settings() {
 	_library_form->checkGradient();
 	_directory_form->updateIcons();
 	_directory_form->updateGradient();
-	QTranslator *translator = new QTranslator(this);
-	translator->load(QString("/opt/someplayer/someplayer_%1").arg(config.getValue("ui/language").toString()));
-	QApplication::installTranslator(translator);
+	if (config.getValue("ui/language").toString() != "en") {
+		_translator->load(QString("/opt/someplayer/someplayer_%1").arg(config.getValue("ui/language").toString()));
+		QApplication::installTranslator(_translator);
+	} else {
+		QApplication::removeTranslator(_translator);
+	}
+	updateTranslations();
 }
 
 void MainWindow::_orientation_changed() {
@@ -309,4 +314,13 @@ void MainWindow::_add_tracks(QList<Track> tracks) {
 	}
 	_library->saveCurrentPlaylist(cur);
 	_player_form->reload(true);
+}
+
+void MainWindow::updateTranslations() {
+	ui->retranslateUi(this);
+	_player_form->updateTranslations();
+	_library_form->updateTranslations();
+	_equalizer_dialog->updateTranslations();
+	_manage_library_form->updateTranslations();
+	_directory_form->updateTranslations();
 }

@@ -50,3 +50,6 @@ void SavePlaylistDialog::_select_item(QModelIndex id) {
 	done(QDialog::Accepted);
 }
 
+void SavePlaylistDialog::updateTranslations() {
+	ui->retranslateUi(this);
+}

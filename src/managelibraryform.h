@@ -48,6 +48,7 @@ signals:
 public slots:
 	void refresh();
 	void updateIcons();
+	void updateTranslations();
 
 private slots:
 	void _add();

@@ -216,3 +216,7 @@ void EqualizerDialog::portraitMode() {
 	ui->bhorizontalLayout->addItem(ui->chorizontalSpacer);
 	ui->bhorizontalLayout->addWidget(ui->saveButton);
 }
+
+void EqualizerDialog::updateTranslations() {
+	ui->retranslateUi(this);
+}

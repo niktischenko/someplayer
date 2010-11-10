@@ -87,12 +87,12 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_model = new QStandardItemModel(0, 2, this);
 	ui->playlistView->setModel(_model);
 	_context_menu = new QMenu(ui->playlistView);
-	QAction *clear_playlist = _context_menu->addAction(tr("Clear playlist"));
-	QAction *delete_action = _context_menu->addAction(tr("Delete"));
-	QAction *add_to_favorites = _context_menu->addAction(tr("Add to favorites"));
-	QAction *enqueue_action = _context_menu->addAction(tr("Enqueue"));
-	QAction *add_to_playlists = _context_menu->addAction(tr("Add to playlists"));
-	QAction *edit_tags = _context_menu->addAction(tr("Edit tags"));
+	__clear_playlist = _context_menu->addAction(tr("Clear playlist"));
+	__delete_action = _context_menu->addAction(tr("Delete"));
+	__add_to_favorites = _context_menu->addAction(tr("Add to favorites"));
+	__enqueue_action = _context_menu->addAction(tr("Enqueue"));
+	__add_to_playlists = _context_menu->addAction(tr("Add to playlists"));
+	__edit_tags = _context_menu->addAction(tr("Edit tags"));
 
 	_track_renderer = new TrackRenderer(this);
 	_track_renderer->setActiveRow(-1);
@@ -123,12 +123,12 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(ui->repeatButton, SIGNAL(clicked()), this, SLOT(_toggle_repeat()));
 	connect(ui->seekSlider, SIGNAL(sliderMoved(int)), _player, SLOT(seek(int)));
 	connect(ui->playlistView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(_custom_context_menu_requested(QPoint)));
-	connect(clear_playlist, SIGNAL(triggered()), this, SIGNAL(clearPlaylist()));
-	connect(delete_action, SIGNAL(triggered()), this, SLOT(_delete_track()));
-	connect(enqueue_action, SIGNAL(triggered()), this, SLOT(_enqueue_track()));
-	connect(add_to_favorites, SIGNAL(triggered()), this, SLOT(_add_to_favorites()));
-	connect(add_to_playlists, SIGNAL(triggered()), this, SLOT(_add_to_playlists()));
-	connect(edit_tags, SIGNAL(triggered()), this, SLOT(_edit_tags()));
+	connect(__clear_playlist, SIGNAL(triggered()), this, SIGNAL(clearPlaylist()));
+	connect(__delete_action, SIGNAL(triggered()), this, SLOT(_delete_track()));
+	connect(__enqueue_action, SIGNAL(triggered()), this, SLOT(_enqueue_track()));
+	connect(__add_to_favorites, SIGNAL(triggered()), this, SLOT(_add_to_favorites()));
+	connect(__add_to_playlists, SIGNAL(triggered()), this, SLOT(_add_to_playlists()));
+	connect(__edit_tags, SIGNAL(triggered()), this, SLOT(_edit_tags()));
 	connect(_player, SIGNAL(stateChanged(PlayerState)), this, SLOT(_state_changed(PlayerState)));
 	connect(_player, SIGNAL(trackDone(Track)), _lib, SLOT(updateTrackCount(Track)));
 	connect(_tag_resolver, SIGNAL(decoded(Track)), this, SLOT(_track_decoded(Track)));
@@ -719,4 +719,8 @@ void PlayerForm::_toggle_extra_buttons() {
 		ui->cfavButton->setIcon(QIcon());
 		ui->ctagButton->setIcon(QIcon());
 	}
+}
+
+void PlayerForm::updateTranslations() {
+	ui->retranslateUi(this);
 }

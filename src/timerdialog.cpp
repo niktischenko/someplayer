@@ -62,3 +62,7 @@ bool TimerDialog::timerDisabled() {
 void TimerDialog::showDisable() {
 	ui->disableCheckBox->setVisible(true);
 }
+
+void TimerDialog::updateTranslations() {
+	ui->retranslateUi(this);
+}
