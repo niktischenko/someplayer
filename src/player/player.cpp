@@ -64,7 +64,9 @@ void Randomizer::_shuffle() {
 		_rand.removeAt(0);
 		_rand.insert(qrand() % (cnt-1) + 1, _last);
 	}
-	_last = _rand.last();
+	if (!_rand.isEmpty())
+		_last = _rand.last();
+	else _last = -1;
 }
 
 void Randomizer::removeId(int id) {
@@ -233,7 +235,6 @@ void Player::seek(int s) {
 }
 
 void Player::play() {
-	qWarning() << _current;
 	if (_playlist.tracks().isEmpty())
 		return;
 	_state = PLAYER_PLAYING;
