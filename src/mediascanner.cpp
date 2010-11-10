@@ -46,6 +46,7 @@ QStringList MediaScanner::singleScan(QString path) {
 }
 
 QStringList MediaScanner::_scan_directory(QDir dir) {
+	_foundMedia.clear();
 	QFileInfoList items = dir.entryInfoList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
 	foreach (QFileInfo info, items) {
 		if (info.isDir()) {
