@@ -239,9 +239,7 @@ void PlayerForm::_display_track(Track track) {
 	ui->seekSlider->setMinimum(0);
 	ui->seekSlider->setMaximum(track.metadata().length());
 	_tick(0, track.metadata().length());
-	if (!_coverfinder->extract(QFileInfo(track.source()).absoluteFilePath())) {
-		_coverfinder->find(QFileInfo(track.source()).absolutePath());
-	}
+	_coverfinder->find(QFileInfo(track.source()));
 }
 
 void PlayerForm::_tick(int done, int all) {

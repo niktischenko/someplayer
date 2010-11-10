@@ -22,7 +22,10 @@
 #include <QDebug>
 #include <QDir>
 #include <QFileInfo>
+#include <QtConcurrentRun>
 #include <mpegfile.h>
+#include <flacfile.h>
+#include <oggfile.h>
 #include <id3v2tag.h>
 #include <mpeg/id3v2/frames/attachedpictureframe.h>
 
@@ -35,7 +38,7 @@ CoverFinder::CoverFinder(QObject *parent) :
 	DIRS << "cover" << "folder" << ".cover" << ".folder";
 }
 
-bool CoverFinder::find(QString path) {
+bool CoverFinder::_find(QString path) {
 	QDir dir(path);
 	QFileInfoList items = dir.entryInfoList(QDir::Files);
 	QFileInfoList dirs = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Hidden);
@@ -58,7 +61,7 @@ bool CoverFinder::find(QString path) {
 	}
 	foreach(QFileInfo item, dirs) {
 		if (DIRS.contains(item.fileName().toLower())) {
-			if (find(item.absoluteFilePath())) {
+			if (_find(item.absoluteFilePath())) {
 				return true;
 			}
 		}
@@ -71,23 +74,43 @@ QImage &CoverFinder::defaultCover() {
 	return _defaultCover;
 }
 
-bool CoverFinder::extract(QString file) {
+bool CoverFinder::_extract(QString file) {
 	QFileInfo info(file);
 	QString suffix = info.suffix().toLower();
 	TagLib::ID3v2::Tag *tag = NULL;
+	bool todo = false;
+	TagLib::File *f = NULL;
 	if (suffix == "mp3") {
-		TagLib::MPEG::File f(QFile::encodeName(file).data());
-		tag = f.ID3v2Tag();
-		if (f.isValid() && tag != NULL) {
-			TagLib::ID3v2::FrameList l = tag->frameList("APIC");
-			if (l.isEmpty())
-				return false;
-			TagLib::ID3v2::AttachedPictureFrame *pic = static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
-			QImage img;
-			img.loadFromData((const uchar *) pic->picture().data(), pic->picture().size());
-			emit found(img);
-			return true;
-		}
+		f = new TagLib::MPEG::File(QFile::encodeName(file).data(), true, TagLib::AudioProperties::Fast);
+		if (f == NULL) return false;
+		tag = ((TagLib::MPEG::File*)f)->ID3v2Tag();
+		todo = f->isValid();
+	} else if (suffix == "flac") {
+		f = new TagLib::FLAC::File(QFile::encodeName(file).data(), true, TagLib::AudioProperties::Fast);
+		if (f == NULL) return false;
+		tag = ((TagLib::FLAC::File*)f)->ID3v2Tag();
+		todo = f->isValid();
 	}
+	if (todo && tag != NULL) {
+		TagLib::ID3v2::FrameList l = tag->frameList("APIC");
+		if (l.isEmpty())
+			return false;
+		TagLib::ID3v2::AttachedPictureFrame *pic = static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
+		QImage img;
+		img.loadFromData((const uchar *) pic->picture().data(), pic->picture().size());
+		emit found(img);
+		return true;
+	}
+	if (f != NULL) delete f;
 	return false;
+}
+
+void CoverFinder::find(QFileInfo filePath) {
+	QtConcurrent::run(this, &CoverFinder::_async_find, filePath);
+}
+
+bool CoverFinder::_async_find(QFileInfo filePath) {
+	if (!_find(filePath.absolutePath()))
+		return _extract(filePath.absoluteFilePath());
+	return true;
 }
