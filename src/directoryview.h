@@ -57,6 +57,7 @@ private:
 	QStandardItemModel *_model;
 	QList<QString> REGISTERED_FILE_EXTENSIONS;
 	void readDir(QString path);
+	void homeScreen();
 	QList<QString> _directories;
 	QList<QString> _files;
 	QString _icons_theme;

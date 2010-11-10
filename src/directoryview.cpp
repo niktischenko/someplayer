@@ -51,7 +51,7 @@ DirectoryView::DirectoryView(QWidget *parent) :
 
 	ui->progressBar->hide();
 
-	readDir(_current_dir);
+	_home();
 	connect(ui->backButton, SIGNAL(clicked()), this, SLOT(_back()));
 	connect(ui->dirView, SIGNAL(clicked(QModelIndex)), this, SLOT(_process_click(QModelIndex)));
 	connect(ui->dirView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(_process_dblclick(QModelIndex)));
@@ -78,11 +78,18 @@ void DirectoryView::readDir(QString path) {
 	_files.clear();
 	QList<QString> dirnames;
 	QList<QString> filenames;
-	QFileInfoList items = dir.entryInfoList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
+	QFileInfoList items = dir.entryInfoList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot | QDir::Hidden);
 	foreach (QFileInfo info, items) {
 		if (info.isDir()) {
-			_directories << info.absoluteFilePath();
-			dirnames << info.fileName();
+			if (info.fileName().startsWith(".")) {
+				if (info.fileName() == ".sounds") {
+					_directories << info.absoluteFilePath();
+					dirnames << tr("Audioclips");
+				}
+			} else {
+				_directories << info.absoluteFilePath();
+				dirnames << info.fileName();
+			}
 		} else {
 			if (REGISTERED_FILE_EXTENSIONS.contains(info.suffix().toLower())) {
 				_files << info.absoluteFilePath();
@@ -94,7 +101,7 @@ void DirectoryView::readDir(QString path) {
 	int i = 0;
 	foreach (QString str, dirnames) {
 		_model->setItem(i, 0, new QStandardItem(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"), ""));
-		_model->setItem(i, 1, new QStandardItem(QIcon(":/icons/"+_icons_theme+"/folder.png"), str+"/"));
+		_model->setItem(i, 1, new QStandardItem(QIcon(":/icons/"+_icons_theme+"/folder.png"), str));
 		i++;
 	}
 	foreach (QString str, filenames) {
@@ -105,17 +112,19 @@ void DirectoryView::readDir(QString path) {
 	ui->dirView->setColumnWidth(0, 70);
 	ui->addButton->setEnabled(false);
 	ui->addButton->setIcon(QIcon());
+	ui->dirView->scrollToTop();
 }
 
 void DirectoryView::_back() {
-	readDir(_current_dir+"/..");
+	QDir current(_current_dir);
+	current.cdUp();
+	readDir(current.path());
 }
 
 void DirectoryView::_process_click(QModelIndex index) {
 	if (index.column() == 0) {
 	} else {
-		QString data = index.data().toString();
-		if (data.endsWith("/")) {
+		if (index.row() < _directories.count()) {
 			_current_dir = _directories.at(index.row());
 			readDir(_current_dir);
 			return;
@@ -126,8 +135,7 @@ void DirectoryView::_process_click(QModelIndex index) {
 void DirectoryView::_process_dblclick(QModelIndex index) {
 	if (index.column() == 0) {
 	} else {
-		QString data = index.data().toString();
-		if (!data.endsWith("/")) {
+		if (index.row() >= _directories.count()) {
 			QString filename = _files.at(index.row() - _directories.count());
 			Track track = _tagresolver->decodeOne(filename);
 			emit addAndPlay(track);
@@ -160,7 +168,7 @@ void DirectoryView::_process_selection(QItemSelection selected, QItemSelection d
 
 void DirectoryView::_home() {
 	_current_dir = QDir::homePath();
-	readDir(_current_dir);
+	homeScreen();
 }
 
 void DirectoryView::_toggle_selection() {
@@ -219,7 +227,7 @@ void DirectoryView::updateIcons() {
 		ui->selectToggleButton->setIcon(QIcon(":/icons/"+_icons_theme+"/select_all.png"));
 	}
 	ui->playerButton->setIcon(QIcon(":/icons/"+_icons_theme+"/player.png"));
-	readDir(_current_dir);
+	_home();
 }
 
 void DirectoryView::updateGradient() {
@@ -270,4 +278,21 @@ void DirectoryView::portraitMode() {
 
 void DirectoryView::updateTranslations() {
 	ui->retranslateUi(this);
+}
+
+void DirectoryView::homeScreen() {
+	_directories.clear();
+	_files.clear();
+	_model->clear();
+	_model->setRowCount(2);
+	_model->setColumnCount(2);
+	_model->setItem(0, 0, new QStandardItem(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"), ""));
+	_model->setItem(0, 1, new QStandardItem(tr("Inner memory")));
+	_model->setItem(1, 0, new QStandardItem(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"), ""));
+	_model->setItem(1, 1, new QStandardItem(tr("Memory card")));
+	_directories << QDir::homePath()+"/MyDocs/";
+	_directories << "/media/mmc1/";
+	ui->dirView->setColumnWidth(0, 70);
+	ui->addButton->setEnabled(false);
+	ui->addButton->setIcon(QIcon());
 }
