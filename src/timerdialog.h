@@ -40,6 +40,7 @@ public slots:
     void init();
     void setTime (int, int, int);
     void showDisable();
+    void updateTranslations();
 
 
 private:

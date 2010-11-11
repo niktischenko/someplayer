@@ -18,7 +18,6 @@
  */
 
 #include <QtGui/QApplication>
-#include <QTranslator>
 #include "mainwindow.h"
 #include "config.h"
 
@@ -27,12 +26,9 @@ using namespace SomePlayer::Storage;
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-	QTranslator *translator = new QTranslator(0);
-	Config config;
-	translator->load(QString("/opt/someplayer/someplayer_%1").arg(config.getValue("ui/language").toString()));
-	a.installTranslator(translator);
 	a.setApplicationName("ru.somebody.someplayer");
 	MainWindow w;
+	w.updateTranslations();
 	w.setAttribute(Qt::WA_Maemo5StackedWindow);
 	w.setWindowFlags(w.windowFlags() | Qt::Window);
 

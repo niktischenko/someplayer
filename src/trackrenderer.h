@@ -37,6 +37,7 @@ public:
 	QSize sizeHint(const QStyleOptionViewItem &option,
 						   const QModelIndex &index) const;
 	void updateIcons();
+	void setActiveTrackColor(QString);
 
 private:
 	QString _icons_theme;

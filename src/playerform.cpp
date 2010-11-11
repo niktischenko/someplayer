@@ -87,16 +87,17 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_model = new QStandardItemModel(0, 2, this);
 	ui->playlistView->setModel(_model);
 	_context_menu = new QMenu(ui->playlistView);
-	QAction *clear_playlist = _context_menu->addAction("Clear playlist");
-	QAction *delete_action = _context_menu->addAction("Delete");
-	QAction *add_to_favorites = _context_menu->addAction("Add to favorites");
-	QAction *enqueue_action = _context_menu->addAction("Enqueue");
-	QAction *add_to_playlists = _context_menu->addAction("Add to playlists");
-	QAction *edit_tags = _context_menu->addAction("Edit tags");
+	__clear_playlist = _context_menu->addAction(tr("Clear playlist"));
+	__delete_action = _context_menu->addAction(tr("Delete"));
+	__add_to_favorites = _context_menu->addAction(tr("Add to favorites"));
+	__enqueue_action = _context_menu->addAction(tr("Enqueue"));
+	__add_to_playlists = _context_menu->addAction(tr("Add to playlists"));
+	__edit_tags = _context_menu->addAction(tr("Edit tags"));
 
 	_track_renderer = new TrackRenderer(this);
 	_track_renderer->setActiveRow(-1);
 	_track_renderer->setSearchRow(-1);
+	_track_renderer->setActiveTrackColor(config.getValue("ui/trackcolor").toString());
 	ui->playlistView->setItemDelegateForColumn(1, _track_renderer);
 	ui->playlistView->setItemDelegateForColumn(0, _track_renderer);
 
@@ -123,12 +124,12 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(ui->repeatButton, SIGNAL(clicked()), this, SLOT(_toggle_repeat()));
 	connect(ui->seekSlider, SIGNAL(sliderMoved(int)), _player, SLOT(seek(int)));
 	connect(ui->playlistView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(_custom_context_menu_requested(QPoint)));
-	connect(clear_playlist, SIGNAL(triggered()), this, SIGNAL(clearPlaylist()));
-	connect(delete_action, SIGNAL(triggered()), this, SLOT(_delete_track()));
-	connect(enqueue_action, SIGNAL(triggered()), this, SLOT(_enqueue_track()));
-	connect(add_to_favorites, SIGNAL(triggered()), this, SLOT(_add_to_favorites()));
-	connect(add_to_playlists, SIGNAL(triggered()), this, SLOT(_add_to_playlists()));
-	connect(edit_tags, SIGNAL(triggered()), this, SLOT(_edit_tags()));
+	connect(__clear_playlist, SIGNAL(triggered()), this, SIGNAL(clearPlaylist()));
+	connect(__delete_action, SIGNAL(triggered()), this, SLOT(_delete_track()));
+	connect(__enqueue_action, SIGNAL(triggered()), this, SLOT(_enqueue_track()));
+	connect(__add_to_favorites, SIGNAL(triggered()), this, SLOT(_add_to_favorites()));
+	connect(__add_to_playlists, SIGNAL(triggered()), this, SLOT(_add_to_playlists()));
+	connect(__edit_tags, SIGNAL(triggered()), this, SLOT(_edit_tags()));
 	connect(_player, SIGNAL(stateChanged(PlayerState)), this, SLOT(_state_changed(PlayerState)));
 	connect(_player, SIGNAL(trackDone(Track)), _lib, SLOT(updateTrackCount(Track)));
 	connect(_tag_resolver, SIGNAL(decoded(Track)), this, SLOT(_track_decoded(Track)));
@@ -239,7 +240,7 @@ void PlayerForm::_display_track(Track track) {
 	ui->seekSlider->setMinimum(0);
 	ui->seekSlider->setMaximum(track.metadata().length());
 	_tick(0, track.metadata().length());
-	_coverfinder->find(QFileInfo(track.source()).absolutePath());
+	_coverfinder->find(QFileInfo(track.source()));
 }
 
 void PlayerForm::_tick(int done, int all) {
@@ -432,22 +433,22 @@ void PlayerForm::landscapeMode() {
 	ui->widget->layout()->removeItem(ui->controlLayout);
 	ui->controlLayout->removeItem(ui->countHLayout);
 	ui->controlLayout->removeItem(ui->cverticalSpacer_0);
-	ui->controlLayout->removeWidget(ui->titleLabel);
+	ui->controlLayout->removeItem(ui->titleLayout);
 	ui->controlLayout->removeItem(ui->coverLayout);
 	ui->controlLayout->removeItem(ui->cverticalSpacer_1);
 	ui->controlLayout->removeItem(ui->seekLayout);
 	ui->controlLayout->removeItem(ui->progressLayout);
 	ui->controlLayout->removeItem(ui->cverticalSpacer_2);
-	ui->controlLayout->removeWidget(ui->artistAlbumLabel);
+	ui->controlLayout->removeItem(ui->artistAlbumLayout);
 	ui->controlLayout->removeItem(ui->cverticalSpacer_3);
 	ui->controlLayout->addItem(ui->countHLayout);
 	ui->controlLayout->addItem(ui->cverticalSpacer_0);
-	ui->controlLayout->addWidget(ui->titleLabel);
+	ui->controlLayout->addItem(ui->titleLayout);
 	ui->controlLayout->addItem(ui->cverticalSpacer_1);
 	ui->controlLayout->addItem(ui->progressLayout);
 	ui->controlLayout->addItem(ui->seekLayout);
 	ui->controlLayout->addItem(ui->cverticalSpacer_2);
-	ui->controlLayout->addWidget(ui->artistAlbumLabel);
+	ui->controlLayout->addItem(ui->artistAlbumLayout);
 	ui->controlLayout->addItem(ui->cverticalSpacer_3);
 
 	((QGridLayout *)ui->widget->layout())->addItem(ui->coverLayout, 0, 0);
@@ -479,9 +480,9 @@ void PlayerForm::landscapeMode() {
 	ui->bhorizontalLayout->addWidget(ui->dirButton);
 
 	if (_tools_widget->isVisible()) {
-		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/more.png"));
-	} else {
 		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/unmore.png"));
+	} else {
+		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/more.png"));
 	}
 }
 
@@ -496,22 +497,22 @@ void PlayerForm::portraitMode() {
 
 	ui->controlLayout->removeItem(ui->countHLayout);
 	ui->controlLayout->removeItem(ui->cverticalSpacer_0);
-	ui->controlLayout->removeWidget(ui->titleLabel);
+	ui->controlLayout->removeItem(ui->titleLayout);
 	ui->controlLayout->removeItem(ui->coverLayout);
 	ui->controlLayout->removeItem(ui->cverticalSpacer_1);
 	ui->controlLayout->removeItem(ui->seekLayout);
 	ui->controlLayout->removeItem(ui->progressLayout);
 	ui->controlLayout->removeItem(ui->cverticalSpacer_2);
-	ui->controlLayout->removeWidget(ui->artistAlbumLabel);
+	ui->controlLayout->removeItem(ui->artistAlbumLayout);
 	ui->controlLayout->removeItem(ui->cverticalSpacer_3);
 
 	ui->controlLayout->addItem(ui->countHLayout);
 	ui->controlLayout->addItem(ui->progressLayout);
 	ui->controlLayout->addItem(ui->seekLayout);
 	ui->controlLayout->addItem(ui->cverticalSpacer_0);
-	ui->controlLayout->addWidget(ui->titleLabel);
+	ui->controlLayout->addItem(ui->titleLayout);
 	ui->controlLayout->addItem(ui->coverLayout);
-	ui->controlLayout->addWidget(ui->artistAlbumLabel);
+	ui->controlLayout->addItem(ui->artistAlbumLayout);
 	ui->controlLayout->addItem(ui->cverticalSpacer_1);
 	ui->controlLayout->invalidate();
 
@@ -560,12 +561,12 @@ void PlayerForm::portraitMode() {
 
 void PlayerForm::_tools_widget_toggle() {
 	if (_tools_widget->isVisible()) {
-		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/unmore.png" : ":/icons/"+_icons_theme+"/more.png"));
+		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/more.png"));
 		_tools_widget->hide();
 		_tools_widget->reset();
 		cancelSearch();
 	} else {
-		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/"+_icons_theme+"/more.png" : ":/icons/"+_icons_theme+"/unmore.png"));
+		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/unmore.png"));
 		_tools_widget->show();
 		_tools_widget->setFocus();
 	}
@@ -593,9 +594,9 @@ void PlayerForm::updateIcons() {
 	}
 	ui->libraryButton->setIcon(QIcon(":/icons/"+_icons_theme+"/library.png"));
 	if (_tools_widget->isVisible()) {
-		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/" + _icons_theme + "/unmore.png" : ":/icons/" + _icons_theme + "/more.png"));
+		ui->moreButton->setIcon(QIcon(":/icons/" + _icons_theme + "/unmore.png"));
 	} else {
-		ui->moreButton->setIcon(QIcon(landscape ? ":/icons/" + _icons_theme + "/more.png" : ":/icons/" + _icons_theme + "/unmore.png"));
+		ui->moreButton->setIcon(QIcon(":/icons/" + _icons_theme + "/more.png"));
 	}
 	ui->nextButton->setIcon(QIcon(":/icons/"+_icons_theme+"/next.png"));
 	ui->stopButton->setIcon(QIcon(":/icons/"+_icons_theme+"/stop.png"));
@@ -662,7 +663,8 @@ void PlayerForm::hideCountdown() {
 }
 
 void PlayerForm::_display_cover(QImage image) {
-	_cover->setPixmap(QPixmap::fromImage(image));
+	QPixmap p = QPixmap::fromImage(image);
+	_cover->setPixmap(p);
 }
 
 void PlayerForm::_c_add_to_favorites() {
@@ -718,4 +720,22 @@ void PlayerForm::_toggle_extra_buttons() {
 		ui->cfavButton->setIcon(QIcon());
 		ui->ctagButton->setIcon(QIcon());
 	}
+}
+
+void PlayerForm::updateTranslations() {
+	ui->retranslateUi(this);
+	__clear_playlist->setText(tr("Clear playlist"));
+	__delete_action->setText(tr("Delete"));
+	__add_to_favorites->setText(tr("Add to favorites"));
+	__enqueue_action->setText(tr("Enqueue"));
+	__add_to_playlists->setText(tr("Add to playlists"));
+	__edit_tags->setText(tr("Edit tags"));
+}
+
+void PlayerForm::updateTrackColor() {
+	Config config;
+	QString color = config.getValue("ui/trackcolor").toString();
+	_track_renderer->setActiveTrackColor(color);
+	ui->playlistView->hide();
+	ui->playlistView->show();
 }

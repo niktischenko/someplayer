@@ -144,7 +144,6 @@ void AttachedPictureFrame::parseFields(const ByteVector &data)
 
   d->type = (TagLib::ID3v2::AttachedPictureFrame::Type)data[pos++];
   d->description = readStringField(data, d->textEncoding, &pos);
-
   d->data = data.mid(pos);
 }
 

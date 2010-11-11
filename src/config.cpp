@@ -36,6 +36,8 @@ Config::Config()
 		_settings->setValue("ui/language", "en");
 	if (_settings->value("playback/player").isNull())
 		_settings->setValue("playback/player", "inner");
+	if (_settings->value("ui/trackcolor").toString() == "")
+		_settings->setValue("ui/trackcolor", "blue");
 }
 
 Config::~Config() {

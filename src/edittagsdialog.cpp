@@ -48,3 +48,7 @@ TrackMetadata EditTagsDialog::meta() {
 	_meta.setTitle(ui->titleLineEdit->text());
 	return _meta;
 }
+
+void EditTagsDialog::updateTranslations() {
+	ui->retranslateUi(this);
+}

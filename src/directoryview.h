@@ -42,10 +42,13 @@ class DirectoryView : public QWidget
 public:
 	explicit DirectoryView(QWidget *parent = 0);
 	~DirectoryView();
+
+public slots:
 	void updateIcons();
 	void updateGradient();
 	void lanscapeMode();
 	void portraitMode();
+	void updateTranslations();
 
 signals:
 	void addAndPlay(Track);
@@ -56,6 +59,7 @@ private:
 	QStandardItemModel *_model;
 	QList<QString> REGISTERED_FILE_EXTENSIONS;
 	void readDir(QString path);
+	void homeScreen();
 	QList<QString> _directories;
 	QList<QString> _files;
 	QString _icons_theme;

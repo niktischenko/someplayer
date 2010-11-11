@@ -22,12 +22,14 @@
 
 #include <QMainWindow>
 #include <QMessageBox>
+#include <QTranslator>
 #include "playerform.h"
 #include "libraryform.h"
 #include "busywidget.h"
 #include "equalizerdialog.h"
 #include "managelibraryform.h"
 #include "directoryview.h"
+#include "settingsform.h"
 #include "library.h"
 #include <QTimer>
 
@@ -58,6 +60,7 @@ public slots:
 	void player();
 	void library();
 	void settings();
+	void updateTranslations();
 private slots:
 	void _manage_library();
 	void _save_playlist();
@@ -69,16 +72,19 @@ private slots:
 	void _orientation_changed();
 	void _fullscreen(bool);
 	void _add_tracks(QList<Track>);
+	void _change_orientation();
 private:
 	PlayerForm *_player_form;
 	LibraryForm *_library_form;
 	BusyWidget *_busy_widget;
 	DirectoryView *_directory_form;
+	SettingsForm *_settings_form;
 	Library *_library;
 	QTimer *_timer;
 	EqualizerDialog *_equalizer_dialog;
 	ManageLibraryForm *_manage_library_form;
 	int _timeout_interval;
+	QTranslator *_translator;
 };
 
 #endif // MAINWINDOW_H

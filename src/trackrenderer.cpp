@@ -88,3 +88,25 @@ void TrackRenderer::paint(QPainter *painter, const QStyleOptionViewItem &option,
 QSize TrackRenderer::sizeHint(const QStyleOptionViewItem &/*option*/, const QModelIndex &/*index*/) const {
 	return QSize(QApplication::desktop()->geometry().width(), 80);
 }
+
+void TrackRenderer::setActiveTrackColor(QString color) {
+	QColor c;
+	if (color == "blue") {
+		c = QColor::fromRgb(100, 150, 220);
+	} else if (color == "black") {
+		c = QColor::fromRgb(0, 0, 0);
+	} else if (color == "magenta") {
+		c = QColor::fromRgb(150, 80, 150);
+	} else if (color == "red") {
+		c = QColor::fromRgb(220, 100, 100);
+	} else if (color == "yellow") {
+		c = QColor::fromRgb(220, 220, 100);
+	} else if (color == "white") {
+		c = QColor::fromRgb(255, 255, 255);
+	} else if (color == "dark") {
+		c = QColor::fromRgb(70, 70, 70);
+	} else if (color == "light") {
+		c = QColor::fromRgb(200, 200, 200);
+	}
+	_spen = QPen(c);
+}

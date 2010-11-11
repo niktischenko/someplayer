@@ -38,6 +38,8 @@ public:
     ~EditTagsDialog();
     void setTrackMetadata(TrackMetadata meta);
     TrackMetadata meta();
+public slots:
+    void updateTranslations();
 
 private:
     Ui::EditTagsDialog *ui;

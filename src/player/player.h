@@ -47,11 +47,12 @@ namespace SomePlayer {
 		public:
 			void setPlaylist(QList<int>);
 			int next();
+			void removeId(int);
 		private:
 			QList<int> _playlist;
 			QList<int> _rand;
 			void _shuffle();
-			int _current;
+			int _last;
 		};
 
 		class Player : public AbstractPlayer

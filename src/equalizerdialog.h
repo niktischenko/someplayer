@@ -43,6 +43,7 @@ public slots:
 	void reloadPresets();
 	void landscapeMode();
 	void portraitMode();
+	void updateTranslations();
 
 private slots:
 	void _value0_changed(int v) { emit valueChanged(0, v);}

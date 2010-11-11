@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QImage>
+#include <QFileInfo>
 #include "someplayer.h"
 
 class CoverFinder : public QObject
@@ -34,8 +35,12 @@ signals:
 	void found(QImage);
 
 public slots:
-	bool find(QString path);
+	void find(QFileInfo filePath);
 	QImage &defaultCover();
+private:
+	bool _async_find(QFileInfo filePath);
+	bool _find(QString path);
+	bool _extract(QString file);
 
 private:
 	QImage _defaultCover;

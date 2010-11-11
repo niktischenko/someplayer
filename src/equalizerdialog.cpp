@@ -163,7 +163,7 @@ void EqualizerDialog::reloadPresets() {
 
 void EqualizerDialog::_save_preset() {
 	Config config;
-	QString name = ui->presetComboBox->currentText();
+	QString name = ui->presetComboBox->currentText().trimmed();
 	QStringList presets = config.getValue("equalizer/presets").toStringList();
 	if (!presets.contains(name))
 		presets.append(name);
@@ -215,4 +215,8 @@ void EqualizerDialog::portraitMode() {
 	ui->bhorizontalLayout->insertWidget(0, ui->enableToggleButton);
 	ui->bhorizontalLayout->addItem(ui->chorizontalSpacer);
 	ui->bhorizontalLayout->addWidget(ui->saveButton);
+}
+
+void EqualizerDialog::updateTranslations() {
+	ui->retranslateUi(this);
 }

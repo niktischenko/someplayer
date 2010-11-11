@@ -17,26 +17,39 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#ifndef SETTINGSDIALOG_H
-#define SETTINGSDIALOG_H
 
-#include <QDialog>
+#ifndef SETTINGSFORM_H
+#define SETTINGSFORM_H
+
+#include <QWidget>
 #include "config.h"
 
 namespace Ui {
-	class SettingsDialog;
+	class SettingsForm;
 }
 
-class SettingsDialog : public QDialog
-{
+class SettingsForm : public QWidget {
 	Q_OBJECT
 
 public:
-	explicit SettingsDialog(QWidget *parent = 0);
-	~SettingsDialog();
+	explicit SettingsForm(QWidget *parent = 0);
+	~SettingsForm();
+
+public slots:
+	void updateTranslations();
+	void landscapeMode();
+	void portraitMode();
+
+signals:
+	void iconsChanged();
+	void orientationChanged();
+	void gradientChanged();
+	void libraryOptionsChanged();
+	void translationChanged();
+	void trackColorChanged();
 
 private:
-	Ui::SettingsDialog *ui;
+	Ui::SettingsForm *ui;
 
 private slots:
 	void _set_album_sorting_alphabet(bool);
@@ -52,6 +65,14 @@ private slots:
 	void _set_gradient_no(bool);
 	void _set_lang_en(bool);
 	void _set_lang_ru(bool);
+	void _set_color_blue(bool);
+	void _set_color_magenta(bool);
+	void _set_color_red(bool);
+	void _set_color_yellow(bool);
+	void _set_color_white(bool);
+	void _set_color_black(bool);
+	void _set_color_light(bool);
+	void _set_color_dark(bool);
 };
 
-#endif // SETTINGSDIALOG_H
+#endif // SETTINGSFORM_H
