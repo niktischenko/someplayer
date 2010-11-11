@@ -97,6 +97,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_track_renderer = new TrackRenderer(this);
 	_track_renderer->setActiveRow(-1);
 	_track_renderer->setSearchRow(-1);
+	_track_renderer->setActiveTrackColor(config.getValue("ui/trackcolor").toString());
 	ui->playlistView->setItemDelegateForColumn(1, _track_renderer);
 	ui->playlistView->setItemDelegateForColumn(0, _track_renderer);
 
@@ -729,4 +730,12 @@ void PlayerForm::updateTranslations() {
 	__enqueue_action->setText(tr("Enqueue"));
 	__add_to_playlists->setText(tr("Add to playlists"));
 	__edit_tags->setText(tr("Edit tags"));
+}
+
+void PlayerForm::updateTrackColor() {
+	Config config;
+	QString color = config.getValue("ui/trackcolor").toString();
+	_track_renderer->setActiveTrackColor(color);
+	ui->playlistView->hide();
+	ui->playlistView->show();
 }

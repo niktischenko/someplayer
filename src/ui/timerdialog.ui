@@ -467,6 +467,14 @@
          </item>
          <item>
           <property name="text">
+           <string>39</string>
+          </property>
+          <property name="textAlignment">
+           <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>40</string>
           </property>
           <property name="textAlignment">

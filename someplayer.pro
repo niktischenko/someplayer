@@ -120,13 +120,13 @@ SOURCES += src/main.cpp\
     src/timerdialog.cpp \
     src/equalizerdialog.cpp \
     src/saveplaylistdialog.cpp \
-    src/settingsdialog.cpp \
     src/dbusadaptor.cpp \
     src/toolswidget.cpp \
     src/managelibraryform.cpp \
     src/directoryview.cpp \
     src/coverfinder.cpp \
-    src/clickablelabel.cpp
+    src/clickablelabel.cpp \
+    src/settingsform.cpp
 
 HEADERS  += src/mainwindow.h \
 		src/player/player.h \
@@ -224,14 +224,14 @@ HEADERS  += src/mainwindow.h \
     src/timerdialog.h \
     src/equalizerdialog.h \
     src/saveplaylistdialog.h \
-    src/settingsdialog.h \
     src/abstractitemrenderer.h \
     src/dbusadaptor.h \
     src/toolswidget.h \
     src/managelibraryform.h \
     src/directoryview.h \
     src/coverfinder.h \
-    src/clickablelabel.h
+    src/clickablelabel.h \
+    src/settingsform.h
 
 FORMS    += src/ui/mainwindow.ui \
     src/ui/playerform.ui \
@@ -242,10 +242,10 @@ FORMS    += src/ui/mainwindow.ui \
     src/ui/timerdialog.ui \
     src/ui/equalizerdialog.ui \
     src/ui/saveplaylistdialog.ui \
-    src/ui/settingsdialog.ui \
     src/ui/toolswidget.ui \
     src/ui/managelibraryform.ui \
-    src/ui/directoryview.ui
+    src/ui/directoryview.ui \
+    src/ui/settingsform.ui
 
 CONFIG += mobility
 MOBILITY = 

@@ -84,6 +84,7 @@ public slots:
 	void showCountdown(QString);
 	void hideCountdown();
 	void updateTranslations();
+	void updateTrackColor();
 
 private slots:
 	void _library();

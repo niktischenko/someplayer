@@ -34,6 +34,8 @@ Config::Config()
 		_settings->setValue("ui/gradient", "yes");
 	if (_settings->value("ui/language").toString() == "")
 		_settings->setValue("ui/language", "en");
+	if (_settings->value("ui/trackcolor").toString() == "")
+		_settings->setValue("ui/trackcolor", "blue");
 }
 
 Config::~Config() {

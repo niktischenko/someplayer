@@ -29,6 +29,7 @@
 #include "equalizerdialog.h"
 #include "managelibraryform.h"
 #include "directoryview.h"
+#include "settingsform.h"
 #include "library.h"
 #include <QTimer>
 
@@ -71,11 +72,13 @@ private slots:
 	void _orientation_changed();
 	void _fullscreen(bool);
 	void _add_tracks(QList<Track>);
+	void _change_orientation();
 private:
 	PlayerForm *_player_form;
 	LibraryForm *_library_form;
 	BusyWidget *_busy_widget;
 	DirectoryView *_directory_form;
+	SettingsForm *_settings_form;
 	Library *_library;
 	QTimer *_timer;
 	EqualizerDialog *_equalizer_dialog;

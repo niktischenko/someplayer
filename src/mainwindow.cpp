@@ -32,7 +32,7 @@
 #include "timerdialog.h"
 #include "equalizerdialog.h"
 #include "saveplaylistdialog.h"
-#include "settingsdialog.h"
+#include "settingsform.h"
 
 using namespace SomePlayer::DataObjects;
 using namespace SomePlayer::Storage;
@@ -57,6 +57,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	_timer = new QTimer(this);
 	_equalizer_dialog = new EqualizerDialog(this);
 	_manage_library_form = new ManageLibraryForm(_library, this);
+	_settings_form = new SettingsForm(this);
+	_settings_form->hide();
 	connect(_player_form, SIGNAL(library()), this, SLOT(library()));
 	connect(_library_form, SIGNAL(refreshPlayer()), this, SLOT(player()));
 	connect(ui->actionManageLibrary, SIGNAL(triggered()), this, SLOT(_manage_library()));
@@ -77,6 +79,16 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(_directory_form, SIGNAL(addAndPlay(Track)), _player_form, SLOT(play(Track)));
 	connect(_player_form, SIGNAL(dirView()), _directory_form, SLOT(show()));
 	connect(_directory_form, SIGNAL(addTracks(QList<Track>)), this, SLOT(_add_tracks(QList<Track>)));
+	connect(_settings_form, SIGNAL(iconsChanged()), _player_form, SLOT(updateIcons()));
+	connect(_settings_form, SIGNAL(iconsChanged()), _library_form, SLOT(updateIcons()));
+	connect(_settings_form, SIGNAL(iconsChanged()), _manage_library_form, SLOT(updateIcons()));
+	connect(_settings_form, SIGNAL(iconsChanged()), _directory_form, SLOT(updateIcons()));
+	connect(_settings_form, SIGNAL(gradientChanged()), _player_form, SLOT(checkGradient()));
+	connect(_settings_form, SIGNAL(gradientChanged()), _library_form, SLOT(checkGradient()));
+	connect(_settings_form, SIGNAL(libraryOptionsChanged()), _library_form, SLOT(refresh()));
+	connect(_settings_form, SIGNAL(orientationChanged()), this, SLOT(_change_orientation()));
+	connect(_settings_form, SIGNAL(translationChanged()), this, SLOT(updateTranslations()));
+	connect(_settings_form, SIGNAL(trackColorChanged()), _player_form, SLOT(updateTrackColor()));
 	_player_form->reload(true);
 	QString mode = config.getValue("ui/orientation").toString();
 	if (mode == "landscape") {
@@ -85,17 +97,20 @@ MainWindow::MainWindow(QWidget *parent) :
 		_library_form->landscapeMode();
 		_equalizer_dialog->landscapeMode();
 		_directory_form->lanscapeMode();
+		_settings_form->landscapeMode();
 	} else if (mode == "portrait") {
 		setAttribute(Qt::WA_Maemo5PortraitOrientation);
 		_player_form->portraitMode();
 		_library_form->portraitMode();
 		_equalizer_dialog->portraitMode();
 		_directory_form->portraitMode();
+		_settings_form->portraitMode();
 	} else if (mode == "auto") { // initialization in landscape
 		_player_form->landscapeMode();
 		_library_form->landscapeMode();
 		_equalizer_dialog->landscapeMode();
 		_directory_form->lanscapeMode();
+		_settings_form->landscapeMode();
 		setAttribute(Qt::WA_Maemo5AutoOrientation);
 	}
 	_library_form->updateIcons();
@@ -259,10 +274,22 @@ void MainWindow::_equalizer_value_changed(int band, int val) {
 }
 
 void MainWindow::settings() {
-	SettingsDialog dialog;
-	dialog.exec();
+	_settings_form->show();
+
+//	Config config;
+//	_library_form->refresh();
+//	_player_form->updateIcons();
+//	_library_form->updateIcons();
+//	_manage_library_form->updateIcons();
+//	_player_form->checkGradient();
+//	_library_form->checkGradient();
+//	_directory_form->updateIcons();
+//	_directory_form->updateGradient();
+//	updateTranslations();
+}
+
+void MainWindow::_change_orientation() {
 	Config config;
-	_library_form->refresh();
 	QString mode = config.getValue("ui/orientation").toString();
 	if (mode == "landscape") {
 		setAttribute(Qt::WA_Maemo5LandscapeOrientation);
@@ -271,14 +298,6 @@ void MainWindow::settings() {
 	} else if (mode == "auto") {
 		setAttribute(Qt::WA_Maemo5AutoOrientation);
 	}
-	_player_form->updateIcons();
-	_library_form->updateIcons();
-	_manage_library_form->updateIcons();
-	_player_form->checkGradient();
-	_library_form->checkGradient();
-	_directory_form->updateIcons();
-	_directory_form->updateGradient();
-	updateTranslations();
 }
 
 void MainWindow::_orientation_changed() {
@@ -288,11 +307,13 @@ void MainWindow::_orientation_changed() {
 		_library_form->landscapeMode();
 		_equalizer_dialog->landscapeMode();
 		_directory_form->lanscapeMode();
+		_settings_form->landscapeMode();
 	} else {
 		_player_form->portraitMode();
 		_library_form->portraitMode();
 		_equalizer_dialog->portraitMode();
 		_directory_form->portraitMode();
+		_settings_form->portraitMode();
 	}
 }
 
@@ -324,4 +345,5 @@ void MainWindow::updateTranslations() {
 	_equalizer_dialog->updateTranslations();
 	_manage_library_form->updateTranslations();
 	_directory_form->updateTranslations();
+	_settings_form->updateTranslations();
 }

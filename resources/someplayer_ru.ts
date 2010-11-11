@@ -111,7 +111,7 @@
     <message>
         <location filename="../src/libraryform.cpp" line="263"/>
         <source>Tracks in playlist &quot;%1&quot;</source>
-        <translation>Треки плейлиста &quot;%1&quot;</translation>
+        <translation>Треки в плейлисте &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/libraryform.cpp" line="421"/>
@@ -121,25 +121,20 @@
     <message>
         <location filename="../src/libraryform.cpp" line="782"/>
         <source>Search in library</source>
-        <translation>Поиск по библиотеке</translation>
+        <translation>Поиск в библиотеке</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <source>someplayer</source>
-        <translation type="obsolete">someplayer</translation>
-    </message>
-    <message>
         <location filename="../src/ui/mainwindow.ui" line="14"/>
         <source>SomePlayer</source>
-        <translatorcomment>SomePlayer</translatorcomment>
         <translation>SomePlayer</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="40"/>
         <source>Main</source>
-        <translation>Главное</translation>
+        <translation>Основное</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="47"/>
@@ -179,7 +174,7 @@
     <message>
         <location filename="../src/ui/mainwindow.ui" line="91"/>
         <source>Set timer</source>
-        <translation>Таймер выключения</translation>
+        <translation>Установить таймер</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="96"/>
@@ -202,27 +197,27 @@
     <message>
         <location filename="../src/ui/managelibraryform.ui" line="231"/>
         <source>Added directories:</source>
-        <translation>Добавленные каталоги:</translation>
+        <translation>Добавленные директории:</translation>
     </message>
     <message>
         <location filename="../src/ui/managelibraryform.ui" line="295"/>
         <source>0 artitst</source>
-        <translation></translation>
+        <translation>0 исполнителей</translation>
     </message>
     <message>
         <location filename="../src/ui/managelibraryform.ui" line="302"/>
         <source>0 albums</source>
-        <translation></translation>
+        <translation>0 альбомов</translation>
     </message>
     <message>
         <location filename="../src/ui/managelibraryform.ui" line="312"/>
         <source>0 tracks</source>
-        <translation></translation>
+        <translation>0 треков</translation>
     </message>
     <message>
         <location filename="../src/managelibraryform.cpp" line="66"/>
         <source>Select directory</source>
-        <translation>Выберите директорию</translation>
+        <translation>Выбрать директорию</translation>
     </message>
 </context>
 <context>
@@ -235,7 +230,7 @@
     <message>
         <location filename="../src/ui/playerform.ui" line="124"/>
         <source>Music off:</source>
-        <translation>Отключение через:</translation>
+        <translation>Выключение:</translation>
     </message>
     <message>
         <location filename="../src/ui/playerform.ui" line="134"/>
@@ -265,37 +260,37 @@
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="90"/>
-        <location filename="../src/playerform.cpp" line="726"/>
+        <location filename="../src/playerform.cpp" line="727"/>
         <source>Clear playlist</source>
         <translation>Очистить плейлист</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="91"/>
-        <location filename="../src/playerform.cpp" line="727"/>
+        <location filename="../src/playerform.cpp" line="728"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="92"/>
-        <location filename="../src/playerform.cpp" line="728"/>
+        <location filename="../src/playerform.cpp" line="729"/>
         <source>Add to favorites</source>
-        <translation>В любимые</translation>
+        <translation>В избранное</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="93"/>
-        <location filename="../src/playerform.cpp" line="729"/>
+        <location filename="../src/playerform.cpp" line="730"/>
         <source>Enqueue</source>
         <translation>В очередь</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="94"/>
-        <location filename="../src/playerform.cpp" line="730"/>
+        <location filename="../src/playerform.cpp" line="731"/>
         <source>Add to playlists</source>
         <translation>Добавить в плейлисты</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="95"/>
-        <location filename="../src/playerform.cpp" line="731"/>
+        <location filename="../src/playerform.cpp" line="732"/>
         <source>Edit tags</source>
         <translation>Редактировать теги</translation>
     </message>
@@ -305,7 +300,7 @@
     <message>
         <location filename="../src/ui/playlistdialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation></translation>
+        <translation>Диалог</translation>
     </message>
 </context>
 <context>
@@ -335,96 +330,141 @@
     </message>
 </context>
 <context>
-    <name>SettingsDialog</name>
+    <name>SettingsForm</name>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="14"/>
+        <location filename="../src/ui/settingsform.ui" line="14"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="43"/>
+        <location filename="../src/ui/settingsform.ui" line="56"/>
         <source>Icons theme:</source>
         <translation>Тема иконок:</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="52"/>
+        <location filename="../src/ui/settingsform.ui" line="68"/>
         <source>White</source>
         <translation>Белые</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="59"/>
+        <location filename="../src/ui/settingsform.ui" line="75"/>
         <source>Black</source>
         <translation>Чёрные</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="77"/>
+        <location filename="../src/ui/settingsform.ui" line="99"/>
         <source>Use gradient in portrait mode:</source>
-        <translation>Использовать градиент:</translation>
+        <translation>Градиент в портретном режиме:</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="86"/>
-        <location filename="../src/ui/settingsdialog.ui" line="198"/>
+        <location filename="../src/ui/settingsform.ui" line="111"/>
+        <location filename="../src/ui/settingsform.ui" line="359"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="93"/>
-        <location filename="../src/ui/settingsdialog.ui" line="205"/>
+        <location filename="../src/ui/settingsform.ui" line="118"/>
+        <location filename="../src/ui/settingsform.ui" line="366"/>
         <source>No</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="114"/>
-        <source>Sort album:</source>
-        <translation>Сортировать альбомы:</translation>
+        <location filename="../src/ui/settingsform.ui" line="142"/>
+        <source>Active track color:</source>
+        <translation>Цвет текущего трека:</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="123"/>
+        <location filename="../src/ui/settingsform.ui" line="157"/>
+        <source>blue</source>
+        <translation>голубой</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="167"/>
+        <source>magenta</source>
+        <translation>фиолетовый</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="177"/>
+        <source>red</source>
+        <translation>красный</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="187"/>
+        <source>yellow</source>
+        <translation>жёлтый</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="197"/>
+        <source>white</source>
+        <translation>белый</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="207"/>
+        <source>black</source>
+        <translation>чёрный</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="217"/>
+        <source>light</source>
+        <translation>светлый</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="227"/>
+        <source>dark</source>
+        <translation>тёмный</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="254"/>
+        <source>Sort album:</source>
+        <translation>Сортировка альбомов:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="266"/>
         <source>Alphabetical</source>
         <translation>По алфавиту</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="130"/>
+        <location filename="../src/ui/settingsform.ui" line="273"/>
         <source>By date</source>
-        <translation>По году</translation>
+        <translation>По дате</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="148"/>
+        <location filename="../src/ui/settingsform.ui" line="297"/>
         <source>Orientation:</source>
         <translation>Ориентация:</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="157"/>
+        <location filename="../src/ui/settingsform.ui" line="309"/>
         <source>Landscape</source>
         <translation>Ландшафтный</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="164"/>
+        <location filename="../src/ui/settingsform.ui" line="316"/>
         <source>Portrait</source>
         <translation>Портретный</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="171"/>
+        <location filename="../src/ui/settingsform.ui" line="323"/>
         <source>Auto</source>
         <translation>Авто</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="189"/>
+        <location filename="../src/ui/settingsform.ui" line="347"/>
         <source>Show track lenght in library view:</source>
-        <translation>Показывать длину трека в библиотеке:</translation>
+        <translation>Показыать длину трека в библиотеке:</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="223"/>
+        <location filename="../src/ui/settingsform.ui" line="390"/>
         <source>Language:</source>
         <translation>Язык:</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="232"/>
+        <location filename="../src/ui/settingsform.ui" line="402"/>
         <source>English</source>
         <translation>Английский</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsdialog.ui" line="239"/>
+        <location filename="../src/ui/settingsform.ui" line="409"/>
         <source>Russian</source>
         <translation>Русский</translation>
     </message>
@@ -444,99 +484,99 @@
     <message>
         <location filename="../src/ui/timerdialog.ui" line="32"/>
         <location filename="../src/ui/timerdialog.ui" line="158"/>
-        <location filename="../src/ui/timerdialog.ui" line="652"/>
+        <location filename="../src/ui/timerdialog.ui" line="660"/>
         <source>00</source>
-        <translation></translation>
+        <translation>00</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="40"/>
         <location filename="../src/ui/timerdialog.ui" line="166"/>
-        <location filename="../src/ui/timerdialog.ui" line="660"/>
+        <location filename="../src/ui/timerdialog.ui" line="668"/>
         <source>01</source>
-        <translation></translation>
+        <translation>01</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="48"/>
         <location filename="../src/ui/timerdialog.ui" line="174"/>
-        <location filename="../src/ui/timerdialog.ui" line="668"/>
+        <location filename="../src/ui/timerdialog.ui" line="676"/>
         <source>02</source>
-        <translation></translation>
+        <translation>02</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="56"/>
         <location filename="../src/ui/timerdialog.ui" line="182"/>
-        <location filename="../src/ui/timerdialog.ui" line="676"/>
+        <location filename="../src/ui/timerdialog.ui" line="684"/>
         <source>03</source>
-        <translation></translation>
+        <translation>03</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="64"/>
         <location filename="../src/ui/timerdialog.ui" line="190"/>
-        <location filename="../src/ui/timerdialog.ui" line="684"/>
+        <location filename="../src/ui/timerdialog.ui" line="692"/>
         <source>04</source>
-        <translation></translation>
+        <translation>04</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="72"/>
         <location filename="../src/ui/timerdialog.ui" line="198"/>
-        <location filename="../src/ui/timerdialog.ui" line="692"/>
+        <location filename="../src/ui/timerdialog.ui" line="700"/>
         <source>05</source>
-        <translation></translation>
+        <translation>05</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="80"/>
         <location filename="../src/ui/timerdialog.ui" line="206"/>
-        <location filename="../src/ui/timerdialog.ui" line="700"/>
+        <location filename="../src/ui/timerdialog.ui" line="708"/>
         <source>06</source>
-        <translation></translation>
+        <translation>06</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="88"/>
         <location filename="../src/ui/timerdialog.ui" line="214"/>
-        <location filename="../src/ui/timerdialog.ui" line="708"/>
+        <location filename="../src/ui/timerdialog.ui" line="716"/>
         <source>07</source>
-        <translation></translation>
+        <translation>07</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="96"/>
         <location filename="../src/ui/timerdialog.ui" line="222"/>
-        <location filename="../src/ui/timerdialog.ui" line="716"/>
+        <location filename="../src/ui/timerdialog.ui" line="724"/>
         <source>08</source>
-        <translation></translation>
+        <translation>08</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="104"/>
         <location filename="../src/ui/timerdialog.ui" line="230"/>
-        <location filename="../src/ui/timerdialog.ui" line="724"/>
+        <location filename="../src/ui/timerdialog.ui" line="732"/>
         <source>09</source>
-        <translation></translation>
+        <translation>09</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="112"/>
         <location filename="../src/ui/timerdialog.ui" line="238"/>
-        <location filename="../src/ui/timerdialog.ui" line="732"/>
+        <location filename="../src/ui/timerdialog.ui" line="740"/>
         <source>10</source>
-        <translation></translation>
+        <translation>10</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="120"/>
         <location filename="../src/ui/timerdialog.ui" line="246"/>
-        <location filename="../src/ui/timerdialog.ui" line="740"/>
+        <location filename="../src/ui/timerdialog.ui" line="748"/>
         <source>11</source>
-        <translation></translation>
+        <translation>11</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="128"/>
         <location filename="../src/ui/timerdialog.ui" line="254"/>
-        <location filename="../src/ui/timerdialog.ui" line="748"/>
+        <location filename="../src/ui/timerdialog.ui" line="756"/>
         <source>12</source>
-        <translation></translation>
+        <translation>12</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="141"/>
-        <location filename="../src/ui/timerdialog.ui" line="635"/>
+        <location filename="../src/ui/timerdialog.ui" line="643"/>
         <source>:</source>
-        <translation></translation>
+        <translation>:</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="150"/>
@@ -545,294 +585,295 @@
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="262"/>
-        <location filename="../src/ui/timerdialog.ui" line="756"/>
+        <location filename="../src/ui/timerdialog.ui" line="764"/>
         <source>13</source>
-        <translation></translation>
+        <translation>13</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="270"/>
-        <location filename="../src/ui/timerdialog.ui" line="764"/>
+        <location filename="../src/ui/timerdialog.ui" line="772"/>
         <source>14</source>
-        <translation></translation>
+        <translation>14</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="278"/>
-        <location filename="../src/ui/timerdialog.ui" line="772"/>
+        <location filename="../src/ui/timerdialog.ui" line="780"/>
         <source>15</source>
-        <translation></translation>
+        <translation>15</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="286"/>
-        <location filename="../src/ui/timerdialog.ui" line="780"/>
+        <location filename="../src/ui/timerdialog.ui" line="788"/>
         <source>16</source>
-        <translation></translation>
+        <translation>16</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="294"/>
-        <location filename="../src/ui/timerdialog.ui" line="788"/>
+        <location filename="../src/ui/timerdialog.ui" line="796"/>
         <source>17</source>
-        <translation></translation>
+        <translation>17</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="302"/>
-        <location filename="../src/ui/timerdialog.ui" line="796"/>
+        <location filename="../src/ui/timerdialog.ui" line="804"/>
         <source>18</source>
-        <translation></translation>
+        <translation>18</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="310"/>
-        <location filename="../src/ui/timerdialog.ui" line="804"/>
+        <location filename="../src/ui/timerdialog.ui" line="812"/>
         <source>19</source>
-        <translation></translation>
+        <translation>19</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="318"/>
-        <location filename="../src/ui/timerdialog.ui" line="812"/>
+        <location filename="../src/ui/timerdialog.ui" line="820"/>
         <source>20</source>
-        <translation></translation>
+        <translation>20</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="326"/>
-        <location filename="../src/ui/timerdialog.ui" line="820"/>
+        <location filename="../src/ui/timerdialog.ui" line="828"/>
         <source>21</source>
-        <translation></translation>
+        <translation>21</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="334"/>
-        <location filename="../src/ui/timerdialog.ui" line="828"/>
+        <location filename="../src/ui/timerdialog.ui" line="836"/>
         <source>22</source>
-        <translation></translation>
+        <translation>22</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="342"/>
-        <location filename="../src/ui/timerdialog.ui" line="836"/>
+        <location filename="../src/ui/timerdialog.ui" line="844"/>
         <source>23</source>
-        <translation></translation>
+        <translation>23</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="350"/>
-        <location filename="../src/ui/timerdialog.ui" line="844"/>
+        <location filename="../src/ui/timerdialog.ui" line="852"/>
         <source>24</source>
-        <translation></translation>
+        <translation>24</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="358"/>
-        <location filename="../src/ui/timerdialog.ui" line="852"/>
+        <location filename="../src/ui/timerdialog.ui" line="860"/>
         <source>25</source>
-        <translation></translation>
+        <translation>25</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="366"/>
-        <location filename="../src/ui/timerdialog.ui" line="860"/>
+        <location filename="../src/ui/timerdialog.ui" line="868"/>
         <source>26</source>
-        <translation></translation>
+        <translation>26</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="374"/>
-        <location filename="../src/ui/timerdialog.ui" line="868"/>
+        <location filename="../src/ui/timerdialog.ui" line="876"/>
         <source>27</source>
-        <translation></translation>
+        <translation>27</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="382"/>
-        <location filename="../src/ui/timerdialog.ui" line="876"/>
+        <location filename="../src/ui/timerdialog.ui" line="884"/>
         <source>28</source>
-        <translation></translation>
+        <translation>28</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="390"/>
-        <location filename="../src/ui/timerdialog.ui" line="884"/>
+        <location filename="../src/ui/timerdialog.ui" line="892"/>
         <source>29</source>
-        <translation></translation>
+        <translation>29</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="398"/>
-        <location filename="../src/ui/timerdialog.ui" line="892"/>
+        <location filename="../src/ui/timerdialog.ui" line="900"/>
         <source>30</source>
-        <translation></translation>
+        <translation>30</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="406"/>
-        <location filename="../src/ui/timerdialog.ui" line="900"/>
+        <location filename="../src/ui/timerdialog.ui" line="908"/>
         <source>31</source>
-        <translation></translation>
+        <translation>31</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="414"/>
-        <location filename="../src/ui/timerdialog.ui" line="908"/>
+        <location filename="../src/ui/timerdialog.ui" line="916"/>
         <source>32</source>
-        <translation></translation>
+        <translation>32</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="422"/>
-        <location filename="../src/ui/timerdialog.ui" line="916"/>
+        <location filename="../src/ui/timerdialog.ui" line="924"/>
         <source>33</source>
-        <translation></translation>
+        <translation>33</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="430"/>
-        <location filename="../src/ui/timerdialog.ui" line="924"/>
+        <location filename="../src/ui/timerdialog.ui" line="932"/>
         <source>34</source>
-        <translation></translation>
+        <translation>34</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="438"/>
-        <location filename="../src/ui/timerdialog.ui" line="932"/>
+        <location filename="../src/ui/timerdialog.ui" line="940"/>
         <source>35</source>
-        <translation></translation>
+        <translation>35</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="446"/>
-        <location filename="../src/ui/timerdialog.ui" line="940"/>
+        <location filename="../src/ui/timerdialog.ui" line="948"/>
         <source>36</source>
-        <translation></translation>
+        <translation>36</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="454"/>
-        <location filename="../src/ui/timerdialog.ui" line="948"/>
+        <location filename="../src/ui/timerdialog.ui" line="956"/>
         <source>37</source>
-        <translation></translation>
+        <translation>37</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="462"/>
-        <location filename="../src/ui/timerdialog.ui" line="956"/>
+        <location filename="../src/ui/timerdialog.ui" line="964"/>
         <source>38</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/timerdialog.ui" line="470"/>
-        <location filename="../src/ui/timerdialog.ui" line="972"/>
-        <source>40</source>
-        <translation></translation>
+        <translation>38</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="478"/>
         <location filename="../src/ui/timerdialog.ui" line="980"/>
-        <source>41</source>
-        <translation></translation>
+        <source>40</source>
+        <translation>40</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="486"/>
         <location filename="../src/ui/timerdialog.ui" line="988"/>
-        <source>42</source>
-        <translation></translation>
+        <source>41</source>
+        <translation>41</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="494"/>
         <location filename="../src/ui/timerdialog.ui" line="996"/>
-        <source>43</source>
-        <translation></translation>
+        <source>42</source>
+        <translation>42</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="502"/>
         <location filename="../src/ui/timerdialog.ui" line="1004"/>
-        <source>44</source>
-        <translation></translation>
+        <source>43</source>
+        <translation>43</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="510"/>
         <location filename="../src/ui/timerdialog.ui" line="1012"/>
-        <source>45</source>
-        <translation></translation>
+        <source>44</source>
+        <translation>44</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="518"/>
         <location filename="../src/ui/timerdialog.ui" line="1020"/>
-        <source>46</source>
-        <translation></translation>
+        <source>45</source>
+        <translation>45</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="526"/>
         <location filename="../src/ui/timerdialog.ui" line="1028"/>
-        <source>47</source>
-        <translation></translation>
+        <source>46</source>
+        <translation>46</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="534"/>
         <location filename="../src/ui/timerdialog.ui" line="1036"/>
-        <source>48</source>
-        <translation></translation>
+        <source>47</source>
+        <translation>47</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="542"/>
         <location filename="../src/ui/timerdialog.ui" line="1044"/>
-        <source>49</source>
-        <translation></translation>
+        <source>48</source>
+        <translation>48</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="550"/>
         <location filename="../src/ui/timerdialog.ui" line="1052"/>
-        <source>50</source>
-        <translation></translation>
+        <source>49</source>
+        <translation>49</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="558"/>
         <location filename="../src/ui/timerdialog.ui" line="1060"/>
-        <source>51</source>
-        <translation></translation>
+        <source>50</source>
+        <translation>50</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="566"/>
         <location filename="../src/ui/timerdialog.ui" line="1068"/>
-        <source>52</source>
-        <translation></translation>
+        <source>51</source>
+        <translation>51</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="574"/>
         <location filename="../src/ui/timerdialog.ui" line="1076"/>
-        <source>53</source>
-        <translation></translation>
+        <source>52</source>
+        <translation>52</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="582"/>
         <location filename="../src/ui/timerdialog.ui" line="1084"/>
-        <source>54</source>
-        <translation></translation>
+        <source>53</source>
+        <translation>53</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="590"/>
         <location filename="../src/ui/timerdialog.ui" line="1092"/>
-        <source>55</source>
-        <translation></translation>
+        <source>54</source>
+        <translation>54</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="598"/>
         <location filename="../src/ui/timerdialog.ui" line="1100"/>
-        <source>56</source>
-        <translation></translation>
+        <source>55</source>
+        <translation>55</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="606"/>
         <location filename="../src/ui/timerdialog.ui" line="1108"/>
-        <source>57</source>
-        <translation></translation>
+        <source>56</source>
+        <translation>56</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="614"/>
         <location filename="../src/ui/timerdialog.ui" line="1116"/>
-        <source>58</source>
-        <translation></translation>
+        <source>57</source>
+        <translation>57</translation>
     </message>
     <message>
         <location filename="../src/ui/timerdialog.ui" line="622"/>
         <location filename="../src/ui/timerdialog.ui" line="1124"/>
-        <source>59</source>
-        <translation></translation>
+        <source>58</source>
+        <translation>58</translation>
     </message>
     <message>
-        <location filename="../src/ui/timerdialog.ui" line="644"/>
+        <location filename="../src/ui/timerdialog.ui" line="630"/>
+        <location filename="../src/ui/timerdialog.ui" line="1132"/>
+        <source>59</source>
+        <translation>59</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/timerdialog.ui" line="652"/>
         <source>Seconds</source>
         <translation>Секунды</translation>
     </message>
     <message>
-        <location filename="../src/ui/timerdialog.ui" line="964"/>
+        <location filename="../src/ui/timerdialog.ui" line="470"/>
+        <location filename="../src/ui/timerdialog.ui" line="972"/>
         <source>39</source>
-        <translation></translation>
+        <translation>39</translation>
     </message>
     <message>
-        <location filename="../src/ui/timerdialog.ui" line="1145"/>
+        <location filename="../src/ui/timerdialog.ui" line="1153"/>
         <source>Disable</source>
-        <translation>Отключить</translation>
+        <translation>Выключить</translation>
     </message>
 </context>
 <context>
@@ -840,7 +881,7 @@
     <message>
         <location filename="../src/ui/toolswidget.ui" line="14"/>
         <source>Form</source>
-        <translation></translation>
+        <translation>Форма</translation>
     </message>
 </context>
 </TS>

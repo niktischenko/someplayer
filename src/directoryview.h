@@ -42,6 +42,8 @@ class DirectoryView : public QWidget
 public:
 	explicit DirectoryView(QWidget *parent = 0);
 	~DirectoryView();
+
+public slots:
 	void updateIcons();
 	void updateGradient();
 	void lanscapeMode();
