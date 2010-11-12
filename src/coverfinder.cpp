@@ -29,6 +29,8 @@
 #include <id3v2tag.h>
 #include <mpeg/id3v2/frames/attachedpictureframe.h>
 
+using namespace SomePlayer::DataObjects;
+
 CoverFinder::CoverFinder(QObject *parent) :
 		QObject(parent)
 {
@@ -66,7 +68,6 @@ bool CoverFinder::_find(QString path) {
 			}
 		}
 	}
-	emit found(_defaultCover);
 	return false;
 }
 
@@ -105,12 +106,32 @@ bool CoverFinder::_extract(QString file) {
 	return false;
 }
 
-void CoverFinder::find(QFileInfo filePath) {
-	QtConcurrent::run(this, &CoverFinder::_async_find, filePath);
+void CoverFinder::find(Track track) {
+	QFileInfo filePath(track.source());
+	QtConcurrent::run(this, &CoverFinder::_async_find, filePath, track.metadata().artist(), track.metadata().album());
 }
 
-bool CoverFinder::_async_find(QFileInfo filePath) {
-	if (!_find(filePath.absolutePath()))
-		return _extract(filePath.absoluteFilePath());
+bool CoverFinder::_async_find(QFileInfo filePath, QString artist, QString album) {
+	if (!_find(filePath.absolutePath()) && !_tfind(artist, album) && !_extract(filePath.absoluteFilePath())) {
+		emit found(_defaultCover);
+		return false;
+	}
 	return true;
+}
+
+bool CoverFinder::_tfind(QString artist, QString album) {
+	QString aname = artist.toLower();
+	aname.replace("/", "");
+	QString aaname = aname+" - "+album;
+	aaname.replace("/", "");
+	QString fname1 = QDir::homePath()+"/.covers/"+aaname+".jpg";
+	QString fname2 = QDir::homePath()+"/.covers/"+aname+".jpg";
+	if (QFile::exists(fname1)) {
+		emit found(QImage(fname1));
+		return true;
+	} else if (QFile::exists(fname2)) {
+		emit found(QImage(fname2));
+		return true;
+	}
+	return false;
 }
