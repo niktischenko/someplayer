@@ -52,4 +52,6 @@ namespace SomePlayer {
 
 #define _SERVICE_NAME_ "ru.somebody.someplayer"
 
+#define _APPLICATION_PATH_ "/opt/someplayer"
+
 #endif
