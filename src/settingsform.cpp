@@ -21,6 +21,8 @@
 #include "settingsform.h"
 #include "ui_settingsform.h"
 #include <QDebug>
+#include <QFile>
+#include "someplayer.h"
 
 using namespace SomePlayer::Storage;
 
@@ -79,6 +81,9 @@ SettingsForm::SettingsForm(QWidget *parent) :
 	} else if (track_color == "light") {
 		ui->cLightButton->setChecked(true);
 	}
+	if (!QFile::exists(QString(_APPLICATION_PATH_)+"/someplayer_ru.qm")) {
+		ui->langBox->hide();
+	} // refactor this when more translations will be added
 	connect (ui->albumsSortAButton, SIGNAL(toggled(bool)), this, SLOT(_set_album_sorting_alphabet(bool)));
 	connect (ui->albumsSortDButton, SIGNAL(toggled(bool)), this, SLOT(_set_album_sorting_date(bool)));
 	connect (ui->showTrackLenghtNButton, SIGNAL(toggled(bool)), this, SLOT(_set_track_lenght_show_no(bool)));

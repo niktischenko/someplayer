@@ -38,10 +38,12 @@ Config::Config()
 		_settings->setValue("playback/player", "inner");
 	if (_settings->value("ui/trackcolor").toString() == "")
 		_settings->setValue("ui/trackcolor", "blue");
+	_equalizer_settings = new QSettings(QString(applicationDir())+"/equalizer.ini", QSettings::IniFormat);
 }
 
 Config::~Config() {
 	delete _settings;
+	delete _equalizer_settings;
 }
 
 QString Config::applicationDir() {
@@ -59,4 +61,42 @@ QVariant Config::getValue(QString key) {
 
 void Config::setValue(QString key, QVariant value) {
 	_settings->setValue(key, value);
+}
+
+QStringList Config::getEqualizerPresets() {
+	QStringList presets = _equalizer_settings->value("equalizer/presets").toStringList();
+	return presets;
+}
+
+double Config::getEqualizerValue(QString band, QString preset) {
+	QString section;
+	if (preset.isEmpty()) {
+		section = "equalizer";
+	} else {
+		section = "equalizer_preset_"+preset;
+	}
+	return _equalizer_settings->value(section+"/"+band).toDouble();
+}
+
+void Config::setEqualizerValue(QString band, double value) {
+	_equalizer_settings->setValue("equalizer/"+band, value);
+}
+
+void Config::saveEqualizer(QString preset) {
+	QString section = QString("equalizer_preset_%1/%2").arg(preset);
+	QStringList presets = getEqualizerPresets();
+	if (!presets.contains(preset)) presets.append(preset);
+	_equalizer_settings->setValue("equalizer/presets", presets);
+	for (int i = 0; i < 10; i++) {
+		QString band = QString("band%1").arg(i);
+		_equalizer_settings->setValue(section.arg(band), getEqualizerValue(band));
+	}
+}
+
+bool Config::equalizerEnabled() {
+	return _equalizer_settings->value("equalizer/enabled").toBool();
+}
+
+void Config::setEqualizerEnabled(bool enabled) {
+	_equalizer_settings->setValue("equalizer/enabled", enabled);
 }

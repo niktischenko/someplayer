@@ -24,6 +24,9 @@
 #include <QImage>
 #include <QFileInfo>
 #include "someplayer.h"
+#include "track.h"
+
+using SomePlayer::DataObjects::Track;
 
 class CoverFinder : public QObject
 {
@@ -35,12 +38,13 @@ signals:
 	void found(QImage);
 
 public slots:
-	void find(QFileInfo filePath);
+	void find(Track track);
 	QImage &defaultCover();
 private:
-	bool _async_find(QFileInfo filePath);
+	bool _async_find(QFileInfo filePath, QString artist, QString album);
 	bool _find(QString path);
 	bool _extract(QString file);
+	bool _tfind(QString artist, QString album);
 
 private:
 	QImage _defaultCover;

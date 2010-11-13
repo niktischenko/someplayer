@@ -32,8 +32,15 @@ namespace SomePlayer {
 		    QString applicationDir();
 		    QVariant getValue(QString key);
 		    void setValue(QString key, QVariant value);
+		    QStringList getEqualizerPresets();
+		    double getEqualizerValue(QString band, QString preset="");
+		    void setEqualizerValue(QString band, double value);
+		    void saveEqualizer(QString preset);
+		    bool equalizerEnabled();
+		    void setEqualizerEnabled(bool);
 		private:
 		    QSettings *_settings;
+		    QSettings *_equalizer_settings;
 		};
 	};
 };

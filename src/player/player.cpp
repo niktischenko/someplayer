@@ -90,16 +90,12 @@ Player::Player(QObject *parent) :
 		if (desc.name() == "equalizer-10bands") {
 			_equalizer = new Phonon::Effect(desc, this);
 			Config config;
-			if (config.getValue("equalizer/equalizer").toString() == "enabled") {
+			if (config.equalizerEnabled()) {
 				for (int i = 0; i < 10; i++) {
-					QVariant var = config.getValue(QString("equalizer/band%1").arg(i));
+					QVariant var = config.getEqualizerValue(QString("band%1").arg(i));
 					setEqualizerValue(i, var.toDouble());
 				}
 				enableEqualizer();
-			} else if (config.getValue("equalizer/equalizer") == "") {
-				for (int i = 0; i < 10; i++) {
-					config.setValue(QString("equalizer/band%1").arg(i), 0);
-				}
 			}
 		}
 	}
@@ -289,7 +285,7 @@ void Player::enableEqualizer() {
 	_equalizer_enabled = true;
 	_path.insertEffect(_equalizer);
 	Config config;
-	config.setValue("equalizer/equalizer", "enabled");
+	config.setEqualizerEnabled(true);
 }
 
 void Player::disableEqualizer() {
@@ -298,7 +294,7 @@ void Player::disableEqualizer() {
 	_equalizer_enabled = false;
 	_path.removeEffect(_equalizer);
 	Config config;
-	config.setValue("equalizer/equalizer", "disabled");
+	config.setEqualizerEnabled(false);
 }
 
 void Player::setEqualizerValue(int band, double value) {
@@ -310,7 +306,7 @@ void Player::setEqualizerValue(int band, double value) {
 	QList<Phonon::EffectParameter> plist = _equalizer->parameters();
 	_equalizer->setParameterValue(plist[band], QVariant::fromValue(value));
 	Config config;
-	config.setValue(QString("equalizer/band%1").arg(band), value);
+	config.setEqualizerValue(QString("band%1").arg(band), value);
 }
 
 QString Player::artist() {

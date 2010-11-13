@@ -156,7 +156,7 @@ void EqualizerDialog::_value_master_changed(int v) {
 
 void EqualizerDialog::reloadPresets() {
 	Config config;
-	QStringList presets = config.getValue("equalizer/presets").toStringList();
+	QStringList presets = config.getEqualizerPresets();
 	ui->presetComboBox->clear();
 	ui->presetComboBox->addItems(presets);
 }
@@ -164,44 +164,34 @@ void EqualizerDialog::reloadPresets() {
 void EqualizerDialog::_save_preset() {
 	Config config;
 	QString name = ui->presetComboBox->currentText().trimmed();
-	QStringList presets = config.getValue("equalizer/presets").toStringList();
+	QStringList presets = config.getEqualizerPresets();
 	if (!presets.contains(name))
 		presets.append(name);
-	config.setValue("equalizer/presets", presets);
-	config.setValue(QString("equalizer_preset_")+name+"/band0", ui->band0Slider->value());
-	config.setValue(QString("equalizer_preset_")+name+"/band1", ui->band1Slider->value());
-	config.setValue(QString("equalizer_preset_")+name+"/band2", ui->band2Slider->value());
-	config.setValue(QString("equalizer_preset_")+name+"/band3", ui->band3Slider->value());
-	config.setValue(QString("equalizer_preset_")+name+"/band4", ui->band4Slider->value());
-	config.setValue(QString("equalizer_preset_")+name+"/band5", ui->band5Slider->value());
-	config.setValue(QString("equalizer_preset_")+name+"/band6", ui->band6Slider->value());
-	config.setValue(QString("equalizer_preset_")+name+"/band7", ui->band7Slider->value());
-	config.setValue(QString("equalizer_preset_")+name+"/band8", ui->band8Slider->value());
-	config.setValue(QString("equalizer_preset_")+name+"/band9", ui->band9Slider->value());
+	config.saveEqualizer(name);
 	reloadPresets();
 }
 
 void EqualizerDialog::_load_preset(QString name) {
 	Config config;
-	ui->band0Slider->setValue(config.getValue("equalizer_preset_"+name+"/band0").toInt());
+	ui->band0Slider->setValue((int)(config.getEqualizerValue("band0", name)*10 + 0.5));
 	_value0_changed(ui->band0Slider->value());
-	ui->band1Slider->setValue(config.getValue("equalizer_preset_"+name+"/band1").toInt());
+	ui->band1Slider->setValue((int)(config.getEqualizerValue("band1", name)*10 + 0.5));
 	_value1_changed(ui->band1Slider->value());
-	ui->band2Slider->setValue(config.getValue("equalizer_preset_"+name+"/band2").toInt());
+	ui->band2Slider->setValue((int)(config.getEqualizerValue("band2", name)*10 + 0.5));
 	_value2_changed(ui->band2Slider->value());
-	ui->band3Slider->setValue(config.getValue("equalizer_preset_"+name+"/band3").toInt());
+	ui->band3Slider->setValue((int)(config.getEqualizerValue("band3", name)*10 + 0.5));
 	_value3_changed(ui->band3Slider->value());
-	ui->band4Slider->setValue(config.getValue("equalizer_preset_"+name+"/band4").toInt());
+	ui->band4Slider->setValue((int)(config.getEqualizerValue("band4", name)*10 + 0.5));
 	_value4_changed(ui->band4Slider->value());
-	ui->band5Slider->setValue(config.getValue("equalizer_preset_"+name+"/band5").toInt());
+	ui->band5Slider->setValue((int)(config.getEqualizerValue("band5", name)*10 + 0.5));
 	_value5_changed(ui->band5Slider->value());
-	ui->band6Slider->setValue(config.getValue("equalizer_preset_"+name+"/band6").toInt());
+	ui->band6Slider->setValue((int)(config.getEqualizerValue("band6", name)*10 + 0.5));
 	_value6_changed(ui->band6Slider->value());
-	ui->band7Slider->setValue(config.getValue("equalizer_preset_"+name+"/band7").toInt());
+	ui->band7Slider->setValue((int)(config.getEqualizerValue("band7", name)*10 + 0.5));
 	_value7_changed(ui->band7Slider->value());
-	ui->band8Slider->setValue(config.getValue("equalizer_preset_"+name+"/band8").toInt());
+	ui->band8Slider->setValue((int)(config.getEqualizerValue("band8", name)*10 + 0.5));
 	_value8_changed(ui->band8Slider->value());
-	ui->band9Slider->setValue(config.getValue("equalizer_preset_"+name+"/band9").toInt());
+	ui->band9Slider->setValue((int)(config.getEqualizerValue("band9", name)*10 + 0.5));
 	_value9_changed(ui->band9Slider->value());
 }
 

@@ -32,7 +32,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-34</y>
+        <y>-47</y>
         <width>780</width>
         <height>403</height>
        </rect>
@@ -373,7 +373,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_5">
+        <widget class="QGroupBox" name="langBox">
          <property name="title">
           <string/>
          </property>
