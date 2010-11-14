@@ -108,7 +108,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_cover->setMinimumSize(300, 300);
 	_cover->setMaximumSize(300, 300);
 	_cover->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-//	_cover->setScaledContents(true);
+	_cover->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 	_cover->setPixmap(QPixmap::fromImage(_coverfinder->defaultCover()));
 
 	connect(ui->libraryButton, SIGNAL(clicked()), this, SLOT(_library()));
