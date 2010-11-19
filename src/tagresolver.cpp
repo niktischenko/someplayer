@@ -55,6 +55,7 @@ void TagResolver::decode(QStringList files) {
 			QFileInfo fi(filename);
 			meta.setArtist(fi.suffix().toUpper());
 			meta.setTitle(fi.baseName());
+			meta.setYear(0);
 			Track track(meta, filename);
 			emit decoded(track);
 		}
