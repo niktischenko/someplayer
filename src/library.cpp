@@ -228,3 +228,7 @@ void Library::updatePlaylists() {
 	}
 	emit done();
 }
+
+void Library::removeFromFavorites(Track track) {
+	_library_storage->removeFromFavorites(track);
+}

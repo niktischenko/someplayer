@@ -102,6 +102,7 @@ namespace SomePlayer {
 			void removeTrack(Track);
 			void addTrack(Track);
 			void addToFavorites(Track);
+			void removeFromFavorites(Track);
 			void updateTrackCount(Track);
 			void updateTrackMetadata(Track);
 			void updatePlaylists();

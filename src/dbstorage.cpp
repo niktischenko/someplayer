@@ -161,6 +161,9 @@ void DbStorage::_prepare_queries() {
 
 	_remove_directory_query = new QSqlQuery(db);
 	_remove_directory_query->prepare("DELETE FROM directories WHERE path = :path");
+
+	_remove_track_from_favorites_query = new QSqlQuery(db);
+	_remove_track_from_favorites_query->prepare("DELETE FROM favorites WHERE track_id in (SELECT id FROM tracks WHERE source = :source)");
 }
 
 void DbStorage::_create_database_structure() {
@@ -243,6 +246,7 @@ DbStorage::~DbStorage() {
 	delete _remove_track_query;
 	delete _remove_directory_query;
 	delete _remove_tracks_from_query;
+	delete _remove_track_from_favorites_query;
 	db.close();
 }
 
@@ -652,4 +656,10 @@ void DbStorage::checkTracksFrom(QString path) {
 		}
 		_cleanup();
 	}
+}
+
+void DbStorage::removeFromFavorites(Track track) {
+	QSqlQuery *query = _remove_track_from_favorites_query;
+	query->bindValue(":source", track.source());
+	query->exec();
 }

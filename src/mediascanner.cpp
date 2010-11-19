@@ -35,7 +35,6 @@ void MediaScanner::run() {
 		return;
 	_foundMedia.clear();
 	_scan_directory(_dir);
-	_foundMedia = _scan_directory(_dir);
 	emit scanFinish(_foundMedia);
 	_stopped = true;
 }
@@ -46,8 +45,7 @@ QStringList MediaScanner::singleScan(QString path) {
 }
 
 QStringList MediaScanner::_scan_directory(QDir dir) {
-	_foundMedia.clear();
-	QFileInfoList items = dir.entryInfoList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
+	QFileInfoList items = dir.entryInfoList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot | QDir::Hidden);
 	foreach (QFileInfo info, items) {
 		if (info.isDir()) {
 			QDir ndir(info.absoluteFilePath());

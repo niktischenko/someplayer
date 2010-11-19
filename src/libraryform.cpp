@@ -150,6 +150,7 @@ LibraryForm::LibraryForm(Library *lib, QWidget *parent) :
 	_top_gradient = ui->topWidget->styleSheet();
 	_bottom_gradient = ui->bottomWidget->styleSheet();
 	_is_dynamic = false;
+	_is_favorites = false;
 	setAttribute(Qt::WA_Maemo5StackedWindow);
 	setWindowFlags(Qt::Window | windowFlags());
 	ui->addButton->setEnabled(false);
@@ -268,14 +269,18 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 			switch(index.row()) {
 			case 0: //favorites
 				_current_playlist = _lib->getFavorites();
+				_is_favorites = true;
 				break;
 			case 1: //most played
 				_current_playlist = _lib->getMostPlayed();
+				_is_favorites = false;
 				break;
 			case 2: //never played
 				_current_playlist = _lib->getNeverPlayed();
+				_is_favorites = false;
 			case 3: //recently added
 				_current_playlist = _lib->getRecentlyAdded();
+				_is_favorites = false;
 				break;
 			default:
 				return;
@@ -438,12 +443,21 @@ void LibraryForm::_delete_button() {
 		}
 		qSort(to_delete);
 		int count = to_delete.count();
-		for (int i = count-1; i >= 0; i--) {
-			_current_playlist.removeTrackAt(to_delete.at(i));
+		if (_is_dynamic && _is_favorites) {
+			_current_tracks = _lib->getFavorites().tracks();
+			for (int i = count-1; i >= 0; i--) {
+				_lib->removeFromFavorites(_current_tracks.at(to_delete.at(i)));
+			}
+			_current_playlist = _lib->getFavorites();
+			_current_tracks = _current_playlist.tracks();
+		} else {
+			for (int i = count-1; i >= 0; i--) {
+				_current_playlist.removeTrackAt(to_delete.at(i));
+			}
+			_current_tracks = _current_playlist.tracks();
+			_lib->savePlaylist(_current_playlist);
+			emit refreshPlayer();
 		}
-		_current_tracks = _current_playlist.tracks();
-		_lib->savePlaylist(_current_playlist);
-		emit refreshPlayer();
 		__fill_model_tracks(_model, _current_tracks, _icons_theme);
 		ui->listView->setColumnWidth(0, 70);
 	} else if (_state == STATE_PLAYLIST) {
@@ -566,7 +580,8 @@ void LibraryForm::_toggle_select_all_button() {
 		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"));
 		ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
 		ui->addButton->setEnabled(true);
-		if (_state == STATE_PLAYLIST || (_state == STATE_PLAYLIST_TRACK && !_is_dynamic)) {
+		if (_state == STATE_PLAYLIST || (_state == STATE_PLAYLIST_TRACK && !_is_dynamic)
+			|| (_state == STATE_PLAYLIST_TRACK && _is_favorites)) {
 			ui->deleteButton->setEnabled(true);
 			ui->deleteButton->setIcon(QIcon(":/icons/"+_icons_theme+"/delete.png"));
 		}
@@ -745,7 +760,8 @@ void LibraryForm::_process_selection(QItemSelection selected, QItemSelection des
 	if (ui->listView->selectionModel()->selectedRows().count() > 0) {
 		ui->addButton->setEnabled(true);
 		ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
-		if (_state == STATE_PLAYLIST || (_state == STATE_PLAYLIST_TRACK && !_is_dynamic)) {
+		if (_state == STATE_PLAYLIST || (_state == STATE_PLAYLIST_TRACK && !_is_dynamic)
+			|| (_state == STATE_PLAYLIST_TRACK && _is_favorites)) {
 			ui->deleteButton->setEnabled(true);
 			ui->deleteButton->setIcon(QIcon(":/icons/"+_icons_theme+"/delete.png"));
 		}

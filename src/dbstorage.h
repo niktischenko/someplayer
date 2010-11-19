@@ -60,6 +60,7 @@ namespace SomePlayer {
 
 			void removeTrack(Track track);
 			void addToFavorites(Track track);
+			void removeFromFavorites(Track track);
 
 			void updateTrackCount(Track track);
 			Track updateTrack(Track);
@@ -115,6 +116,7 @@ namespace SomePlayer {
 			QSqlQuery *_remove_empty_albums_query;
 			QSqlQuery *_remove_tracks_from_query;
 			QSqlQuery *_remove_directory_query;
+			QSqlQuery *_remove_track_from_favorites_query;
 		};
 	};
 };

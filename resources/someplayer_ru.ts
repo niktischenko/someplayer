@@ -83,43 +83,43 @@
         <translation>Библиотека</translation>
     </message>
     <message>
-        <location filename="../src/libraryform.cpp" line="173"/>
+        <location filename="../src/libraryform.cpp" line="174"/>
         <source>Artists</source>
         <translation>Исполнители</translation>
     </message>
     <message>
-        <location filename="../src/libraryform.cpp" line="200"/>
+        <location filename="../src/libraryform.cpp" line="201"/>
         <source>Dynamic playlists</source>
         <translation>Динамические плейлисты</translation>
     </message>
     <message>
-        <location filename="../src/libraryform.cpp" line="224"/>
-        <location filename="../src/libraryform.cpp" line="399"/>
+        <location filename="../src/libraryform.cpp" line="225"/>
+        <location filename="../src/libraryform.cpp" line="404"/>
         <source>Albums by &quot;%1&quot;</source>
         <translation>Альбомы &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/libraryform.cpp" line="236"/>
+        <location filename="../src/libraryform.cpp" line="237"/>
         <source>Tracks from &quot;%1&quot; by &quot;%2&quot;</source>
         <translation>Треки из &quot;%1&quot; от &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../src/libraryform.cpp" line="246"/>
+        <location filename="../src/libraryform.cpp" line="247"/>
         <source>All tracks by &quot;%1&quot;</source>
         <translation>Все треки &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/libraryform.cpp" line="263"/>
+        <location filename="../src/libraryform.cpp" line="264"/>
         <source>Tracks in playlist &quot;%1&quot;</source>
         <translation>Треки в плейлисте &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/libraryform.cpp" line="421"/>
+        <location filename="../src/libraryform.cpp" line="426"/>
         <source>Playlists</source>
         <translation>Плейлисты</translation>
     </message>
     <message>
-        <location filename="../src/libraryform.cpp" line="782"/>
+        <location filename="../src/libraryform.cpp" line="798"/>
         <source>Search in library</source>
         <translation>Поиск в библиотеке</translation>
     </message>
@@ -451,7 +451,7 @@
     <message>
         <location filename="../src/ui/settingsform.ui" line="347"/>
         <source>Show track lenght in library view:</source>
-        <translation>Показыать длину трека в библиотеке:</translation>
+        <translation>Показывать длину трека в библиотеке:</translation>
     </message>
     <message>
         <location filename="../src/ui/settingsform.ui" line="390"/>

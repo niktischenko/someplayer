@@ -85,6 +85,7 @@ private:
 	QStandardItemModel *_model;
 	LibraryFormListState _state;
 	bool _is_dynamic; // workaround
+        bool _is_favorites; // workaround
 	QString _current_artist;
 	QString _current_album;
 	Playlist _current_playlist;
