@@ -98,6 +98,9 @@ private:
 	QString _icons_theme;
 	QString _top_gradient;
 	QString _bottom_gradient;
+	int _artist_row_for_scroll_to;
+	int _album_row_for_scroll_to;
+	int _playlist_row_for_scroll_to;
 
 	void _add_artist(Playlist *cur, QString artist);
 	void _add_album(Playlist *cur, QString artist, QString album);

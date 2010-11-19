@@ -215,6 +215,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 	QRegExp regexp("\\[\\d+\\]\\ (.*)");
 	switch (_state) {
 	case STATE_ARTIST:
+		_artist_row_for_scroll_to = index.row();
 		__fill_model_album(_model, _lib->getAlbumsForArtist(data), _icons_theme);
 		ui->listView->setColumnWidth(0, 70);
 		ui->listView->scrollToTop();
@@ -225,6 +226,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 		ui->listLabel->setText(QString(tr("Albums by \"%1\"")).arg(_current_artist));
 		break;
 	case STATE_ALBUM:
+		_album_row_for_scroll_to = index.row();
 		if (regexp.indexIn(data) != -1) {
 			_current_album = regexp.cap(1).trimmed();
 			_current_tracks = _lib->getTracksForAlbum(_current_album, _current_artist);
@@ -250,6 +252,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 		break;
 	case STATE_PLAYLIST:
 		{
+			_playlist_row_for_scroll_to = index.row();
 			_current_playlist = _lib->getPlaylist(data);
 			_current_tracks = _current_playlist.tracks();
 			__fill_model_tracks(_model, _current_tracks, _icons_theme);
@@ -394,12 +397,16 @@ void LibraryForm::_back_button() {
 	switch (_state) {
 	case STATE_ALBUM:
 		_view_button();
-		ui->listView->scrollToTop();
+		if (_model->rowCount() != 0) {
+			ui->listView->scrollTo(_model->index(_artist_row_for_scroll_to, 1), QAbstractItemView::PositionAtCenter);
+		}
 		break;
 	case STATE_TRACK:
 		__fill_model_album(_model, _lib->getAlbumsForArtist(_current_artist), _icons_theme);
 		ui->listView->setColumnWidth(0, 70);
-		ui->listView->scrollToTop();
+		if (_model->rowCount() != 0) {
+			ui->listView->scrollTo(_model->index(_album_row_for_scroll_to, 1), QAbstractItemView::PositionAtCenter);
+		}
 		_state = STATE_ALBUM;
 		ui->listLabel->setText(QString(tr("Albums by \"%1\"")).arg(_current_artist));
 		break;
@@ -410,7 +417,9 @@ void LibraryForm::_back_button() {
 		} else {
 			_playlists_button();
 		}
-		ui->listView->scrollToTop();
+		if (_model->rowCount() != 0 && !_is_dynamic) {
+			ui->listView->scrollTo(_model->index(_playlist_row_for_scroll_to, 1), QAbstractItemView::PositionAtCenter);
+		}
 	default:
 		return;
 	}
@@ -510,7 +519,7 @@ void LibraryForm::nextItem() {
 	QModelIndex id = _model->index(_search_current_id, 1);
 	ui->listView->selectionModel()->clearSelection();
 	ui->listView->selectRow(id.row());
-	ui->listView->scrollTo(id);
+	ui->listView->scrollTo(id, QAbstractItemView::PositionAtCenter);
 }
 
 void LibraryForm::prevItem() {
@@ -525,7 +534,7 @@ void LibraryForm::prevItem() {
 	QModelIndex id = _model->index(_search_current_id, 1);
 	ui->listView->selectionModel()->clearSelection();
 	ui->listView->selectRow(id.row());
-	ui->listView->scrollTo(id);
+	ui->listView->scrollTo(id, QAbstractItemView::PositionAtCenter);
 }
 
 void LibraryForm::cancelSearch() {
