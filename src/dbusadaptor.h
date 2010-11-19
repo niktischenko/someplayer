@@ -22,6 +22,10 @@
 
 #include <QtCore/QObject>
 #include <QtDBus/QtDBus>
+#include <QTime>
+
+#define _DBUS_ACTION_TIMEOUT_ (500)
+
 class QByteArray;
 template<class T> class QList;
 template<class Key, class Value> class QMap;
@@ -74,7 +78,11 @@ public Q_SLOTS: // METHODS
     Q_NOREPLY void stop();
     QString title();
     Q_NOREPLY void toggle();
+
+    void processBTSignal(QString, QString);
 Q_SIGNALS: // SIGNALS
+private:
+	QTime _time;
 };
 
 #endif

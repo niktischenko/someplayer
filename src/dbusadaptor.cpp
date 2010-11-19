@@ -25,6 +25,7 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
+#include <QDebug>
 
 /*
  * Implementation of adaptor class DBusAdaptop
@@ -35,6 +36,12 @@ DBusAdaptop::DBusAdaptop(QObject *parent)
 {
     // constructor
     setAutoRelaySignals(true);
+    // handling signals from bluetooth headset
+    _time = QTime::currentTime();
+    if (!QDBusConnection::systemBus().connect(QString(), QString(),
+	"org.freedesktop.Hal.Device", "Condition", this, SLOT(processBTSignal(QString, QString)))) {
+	    qWarning() << "Can not connect to HAL";
+    }
 }
 
 DBusAdaptop::~DBusAdaptop()
@@ -88,5 +95,22 @@ void DBusAdaptop::toggle()
 {
     // handle method call ru.somebody.someplayer.toggle
     QMetaObject::invokeMethod(parent(), "toggle");
+}
+
+void DBusAdaptop::processBTSignal(QString event, QString state) {
+	QTime t = QTime::currentTime();
+	long msec = _time.msecsTo(t);
+	if (msec > _DBUS_ACTION_TIMEOUT_) {
+		if (event == "ButtonPressed") {
+			if (state == "next-song") {
+				QMetaObject::invokeMethod(parent(), "next");
+			} else if (state == "previous-song") {
+				QMetaObject::invokeMethod(parent(), "prev");
+			} else if (state == "play-cd" || state == "pause-cd") {
+				QMetaObject::invokeMethod(parent(), "toggle");
+			}
+		}
+	}
+	_time = t;
 }
 
