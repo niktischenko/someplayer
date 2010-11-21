@@ -69,6 +69,8 @@ namespace SomePlayer {
 			void deleteTracksFrom(QString path);
 			void checkTracksFrom(QString path);
 
+			bool isFavorite(Track);
+
 		private:
 			QSqlDatabase db;
 			void _create_database_structure();
@@ -101,6 +103,7 @@ namespace SomePlayer {
 			QSqlQuery *_check_artist_query;
 			QSqlQuery *_check_album_query;
 			QSqlQuery *_check_directory_query;
+			QSqlQuery *_check_favorite_query;
 
 			QSqlQuery *_insert_artist_query;
 			QSqlQuery *_insert_album_query;

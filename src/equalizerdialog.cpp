@@ -78,6 +78,12 @@ EqualizerDialog::EqualizerDialog(QWidget *parent) :
 	connect(ui->enableToggleButton, SIGNAL(clicked()), this, SLOT(_state_changed()));
 	connect(ui->saveButton, SIGNAL(clicked()), this, SLOT(_save_preset()));
 	connect(ui->presetComboBox, SIGNAL(activated(QString)), this, SLOT(_load_preset(QString)));
+
+	Config config;
+	if (config.equalizerEnabled()) {
+		setEqualizerEnabled(true);
+		_load_preset("");
+	}
 }
 
 EqualizerDialog::~EqualizerDialog()

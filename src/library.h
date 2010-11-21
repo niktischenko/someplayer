@@ -81,6 +81,8 @@ namespace SomePlayer {
 			void updateAll();
 			void deleteDirectories(QList<QString> directories);
 
+			bool isFavorite(Track);
+
 		signals:
 			void started();
 			void done();

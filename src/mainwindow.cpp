@@ -250,7 +250,7 @@ void MainWindow::_timeout() {
 		QString hp = h < 10 ? QString("0%1").arg(h) : QString("%1").arg(h);
 		QString mp = m < 10 ? QString("0%1").arg(m) : QString("%1").arg(m);
 		QString sp = s < 10 ? QString("0%1").arg(s) : QString("%1").arg(s);
-		_player_form->showCountdown(hp+":"+mp+":"+sp);
+		_player_form->showCountdown(tr("Music off: ")+hp+":"+mp+":"+sp);
 	}
 }
 
@@ -275,17 +275,6 @@ void MainWindow::_equalizer_value_changed(int band, int val) {
 
 void MainWindow::settings() {
 	_settings_form->show();
-
-//	Config config;
-//	_library_form->refresh();
-//	_player_form->updateIcons();
-//	_library_form->updateIcons();
-//	_manage_library_form->updateIcons();
-//	_player_form->checkGradient();
-//	_library_form->checkGradient();
-//	_directory_form->updateIcons();
-//	_directory_form->updateGradient();
-//	updateTranslations();
 }
 
 void MainWindow::_change_orientation() {

@@ -232,3 +232,7 @@ void Library::updatePlaylists() {
 void Library::removeFromFavorites(Track track) {
 	_library_storage->removeFromFavorites(track);
 }
+
+bool Library::isFavorite(Track track) {
+	return _library_storage->isFavorite(track);
+}

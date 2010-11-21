@@ -118,6 +118,9 @@ void DbStorage::_prepare_queries() {
 	_check_directory_query = new QSqlQuery(db);
 	_check_directory_query->prepare("SELECT id from directories WHERE path = :path");
 
+	_check_favorite_query = new QSqlQuery(db);
+	_check_favorite_query->prepare("SELECT 'yes' from favorites WHERE track_id in (SELECT id from tracks WHERE source = :source)");
+
 	_insert_artist_query = new QSqlQuery(db);
 	_insert_artist_query->prepare("INSERT INTO artist (name, uname) values (:name, :uname)");
 
@@ -662,4 +665,15 @@ void DbStorage::removeFromFavorites(Track track) {
 	QSqlQuery *query = _remove_track_from_favorites_query;
 	query->bindValue(":source", track.source());
 	query->exec();
+}
+
+bool DbStorage::isFavorite(Track track) {
+	QSqlQuery *query = _check_favorite_query;
+	query->bindValue(":source", track.source());
+	query->exec();
+	if (query->next()) {
+		QString ans = query->value(0).toString();
+		return ans == "yes";
+	}
+	return false;
 }

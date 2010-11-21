@@ -69,6 +69,7 @@ namespace SomePlayer {
 			bool equalizerEnabled() {return _equalizer_enabled;}
 			bool equalizerAvailable() {return _equalizer != NULL;}
 			PlayerState state() {return _state;}
+			Track current();
 
 		signals:
 			void stateChanged (PlayerState);

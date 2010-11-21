@@ -326,3 +326,11 @@ QString Player::title() {
 		return "";
 	return _playlist.tracks().at(_current).metadata().title();
 }
+
+Track Player::current() {
+	if (_current >= 0) {
+		return _playlist.tracks().at(_current);
+	} else {
+		return Track();
+	}
+}

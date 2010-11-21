@@ -103,14 +103,13 @@ void DBusAdaptop::processBTSignal(QString event, QString state) {
 	if (msec > _DBUS_ACTION_TIMEOUT_) {
 		if (event == "ButtonPressed") {
 			if (state == "next-song") {
-				QMetaObject::invokeMethod(parent(), "next");
+				next();
 			} else if (state == "previous-song") {
-				QMetaObject::invokeMethod(parent(), "prev");
+				prev();
 			} else if (state == "play-cd" || state == "pause-cd") {
-				QMetaObject::invokeMethod(parent(), "toggle");
+				toggle();
 			}
 		}
 	}
 	_time = t;
 }
-

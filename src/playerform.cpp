@@ -241,6 +241,7 @@ void PlayerForm::_display_track(Track track) {
 	ui->seekSlider->setMaximum(track.metadata().length());
 	_tick(0, track.metadata().length());
 	_coverfinder->find(track);
+	ui->cfavButton->setChecked(_lib->isFavorite(track));
 }
 
 void PlayerForm::_tick(int done, int all) {
@@ -288,7 +289,12 @@ void PlayerForm::_add_to_favorites() {
 	if (idx.isEmpty())
 		return;
 	int id = idx.first().row();
-	_lib->addToFavorites(_current_playlist.tracks().at(id));
+	if (ui->cfavButton->isChecked()) {
+		_lib->addToFavorites(_current_playlist.tracks().at(id));
+	} else {
+		_lib->removeFromFavorites(_current_playlist.tracks().at(id));
+	}
+	ui->cfavButton->setChecked(_lib->isFavorite(_current_playlist.tracks().at(id)));
 }
 
 void PlayerForm::_state_changed(PlayerState state) {
@@ -705,6 +711,7 @@ void PlayerForm::_toggle_extra_buttons() {
 		ui->caddButton->setEnabled(true);
 		ui->cdeleteButton->setEnabled(true);
 		ui->cfavButton->setEnabled(true);
+		ui->cfavButton->setChecked(_lib->isFavorite(_player->current()));
 		ui->ctagButton->setEnabled(true);
 		ui->caddButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
 		ui->cdeleteButton->setIcon(QIcon(":/icons/"+_icons_theme+"/delete.png"));
