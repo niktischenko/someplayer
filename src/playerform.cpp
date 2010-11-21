@@ -227,6 +227,7 @@ void PlayerForm::_track_changed(Track track) {
 	ui->playlistView->hide();
 	ui->playlistView->show();
 	_display_track(track);
+	_context_menu->actions().at(2)->setText(_lib->isFavorite(track) ? tr("Remove from favorites") : tr("Add to favorites"));
 }
 
 void PlayerForm::_display_track(Track track) {
@@ -241,7 +242,7 @@ void PlayerForm::_display_track(Track track) {
 	ui->seekSlider->setMaximum(track.metadata().length());
 	_tick(0, track.metadata().length());
 	_coverfinder->find(track);
-	ui->cfavButton->setChecked(_lib->isFavorite(track));
+	ui->cfavButton->setChecked(_lib->isFavorite(track) && ui->cfavButton->isVisible());
 }
 
 void PlayerForm::_tick(int done, int all) {
@@ -285,16 +286,19 @@ void PlayerForm::_enqueue_track() {
 }
 
 void PlayerForm::_add_to_favorites() {
-	QList<QModelIndex> idx = ui->playlistView->selectionModel()->selectedIndexes();
-	if (idx.isEmpty())
-		return;
-	int id = idx.first().row();
-	if (ui->cfavButton->isChecked()) {
-		_lib->addToFavorites(_current_playlist.tracks().at(id));
-	} else {
-		_lib->removeFromFavorites(_current_playlist.tracks().at(id));
+	Track cur = _player->current();
+	if (!cur.source().isEmpty()) {
+		bool isf = _lib->isFavorite(cur);
+		if (!isf) {
+			_lib->addToFavorites(cur);
+		} else {
+			_lib->removeFromFavorites(cur);
+		}
+		isf = _lib->isFavorite(cur);
+		ui->cfavButton->setChecked(isf && ui->cfavButton->isVisible());
+		_context_menu->actions().at(2)->setText(isf ? tr("Remove from favorites") : tr("Add to favorites"));
 	}
-	ui->cfavButton->setChecked(_lib->isFavorite(_current_playlist.tracks().at(id)));
+
 }
 
 void PlayerForm::_state_changed(PlayerState state) {
@@ -721,6 +725,7 @@ void PlayerForm::_toggle_extra_buttons() {
 		ui->caddButton->setEnabled(false);
 		ui->cdeleteButton->setEnabled(false);
 		ui->cfavButton->setEnabled(false);
+		ui->cfavButton->setChecked(false);
 		ui->ctagButton->setEnabled(false);
 		ui->caddButton->setIcon(QIcon());
 		ui->cdeleteButton->setIcon(QIcon());
