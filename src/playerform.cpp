@@ -286,7 +286,11 @@ void PlayerForm::_enqueue_track() {
 }
 
 void PlayerForm::_add_to_favorites() {
-	Track cur = _player->current();
+	QList<QModelIndex> idx = ui->playlistView->selectionModel()->selectedIndexes();
+	if (idx.isEmpty())
+		return;
+	int id = idx.first().row();
+	Track cur = _current_playlist.tracks().at(id);
 	if (!cur.source().isEmpty()) {
 		bool isf = _lib->isFavorite(cur);
 		if (!isf) {
