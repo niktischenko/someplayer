@@ -41,6 +41,7 @@ namespace SomePlayer {
 		private:
 		    QSettings *_settings;
 		    QSettings *_equalizer_settings;
+		    QSettings *_equalizer_user_settings;
 		};
 	};
 };

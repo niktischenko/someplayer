@@ -20,6 +20,7 @@
 #include "config.h"
 #include <QString>
 #include <QDir>
+#include <QSet>
 
 using namespace SomePlayer::Storage;
 
@@ -36,12 +37,14 @@ Config::Config()
 		_settings->setValue("ui/language", "en");
 	if (_settings->value("ui/trackcolor").toString() == "")
 		_settings->setValue("ui/trackcolor", "blue");
-	_equalizer_settings = new QSettings(QString(applicationDir())+"/equalizer.ini", QSettings::IniFormat);
+	_equalizer_settings = new QSettings("/etc/skel/.someplayer/equalizer.ini", QSettings::IniFormat);
+	_equalizer_user_settings = new QSettings(QString(applicationDir())+"/equalizer.ini", QSettings::IniFormat);
 }
 
 Config::~Config() {
 	delete _settings;
 	delete _equalizer_settings;
+	delete _equalizer_user_settings;
 }
 
 QString Config::applicationDir() {
@@ -63,38 +66,49 @@ void Config::setValue(QString key, QVariant value) {
 
 QStringList Config::getEqualizerPresets() {
 	QStringList presets = _equalizer_settings->value("equalizer/presets").toStringList();
-	return presets;
+	QStringList user_presets = _equalizer_user_settings->value("equalizer/presets").toStringList();
+	user_presets.append(presets);
+	user_presets = QList<QString>::fromSet(QSet<QString>::fromList(user_presets));
+	return user_presets;
 }
 
 double Config::getEqualizerValue(QString band, QString preset) {
 	QString section;
+	QSettings *settings = NULL;
 	if (preset.isEmpty()) {
 		section = "equalizer";
+		settings = _equalizer_user_settings;
 	} else {
 		section = "equalizer_preset_"+preset;
+		QStringList user_presets = _equalizer_user_settings->value("equalizer/presets").toStringList();
+		if (user_presets.contains(preset)) {
+			settings = _equalizer_user_settings;
+		} else {
+			settings = _equalizer_settings;
+		}
 	}
-	return _equalizer_settings->value(section+"/"+band).toDouble();
+	return settings->value(section+"/"+band).toDouble();
 }
 
 void Config::setEqualizerValue(QString band, double value) {
-	_equalizer_settings->setValue("equalizer/"+band, value);
+	_equalizer_user_settings->setValue("equalizer/"+band, value);
 }
 
 void Config::saveEqualizer(QString preset) {
 	QString section = QString("equalizer_preset_%1/%2").arg(preset);
-	QStringList presets = getEqualizerPresets();
-	if (!presets.contains(preset)) presets.append(preset);
-	_equalizer_settings->setValue("equalizer/presets", presets);
+	QStringList user_presets = _equalizer_user_settings->value("equalizer/presets").toStringList();
+	if (!user_presets.contains(preset)) user_presets.append(preset);
+	_equalizer_user_settings->setValue("equalizer/presets", user_presets);
 	for (int i = 0; i < 10; i++) {
 		QString band = QString("band%1").arg(i);
-		_equalizer_settings->setValue(section.arg(band), getEqualizerValue(band));
+		_equalizer_user_settings->setValue(section.arg(band), getEqualizerValue(band));
 	}
 }
 
 bool Config::equalizerEnabled() {
-	return _equalizer_settings->value("equalizer/enabled").toBool();
+	return _equalizer_user_settings->value("equalizer/enabled").toBool();
 }
 
 void Config::setEqualizerEnabled(bool enabled) {
-	_equalizer_settings->setValue("equalizer/enabled", enabled);
+	_equalizer_user_settings->setValue("equalizer/enabled", enabled);
 }
