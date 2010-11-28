@@ -108,8 +108,27 @@ void DBusAdaptop::processBTSignal(QString event, QString state) {
 				prev();
 			} else if (state == "play-cd" || state == "pause-cd") {
 				toggle();
+			} else if (state == "connection") {
+				bool present = QDBusInterface ("org.freedesktop.Hal",
+							       "/org/freedesktop/Hal/devices/platform_headphone",
+							       "org.freedesktop.Hal.Device",
+							       QDBusConnection::systemBus()).call ("GetProperty", "button.state.value").arguments().at(0).toBool();
+				if (!present) {
+					pause();
+				} else {
+					QTimer::singleShot(1000, this, SLOT(playIfPaused()));
+				}
+
 			}
 		}
 	}
 	_time = t;
+}
+
+void DBusAdaptop::pause() {
+	QMetaObject::invokeMethod(parent(), "pause");
+}
+
+void DBusAdaptop::playIfPaused() {
+	QMetaObject::invokeMethod(parent(), "playIfPaused");
 }

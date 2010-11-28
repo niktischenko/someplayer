@@ -334,3 +334,17 @@ Track Player::current() {
 		return Track();
 	}
 }
+
+void Player::pause() {
+	if (_state == PLAYER_PLAYING) {
+		_player->pause();
+		_state = PLAYER_PAUSED;
+		emit stateChanged(_state);
+	}
+}
+
+void Player::playIfPaused() {
+	if (_state == PLAYER_PAUSED) {
+		play();
+	}
+}

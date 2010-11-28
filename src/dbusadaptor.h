@@ -78,6 +78,8 @@ public Q_SLOTS: // METHODS
     Q_NOREPLY void stop();
     QString title();
     Q_NOREPLY void toggle();
+    Q_NOREPLY void pause();
+    Q_NOREPLY void playIfPaused();
 
     void processBTSignal(QString, QString);
 Q_SIGNALS: // SIGNALS

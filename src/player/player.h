@@ -82,6 +82,8 @@ namespace SomePlayer {
 			void enqueue(int id);
 			void toggle();
 			void play();
+			void pause();
+			void playIfPaused();
 			void stop();
 			void next();
 			void prev();
