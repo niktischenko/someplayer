@@ -111,7 +111,7 @@ void DBusAdaptop::processBTSignal(QString event, QString state) {
 				toggle();
 			} else if (state == "connection") {
 				SomePlayer::Storage::Config config;
-				if (config.getValue("playback/hpautopause").toString() != "yes") {
+				if (config.getValue("hw/hpautopause").toString() != "yes") {
 					return;
 				}
 				bool present = QDBusInterface ("org.freedesktop.Hal",

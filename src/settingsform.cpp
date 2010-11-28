@@ -47,6 +47,10 @@ SettingsForm::SettingsForm(QWidget *parent) :
 	ui->engLangButton->setChecked(true);
 	ui->cBlueButton->setChecked(true);
 	ui->pauseHPNoButton->setChecked(true);
+	ui->hwKeysBox->setChecked(false);
+	ui->hwkeysLabel->setEnabled(false);
+	ui->hwTControlButton->setEnabled(false);
+	ui->hwVolumeButton->setEnabled(false);
 	if (albumSorting == "alphabet") {
 		ui->albumsSortAButton->setChecked(true);
 	}
@@ -82,8 +86,23 @@ SettingsForm::SettingsForm(QWidget *parent) :
 	} else if (track_color == "light") {
 		ui->cLightButton->setChecked(true);
 	}
-	if (config.getValue("playback/hpautopause").toString() == "yes") {
+	if (config.getValue("hw/hpautopause").toString() == "yes") {
 		ui->pauseHPYesButton->setChecked(true);
+	}
+	if (config.getValue("hw/zoomkeys").toString() == "enabled") {
+		ui->hwKeysBox->setChecked(true);
+		ui->hwkeysLabel->setEnabled(true);
+		ui->hwTControlButton->setEnabled(true);
+		ui->hwVolumeButton->setEnabled(true);
+	}
+	QString behavior = config.getValue("hw/zoom_action").toString();
+	if (behavior == "volume") {
+		ui->hwVolumeButton->setChecked(true);
+	} else if (behavior == "track") {
+		ui->hwTControlButton->setChecked(true);
+	} else {
+		ui->hwVolumeButton->setChecked(true);
+		config.setValue("hw/zoom_action", "volume");
 	}
 	if (!QFile::exists(QString(_APPLICATION_PATH_)+"/someplayer_ru.qm")) {
 		ui->langBox->hide();
@@ -111,6 +130,13 @@ SettingsForm::SettingsForm(QWidget *parent) :
 	connect (ui->cYellowButton, SIGNAL(toggled(bool)), this, SLOT(_set_color_yellow(bool)));
 	connect (ui->pauseHPNoButton, SIGNAL(toggled(bool)), this, SLOT(_set_pause_hp_no(bool)));
 	connect (ui->pauseHPYesButton, SIGNAL(toggled(bool)), this, SLOT(_set_pause_hp_yes(bool)));
+	connect (ui->hwKeysBox, SIGNAL(toggled(bool)), this, SLOT(_toggle_hw_settings(bool)));
+	connect (ui->hwVolumeButton, SIGNAL(toggled(bool)), this, SLOT(_set_hw_volume_control(bool)));
+	connect (ui->hwTControlButton, SIGNAL(toggled(bool)), this, SLOT(_set_hw_track_control(bool)));
+	connect (ui->uiButton, SIGNAL(clicked()), this, SLOT(_toggle_view_ui()));
+	connect (ui->hwButton, SIGNAL(clicked()), this, SLOT(_toggle_view_hw()));
+	connect (ui->libraryButton, SIGNAL(clicked()), this, SLOT(_toggle_view_lib()));
+	_toggle_view_ui();
 	setAttribute(Qt::WA_Maemo5StackedWindow);
 	setWindowFlags(Qt::Window | windowFlags());
 }
@@ -270,13 +296,55 @@ void SettingsForm::_set_lang_ru(bool checked) {
 void SettingsForm::_set_pause_hp_no(bool checked) {
 	if (!checked) return;
 	Config config;
-	config.setValue("playback/hpautopause", "no");
+	config.setValue("hw/hpautopause", "no");
 }
 
 void SettingsForm::_set_pause_hp_yes(bool checked) {
 	if (!checked) return;
 	Config config;
-	config.setValue("playback/hpautopause", "yes");
+	config.setValue("hw/hpautopause", "yes");
+}
+
+void SettingsForm::_toggle_hw_settings(bool checked) {
+	Config config;
+	config.setValue("hw/zoomkeys", checked ? "enabled" : "disabled");
+	ui->hwkeysLabel->setEnabled(checked);
+	ui->hwTControlButton->setEnabled(checked);
+	ui->hwVolumeButton->setEnabled(checked);
+	emit hwZoomPolicyChanged();
+}
+
+void SettingsForm::_set_hw_track_control(bool checked) {
+	if (!checked) return;
+	Config config;
+	config.setValue("hw/zoom_action", "track");
+}
+
+void SettingsForm::_set_hw_volume_control(bool checked) {
+	if (!checked) return;
+	Config config;
+	config.setValue("hw/zoom_action", "volume");
+}
+
+void SettingsForm::_toggle_view_ui() {
+	ui->hwButton->setChecked(false);
+	ui->libraryButton->setChecked(false);
+	ui->uiButton->setChecked(true);
+	ui->stackedWidget->setCurrentIndex(0);
+}
+
+void SettingsForm::_toggle_view_lib() {
+	ui->hwButton->setChecked(false);
+	ui->uiButton->setChecked(false);
+	ui->libraryButton->setChecked(true);
+	ui->stackedWidget->setCurrentIndex(1);
+}
+
+void SettingsForm::_toggle_view_hw() {
+	ui->uiButton->setChecked(false);
+	ui->libraryButton->setChecked(false);
+	ui->hwButton->setChecked(true);
+	ui->stackedWidget->setCurrentIndex(2);
 }
 
 void SettingsForm::updateTranslations() {

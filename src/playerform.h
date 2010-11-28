@@ -81,6 +81,8 @@ public slots:
 	void updateIcons();
 	void checkGradient();
 	void play(Track);
+	void next();
+	void prev();
 	void showCountdown(QString);
 	void hideCountdown();
 	void updateTranslations();

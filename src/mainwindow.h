@@ -31,6 +31,7 @@
 #include "directoryview.h"
 #include "settingsform.h"
 #include "library.h"
+#include "dbusclient.h"
 #include <QTimer>
 
 namespace Ui {
@@ -73,6 +74,9 @@ private slots:
 	void _fullscreen(bool);
 	void _add_tracks(QList<Track>);
 	void _change_orientation();
+	void _hw_zoom_policy_changed();
+	void _set_display_state(bool);
+	void _zoom_key_pressed(quint32);
 private:
 	PlayerForm *_player_form;
 	LibraryForm *_library_form;
@@ -85,6 +89,8 @@ private:
 	ManageLibraryForm *_manage_library_form;
 	int _timeout_interval;
 	QTranslator *_translator;
+	DBusClient _dbus_client;
+	bool _display_unlocked;
 };
 
 #endif // MAINWINDOW_H

@@ -25,6 +25,7 @@
 #include <QFile>
 #include <QDesktopWidget>
 #include <QTranslator>
+#include <QKeyEvent>
 
 #include "player/player.h"
 
@@ -33,6 +34,10 @@
 #include "equalizerdialog.h"
 #include "saveplaylistdialog.h"
 #include "settingsform.h"
+#include <QtGui/QX11Info>
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+
 
 using namespace SomePlayer::DataObjects;
 using namespace SomePlayer::Storage;
@@ -41,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
 {
+	_display_unlocked = true; // in most cases
 	Config config;
 	_library = new Library(config.applicationDir(), config.applicationDir());
 	_translator = new QTranslator(this);
@@ -90,6 +96,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(_settings_form, SIGNAL(orientationChanged()), this, SLOT(_change_orientation()));
 	connect(_settings_form, SIGNAL(translationChanged()), this, SLOT(updateTranslations()));
 	connect(_settings_form, SIGNAL(trackColorChanged()), _player_form, SLOT(updateTrackColor()));
+	connect(_settings_form, SIGNAL(hwZoomPolicyChanged()), this, SLOT(_hw_zoom_policy_changed()));
+	connect(&_dbus_client, SIGNAL(displayStateChanged(bool)), this, SLOT(_set_display_state(bool)));
 	_player_form->reload(true);
 	QString mode = config.getValue("ui/orientation").toString();
 	if (mode == "landscape") {
@@ -121,6 +129,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	_player_form->checkGradient();
 	_library_form->checkGradient();
 	_directory_form->checkGradient();
+	_hw_zoom_policy_changed();
 	setWindowTitle("SomePlayer");
 }
 
@@ -336,4 +345,37 @@ void MainWindow::updateTranslations() {
 	_manage_library_form->updateTranslations();
 	_directory_form->updateTranslations();
 	_settings_form->updateTranslations();
+}
+
+void MainWindow::_hw_zoom_policy_changed() {
+	Config config;
+	QString state = config.getValue("hw/zoomkeys").toString();
+	if (state == "enabled") {
+		_dbus_client.enableKeys();
+		connect(&_dbus_client, SIGNAL(zoomKeyPressed(quint32)), this, SLOT(_zoom_key_pressed(quint32)));
+	} else {
+		_dbus_client.disableKeys();
+		disconnect(&_dbus_client, SIGNAL(zoomKeyPressed(quint32)), this, SLOT(_zoom_key_pressed(quint32)));
+	}
+}
+
+void MainWindow::_set_display_state(bool state) {
+	_display_unlocked = state;
+}
+
+void MainWindow::_zoom_key_pressed(quint32 code) {
+	if (_display_unlocked) {
+		return;
+	}
+	Config config;
+	QString behavior = config.getValue("hw/zoom_action").toString();
+	if (code == MM_KEY_DOWN) {
+		if (behavior == "track") {
+			_player_form->prev();
+		}
+	} else if (code == MM_KEY_UP) {
+		if (behavior == "track") {
+			_player_form->next();
+		}
+	}
 }

@@ -47,6 +47,7 @@ signals:
 	void libraryOptionsChanged();
 	void translationChanged();
 	void trackColorChanged();
+	void hwZoomPolicyChanged();
 
 private:
 	Ui::SettingsForm *ui;
@@ -75,6 +76,12 @@ private slots:
 	void _set_color_dark(bool);
 	void _set_pause_hp_yes(bool);
 	void _set_pause_hp_no(bool);
+	void _toggle_hw_settings(bool);
+	void _set_hw_volume_control(bool);
+	void _set_hw_track_control(bool);
+	void _toggle_view_ui();
+	void _toggle_view_lib();
+	void _toggle_view_hw();
 };
 
 #endif // SETTINGSFORM_H

@@ -755,3 +755,11 @@ void PlayerForm::updateTrackColor() {
 	ui->playlistView->hide();
 	ui->playlistView->show();
 }
+
+void PlayerForm::next() {
+	_player->next();
+}
+
+void PlayerForm::prev() {
+	_player->prev();
+}

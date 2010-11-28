@@ -119,7 +119,6 @@ void DirectoryView::readDir(QString path, QString pathToScroll) {
 	int row = _directories.indexOf(pathToScroll);
 	if (row >= 0 && row < _model->rowCount()) {
 		QModelIndex id = _model->index(row, 1);
-		qWarning() << "scroll to " << id.row() << id.column() << id.data().toString();
 		ui->dirView->scrollTo(id, QAbstractItemView::PositionAtCenter);
 	}
 }
@@ -140,7 +139,6 @@ void DirectoryView::_process_click(QModelIndex index) {
 		if (index.row() < _directories.count()) {
 			_current_dir = _directories.at(index.row());
 			readDir(_current_dir);
-			qWarning() << "pushed: " << _current_dir;
 			_nav_history.push(_current_dir);
 			return;
 		}

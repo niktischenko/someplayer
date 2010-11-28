@@ -126,7 +126,8 @@ SOURCES += src/main.cpp\
     src/directoryview.cpp \
     src/coverfinder.cpp \
     src/clickablelabel.cpp \
-    src/settingsform.cpp
+    src/settingsform.cpp \
+    src/dbusclient.cpp
 
 HEADERS  += src/mainwindow.h \
 		src/player/player.h \
@@ -231,7 +232,8 @@ HEADERS  += src/mainwindow.h \
     src/directoryview.h \
     src/coverfinder.h \
     src/clickablelabel.h \
-    src/settingsform.h
+    src/settingsform.h \
+    src/dbusclient.h
 
 FORMS    += src/ui/mainwindow.ui \
     src/ui/playerform.ui \
