@@ -37,17 +37,19 @@ void TagResolver::decode(QStringList files) {
 		TagLib::FileRef file_ref(QFile::encodeName(filename).data(), true, TagLib::AudioProperties::Fast);
 		if (!file_ref.isNull()) {
 			TagLib::Tag *tag = file_ref.tag();
+			int length = 0;
 			if (NULL != tag) {
 				TagLib::AudioProperties *properties = file_ref.audioProperties();
 				if (NULL != properties) {
-					TrackMetadata meta(QString::fromStdWString(tag->title().toWString()),
-							   QString::fromStdWString(tag->artist().toWString()),
-							   QString::fromStdWString(tag->album().toWString()),
-							   properties->length());
-					meta.setYear(tag->year());
-					Track track(meta, filename);
-					emit decoded(track);
+					length = properties->length();
 				}
+				TrackMetadata meta(QString::fromStdWString(tag->title().toWString()),
+						   QString::fromStdWString(tag->artist().toWString()),
+						   QString::fromStdWString(tag->album().toWString()),
+						   length);
+				meta.setYear(tag->year());
+				Track track(meta, filename);
+				emit decoded(track);
 			}
 		} else { // workaround
 			TrackMetadata meta;

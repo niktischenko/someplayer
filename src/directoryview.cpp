@@ -36,7 +36,7 @@ DirectoryView::DirectoryView(QWidget *parent) :
 	ui->setupUi(this);
 	Config config;
 	_icons_theme = config.getValue("ui/iconstheme").toString();
-	REGISTERED_FILE_EXTENSIONS << "mp3" << "flac" << "wma" << "aac" << "ogg";
+	REGISTERED_FILE_EXTENSIONS << "mp3" << "flac" << "wma" << "aac" << "ogg" << "asf" << "ape" << "wav";
 	setWindowFlags(windowFlags() | Qt::Window);
 	setAttribute(Qt::WA_Maemo5StackedWindow);
 	_model = new QStandardItemModel(0, 2, this);
