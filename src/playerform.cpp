@@ -242,7 +242,7 @@ void PlayerForm::_display_track(Track track) {
 	ui->seekSlider->setMaximum(track.metadata().length());
 	_tick(0, track.metadata().length());
 	_coverfinder->find(track);
-	ui->cfavButton->setChecked(_lib->isFavorite(track) && ui->cfavButton->isVisible());
+	ui->cfavButton->setChecked(_lib->isFavorite(track) && !ui->cfavButton->icon().isNull());
 }
 
 void PlayerForm::_tick(int done, int all) {
@@ -299,7 +299,7 @@ void PlayerForm::_add_to_favorites() {
 			_lib->removeFromFavorites(cur);
 		}
 		isf = _lib->isFavorite(cur);
-		ui->cfavButton->setChecked(isf && ui->cfavButton->isVisible());
+		ui->cfavButton->setChecked(isf && !ui->cfavButton->icon().isNull());
 		_context_menu->actions().at(2)->setText(isf ? tr("Remove from favorites") : tr("Add to favorites"));
 	}
 
