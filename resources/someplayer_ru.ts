@@ -14,12 +14,12 @@
         <translation>Аудиоклипы</translation>
     </message>
     <message>
-        <location filename="../src/directoryview.cpp" line="306"/>
+        <location filename="../src/directoryview.cpp" line="304"/>
         <source>Inner memory</source>
         <translation>Внутренняя память</translation>
     </message>
     <message>
-        <location filename="../src/directoryview.cpp" line="308"/>
+        <location filename="../src/directoryview.cpp" line="306"/>
         <source>Memory card</source>
         <translation>Карта памяти</translation>
     </message>
@@ -187,7 +187,7 @@
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="254"/>
+        <location filename="../src/mainwindow.cpp" line="263"/>
         <source>Music off: </source>
         <translation>Отключение: </translation>
     </message>
@@ -353,141 +353,176 @@
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="56"/>
+        <location filename="../src/ui/settingsform.ui" line="28"/>
+        <source>UI</source>
+        <translation>Вид</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="41"/>
+        <source>Library</source>
+        <translation>Библиотека</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="54"/>
+        <source>Hardware</source>
+        <translation>Система</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="103"/>
         <source>Icons theme:</source>
         <translation>Тема иконок:</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="68"/>
+        <location filename="../src/ui/settingsform.ui" line="129"/>
         <source>White</source>
         <translation>Белые</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="75"/>
+        <location filename="../src/ui/settingsform.ui" line="136"/>
         <source>Black</source>
         <translation>Чёрные</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="99"/>
+        <location filename="../src/ui/settingsform.ui" line="148"/>
         <source>Use gradient in portrait mode:</source>
         <translation>Градиент в портретном режиме:</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="111"/>
-        <location filename="../src/ui/settingsform.ui" line="359"/>
-        <location filename="../src/ui/settingsform.ui" line="436"/>
+        <location filename="../src/ui/settingsform.ui" line="174"/>
+        <location filename="../src/ui/settingsform.ui" line="523"/>
+        <location filename="../src/ui/settingsform.ui" line="610"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="118"/>
-        <location filename="../src/ui/settingsform.ui" line="366"/>
-        <location filename="../src/ui/settingsform.ui" line="443"/>
+        <location filename="../src/ui/settingsform.ui" line="181"/>
+        <location filename="../src/ui/settingsform.ui" line="530"/>
+        <location filename="../src/ui/settingsform.ui" line="617"/>
         <source>No</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="142"/>
+        <location filename="../src/ui/settingsform.ui" line="193"/>
         <source>Active track color:</source>
         <translation>Цвет текущего трека:</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="157"/>
+        <location filename="../src/ui/settingsform.ui" line="222"/>
         <source>blue</source>
         <translation>голубой</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="167"/>
+        <location filename="../src/ui/settingsform.ui" line="232"/>
         <source>magenta</source>
         <translation>фиолетовый</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="177"/>
+        <location filename="../src/ui/settingsform.ui" line="242"/>
         <source>red</source>
         <translation>красный</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="187"/>
+        <location filename="../src/ui/settingsform.ui" line="252"/>
         <source>yellow</source>
         <translation>жёлтый</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="197"/>
+        <location filename="../src/ui/settingsform.ui" line="262"/>
         <source>white</source>
         <translation>белый</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="207"/>
+        <location filename="../src/ui/settingsform.ui" line="272"/>
         <source>black</source>
         <translation>чёрный</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="217"/>
+        <location filename="../src/ui/settingsform.ui" line="282"/>
         <source>light</source>
         <translation>светлый</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="227"/>
+        <location filename="../src/ui/settingsform.ui" line="292"/>
         <source>dark</source>
         <translation>тёмный</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="254"/>
+        <location filename="../src/ui/settingsform.ui" line="452"/>
         <source>Sort album:</source>
         <translation>Сортировка альбомов:</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="266"/>
+        <location filename="../src/ui/settingsform.ui" line="478"/>
         <source>Alphabetical</source>
         <translation>По алфавиту</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="273"/>
+        <location filename="../src/ui/settingsform.ui" line="485"/>
         <source>By date</source>
         <translation>По дате</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="297"/>
+        <location filename="../src/ui/settingsform.ui" line="629"/>
+        <source>Use hardware keys</source>
+        <translation>Аппаратные кнопки</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="650"/>
+        <source>Zoom keys control:</source>
+        <translation>&quot;Качелька&quot; управляет:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="659"/>
+        <source>Volume</source>
+        <translation>Звуком</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="666"/>
+        <source>Tracks</source>
+        <translation>Треками</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="304"/>
         <source>Orientation:</source>
         <translation>Ориентация:</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="309"/>
+        <location filename="../src/ui/settingsform.ui" line="330"/>
         <source>Landscape</source>
         <translation>Ландшафтный</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="316"/>
+        <location filename="../src/ui/settingsform.ui" line="337"/>
         <source>Portrait</source>
         <translation>Портретный</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="323"/>
+        <location filename="../src/ui/settingsform.ui" line="344"/>
         <source>Auto</source>
         <translation>Авто</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="347"/>
+        <location filename="../src/ui/settingsform.ui" line="497"/>
         <source>Show track lenght in library view:</source>
-        <translation>Показывать длину трека в библиотеке:</translation>
+        <translation>Показывать длину трека:</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="390"/>
+        <location filename="../src/ui/settingsform.ui" line="356"/>
         <source>Language:</source>
         <translation>Язык:</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="402"/>
+        <location filename="../src/ui/settingsform.ui" line="382"/>
         <source>English</source>
         <translation>Английский</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="409"/>
+        <location filename="../src/ui/settingsform.ui" line="389"/>
         <source>Russian</source>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingsform.ui" line="427"/>
+        <location filename="../src/ui/settingsform.ui" line="590"/>
         <source>Pause when headphones unplugged:</source>
         <translation>Пауза при отключении наушников:</translation>
     </message>
