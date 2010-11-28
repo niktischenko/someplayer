@@ -461,12 +461,15 @@ void DbStorage::addToFavorites(Track track) {
 	QSqlQuery *query = _get_track_id_by_source_query;
 	query->bindValue(":source", track.source());
 	query->exec();
-	if (query->next()) {
-		int id = query->value(0).toInt();
-		query = _insert_favorites_query;
-		query->bindValue(":track_id", id);
+	if (!query->next()) {
+		addTrack(track);
 		query->exec();
+		query->next();
 	}
+	int id = query->value(0).toInt();
+	query = _insert_favorites_query;
+	query->bindValue(":track_id", id);
+	query->exec();
 }
 
 void DbStorage::updateTrackCount(Track track) {
