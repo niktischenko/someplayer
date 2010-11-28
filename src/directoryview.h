@@ -46,7 +46,7 @@ public:
 
 public slots:
 	void updateIcons();
-	void updateGradient();
+	void checkGradient();
 	void lanscapeMode();
 	void portraitMode();
 	void updateTranslations();

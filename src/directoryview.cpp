@@ -246,7 +246,7 @@ void DirectoryView::updateIcons() {
 	_home();
 }
 
-void DirectoryView::updateGradient() {
+void DirectoryView::checkGradient() {
 	Config config;
 	if (config.getValue("ui/gradient").toString() == "yes") {
 		ui->bottomWidget->setStyleSheet(_bottom_gradient);

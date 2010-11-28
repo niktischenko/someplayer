@@ -85,6 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(_settings_form, SIGNAL(iconsChanged()), _directory_form, SLOT(updateIcons()));
 	connect(_settings_form, SIGNAL(gradientChanged()), _player_form, SLOT(checkGradient()));
 	connect(_settings_form, SIGNAL(gradientChanged()), _library_form, SLOT(checkGradient()));
+	connect(_settings_form, SIGNAL(gradientChanged()), _directory_form, SLOT(checkGradient()));
 	connect(_settings_form, SIGNAL(libraryOptionsChanged()), _library_form, SLOT(refresh()));
 	connect(_settings_form, SIGNAL(orientationChanged()), this, SLOT(_change_orientation()));
 	connect(_settings_form, SIGNAL(translationChanged()), this, SLOT(updateTranslations()));
@@ -119,7 +120,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	_directory_form->updateIcons();
 	_player_form->checkGradient();
 	_library_form->checkGradient();
-	_directory_form->updateGradient();
+	_directory_form->checkGradient();
 	setWindowTitle("SomePlayer");
 }
 
