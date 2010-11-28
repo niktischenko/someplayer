@@ -73,6 +73,8 @@ private slots:
 	void _set_color_black(bool);
 	void _set_color_light(bool);
 	void _set_color_dark(bool);
+	void _set_pause_hp_yes(bool);
+	void _set_pause_hp_no(bool);
 };
 
 #endif // SETTINGSFORM_H

@@ -14,12 +14,12 @@
         <translation>Аудиоклипы</translation>
     </message>
     <message>
-        <location filename="../src/directoryview.cpp" line="290"/>
+        <location filename="../src/directoryview.cpp" line="306"/>
         <source>Inner memory</source>
         <translation>Внутренняя память</translation>
     </message>
     <message>
-        <location filename="../src/directoryview.cpp" line="292"/>
+        <location filename="../src/directoryview.cpp" line="308"/>
         <source>Memory card</source>
         <translation>Карта памяти</translation>
     </message>
@@ -187,7 +187,7 @@
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="253"/>
+        <location filename="../src/mainwindow.cpp" line="254"/>
         <source>Music off: </source>
         <translation>Отключение: </translation>
     </message>
@@ -268,45 +268,45 @@
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="90"/>
-        <location filename="../src/playerform.cpp" line="739"/>
+        <location filename="../src/playerform.cpp" line="743"/>
         <source>Clear playlist</source>
         <translation>Очистить плейлист</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="91"/>
-        <location filename="../src/playerform.cpp" line="740"/>
+        <location filename="../src/playerform.cpp" line="744"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="92"/>
         <location filename="../src/playerform.cpp" line="230"/>
-        <location filename="../src/playerform.cpp" line="299"/>
-        <location filename="../src/playerform.cpp" line="741"/>
+        <location filename="../src/playerform.cpp" line="303"/>
+        <location filename="../src/playerform.cpp" line="745"/>
         <source>Add to favorites</source>
         <translation>В избранное</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="93"/>
-        <location filename="../src/playerform.cpp" line="742"/>
+        <location filename="../src/playerform.cpp" line="746"/>
         <source>Enqueue</source>
         <translation>В очередь</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="94"/>
-        <location filename="../src/playerform.cpp" line="743"/>
+        <location filename="../src/playerform.cpp" line="747"/>
         <source>Add to playlists</source>
         <translation>Добавить в плейлисты</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="95"/>
-        <location filename="../src/playerform.cpp" line="744"/>
+        <location filename="../src/playerform.cpp" line="748"/>
         <source>Edit tags</source>
         <translation>Редактировать теги</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="230"/>
-        <location filename="../src/playerform.cpp" line="299"/>
+        <location filename="../src/playerform.cpp" line="303"/>
         <source>Remove from favorites</source>
         <translation>Удалить из избранного</translation>
     </message>
@@ -375,12 +375,14 @@
     <message>
         <location filename="../src/ui/settingsform.ui" line="111"/>
         <location filename="../src/ui/settingsform.ui" line="359"/>
+        <location filename="../src/ui/settingsform.ui" line="436"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
     <message>
         <location filename="../src/ui/settingsform.ui" line="118"/>
         <location filename="../src/ui/settingsform.ui" line="366"/>
+        <location filename="../src/ui/settingsform.ui" line="443"/>
         <source>No</source>
         <translation>Нет</translation>
     </message>
@@ -483,6 +485,11 @@
         <location filename="../src/ui/settingsform.ui" line="409"/>
         <source>Russian</source>
         <translation>Русский</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="427"/>
+        <source>Pause when headphones unplugged:</source>
+        <translation>Пауза при отключении наушников:</translation>
     </message>
 </context>
 <context>

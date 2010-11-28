@@ -46,6 +46,7 @@ SettingsForm::SettingsForm(QWidget *parent) :
 	ui->gradientYButton->setChecked(true);
 	ui->engLangButton->setChecked(true);
 	ui->cBlueButton->setChecked(true);
+	ui->pauseHPNoButton->setChecked(true);
 	if (albumSorting == "alphabet") {
 		ui->albumsSortAButton->setChecked(true);
 	}
@@ -81,6 +82,9 @@ SettingsForm::SettingsForm(QWidget *parent) :
 	} else if (track_color == "light") {
 		ui->cLightButton->setChecked(true);
 	}
+	if (config.getValue("playback/hpautopause").toString() == "yes") {
+		ui->pauseHPYesButton->setChecked(true);
+	}
 	if (!QFile::exists(QString(_APPLICATION_PATH_)+"/someplayer_ru.qm")) {
 		ui->langBox->hide();
 	} // refactor this when more translations will be added
@@ -105,6 +109,8 @@ SettingsForm::SettingsForm(QWidget *parent) :
 	connect (ui->cRedButton, SIGNAL(toggled(bool)), this, SLOT(_set_color_red(bool)));
 	connect (ui->cWhiteButton, SIGNAL(toggled(bool)), this, SLOT(_set_color_white(bool)));
 	connect (ui->cYellowButton, SIGNAL(toggled(bool)), this, SLOT(_set_color_yellow(bool)));
+	connect (ui->pauseHPNoButton, SIGNAL(toggled(bool)), this, SLOT(_set_pause_hp_no(bool)));
+	connect (ui->pauseHPYesButton, SIGNAL(toggled(bool)), this, SLOT(_set_pause_hp_yes(bool)));
 	setAttribute(Qt::WA_Maemo5StackedWindow);
 	setWindowFlags(Qt::Window | windowFlags());
 }
@@ -259,6 +265,18 @@ void SettingsForm::_set_lang_ru(bool checked) {
 	Config config;
 	config.setValue("ui/language", "ru");
 	emit translationChanged();
+}
+
+void SettingsForm::_set_pause_hp_no(bool checked) {
+	if (!checked) return;
+	Config config;
+	config.setValue("playback/hpautopause", "no");
+}
+
+void SettingsForm::_set_pause_hp_yes(bool checked) {
+	if (!checked) return;
+	Config config;
+	config.setValue("playback/hpautopause", "yes");
 }
 
 void SettingsForm::updateTranslations() {

@@ -26,6 +26,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
 #include <QDebug>
+#include "config.h"
 
 /*
  * Implementation of adaptor class DBusAdaptop
@@ -109,6 +110,10 @@ void DBusAdaptop::processBTSignal(QString event, QString state) {
 			} else if (state == "play-cd" || state == "pause-cd") {
 				toggle();
 			} else if (state == "connection") {
+				SomePlayer::Storage::Config config;
+				if (config.getValue("playback/hpautopause").toString() != "yes") {
+					return;
+				}
 				bool present = QDBusInterface ("org.freedesktop.Hal",
 							       "/org/freedesktop/Hal/devices/platform_headphone",
 							       "org.freedesktop.Hal.Device",
