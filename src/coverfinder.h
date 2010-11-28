@@ -51,6 +51,8 @@ private:
 	QStringList SUFFIXES;
 	QStringList NAMES;
 	QStringList DIRS;
+	QStringList PRIOR_NAMES;
+	QStringList UNPRIOR_NAMES;
 
 };
 

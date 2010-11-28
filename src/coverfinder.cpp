@@ -38,6 +38,8 @@ CoverFinder::CoverFinder(QObject *parent) :
 	SUFFIXES << "png" << "jpg" << "jpeg" << "bmp" << "gif";
 	NAMES << "cover" << "folder" << "album";
 	DIRS << "cover" << "folder" << ".cover" << ".folder";
+	PRIOR_NAMES << "front" << "cover";
+	UNPRIOR_NAMES << "disk" << "back" << "booklet" << "cd";
 }
 
 bool CoverFinder::_find(QString path) {
@@ -45,6 +47,7 @@ bool CoverFinder::_find(QString path) {
 	QFileInfoList items = dir.entryInfoList(QDir::Files);
 	QFileInfoList dirs = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Hidden);
 	QFileInfoList pics;
+	QFileInfoList appropriate_pics;
 	foreach (QFileInfo item, items) {
 		if (SUFFIXES.contains(item.suffix().toLower())) {
 			pics << item;
@@ -57,9 +60,36 @@ bool CoverFinder::_find(QString path) {
 	foreach (QFileInfo item, pics) {
 		QImage i(item.absoluteFilePath());
 		if (0.8 <= (i.width()*1.0/(i.height()+1.0)) <= 1.2) {
-			emit found(i);
-			return true;
+			appropriate_pics << item;
 		}
+	}
+	if (!appropriate_pics.isEmpty()) {
+		foreach (QString name, PRIOR_NAMES) {
+			foreach (QFileInfo item, appropriate_pics) {
+				if (item.baseName().toLower().contains(name)) {
+					emit found(QImage(item.absoluteFilePath()));
+					return true;
+				}
+			}
+		}
+		QFileInfoList unprior;
+		foreach (QString name, UNPRIOR_NAMES) {
+			foreach (QFileInfo item, appropriate_pics) {
+				if (item.baseName().toLower().contains(name)) {
+					unprior << item;
+				}
+			}
+		}
+		if (appropriate_pics.size() > unprior.size()) {
+			foreach (QFileInfo item, appropriate_pics) {
+				if (!unprior.contains(item)) {
+					emit found(QImage(item.absoluteFilePath()));
+					return true;
+				}
+			}
+		}
+		emit found(QImage(unprior.at(0).absoluteFilePath()));
+		return true;
 	}
 	foreach(QFileInfo item, dirs) {
 		if (DIRS.contains(item.fileName().toLower())) {
