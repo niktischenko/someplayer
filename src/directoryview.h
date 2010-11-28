@@ -24,6 +24,7 @@
 #include <QStandardItemModel>
 #include <QStandardItem>
 #include <QItemSelection>
+#include <QStack>
 #include "tagresolver.h"
 #include "mediascanner.h"
 
@@ -58,7 +59,7 @@ private:
 	Ui::DirectoryView *ui;
 	QStandardItemModel *_model;
 	QList<QString> REGISTERED_FILE_EXTENSIONS;
-	void readDir(QString path);
+	void readDir(QString path, QString pathToScroll="");
 	void homeScreen();
 	QList<QString> _directories;
 	QList<QString> _files;
@@ -69,6 +70,7 @@ private:
 	QList<Track> _tracks;
 	QString _bottom_gradient;
 	QString _top_gradient;
+	QStack<QString> _nav_history;
 
 private slots:
 	void _back();

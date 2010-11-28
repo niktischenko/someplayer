@@ -71,7 +71,7 @@ DirectoryView::~DirectoryView()
 	delete ui;
 }
 
-void DirectoryView::readDir(QString path) {
+void DirectoryView::readDir(QString path, QString pathToScroll) {
 	QDir dir(path);
 	_current_dir = dir.absoluteFilePath(path);
 	_directories.clear();
@@ -112,13 +112,26 @@ void DirectoryView::readDir(QString path) {
 	ui->dirView->setColumnWidth(0, 70);
 	ui->addButton->setEnabled(false);
 	ui->addButton->setIcon(QIcon());
-	ui->dirView->scrollToTop();
+	if (pathToScroll.isEmpty()) {
+		ui->dirView->scrollToTop();
+		return;
+	}
+	int row = _directories.indexOf(pathToScroll);
+	if (row >= 0 && row < _model->rowCount()) {
+		QModelIndex id = _model->index(row, 1);
+		qWarning() << "scroll to " << id.row() << id.column() << id.data().toString();
+		ui->dirView->scrollTo(id, QAbstractItemView::PositionAtCenter);
+	}
 }
 
 void DirectoryView::_back() {
 	QDir current(_current_dir);
 	current.cdUp();
-	readDir(current.path());
+	QString dir_to_center = "";
+	if (_nav_history.size() > 0) {
+		dir_to_center = _nav_history.pop();
+	}
+	readDir(current.path(), dir_to_center);
 }
 
 void DirectoryView::_process_click(QModelIndex index) {
@@ -127,6 +140,8 @@ void DirectoryView::_process_click(QModelIndex index) {
 		if (index.row() < _directories.count()) {
 			_current_dir = _directories.at(index.row());
 			readDir(_current_dir);
+			qWarning() << "pushed: " << _current_dir;
+			_nav_history.push(_current_dir);
 			return;
 		}
 	}
@@ -169,6 +184,7 @@ void DirectoryView::_process_selection(QItemSelection selected, QItemSelection d
 void DirectoryView::_home() {
 	_current_dir = QDir::homePath();
 	homeScreen();
+	_nav_history.clear();
 }
 
 void DirectoryView::_toggle_selection() {
