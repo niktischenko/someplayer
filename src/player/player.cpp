@@ -328,7 +328,7 @@ QString Player::title() {
 }
 
 Track Player::current() {
-	if (_current >= 0) {
+	if (_current >= 0 && _current < _playlist.tracks().count()) {
 		return _playlist.tracks().at(_current);
 	} else {
 		return Track();
