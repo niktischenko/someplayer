@@ -137,7 +137,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/white/back.png</normaloff>:/icons/white/back.png</iconset>
          </property>
          <property name="flat">
@@ -182,7 +182,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/white/add.png</normaloff>:/icons/white/add.png</iconset>
          </property>
          <property name="flat">
@@ -221,7 +221,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/white/delete.png</normaloff>:/icons/white/delete.png</iconset>
          </property>
          <property name="flat">
@@ -266,7 +266,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/white/use.png</normaloff>:/icons/white/use.png</iconset>
          </property>
          <property name="flat">
@@ -311,7 +311,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/white/player.png</normaloff>:/icons/white/player.png</iconset>
          </property>
          <property name="flat">
@@ -335,7 +335,7 @@
           <bool>false</bool>
          </property>
          <property name="text">
-          <string/>
+          <string>Artists</string>
          </property>
          <property name="textFormat">
           <enum>Qt::AutoText</enum>
@@ -416,7 +416,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/white/more.png</normaloff>:/icons/white/more.png</iconset>
          </property>
          <property name="flat">
@@ -461,7 +461,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/white/select_all.png</normaloff>:/icons/white/select_all.png</iconset>
          </property>
          <property name="flat">
@@ -506,7 +506,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/white/artists.png</normaloff>:/icons/white/artists.png</iconset>
          </property>
          <property name="flat">
@@ -545,7 +545,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/white/playlists.png</normaloff>:/icons/white/playlists.png</iconset>
          </property>
          <property name="flat">
@@ -590,7 +590,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/white/dynamic.png</normaloff>:/icons/white/dynamic.png</iconset>
          </property>
          <property name="flat">
@@ -658,6 +658,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../resources/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
