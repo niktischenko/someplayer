@@ -127,7 +127,8 @@ SOURCES += src/main.cpp\
     src/coverfinder.cpp \
     src/clickablelabel.cpp \
     src/settingsform.cpp \
-    src/dbusclient.cpp
+    src/dbusclient.cpp \
+    src/aboutform.cpp
 
 HEADERS  += src/mainwindow.h \
 		src/player/player.h \
@@ -233,7 +234,8 @@ HEADERS  += src/mainwindow.h \
     src/coverfinder.h \
     src/clickablelabel.h \
     src/settingsform.h \
-    src/dbusclient.h
+    src/dbusclient.h \
+    src/aboutform.h
 
 FORMS    += src/ui/mainwindow.ui \
     src/ui/playerform.ui \
@@ -247,7 +249,8 @@ FORMS    += src/ui/mainwindow.ui \
     src/ui/toolswidget.ui \
     src/ui/managelibraryform.ui \
     src/ui/directoryview.ui \
-    src/ui/settingsform.ui
+    src/ui/settingsform.ui \
+    src/ui/aboutform.ui
 
 CONFIG += mobility
 MOBILITY = 
