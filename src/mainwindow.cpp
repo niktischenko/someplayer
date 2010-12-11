@@ -361,6 +361,9 @@ void MainWindow::_hw_zoom_policy_changed() {
 
 void MainWindow::_set_display_state(bool state) {
 	_display_unlocked = state;
+	if (!_display_unlocked) { // remember volume level when blocking screen
+		_system_volume = _dbus_client.getVolume();
+	}
 }
 
 void MainWindow::_zoom_key_pressed(quint32 code) {
@@ -372,10 +375,12 @@ void MainWindow::_zoom_key_pressed(quint32 code) {
 	if (code == MM_KEY_DOWN) {
 		if (behavior == "track") {
 			_player_form->prev();
+			_dbus_client.setVolume(_system_volume);
 		}
 	} else if (code == MM_KEY_UP) {
 		if (behavior == "track") {
 			_player_form->next();
+			_dbus_client.setVolume(_system_volume);
 		}
 	}
 }

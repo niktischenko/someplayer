@@ -91,6 +91,7 @@ private:
 	QTranslator *_translator;
 	DBusClient _dbus_client;
 	bool _display_unlocked;
+	quint32 _system_volume; // yes, it is here
 };
 
 #endif // MAINWINDOW_H

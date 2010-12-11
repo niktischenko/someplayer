@@ -39,6 +39,8 @@ signals:
 public slots:
 	void enableKeys();
 	void disableKeys();
+	void setVolume(quint32 volume);
+	quint32 getVolume();
 private slots:
 	void _unpause_keys();
 	void _display_handler(QString);
@@ -46,6 +48,8 @@ private slots:
 private:
 	QTimer _timer;
 	QDBusMessage _unpause_keys_message;
+	QDBusMessage _set_volume_message;
+	QDBusMessage _get_volume_message;
 };
 
 #endif // DBUSCLIENT_H

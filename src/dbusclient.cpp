@@ -65,3 +65,27 @@ void DBusClient::_display_handler(QString state) {
 void DBusClient::_zoom_keys_handler(quint32 code, quint32 /*ignored*/) {
 	emit zoomKeyPressed(code);
 }
+
+void DBusClient::setVolume(quint32 volume) {
+	QDBusMessage msg = QDBusMessage::createMethodCall("com.nokia.mafw.renderer.Mafw-Gst-Renderer-Plugin.gstrenderer",
+							  "/com/nokia/mafw/renderer/gstrenderer",
+							  "com.nokia.mafw.extension",
+							  "set_extension_property");
+	QList<QVariant> args;
+	args << "volume" << QVariant::fromValue(QDBusVariant(volume));
+	msg.setArguments(args);
+	QDBusConnection::sessionBus().send(msg);
+}
+
+quint32 DBusClient::getVolume() {
+	QDBusInterface iface("com.nokia.mafw.renderer.Mafw-Gst-Renderer-Plugin.gstrenderer",
+			     "/com/nokia/mafw/renderer/gstrenderer",
+			     "com.nokia.mafw.extension",
+			     QDBusConnection::sessionBus());
+	QDBusMessage reply = iface.call("get_extension_property", "volume");
+	QList<QVariant> values = reply.arguments();
+	QVariant volume = values.takeAt(1);
+	QDBusVariant var = qvariant_cast<QDBusVariant>(volume);
+	volume = var.variant();
+	return volume.toUInt();
+}
