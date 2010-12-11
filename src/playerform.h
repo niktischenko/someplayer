@@ -56,6 +56,7 @@ public:
 	~PlayerForm();
 	bool isEqualizerEnabled() { return _player->equalizerEnabled(); }
 	bool isEqualizerAvailable() { return _player->equalizerAvailable(); }
+	QString playerCaption();
 
 signals:
 	void library();
@@ -63,6 +64,7 @@ signals:
 	void clearPlaylist();
 	void refreshLibrary();
 	void dirView();
+	void trackChanged();
 
 public slots:
 	void reload(bool);

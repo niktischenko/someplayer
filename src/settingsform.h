@@ -48,6 +48,7 @@ signals:
 	void translationChanged();
 	void trackColorChanged();
 	void hwZoomPolicyChanged();
+	void fmtxSettingsChanged();
 
 private:
 	Ui::SettingsForm *ui;
@@ -82,6 +83,8 @@ private slots:
 	void _toggle_view_ui();
 	void _toggle_view_lib();
 	void _toggle_view_hw();
+	void _open_fmtx_settings();
+	void _toggle_fmtx_settings(bool);
 };
 
 #endif // SETTINGSFORM_H

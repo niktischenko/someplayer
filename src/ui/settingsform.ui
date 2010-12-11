@@ -51,7 +51,7 @@
      <item>
       <widget class="QPushButton" name="hwButton">
        <property name="text">
-        <string>Hardware</string>
+        <string>System</string>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -68,7 +68,7 @@
      <property name="currentIndex">
       <number>2</number>
      </property>
-     <widget class="QWidget" name="stackedWidgetPage1" native="true">
+     <widget class="QWidget" name="stackedWidgetPage1">
       <layout class="QVBoxLayout" name="verticalLayout_13">
        <property name="spacing">
         <number>0</number>
@@ -414,7 +414,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="stackedWidgetPage2" native="true">
+     <widget class="QWidget" name="stackedWidgetPage2">
       <layout class="QVBoxLayout" name="verticalLayout_15">
        <property name="spacing">
         <number>0</number>
@@ -555,7 +555,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="stackedWidgetPage3" native="true">
+     <widget class="QWidget" name="stackedWidgetPage3">
       <layout class="QVBoxLayout" name="verticalLayout_17">
        <property name="spacing">
         <number>0</number>
@@ -668,6 +668,44 @@
                  </widget>
                 </item>
                </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="fmtxGroupBox">
+             <property name="title">
+              <string>Use FMTX</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <property name="spacing">
+               <number>6</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="fmtxSettingsButton">
+                <property name="text">
+                 <string>Settings</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>

@@ -23,6 +23,7 @@
 #include <QDebug>
 #include <QFile>
 #include "someplayer.h"
+#include "fmtxsettingsdialog.h"
 
 using namespace SomePlayer::Storage;
 
@@ -51,6 +52,7 @@ SettingsForm::SettingsForm(QWidget *parent) :
 	ui->hwkeysLabel->setEnabled(false);
 	ui->hwTControlButton->setEnabled(false);
 	ui->hwVolumeButton->setEnabled(false);
+	ui->fmtxGroupBox->setChecked(false);
 	if (albumSorting == "alphabet") {
 		ui->albumsSortAButton->setChecked(true);
 	}
@@ -104,6 +106,10 @@ SettingsForm::SettingsForm(QWidget *parent) :
 		ui->hwVolumeButton->setChecked(true);
 		config.setValue("hw/zoom_action", "volume");
 	}
+	if (config.getValue("fmtx/enabled").toString() == "yes") {
+		ui->fmtxGroupBox->setChecked(true);
+		emit fmtxSettingsChanged();
+	}
 	if (!QFile::exists(QString(_APPLICATION_PATH_)+"/someplayer_ru.qm")) {
 		ui->langBox->hide();
 	} // refactor this when more translations will be added
@@ -136,6 +142,8 @@ SettingsForm::SettingsForm(QWidget *parent) :
 	connect (ui->uiButton, SIGNAL(clicked()), this, SLOT(_toggle_view_ui()));
 	connect (ui->hwButton, SIGNAL(clicked()), this, SLOT(_toggle_view_hw()));
 	connect (ui->libraryButton, SIGNAL(clicked()), this, SLOT(_toggle_view_lib()));
+	connect (ui->fmtxSettingsButton, SIGNAL(clicked()), this, SLOT(_open_fmtx_settings()));
+	connect (ui->fmtxGroupBox, SIGNAL(toggled(bool)), this, SLOT(_toggle_fmtx_settings(bool)));
 	_toggle_view_ui();
 	setAttribute(Qt::WA_Maemo5StackedWindow);
 	setWindowFlags(Qt::Window | windowFlags());
@@ -401,4 +409,19 @@ void SettingsForm::portraitMode() {
 	ui->orientationGridLayout->addWidget(ui->orientationLButton, 0, 0);
 	ui->orientationGridLayout->addWidget(ui->orientationAButton, 0, 1);
 	ui->orientationGridLayout->addWidget(ui->orientationPButton, 1, 0, 1, 2);
+}
+
+void SettingsForm::_open_fmtx_settings() {
+	FmtxSettingsDialog dialog(this);
+	dialog.exec();
+	Config config;
+	config.setValue("fmtx/station_name", dialog.stationName());
+	config.setValue("fmtx/frequency", dialog.frequency());
+	emit fmtxSettingsChanged();
+}
+
+void SettingsForm::_toggle_fmtx_settings(bool checked) {
+	Config config;
+	config.setValue("fmtx/enabled", checked ? "yes" : "no");
+	emit fmtxSettingsChanged();
 }

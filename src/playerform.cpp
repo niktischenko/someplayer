@@ -228,6 +228,7 @@ void PlayerForm::_track_changed(Track track) {
 	ui->playlistView->show();
 	_display_track(track);
 	_context_menu->actions().at(2)->setText(_lib->isFavorite(track) ? tr("Remove from favorites") : tr("Add to favorites"));
+	emit trackChanged();
 }
 
 void PlayerForm::_display_track(Track track) {
@@ -762,4 +763,9 @@ void PlayerForm::next() {
 
 void PlayerForm::prev() {
 	_player->prev();
+}
+
+QString PlayerForm::playerCaption() {
+	TrackMetadata meta = _player->current().metadata();
+	return QString("%1 - %2").arg(meta.artist()).arg(meta.title());
 }
