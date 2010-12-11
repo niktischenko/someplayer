@@ -48,8 +48,6 @@ private slots:
 private:
 	QTimer _timer;
 	QDBusMessage _unpause_keys_message;
-	QDBusMessage _set_volume_message;
-	QDBusMessage _get_volume_message;
 };
 
 #endif // DBUSCLIENT_H
