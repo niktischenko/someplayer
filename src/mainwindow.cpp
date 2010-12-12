@@ -100,7 +100,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(_settings_form, SIGNAL(hwZoomPolicyChanged()), this, SLOT(_hw_zoom_policy_changed()));
 	connect(&_dbus_client, SIGNAL(displayStateChanged(bool)), this, SLOT(_set_display_state(bool)));
 	connect(_settings_form, SIGNAL(fmtxSettingsChanged()), this, SLOT(_fmtx_settings_changed()));
-	connect(_player_form, SIGNAL(trackChanged()), this, SLOT(_update_fmtx_text()));
 	_player_form->reload(true);
 	QString mode = config.getValue("ui/orientation").toString();
 	if (mode == "landscape") {
@@ -133,6 +132,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	_library_form->checkGradient();
 	_directory_form->checkGradient();
 	_hw_zoom_policy_changed();
+	config.setValue("fmtx/enabled", "no");
 	setWindowTitle("SomePlayer");
 }
 
@@ -399,12 +399,5 @@ void MainWindow::_fmtx_settings_changed() {
 		       .arg(_player_form->playerCaption()).toAscii());
 	} else {
 		system("fmtx_client -p 0 2>&1 >/dev/null");
-	}
-}
-
-void MainWindow::_update_fmtx_text() {
-	Config config;
-	if (config.getValue("fmtx/enabled").toString() == "yes") {
-		system(QString("fmtx_client -t \"%1\" 2>&1 >/dev/null").arg(_player_form->playerCaption()).toAscii());
 	}
 }
