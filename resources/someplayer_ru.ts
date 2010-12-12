@@ -2,6 +2,46 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="ru_RU">
 <context>
+    <name>AboutForm</name>
+    <message>
+        <location filename="../src/ui/aboutform.ui" line="14"/>
+        <source>About SomePlayer</source>
+        <translation>О SomePlayer</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/aboutform.ui" line="103"/>
+        <source>&lt;b&gt;SomePlayer&lt;/b&gt; </source>
+        <translation>&lt;b&gt;SomePlayer&lt;/b&gt; </translation>
+    </message>
+    <message>
+        <location filename="../src/ui/aboutform.ui" line="128"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Droid Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Alternative music player for Maemo 5. It includes media-library, playlists, equalizer, and supports many other things.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Droid Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Альтернативный аудиоплеер для Maemo 5. Поддерживает медиабиблиотеку, плейлисты, эквалайзер, и много других вещей.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/aboutform.ui" line="155"/>
+        <source>&lt;p align=&quot;center&quot;&gt;Licensed under GPLv2&lt;br&gt;
+By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b&gt;SomePlayer&lt;/b&gt; tries to be a full replacement of standard music player for Maemo5 with many other features such as equalizer, custom playlists, smarter random mode, more flexible media-library and improved algorithm for cover searching.&lt;/p&gt;</source>
+        <translation>&lt;p align=&quot;center&quot;&gt;Лицензирован под GPLv2&lt;br&gt;
+Автор: Николай Тищенко (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b&gt;SomePlayer&lt;/b&gt; это попытка полностью заменить стандартный аудиоплеер в Maemo 5, привнеся поддержку многих других вещей: эквалайзер, пользовательские плейлисты, составленные из файлов, продвинутый случайный режим, более гибкая медиабиблиотека и продвинутый алгоритм поиска обложек для альбомов.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/aboutform.ui" line="179"/>
+        <source>&lt;p align=&quot;center&quot;&gt;&lt;b&gt;Thanks to:&lt;/b&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;MrClon (maemoworld.ru)&lt;br&gt;hxka (maemoworld.ru)&lt;br&gt;jerich0 (maemoworld.ru)&lt;br&gt;lknfox (maemoworld.ru)&lt;br&gt;fab (maemoworld.ru)&lt;br&gt;and other people who tested this player&lt;/p&gt;</source>
+        <translation>&lt;p align=&quot;center&quot;&gt;&lt;b&gt;Автор благодарен:&lt;/b&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;MrClon (maemoworld.ru)&lt;br&gt;hxka (maemoworld.ru)&lt;br&gt;jerich0 (maemoworld.ru)&lt;br&gt;lknfox (maemoworld.ru)&lt;br&gt;fab (maemoworld.ru)&lt;br&gt;и всем другим, кто помогал в разработке и тестировании плеера&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
     <name>DirectoryView</name>
     <message>
         <location filename="../src/ui/directoryview.ui" line="14"/>
@@ -76,6 +116,216 @@
     </message>
 </context>
 <context>
+    <name>FmtxSettingsDialog</name>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="14"/>
+        <source>FMTX Settings</source>
+        <translation>Настройки FMTX</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="23"/>
+        <source>Frequency:</source>
+        <translation>Частота:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="39"/>
+        <source>88</source>
+        <translation>88</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="47"/>
+        <source>89</source>
+        <translation>89</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="55"/>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="353"/>
+        <source>90</source>
+        <translation>90</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="63"/>
+        <source>91</source>
+        <translation>91</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="71"/>
+        <source>92</source>
+        <translation>92</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="79"/>
+        <source>93</source>
+        <translation>93</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="87"/>
+        <source>94</source>
+        <translation>94</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="95"/>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="361"/>
+        <source>95</source>
+        <translation>95</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="103"/>
+        <source>96</source>
+        <translation>96</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="111"/>
+        <source>97</source>
+        <translation>97</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="119"/>
+        <source>98</source>
+        <translation>98</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="127"/>
+        <source>99</source>
+        <translation>99</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="135"/>
+        <source>100</source>
+        <translation>100</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="143"/>
+        <source>101</source>
+        <translation>101</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="151"/>
+        <source>102</source>
+        <translation>102</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="159"/>
+        <source>103</source>
+        <translation>103</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="167"/>
+        <source>104</source>
+        <translation>104</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="175"/>
+        <source>105</source>
+        <translation>105</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="183"/>
+        <source>106</source>
+        <translation>106</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="191"/>
+        <source>107</source>
+        <translation>107</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="209"/>
+        <source>00</source>
+        <translation>00</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="217"/>
+        <source>05</source>
+        <translation>05</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="225"/>
+        <source>10</source>
+        <translation>10</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="233"/>
+        <source>15</source>
+        <translation>15</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="241"/>
+        <source>20</source>
+        <translation>20</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="249"/>
+        <source>25</source>
+        <translation>25</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="257"/>
+        <source>30</source>
+        <translation>30</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="265"/>
+        <source>35</source>
+        <translation>35</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="273"/>
+        <source>40</source>
+        <translation>40</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="281"/>
+        <source>45</source>
+        <translation>45</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="289"/>
+        <source>50</source>
+        <translation>50</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="297"/>
+        <source>55</source>
+        <translation>55</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="305"/>
+        <source>60</source>
+        <translation>60</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="313"/>
+        <source>65</source>
+        <translation>65</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="321"/>
+        <source>70</source>
+        <translation>70</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="329"/>
+        <source>75</source>
+        <translation>75</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="337"/>
+        <source>80</source>
+        <translation>80</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="345"/>
+        <source>85</source>
+        <translation>85</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/fmtxsettingsdialog.ui" line="384"/>
+        <source>Station:</source>
+        <translation>Станция:</translation>
+    </message>
+</context>
+<context>
     <name>LibraryForm</name>
     <message>
         <location filename="../src/ui/libraryform.ui" line="14"/>
@@ -83,6 +333,7 @@
         <translation>Библиотека</translation>
     </message>
     <message>
+        <location filename="../src/ui/libraryform.ui" line="338"/>
         <location filename="../src/libraryform.cpp" line="174"/>
         <source>Artists</source>
         <translation>Исполнители</translation>
@@ -233,14 +484,6 @@
         <translation>SomePlayer</translation>
     </message>
     <message>
-        <source>Music off:</source>
-        <translation type="obsolete">Выключение:</translation>
-    </message>
-    <message>
-        <source>00:00:00</source>
-        <translation type="obsolete">00:00:00</translation>
-    </message>
-    <message>
         <location filename="../src/ui/playerform.ui" line="124"/>
         <source>Music off: 00:00:00</source>
         <translation>Выключение: 00:00:00</translation>
@@ -268,45 +511,45 @@
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="90"/>
-        <location filename="../src/playerform.cpp" line="743"/>
+        <location filename="../src/playerform.cpp" line="745"/>
         <source>Clear playlist</source>
         <translation>Очистить плейлист</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="91"/>
-        <location filename="../src/playerform.cpp" line="744"/>
+        <location filename="../src/playerform.cpp" line="746"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="92"/>
-        <location filename="../src/playerform.cpp" line="230"/>
-        <location filename="../src/playerform.cpp" line="303"/>
-        <location filename="../src/playerform.cpp" line="745"/>
+        <location filename="../src/playerform.cpp" line="231"/>
+        <location filename="../src/playerform.cpp" line="305"/>
+        <location filename="../src/playerform.cpp" line="747"/>
         <source>Add to favorites</source>
         <translation>В избранное</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="93"/>
-        <location filename="../src/playerform.cpp" line="746"/>
+        <location filename="../src/playerform.cpp" line="748"/>
         <source>Enqueue</source>
         <translation>В очередь</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="94"/>
-        <location filename="../src/playerform.cpp" line="747"/>
+        <location filename="../src/playerform.cpp" line="749"/>
         <source>Add to playlists</source>
         <translation>Добавить в плейлисты</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="95"/>
-        <location filename="../src/playerform.cpp" line="748"/>
+        <location filename="../src/playerform.cpp" line="750"/>
         <source>Edit tags</source>
         <translation>Редактировать теги</translation>
     </message>
     <message>
-        <location filename="../src/playerform.cpp" line="230"/>
-        <location filename="../src/playerform.cpp" line="303"/>
+        <location filename="../src/playerform.cpp" line="231"/>
+        <location filename="../src/playerform.cpp" line="305"/>
         <source>Remove from favorites</source>
         <translation>Удалить из избранного</translation>
     </message>
@@ -349,6 +592,7 @@
     <name>SettingsForm</name>
     <message>
         <location filename="../src/ui/settingsform.ui" line="14"/>
+        <location filename="../src/ui/settingsform.ui" line="706"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
@@ -361,11 +605,6 @@
         <location filename="../src/ui/settingsform.ui" line="41"/>
         <source>Library</source>
         <translation>Библиотека</translation>
-    </message>
-    <message>
-        <location filename="../src/ui/settingsform.ui" line="54"/>
-        <source>Hardware</source>
-        <translation>Система</translation>
     </message>
     <message>
         <location filename="../src/ui/settingsform.ui" line="103"/>
@@ -469,7 +708,7 @@
     <message>
         <location filename="../src/ui/settingsform.ui" line="650"/>
         <source>Zoom keys control:</source>
-        <translation>&quot;Качелька&quot; управляет:</translation>
+        <translation>«Качелька» управляет:</translation>
     </message>
     <message>
         <location filename="../src/ui/settingsform.ui" line="659"/>
@@ -482,9 +721,19 @@
         <translation>Треками</translation>
     </message>
     <message>
+        <location filename="../src/ui/settingsform.ui" line="678"/>
+        <source>Use FMTX</source>
+        <translation>Включить FMTX</translation>
+    </message>
+    <message>
         <location filename="../src/ui/settingsform.ui" line="304"/>
         <source>Orientation:</source>
         <translation>Ориентация:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingsform.ui" line="54"/>
+        <source>System</source>
+        <translation>Система</translation>
     </message>
     <message>
         <location filename="../src/ui/settingsform.ui" line="330"/>
