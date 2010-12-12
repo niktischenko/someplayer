@@ -115,6 +115,7 @@ private slots:
 	void _tools_widget_toggle();
 	void _display_cover(QImage);
 	void _toggle_extra_buttons();
+	void _start_playlist();
 
 private:
     Ui::PlayerForm *ui;

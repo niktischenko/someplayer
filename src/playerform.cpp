@@ -148,6 +148,8 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(ui->cfavButton, SIGNAL(clicked()), this, SLOT(_c_add_to_favorites()));
 	connect(ui->ctagButton, SIGNAL(clicked()), this, SLOT(_c_edit_tags()));
 	connect(_cover, SIGNAL(clicked()), this, SLOT(_toggle_extra_buttons()));
+	connect(_player, SIGNAL(startPlaylist()), this, SLOT(_start_playlist()));
+	connect(_player, SIGNAL(saveLastPlayed(LastPlayed)), _lib, SLOT(saveLastPlayedForCurPlaylist(LastPlayed)));
 	ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
 	_top_gradient = ui->topWidget->styleSheet();
 	_bottom_gradient = ui->bottomWidget->styleSheet();
@@ -209,7 +211,6 @@ void PlayerForm::_toggle_view() {
 void PlayerForm::_process_click(QModelIndex index) {
 	if (index.column() == 1) {
 		int id = index.row();
-		_player->stop();
 		_player->setTrackId(id);
 		_player->play();
 		_track_renderer->setActiveRow(id);
@@ -768,4 +769,15 @@ void PlayerForm::prev() {
 QString PlayerForm::playerCaption() {
 	TrackMetadata meta = _player->current().metadata();
 	return QString("%1 - %2").arg(meta.artist()).arg(meta.title());
+}
+
+void PlayerForm::_start_playlist() {
+	Config config;
+	if (config.getValue("playback/autoresume_off").toBool()) {
+		_player->next();
+		return;
+	}
+	LastPlayed lp = _lib->getLastPlayedForCurPlaylist();
+	_player->setTrackId(lp.trackId);
+	_player->setAwaitingSeek(lp.position);
 }

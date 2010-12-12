@@ -30,6 +30,12 @@
 
 namespace SomePlayer {
 	namespace DataObjects {
+
+		struct LastPlayed {
+			int trackId;
+			int position;
+		};
+
 		class Playlist {
 		public:
 			Playlist();

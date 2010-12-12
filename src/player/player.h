@@ -37,6 +37,7 @@
 using SomePlayer::DataObjects::Track;
 using SomePlayer::DataObjects::TrackMetadata;
 using SomePlayer::DataObjects::Playlist;
+using SomePlayer::DataObjects::LastPlayed;
 using SomePlayer::Storage::Config;
 
 namespace SomePlayer {
@@ -50,6 +51,7 @@ namespace SomePlayer {
 			Q_OBJECT
 		public:
 			explicit Player(QObject *parent = 0);
+			~Player();
 			bool random() {return _random;}
 			RepeatRule repeat() {return _repeat;}
 			Phonon::MediaObject* mediaObject() {return _player;}
@@ -57,12 +59,14 @@ namespace SomePlayer {
 			bool equalizerAvailable() {return _equalizer != NULL;}
 			PlayerState state() {return _state;}
 			Track current();
-
+			void setAwaitingSeek(int pos) {_awaiting_seek = true; _awaiting_seek_pos = pos;}
 		signals:
 			void stateChanged (PlayerState);
 			void trackChanged (Track);
 			void tick (int, int); // played | all (seconds)
 			void trackDone(Track);
+			void startPlaylist();
+			void saveLastPlayed(LastPlayed);
 
 		public slots:
 			void setTrackId(int id);
@@ -105,6 +109,8 @@ namespace SomePlayer {
 			void _set_source();
 			void _to_history(Track t);
 			void _truncate_history();
+			int _awaiting_seek_pos;
+			bool _awaiting_seek;
 		};
 	};
 };

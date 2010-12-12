@@ -221,3 +221,62 @@ void FileStorage::saveCurrentPlaylist(Playlist playlist) {
 	playlist.setName(_CURRENT_PLAYLIST_NAME_);
 	savePlaylist(playlist);
 }
+
+LastPlayed FileStorage::getLastPlayedForCurPlaylist() {
+	QFile playlistFile (_path_prefix + "/" + _CURRENT_PLAYLIST_NAME_ + "." + _PLAYLIST_FILE_EXTENSION_);
+	int trackId = 0;
+	int position = 0;
+	if (playlistFile.exists()) {
+		QDomDocument doc;
+		playlistFile.open(QFile::ReadOnly);
+		doc.setContent(&playlistFile);
+		playlistFile.close();
+		QDomElement eplaylist = doc.documentElement();
+		if (eplaylist.tagName() == "playlist") {
+			QDomElement eextension = eplaylist.firstChildElement("extension");
+			if (!eextension.isNull()) {
+				QDomElement elastplay = eextension.firstChildElement("lastplay");
+				if (!elastplay.isNull()) {
+					trackId = elastplay.attribute("track_id").toInt();
+					position = elastplay.attribute("position").toInt();
+				}
+			}
+		}
+	}
+	LastPlayed lp = {trackId, position};
+	return lp;
+}
+
+void FileStorage::saveLastPlayedForCurPlaylist(LastPlayed lastplayed) {
+	QFile playlistFile (_path_prefix + "/" + _CURRENT_PLAYLIST_NAME_ + "." + _PLAYLIST_FILE_EXTENSION_);
+	QDomDocument doc;
+	if (playlistFile.exists()) {
+		playlistFile.open(QFile::ReadOnly);
+		doc.setContent(&playlistFile);
+		playlistFile.close();
+		QDomElement eplaylist = doc.documentElement();
+		if (eplaylist.tagName() == "playlist") {
+			QDomElement eextension = eplaylist.firstChildElement("extension");
+			if (eextension.isNull()) {
+				eextension = doc.createElement("extension");
+				eextension.setAttribute("application", "http://example.com");
+				QDomElement elastplay = doc.createElement("lastplay");
+				elastplay.setAttribute("track_id", lastplayed.trackId);
+				elastplay.setAttribute("position", lastplayed.position);
+				eextension.appendChild(elastplay);
+				eplaylist.appendChild(eextension);
+			} else {
+				QDomElement elastplay = eextension.firstChildElement("lastplay");
+				if (elastplay.isNull()) {
+					elastplay = doc.createElement("lastplay");
+					eextension.appendChild(elastplay);
+				}
+				elastplay.setAttribute("track_id", lastplayed.trackId);
+				elastplay.setAttribute("position", lastplayed.position);
+			}
+		}
+	}
+	playlistFile.open(QFile::WriteOnly);
+	QTextStream stream(&playlistFile);
+	stream << doc.toString();
+}

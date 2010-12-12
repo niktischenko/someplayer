@@ -41,6 +41,7 @@
 // it store data into separate files (e.g. playlist)
 
 using SomePlayer::DataObjects::Playlist;
+using SomePlayer::DataObjects::LastPlayed;
 
 namespace SomePlayer {
 	namespace Storage {
@@ -58,6 +59,8 @@ namespace SomePlayer {
 
 			Playlist getCurrentPlaylist();
 			void saveCurrentPlaylist(Playlist playlist);
+			LastPlayed getLastPlayedForCurPlaylist();
+			void saveLastPlayedForCurPlaylist(LastPlayed);
 		private:
 			QString _path_prefix;
 		};

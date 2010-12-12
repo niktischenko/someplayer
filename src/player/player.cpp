@@ -43,6 +43,7 @@ inline QList<Track> __sub(QList<Track> one, QList<Track> two, Track three) {
 Player::Player(QObject *parent) :
     QObject(parent)
 {
+	_awaiting_seek = false;
 	_player = new Phonon::MediaObject(this);
 	_output = new Phonon::AudioOutput(Phonon::MusicCategory, this);
 	_player->setTickInterval(1000);
@@ -90,6 +91,15 @@ void Player::toggle() {
 }
 
 void Player::stop() {
+	if (_state == PLAYER_STOPPED) {
+		return;
+	}
+	LastPlayed lp;
+	lp.position = _player->currentTime() / 1000 - 2;
+	lp.position = lp.position < 0 ? 0 : lp.position;
+	lp.trackId = _playlist.tracks().indexOf(_track);
+	lp.trackId = lp.trackId < 0 ? 0 : lp.trackId;
+	emit saveLastPlayed(lp);
 	_player->stop();
 	_state = PLAYER_STOPPED;
 	emit stateChanged(_state);
@@ -169,6 +179,10 @@ void Player::_stateChanged(Phonon::State newState, Phonon::State /*oldState*/) {
 	case Phonon::PlayingState:
 		_state = PLAYER_PLAYING;
 		emit stateChanged(_state);
+		if (_awaiting_seek) {
+			_awaiting_seek = false;
+			seek(_awaiting_seek_pos);
+		}
 		break;
 	case Phonon::ErrorState:
 		play(); // force
@@ -204,7 +218,7 @@ void Player::play() {
 	if (_playlist.tracks().isEmpty())
 		return;
 	if (_track.source().isEmpty()) {
-		next();
+		emit startPlaylist();
 		return;
 	}
 	_state = PLAYER_PLAYING;
@@ -321,4 +335,8 @@ void Player::_truncate_history() {
 	while (_history.size() > 50 || _history.size() > _playlist.tracks().size()/2) {
 		_history.removeLast();
 	}
+}
+
+Player::~Player() {
+	stop();
 }

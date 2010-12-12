@@ -236,3 +236,11 @@ void Library::removeFromFavorites(Track track) {
 bool Library::isFavorite(Track track) {
 	return _library_storage->isFavorite(track);
 }
+
+LastPlayed Library::getLastPlayedForCurPlaylist() {
+	return _playlist_storage->getLastPlayedForCurPlaylist();
+}
+
+void Library::saveLastPlayedForCurPlaylist(LastPlayed lastplayed) {
+	_playlist_storage->saveLastPlayedForCurPlaylist(lastplayed);
+}

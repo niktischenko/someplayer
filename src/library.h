@@ -76,6 +76,7 @@ namespace SomePlayer {
 
 			Playlist getCurrentPlaylist();
 			void saveCurrentPlaylist(const Playlist &playlist);
+			LastPlayed getLastPlayedForCurPlaylist();
 
 			void updateDirectories(QList<QString> directories);
 			void updateAll();
@@ -108,6 +109,7 @@ namespace SomePlayer {
 			void updateTrackCount(Track);
 			void updateTrackMetadata(Track);
 			void updatePlaylists();
+			void saveLastPlayedForCurPlaylist(LastPlayed);
 		};
 
 	};
