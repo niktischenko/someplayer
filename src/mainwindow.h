@@ -30,6 +30,7 @@
 #include "managelibraryform.h"
 #include "directoryview.h"
 #include "settingsform.h"
+#include "aboutform.h"
 #include "library.h"
 #include "dbusclient.h"
 #include <QTimer>
@@ -84,6 +85,7 @@ private:
 	BusyWidget *_busy_widget;
 	DirectoryView *_directory_form;
 	SettingsForm *_settings_form;
+	AboutForm *_about_form;
 	Library *_library;
 	QTimer *_timer;
 	EqualizerDialog *_equalizer_dialog;

@@ -74,6 +74,8 @@ Player::Player(QObject *parent) :
 }
 
 void Player::setTrackId(int id) {
+	id = id < 0 ? 0 : id;
+	id = id >= _playlist.tracks().size() ? _playlist.tracks().size()-1 : id;
 	_to_history(_track);
 	_track = _playlist.tracks().at(id);
 	_set_source();

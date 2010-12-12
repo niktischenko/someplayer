@@ -34,10 +34,6 @@
 #include "equalizerdialog.h"
 #include "saveplaylistdialog.h"
 #include "settingsform.h"
-#include <QtGui/QX11Info>
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
-
 
 using namespace SomePlayer::DataObjects;
 using namespace SomePlayer::Storage;
@@ -66,6 +62,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	_manage_library_form = new ManageLibraryForm(_library, this);
 	_settings_form = new SettingsForm(this);
 	_settings_form->hide();
+	_about_form = new AboutForm(this);
+	_about_form->hide();
 	connect(_player_form, SIGNAL(library()), this, SLOT(library()));
 	connect(_library_form, SIGNAL(refreshPlayer()), this, SLOT(player()));
 	connect(ui->actionManageLibrary, SIGNAL(triggered()), this, SLOT(_manage_library()));
@@ -90,6 +88,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(_settings_form, SIGNAL(iconsChanged()), _library_form, SLOT(updateIcons()));
 	connect(_settings_form, SIGNAL(iconsChanged()), _manage_library_form, SLOT(updateIcons()));
 	connect(_settings_form, SIGNAL(iconsChanged()), _directory_form, SLOT(updateIcons()));
+	connect(_settings_form, SIGNAL(iconsChanged()), _about_form, SLOT(updateIcons()));
 	connect(_settings_form, SIGNAL(gradientChanged()), _player_form, SLOT(checkGradient()));
 	connect(_settings_form, SIGNAL(gradientChanged()), _library_form, SLOT(checkGradient()));
 	connect(_settings_form, SIGNAL(gradientChanged()), _directory_form, SLOT(checkGradient()));
@@ -144,9 +143,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::about() {
-	QMessageBox::about(this, QString("About SomePlayer v")+_SOMEPLAYER_VERSION_, "Alternate music player for Maemo 5 "
-					   "written in C++ with Qt4\n\n"
-					   "Author: Nikolay Tischenko aka \"somebody\" <niktischenko@gmail.com>");
+	_about_form->show();
 }
 
 void MainWindow::player() {
@@ -195,13 +192,13 @@ void MainWindow::_save_playlist() {
 		QString name = dialog.selectedName();
 		bool append = false;
 		if (playlists.contains(name)) {
-			if (QMessageBox::question(this, "Append to playlist?", "Playlist with name \""+name+"\" already exists.\n"
-						  "Dow you want to append current playlist to it?",
-						  QMessageBox::Ok, QMessageBox::Cancel) == QMessageBox::Ok) {
-				append = true;
-			} else {
-				append = false;
+			if (QMessageBox::question(this, "Overwrite playlist?", "Overwrite playlist \""+name+"\"?", QMessageBox::Ok, QMessageBox::Cancel)
+				!= QMessageBox::Ok) {
+				return;
 			}
+			append = (QMessageBox::question(this, "Append to playlist?", "Playlist with name \""+name+"\" already exists.\n"
+						  "Dow you want to append current playlist to it?",
+						  QMessageBox::Ok, QMessageBox::Cancel) == QMessageBox::Ok);
 		}
 		if (append) {
 			Playlist target = _library->getPlaylist(name);
@@ -348,6 +345,7 @@ void MainWindow::updateTranslations() {
 	_manage_library_form->updateTranslations();
 	_directory_form->updateTranslations();
 	_settings_form->updateTranslations();
+	_about_form->updateTranslations();
 }
 
 void MainWindow::_hw_zoom_policy_changed() {

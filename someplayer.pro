@@ -128,7 +128,8 @@ SOURCES += src/main.cpp\
     src/clickablelabel.cpp \
     src/settingsform.cpp \
     src/dbusclient.cpp \
-    src/fmtxsettingsdialog.cpp
+    src/fmtxsettingsdialog.cpp \
+    src/aboutform.cpp
 
 HEADERS  += src/mainwindow.h \
 		src/player/player.h \
@@ -235,7 +236,8 @@ HEADERS  += src/mainwindow.h \
     src/clickablelabel.h \
     src/settingsform.h \
     src/dbusclient.h \
-    src/fmtxsettingsdialog.h
+    src/fmtxsettingsdialog.h \
+    src/aboutform.h
 
 FORMS    += src/ui/mainwindow.ui \
     src/ui/playerform.ui \
@@ -250,7 +252,8 @@ FORMS    += src/ui/mainwindow.ui \
     src/ui/managelibraryform.ui \
     src/ui/directoryview.ui \
     src/ui/settingsform.ui \
-    src/ui/fmtxsettingsdialog.ui
+    src/ui/fmtxsettingsdialog.ui \
+    src/ui/aboutform.ui
 
 CONFIG += mobility
 MOBILITY = 
