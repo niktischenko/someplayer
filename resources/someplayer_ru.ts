@@ -10,31 +10,23 @@
     </message>
     <message>
         <location filename="../src/ui/aboutform.ui" line="103"/>
-        <source>&lt;b&gt;SomePlayer&lt;/b&gt; </source>
-        <translation>&lt;b&gt;SomePlayer&lt;/b&gt; </translation>
+        <source>&lt;b&gt;SomePlayer 1.4.3&lt;/b&gt; </source>
+        <translation>&lt;b&gt;SomePlayer 1.4.3&lt;/b&gt; </translation>
     </message>
     <message>
         <location filename="../src/ui/aboutform.ui" line="128"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Droid Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Alternative music player for Maemo 5. It includes media-library, playlists, equalizer, and supports many other things.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Droid Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Альтернативный аудиоплеер для Maemo 5. Поддерживает медиабиблиотеку, плейлисты, эквалайзер, и много других вещей.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;p align=&quot;center&quot;&gt;Alternative music player for Maemo 5. It includes media-library, playlists, equalizer, and supports many other things.&lt;/p&gt;</source>
+        <translation>&lt;p align=&quot;center&quot;&gt;Альтернативный аудиоплеер для Maemo 5. Поддерживает медиабиблиотеку, плейлисты, эквалайзер и много других вещей.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/aboutform.ui" line="155"/>
+        <location filename="../src/ui/aboutform.ui" line="151"/>
         <source>&lt;p align=&quot;center&quot;&gt;Licensed under GPLv2&lt;br&gt;
 By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b&gt;SomePlayer&lt;/b&gt; tries to be a full replacement of standard music player for Maemo5 with many other features such as equalizer, custom playlists, smarter random mode, more flexible media-library and improved algorithm for cover searching.&lt;/p&gt;</source>
         <translation>&lt;p align=&quot;center&quot;&gt;Лицензирован под GPLv2&lt;br&gt;
 Автор: Николай Тищенко (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b&gt;SomePlayer&lt;/b&gt; это попытка полностью заменить стандартный аудиоплеер в Maemo 5, привнеся поддержку многих других вещей: эквалайзер, пользовательские плейлисты, составленные из файлов, продвинутый случайный режим, более гибкая медиабиблиотека и продвинутый алгоритм поиска обложек для альбомов.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/aboutform.ui" line="179"/>
+        <location filename="../src/ui/aboutform.ui" line="175"/>
         <source>&lt;p align=&quot;center&quot;&gt;&lt;b&gt;Thanks to:&lt;/b&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot;&gt;MrClon (maemoworld.ru)&lt;br&gt;hxka (maemoworld.ru)&lt;br&gt;jerich0 (maemoworld.ru)&lt;br&gt;lknfox (maemoworld.ru)&lt;br&gt;fab (maemoworld.ru)&lt;br&gt;and other people who tested this player&lt;/p&gt;</source>
         <translation>&lt;p align=&quot;center&quot;&gt;&lt;b&gt;Автор благодарен:&lt;/b&gt;&lt;/p&gt;
