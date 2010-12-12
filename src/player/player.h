@@ -45,24 +45,11 @@ namespace SomePlayer {
 		enum PlayerState { PLAYER_STOPPED, PLAYER_PLAYING, PLAYER_PAUSED, PLAYER_LOADING, PLAYER_DONE, PLAYER_ERROR };
 		enum RepeatRule {REPEAT_NO, REPEAT_ALL, REPEAT_ONE};
 
-		class Randomizer {
-		public:
-			void setPlaylist(QList<int>);
-			int next();
-			void removeId(int);
-		private:
-			QList<int> _playlist;
-			QList<int> _rand;
-			void _shuffle();
-			int _last;
-		};
-
 		class Player : public QObject
 		{
 			Q_OBJECT
 		public:
 			explicit Player(QObject *parent = 0);
-
 			bool random() {return _random;}
 			RepeatRule repeat() {return _repeat;}
 			Phonon::MediaObject* mediaObject() {return _player;}
@@ -79,7 +66,7 @@ namespace SomePlayer {
 
 		public slots:
 			void setTrackId(int id);
-			void enqueue(int id);
+			void enqueue(int id); // refactor
 			void toggle();
 			void play();
 			void pause();
@@ -102,15 +89,12 @@ namespace SomePlayer {
 			void _stateChanged(Phonon::State, Phonon::State);
 			void _tick(qint64);
 		private:
-			Randomizer _randomizer;
-			int _current;
-			Track _track; // current track (workaround)
+			Track _track; // current track
 			bool _random;
 			RepeatRule _repeat;
 			bool _equalizer_enabled;
-			QStack<int> _history;
-			QQueue<int> _queue;
-			QStack<int> _prev_history;
+			QList<Track> _history;
+			QList<Track> _queue;
 			Playlist _playlist;
 			Phonon::MediaObject *_player;
 			Phonon::AudioOutput *_output;
@@ -118,9 +102,9 @@ namespace SomePlayer {
 			Phonon::Effect *_equalizer;
 			PlayerState _state;
 			Config _config;
-
 			void _set_source();
-
+			void _to_history(Track t);
+			void _truncate_history();
 		};
 	};
 };

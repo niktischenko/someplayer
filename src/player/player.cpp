@@ -30,47 +30,14 @@ using namespace SomePlayer::Playback;
 using namespace SomePlayer::DataObjects;
 using namespace SomePlayer::Storage;
 
-int Randomizer::next() {
-	int res = 0;
-	if (_rand.count() == 0) {
-		_shuffle();
-		res = next();
-	} else {
-		res = _rand.takeFirst();
+inline QList<Track> __sub(QList<Track> one, QList<Track> two, Track three) {
+	QList<Track> result;
+	foreach (Track t, one) {
+		if (!two.contains(t) && !(t == three)) {
+			result.append(t);
+		}
 	}
-	return res;
-}
-
-void Randomizer::setPlaylist(QList<int> pl) {
-	_playlist = pl;
-	_shuffle();
-	_last = -1;
-}
-
-void Randomizer::_shuffle() {
-	_rand.clear();
-	// Fisher-Yates algorithm:
-	_rand = _playlist;
-	int cnt = _playlist.count();
-	int j = 0;
-	int tmp = 0;
-	for (int i = cnt-1; i > 0; i--) {
-		j = qrand() % (i+1);
-		tmp = _rand[i];
-		_rand[i] = _rand[j];
-		_rand[j] = tmp;
-	}
-	if (cnt > 1 && _last == _rand[0]) {
-		_rand.removeAt(0);
-		_rand.insert(qrand() % (cnt-1) + 1, _last);
-	}
-	if (!_rand.isEmpty())
-		_last = _rand.last();
-	else _last = -1;
-}
-
-void Randomizer::removeId(int id) {
-	_rand.removeOne(id);
+	return result;
 }
 
 Player::Player(QObject *parent) :
@@ -103,21 +70,13 @@ Player::Player(QObject *parent) :
 	qsrand(seed);
 	_random = _config.getValue("playback/random").toBool();
 	_repeat = (RepeatRule) _config.getValue("playback/repeat").toInt();
-	_current = -1;
 }
 
 void Player::setTrackId(int id) {
-	if (_random) {
-		_randomizer.removeId(id);
-	}
-	_current = id;
-	if (!_history.isEmpty() && _history.top() != _current || _history.isEmpty()) {
-		_history.push(_current);
-	}
-	_track = _playlist.tracks().at(_current);
+	_to_history(_track);
+	_track = _playlist.tracks().at(id);
 	_set_source();
-	_state = PLAYER_LOADING;
-	emit stateChanged(_state);
+	play();
 }
 
 void Player::toggle() {
@@ -147,28 +106,45 @@ void Player::next() {
 		play();
 		return;
 	}
-	_history.push(_current % count);
-	if (!_queue.isEmpty()) {
-		_current = _queue.dequeue();
-	} else if (!_prev_history.isEmpty()) {
-		_current = _prev_history.pop();
-	} else {
-		if (_random) {
-			_current = _randomizer.next();
-		} else {
-			_current = _current + 1;
+	Track _new;
+	while (!_queue.isEmpty()) {
+		_new = _queue.takeFirst();
+		if (_playlist.tracks().contains(_new)) {
+			_to_history(_track);
+			_track = _new;
+			_set_source();
+			play();
+			return;
 		}
 	}
-	if (_random && _history.count() >= count && _repeat == REPEAT_NO||
-		_repeat == REPEAT_NO && _current >= count) {
-		_history.clear();
-		stop();
-	} else {
-		_current %= count;
-		_track = _playlist.tracks().at(_current);
+	if (!_random) {
+		int pos = _playlist.tracks().indexOf(_track) + 1;
+		if (pos >= _playlist.tracks().count()) {
+			if (_repeat == REPEAT_NO) {
+				stop();
+			}
+			pos %= _playlist.tracks().count();
+		}
+		_to_history(_track);
+		_track = _playlist.tracks().at(pos);
 		_set_source();
 		play();
+		return;
 	}
+	// random
+	QList<Track> sub = __sub(_playlist.tracks(), _history, _track);
+	int size = sub.count();
+	if (size == 0) {
+		_to_history(_track);
+		_set_source();
+		play();
+		return;
+	}
+	int pos = qrand() % size;
+	_to_history(_track);
+	_track = sub.at(pos);
+	_set_source();
+	play();
 }
 
 void Player::_set_source() {
@@ -177,11 +153,13 @@ void Player::_set_source() {
 }
 
 void Player::prev() {
-	if (_history.count() > 0) {
-		_prev_history.push(_current);
-		_current = _history.pop();
-		_track = _playlist.tracks().at(_current);
+	if (_history.isEmpty()) {
+		_set_source();
+		play();
+		return;
 	}
+	_queue.push_front(_track);
+	_track = _history.takeFirst();
 	_set_source();
 	play();
 }
@@ -212,15 +190,7 @@ void Player::_tick(qint64 ticks) {
 
 void Player::setPlaylist(Playlist playlist) {
 	_playlist = playlist;
-	_history.clear();
-	_prev_history.clear();
-	_queue.clear();
-	QList<int> ids;
-	int count = playlist.tracks().count();
-	for (int i = 0; i < count; i++) {
-		ids.append(i);
-	}
-	_randomizer.setPlaylist(ids);
+	_truncate_history();
 }
 
 void Player::seek(int s) {
@@ -233,18 +203,17 @@ void Player::seek(int s) {
 void Player::play() {
 	if (_playlist.tracks().isEmpty())
 		return;
+	if (_track.source().isEmpty()) {
+		next();
+		return;
+	}
 	_state = PLAYER_PLAYING;
 	emit stateChanged(_state);
-	if (_current == -1) {
-		_current = 0;
-		_track = _playlist.tracks().at(0);
-		_set_source();
-	}
 	_player->play();
 }
 
 void Player::enqueue(int id) {
-	_queue.enqueue(id);
+	_queue.push_back(_playlist.tracks().at(id));
 }
 
 void Player::toggleRandom() {
@@ -310,29 +279,19 @@ void Player::setEqualizerValue(int band, double value) {
 }
 
 QString Player::artist() {
-	if (_current < 0)
-		return "";
-	return _playlist.tracks().at(_current).metadata().artist();
+	return _track.metadata().artist();
 }
 
 QString Player::album() {
-	if (_current < 0)
-		return "";
-	return _playlist.tracks().at(_current).metadata().album();
+	return _track.metadata().album();
 }
 
 QString Player::title() {
-	if (_current < 0)
-		return "";
-	return _playlist.tracks().at(_current).metadata().title();
+	return _track.metadata().title();
 }
 
 Track Player::current() {
-	if (_current >= 0 && _current < _playlist.tracks().count()) {
-		return _playlist.tracks().at(_current);
-	} else {
-		return Track();
-	}
+	return _track;
 }
 
 void Player::pause() {
@@ -346,5 +305,20 @@ void Player::pause() {
 void Player::playIfPaused() {
 	if (_state == PLAYER_PAUSED) {
 		play();
+	}
+}
+
+void Player::_to_history(Track t) {
+	if (!t.source().isEmpty()) {
+		_history.push_front(t);
+	}
+	_truncate_history();
+	foreach (Track t, _history) {
+	}
+}
+
+void Player::_truncate_history() {
+	while (_history.size() > 50 || _history.size() > _playlist.tracks().size()/2) {
+		_history.removeLast();
 	}
 }
