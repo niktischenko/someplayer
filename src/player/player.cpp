@@ -134,6 +134,7 @@ void Player::next() {
 		if (pos >= _playlist.tracks().count()) {
 			if (_repeat == REPEAT_NO) {
 				stop();
+				return;
 			}
 			pos %= _playlist.tracks().count();
 		}
@@ -166,8 +167,6 @@ void Player::_set_source() {
 
 void Player::prev() {
 	if (_history.isEmpty()) {
-		_set_source();
-		play();
 		return;
 	}
 	_queue.push_front(_track);
