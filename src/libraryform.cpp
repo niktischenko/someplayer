@@ -347,6 +347,9 @@ void LibraryForm::_add_button() {
 		_lib->saveCurrentPlaylist(cur);
 		emit refreshPlayer();
 		break;
+	case STATE_DYNAMIC:
+
+		break;
 	case STATE_PLAYLIST_TRACK:
 		foreach (QModelIndex id, selected) {
 			_add_track(&cur, _current_tracks.at(id.row()));
@@ -630,6 +633,9 @@ void LibraryForm::landscapeMode() {
 	ui->rverticalLayout->addItem(ui->rverticalSpacer_3);
 	ui->rverticalLayout->addWidget(ui->playlistsButton);
 
+	ui->lverticalWidget->show();
+	ui->rverticalWidget->show();
+
 	if (_tools_widget->isVisible()) {
 		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/more_l.png"));
 	} else {
@@ -640,8 +646,8 @@ void LibraryForm::landscapeMode() {
 void LibraryForm::portraitMode() {
 	landscape = false;
 
-	ui->topWidget->show();
-	ui->bottomWidget->show();
+	ui->lverticalWidget->hide();
+	ui->rverticalWidget->hide();
 
 	ui->lverticalLayout->removeItem(ui->lverticalSpacer_0);
 	ui->lverticalLayout->removeItem(ui->lverticalSpacer_1);
@@ -680,6 +686,9 @@ void LibraryForm::portraitMode() {
 	ui->bottomWidget->layout()->addWidget(ui->dynamicButton);
 	ui->bottomWidget->layout()->addItem(ui->bhorizontalSpacer_2);
 	ui->bottomWidget->layout()->addWidget(ui->playlistsButton);
+
+	ui->topWidget->show();
+	ui->bottomWidget->show();
 
 	if (_tools_widget->isVisible()) {
 		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/unmore.png"));

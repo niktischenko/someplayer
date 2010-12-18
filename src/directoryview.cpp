@@ -62,6 +62,7 @@ DirectoryView::DirectoryView(QWidget *parent) :
 	connect(ui->addButton, SIGNAL(clicked()), this, SLOT(_add()));
 	connect(_tagresolver, SIGNAL(decoded(Track)), this, SLOT(_add_track(Track)));
 	connect(_tagresolver, SIGNAL(done()), this, SLOT(_done()));
+	connect(ui->playerButton, SIGNAL(clicked()), this, SLOT(hide()));
 	_top_gradient = ui->topWidget->styleSheet();
 	_bottom_gradient = ui->bottomWidget->styleSheet();
 }
@@ -269,9 +270,13 @@ void DirectoryView::lanscapeMode() {
 	ui->rverticalLayout->addWidget(ui->addButton);
 	ui->rverticalLayout->addItem(ui->rverticalSpacer);
 	ui->rverticalLayout->addWidget(ui->selectToggleButton);
+	ui->lverticalWidget->show();
+	ui->rverticalWidget->show();
 }
 
 void DirectoryView::portraitMode() {
+	ui->lverticalWidget->hide();
+	ui->rverticalWidget->hide();
 	ui->lverticalLayout->removeItem(ui->lverticalSpacer_0);
 	ui->lverticalLayout->removeItem(ui->lverticalSpacer_1);
 	ui->rverticalLayout->removeItem(ui->rverticalSpacer);

@@ -445,6 +445,9 @@ void PlayerForm::_dirview() {
 void PlayerForm::landscapeMode() {
 	landscape = true;
 
+	ui->topWidget->hide();
+	ui->bottomWidget->hide();
+
 	ui->widget->layout()->removeItem(ui->coverLayout);
 	ui->widget->layout()->removeItem(ui->controlLayout);
 	ui->controlLayout->removeItem(ui->countHLayout);
@@ -470,9 +473,6 @@ void PlayerForm::landscapeMode() {
 	((QGridLayout *)ui->widget->layout())->addItem(ui->coverLayout, 0, 0);
 	((QGridLayout *)ui->widget->layout())->addItem(ui->controlLayout, 0, 1);
 
-	ui->topWidget->hide();
-	ui->bottomWidget->hide();
-
 	ui->bhorizontalLayout->removeItem(ui->chorizontalSpacer_0);
 	ui->bhorizontalLayout->removeItem(ui->chorizontalSpacer_1);
 	ui->bhorizontalLayout->removeItem(ui->chorizontalSpacer_2);
@@ -495,6 +495,8 @@ void PlayerForm::landscapeMode() {
 	ui->bhorizontalLayout->addItem(ui->chorizontalSpacer_4);
 	ui->bhorizontalLayout->addWidget(ui->dirButton);
 
+	ui->bhorWidget->show();
+
 	if (_tools_widget->isVisible()) {
 		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/unmore.png"));
 	} else {
@@ -503,10 +505,9 @@ void PlayerForm::landscapeMode() {
 }
 
 void PlayerForm::portraitMode() {
-	ui->topWidget->show();
-	ui->bottomWidget->show();
-
 	landscape = false;
+
+	ui->bhorWidget->hide();
 
 	ui->widget->layout()->removeItem(ui->coverLayout);
 	ui->widget->layout()->removeItem(ui->controlLayout);
@@ -567,6 +568,9 @@ void PlayerForm::portraitMode() {
 	ui->bottomWidget->layout()->addWidget(ui->repeatButton);
 	ui->bottomWidget->layout()->addItem(ui->bhorizontalSpacer_3);
 	ui->bottomWidget->layout()->addWidget(ui->dirButton);
+
+	ui->topWidget->show();
+	ui->bottomWidget->show();
 
 	if (_tools_widget->isVisible()) {
 		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/unmore.png"));
