@@ -302,12 +302,14 @@ void MainWindow::_change_orientation() {
 void MainWindow::_orientation_changed() {
 	QRect screenGeometry = QApplication::desktop()->screenGeometry();
 	if (screenGeometry.width() > screenGeometry.height()) {
+		_orientation = ORIENTATION_LANDSCAPE;
 		_player_form->landscapeMode();
 		_library_form->landscapeMode();
 		_equalizer_dialog->landscapeMode();
 		_directory_form->lanscapeMode();
 		_settings_form->landscapeMode();
 	} else {
+		_orientation = ORIENTATION_PORTRAIT;
 		_player_form->portraitMode();
 		_library_form->portraitMode();
 		_equalizer_dialog->portraitMode();
@@ -373,14 +375,30 @@ void MainWindow::_zoom_key_pressed(quint32 code) {
 	}
 	Config config;
 	QString behavior = config.getValue("hw/zoom_action").toString();
+	bool inverted = config.getValue("hw/zoom_inverted").toBool();
+	if (inverted) {
+		if (code == MM_KEY_DOWN) {
+			code = MM_KEY_UP;
+		} else {
+			code = MM_KEY_DOWN;
+		}
+	}
 	if (code == MM_KEY_DOWN) {
 		if (behavior == "track") {
-			_player_form->prev();
+			if (_orientation == ORIENTATION_LANDSCAPE) {
+				_player_form->next();
+			} else {
+				_player_form->prev();
+			}
 			_dbus_client.setVolume(_system_volume);
 		}
 	} else if (code == MM_KEY_UP) {
 		if (behavior == "track") {
-			_player_form->next();
+			if (_orientation == ORIENTATION_LANDSCAPE) {
+				_player_form->prev();
+			} else {
+				_player_form->next();
+			}
 			_dbus_client.setVolume(_system_volume);
 		}
 	}

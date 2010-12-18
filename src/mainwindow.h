@@ -35,6 +35,9 @@
 #include "dbusclient.h"
 #include <QTimer>
 
+#define ORIENTATION_LANDSCAPE 0
+#define ORIENTATION_PORTRAIT 1
+
 namespace Ui {
 	class MainWindow;
 }
@@ -95,6 +98,7 @@ private:
 	DBusClient _dbus_client;
 	bool _display_unlocked;
 	quint32 _system_volume; // yes, it is here
+	int _orientation; // 0 - landscape, 1 - portrait
 };
 
 #endif // MAINWINDOW_H
