@@ -44,6 +44,7 @@ namespace SomePlayer {
 #include <QList>
 #include <QMap>
 #include <QUrl>
+#include <QMessageBox>
 #include "config.h"
 
 #define _DYNAMIC_PLAYLIST_MAX_COUNT_ 50
@@ -53,5 +54,10 @@ namespace SomePlayer {
 #define _SERVICE_NAME_ "ru.somebody.someplayer"
 
 #define _APPLICATION_PATH_ "/opt/someplayer"
+
+#define CONFIRM_ACTION(PARENT, TEXT) \
+	if (QMessageBox::question(PARENT, tr("Confirm action"), \
+				  TEXT, QMessageBox::Ok, QMessageBox::Cancel) != QMessageBox::Ok) \
+	{return;}
 
 #endif

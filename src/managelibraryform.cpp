@@ -120,6 +120,10 @@ void ManageLibraryForm::_process_selection(QItemSelection selected, QItemSelecti
 void ManageLibraryForm::_delete_selected() {
 	QList<QString> directories;
 	QModelIndexList idx = ui->dirView->selectionModel()->selectedIndexes();
+	if (idx.count() == 0) {
+		return;
+	}
+	CONFIRM_ACTION(this, tr("Delete selected directories?"))
 	foreach (QModelIndex id, idx) {
 		if (id.column() == 1) {
 			QString path = id.data().toString();
@@ -138,6 +142,7 @@ void ManageLibraryForm::_delete_selected() {
 }
 
 void ManageLibraryForm::_update_selected() {
+	CONFIRM_ACTION(this, tr("Update selected directories? It may takes several minutes"))
 	QList<QString> directories;
 	QModelIndexList idx = ui->dirView->selectionModel()->selectedIndexes();
 	foreach (QModelIndex id, idx) {
@@ -157,6 +162,7 @@ void ManageLibraryForm::_update_selected() {
 }
 
 void ManageLibraryForm::_update_all() {
+	CONFIRM_ACTION(this, tr("Update all library? It may takes a long time"))
 	_library->updateAll();
 	refresh();
 	emit refreshLibrary();

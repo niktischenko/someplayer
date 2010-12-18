@@ -215,6 +215,7 @@ void MainWindow::_save_playlist() {
 }
 
 void MainWindow::_clear_current_playlist() {
+	CONFIRM_ACTION(this, tr("Clear playlist?"))
 	Playlist playlist = _library->getCurrentPlaylist();
 	playlist.clear();
 	_library->saveCurrentPlaylist(playlist);
