@@ -41,17 +41,17 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
         <translation>Каталоги</translation>
     </message>
     <message>
-        <location filename="../src/directoryview.cpp" line="87"/>
+        <location filename="../src/directoryview.cpp" line="88"/>
         <source>Audioclips</source>
         <translation>Аудиоклипы</translation>
     </message>
     <message>
-        <location filename="../src/directoryview.cpp" line="304"/>
+        <location filename="../src/directoryview.cpp" line="309"/>
         <source>Inner memory</source>
         <translation>Внутренняя память</translation>
     </message>
     <message>
-        <location filename="../src/directoryview.cpp" line="306"/>
+        <location filename="../src/directoryview.cpp" line="311"/>
         <source>Memory card</source>
         <translation>Карта памяти</translation>
     </message>
@@ -325,7 +325,7 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
         <translation>Библиотека</translation>
     </message>
     <message>
-        <location filename="../src/ui/libraryform.ui" line="338"/>
+        <location filename="../src/ui/libraryform.ui" line="343"/>
         <location filename="../src/libraryform.cpp" line="174"/>
         <source>Artists</source>
         <translation>Исполнители</translation>
@@ -337,7 +337,7 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
     </message>
     <message>
         <location filename="../src/libraryform.cpp" line="226"/>
-        <location filename="../src/libraryform.cpp" line="411"/>
+        <location filename="../src/libraryform.cpp" line="414"/>
         <source>Albums by &quot;%1&quot;</source>
         <translation>Альбомы &quot;%1&quot;</translation>
     </message>
@@ -357,12 +357,12 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
         <translation>Треки в плейлисте &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/libraryform.cpp" line="435"/>
+        <location filename="../src/libraryform.cpp" line="438"/>
         <source>Playlists</source>
         <translation>Плейлисты</translation>
     </message>
     <message>
-        <location filename="../src/libraryform.cpp" line="807"/>
+        <location filename="../src/libraryform.cpp" line="816"/>
         <source>Search in library</source>
         <translation>Поиск в библиотеке</translation>
     </message>
@@ -430,7 +430,12 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="263"/>
+        <location filename="../src/mainwindow.cpp" line="218"/>
+        <source>Clear playlist?</source>
+        <translation>Очистить плейлист?</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="264"/>
         <source>Music off: </source>
         <translation>Отключение: </translation>
     </message>
@@ -466,6 +471,21 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
         <location filename="../src/managelibraryform.cpp" line="66"/>
         <source>Select directory</source>
         <translation>Выбрать директорию</translation>
+    </message>
+    <message>
+        <location filename="../src/managelibraryform.cpp" line="126"/>
+        <source>Delete selected directories?</source>
+        <translation>Удалить выбранные директории?</translation>
+    </message>
+    <message>
+        <location filename="../src/managelibraryform.cpp" line="145"/>
+        <source>Update selected directories? It may takes several minutes</source>
+        <translation>Обновить выбранные директории? Это может занять несколько минут</translation>
+    </message>
+    <message>
+        <location filename="../src/managelibraryform.cpp" line="165"/>
+        <source>Update all library? It may takes a long time</source>
+        <translation>Обновить всю библиотеку? Это может занять длительное время</translation>
     </message>
 </context>
 <context>
@@ -503,47 +523,52 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="90"/>
-        <location filename="../src/playerform.cpp" line="745"/>
+        <location filename="../src/playerform.cpp" line="750"/>
         <source>Clear playlist</source>
         <translation>Очистить плейлист</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="91"/>
-        <location filename="../src/playerform.cpp" line="746"/>
+        <location filename="../src/playerform.cpp" line="751"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="92"/>
         <location filename="../src/playerform.cpp" line="231"/>
-        <location filename="../src/playerform.cpp" line="305"/>
-        <location filename="../src/playerform.cpp" line="747"/>
+        <location filename="../src/playerform.cpp" line="306"/>
+        <location filename="../src/playerform.cpp" line="752"/>
         <source>Add to favorites</source>
         <translation>В избранное</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="93"/>
-        <location filename="../src/playerform.cpp" line="748"/>
+        <location filename="../src/playerform.cpp" line="753"/>
         <source>Enqueue</source>
         <translation>В очередь</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="94"/>
-        <location filename="../src/playerform.cpp" line="749"/>
+        <location filename="../src/playerform.cpp" line="754"/>
         <source>Add to playlists</source>
         <translation>Добавить в плейлисты</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="95"/>
-        <location filename="../src/playerform.cpp" line="750"/>
+        <location filename="../src/playerform.cpp" line="755"/>
         <source>Edit tags</source>
         <translation>Редактировать теги</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="231"/>
-        <location filename="../src/playerform.cpp" line="305"/>
+        <location filename="../src/playerform.cpp" line="306"/>
         <source>Remove from favorites</source>
         <translation>Удалить из избранного</translation>
+    </message>
+    <message>
+        <location filename="../src/playerform.cpp" line="267"/>
+        <source>Delete track?</source>
+        <translation>Удалить трек?</translation>
     </message>
 </context>
 <context>
