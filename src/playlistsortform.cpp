@@ -175,7 +175,6 @@ void PlaylistSortForm::sortArtist() {
 		QList<QString> albums = album_tracks.keys();
 		qSort(albums);
 		foreach (QString album, albums) {
-			qWarning() << album;
 			foreach (Track t, album_tracks[album]) {
 				ntracks << t;
 			}
