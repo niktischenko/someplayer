@@ -272,7 +272,6 @@ void PlayerForm::_custom_context_menu_requested(const QPoint &pos) {
 }
 
 void PlayerForm::_delete_track() {
-	CONFIRM_ACTION(this, tr("Delete track?"))
 	QList<QModelIndex> idx = ui->playlistView->selectionModel()->selectedIndexes();
 	if (idx.isEmpty())
 		return;
