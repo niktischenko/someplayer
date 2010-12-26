@@ -44,15 +44,16 @@ void TrackRenderer::updateIcons() {
 }
 
 void TrackRenderer::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-	if (index.column() == 0) {
+	QString value = index.data().toString();
+	if (value.startsWith("##")) {
+		value.remove("##");
 		int x1, y1, x2, y2;
 		option.rect.getCoords(&x1, &y1, &x2, &y2);
-		QImage image(":/icons/"+_icons_theme+"/arrow_r.png");
+		QImage image(":/icons/"+_icons_theme+"/"+value);
 		x1 += (x2 - x1 - image.width())/2;
 		y1 += (y2 - y1 - image.width())/2;
 		painter->drawImage(x1, y1, image);
 	} else {
-		QString value = index.data().toString();
 		QStringList meta = value.split("#_#");
 
 		QFont f = painter->font();

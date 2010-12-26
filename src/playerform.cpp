@@ -46,6 +46,7 @@ inline void __fill_list(QStandardItemModel *_model, Playlist playlist) {
 		time.setHMS(0, meta.length()/60, meta.length() % 60);
 		QString t = meta.title()+"#_#"+meta.artist()+"#_#"+meta.album()+"#_#"+time.toString("mm:ss");
 		_model->setItem(i, 1, new QStandardItem(t));
+		_model->setItem(i, 0, new QStandardItem("##arrow_r.png"));
 	}
 }
 
@@ -111,9 +112,12 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_cover->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 	_cover->setPixmap(QPixmap::fromImage(_coverfinder->defaultCover()));
 
+	_pls_sort_form = new PlaylistSortForm(parent);
+	_pls_sort_form->hide();
+
 	connect(ui->libraryButton, SIGNAL(clicked()), this, SLOT(_library()));
 	connect(ui->viewButton, SIGNAL(clicked()), this, SLOT(_toggle_view()));
-	connect(ui->playlistView, SIGNAL(activated(QModelIndex)), this, SLOT(_process_click(QModelIndex)));
+	connect(ui->playlistView, SIGNAL(clicked(QModelIndex)), this, SLOT(_process_click(QModelIndex)));
 	connect(ui->playpauseButton, SIGNAL(clicked()), _player, SLOT(toggle()));
 	connect(ui->nextButton, SIGNAL(clicked()), _player, SLOT(next()));
 	connect(ui->stopButton, SIGNAL(clicked()), _player, SLOT(stop()));
@@ -123,7 +127,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(ui->randomButton, SIGNAL(clicked()), this, SLOT(_toggle_random()));
 	connect(ui->repeatButton, SIGNAL(clicked()), this, SLOT(_toggle_repeat()));
 	connect(ui->seekSlider, SIGNAL(sliderMoved(int)), _player, SLOT(seek(int)));
-	connect(ui->playlistView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(_custom_context_menu_requested(QPoint)));
+	connect(ui->playlistView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(_sort_playlist()));
 	connect(__clear_playlist, SIGNAL(triggered()), this, SIGNAL(clearPlaylist()));
 	connect(__delete_action, SIGNAL(triggered()), this, SLOT(_delete_track()));
 	connect(__enqueue_action, SIGNAL(triggered()), this, SLOT(_enqueue_track()));
@@ -150,6 +154,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(_cover, SIGNAL(clicked()), this, SLOT(_toggle_extra_buttons()));
 	connect(_player, SIGNAL(startPlaylist()), this, SLOT(_start_playlist()));
 	connect(_player, SIGNAL(saveLastPlayed(LastPlayed)), _lib, SLOT(saveLastPlayedForCurPlaylist(LastPlayed)));
+	connect(_pls_sort_form, SIGNAL(playlistChanged()), this, SLOT(_playlist_sorted()));
 	ui->viewButton->setIcon(QIcon(":/icons/"+_icons_theme+"/playback.png"));
 	_top_gradient = ui->topWidget->styleSheet();
 	_bottom_gradient = ui->bottomWidget->styleSheet();
@@ -209,6 +214,9 @@ void PlayerForm::_toggle_view() {
 }
 
 void PlayerForm::_process_click(QModelIndex index) {
+	if (_pls_sort_form->isVisible()) {
+		return;
+	}
 	if (index.column() == 1) {
 		int id = index.row();
 		_player->setTrackId(id);
@@ -503,6 +511,7 @@ void PlayerForm::landscapeMode() {
 	} else {
 		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/more.png"));
 	}
+	_pls_sort_form->landscapeMode();
 }
 
 void PlayerForm::portraitMode() {
@@ -578,6 +587,7 @@ void PlayerForm::portraitMode() {
 	} else {
 		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/more.png"));
 	}
+	_pls_sort_form->portraitMode();
 }
 
 void PlayerForm::_tools_widget_toggle() {
@@ -646,6 +656,7 @@ void PlayerForm::updateIcons() {
 	} else {
 		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_off.png"));
 	}
+	_pls_sort_form->updateIcons();
 }
 
 void PlayerForm::checkGradient() {
@@ -657,6 +668,7 @@ void PlayerForm::checkGradient() {
 		ui->topWidget->setStyleSheet("");
 		ui->bottomWidget->setStyleSheet("");
 	}
+	_pls_sort_form->updateGradiend();
 }
 
 void PlayerForm::play(Track track) {
@@ -753,6 +765,7 @@ void PlayerForm::updateTranslations() {
 	__enqueue_action->setText(tr("Enqueue"));
 	__add_to_playlists->setText(tr("Add to playlists"));
 	__edit_tags->setText(tr("Edit tags"));
+	_pls_sort_form->updateTranslations();
 }
 
 void PlayerForm::updateTrackColor() {
@@ -785,4 +798,18 @@ void PlayerForm::_start_playlist() {
 	LastPlayed lp = _lib->getLastPlayedForCurPlaylist();
 	_player->setTrackId(lp.trackId);
 	_player->setAwaitingSeek(lp.position);
+}
+
+void PlayerForm::_sort_playlist() {
+	_pls_sort_form->setPlaylist(_current_playlist);
+	_pls_sort_form->show();
+}
+
+void PlayerForm::_playlist_sorted() {
+	_current_playlist = _pls_sort_form->getPlaylist();
+	_lib->saveCurrentPlaylist(_current_playlist);
+	_player->setPlaylist(_current_playlist);
+	__fill_list(_model, _current_playlist);
+	ui->playlistView->setColumnWidth(0, 50);
+	_track_renderer->setActiveRow(_current_playlist.tracks().indexOf(_player->current()));
 }

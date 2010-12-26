@@ -91,6 +91,14 @@ Track &Track::operator =(const Track &track) {
 
 Track::~Track() {}
 
-bool Track::operator ==(const Track &track) {
+bool Track::operator ==(const Track &track) const {
 	return _source == track._source;
+}
+
+bool Track::operator >= (const Track &track) const {
+	return (metadata().title().compare(track.metadata().title()) >= 0);
+}
+
+bool Track::operator < (const Track &track) const {
+	return (metadata().title().compare(track.metadata().title()) < 0);
 }

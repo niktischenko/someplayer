@@ -35,6 +35,7 @@
 #include "toolswidget.h"
 #include "coverfinder.h"
 #include "clickablelabel.h"
+#include "playlistsortform.h"
 
 namespace Ui {
     class PlayerForm;
@@ -116,6 +117,8 @@ private slots:
 	void _display_cover(QImage);
 	void _toggle_extra_buttons();
 	void _start_playlist();
+	void _sort_playlist();
+	void _playlist_sorted();
 
 private:
     Ui::PlayerForm *ui;
@@ -150,6 +153,8 @@ private:
 	int _search_current_id;
 
 	DBusAdaptop *_dbusadaptor;
+
+	PlaylistSortForm *_pls_sort_form;
 };
 
 #endif // PLAYERFORM_H

@@ -46,7 +46,9 @@ namespace SomePlayer {
 			void setSource (QString source);
 			int count() const; //count of plays
 			void setCount(int count); //for restoring from database and counting from player
-			bool operator == (const Track &track);
+			bool operator == (const Track &track) const;
+			bool operator >= (const Track &track) const; // comparing only title
+			bool operator < (const Track &track) const; // comparing only title
 
 		private:
 			TrackMetadata _metadata;

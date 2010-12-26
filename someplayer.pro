@@ -129,7 +129,8 @@ SOURCES += src/main.cpp\
     src/settingsform.cpp \
     src/dbusclient.cpp \
     src/fmtxsettingsdialog.cpp \
-    src/aboutform.cpp
+    src/aboutform.cpp \
+    src/playlistsortform.cpp
 
 HEADERS  += src/mainwindow.h \
 		src/player/player.h \
@@ -237,7 +238,8 @@ HEADERS  += src/mainwindow.h \
     src/settingsform.h \
     src/dbusclient.h \
     src/fmtxsettingsdialog.h \
-    src/aboutform.h
+    src/aboutform.h \
+    src/playlistsortform.h
 
 FORMS    += src/ui/mainwindow.ui \
     src/ui/playerform.ui \
@@ -253,7 +255,8 @@ FORMS    += src/ui/mainwindow.ui \
     src/ui/directoryview.ui \
     src/ui/settingsform.ui \
     src/ui/fmtxsettingsdialog.ui \
-    src/ui/aboutform.ui
+    src/ui/aboutform.ui \
+    src/ui/playlistsortform.ui
 
 CONFIG += mobility
 MOBILITY = 
