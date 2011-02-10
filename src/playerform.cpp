@@ -268,6 +268,17 @@ void PlayerForm::_slider_released() {
 }
 
 void PlayerForm::_custom_context_menu_requested(const QPoint &pos) {
+	// fix for 'favorite' state of selected track:
+	QList<QModelIndex> idx = ui->playlistView->selectionModel()->selectedIndexes();
+	if (idx.isEmpty())
+		return;
+	int id = idx.first().row();
+	Track cur = _current_playlist.tracks().at(id);
+	if (!cur.source().isEmpty()) {
+		bool isf = _lib->isFavorite(cur);
+		_context_menu->actions().at(2)->setText(isf ? tr("Remove from favorites") : tr("Add to favorites"));
+	}
+	// end
 	_context_menu->exec(pos);
 }
 
@@ -309,8 +320,7 @@ void PlayerForm::_add_to_favorites() {
 			_lib->removeFromFavorites(cur);
 		}
 		isf = _lib->isFavorite(cur);
-		ui->cfavButton->setChecked(isf && !ui->cfavButton->icon().isNull());
-		_context_menu->actions().at(2)->setText(isf ? tr("Remove from favorites") : tr("Add to favorites"));
+		ui->cfavButton->setChecked(isf && !ui->cfavButton->icon().isNull() && id == _track_renderer->activeRow());
 	}
 
 }
