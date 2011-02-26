@@ -20,6 +20,10 @@ public slots:
 	void updateTranslations();
 	void updateIcons();
 
+private slots:
+	void onlineHelp();
+	void donate();
+
 private:
 	Ui::AboutForm *ui;
 	QString _icons_theme;

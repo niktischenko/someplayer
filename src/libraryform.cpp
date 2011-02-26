@@ -281,6 +281,7 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 			case 2: //never played
 				_current_playlist = _lib->getNeverPlayed();
 				_is_favorites = false;
+				break;
 			case 3: //recently added
 				_current_playlist = _lib->getRecentlyAdded();
 				_is_favorites = false;

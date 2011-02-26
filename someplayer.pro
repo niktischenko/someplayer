@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui phonon sql dbus
+QT       += core gui phonon sql dbus webkit
 
 TARGET = someplayer
 TEMPLATE = app

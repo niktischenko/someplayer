@@ -72,7 +72,7 @@ void DbStorage::_prepare_queries() {
 								"(SELECT tracks.id AS track_id, artist.name AS artist, title, count, source, tracks.album_id, length FROM "
 								"tracks JOIN artist ON tracks.artist_id = artist.id) "
 								"JOIN album ON album_id = album.id "
-								"WHERE count = 0");
+								"WHERE count = 0 LIMIT 0, :max");
 
 	_get_recently_added_query = new QSqlQuery(db);
 	_get_recently_added_query->prepare("SELECT track_id as id, title, artist, album.name as album, source, count, length FROM "

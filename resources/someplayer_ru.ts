@@ -10,8 +10,8 @@
     </message>
     <message>
         <location filename="../src/ui/aboutform.ui" line="103"/>
-        <source>&lt;b&gt;SomePlayer 1.4.3&lt;/b&gt; </source>
-        <translation>&lt;b&gt;SomePlayer 1.4.3&lt;/b&gt; </translation>
+        <source>&lt;b&gt;SomePlayer 1.5.0&lt;/b&gt; </source>
+        <translation>&lt;b&gt;SomePlayer 1.5.0&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/aboutform.ui" line="128"/>
@@ -27,10 +27,22 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
     </message>
     <message>
         <location filename="../src/ui/aboutform.ui" line="175"/>
-        <source>&lt;p align=&quot;center&quot;&gt;&lt;b&gt;Thanks to:&lt;/b&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;MrClon (maemoworld.ru)&lt;br&gt;hxka (maemoworld.ru)&lt;br&gt;jerich0 (maemoworld.ru)&lt;br&gt;lknfox (maemoworld.ru)&lt;br&gt;fab (maemoworld.ru)&lt;br&gt;and other people who tested this player&lt;/p&gt;</source>
-        <translation>&lt;p align=&quot;center&quot;&gt;&lt;b&gt;Автор благодарен:&lt;/b&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;MrClon (maemoworld.ru)&lt;br&gt;hxka (maemoworld.ru)&lt;br&gt;jerich0 (maemoworld.ru)&lt;br&gt;lknfox (maemoworld.ru)&lt;br&gt;fab (maemoworld.ru)&lt;br&gt;и всем другим, кто помогал в разработке и тестировании плеера&lt;/p&gt;</translation>
+        <source>&lt;p align=&quot;center&quot;&gt;
+&lt;b&gt;Thanks to:&lt;/b&gt;&lt;br&gt;
+MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemoworld.ru)&lt;br /&gt;lknfox (maemoworld.ru)&lt;br /&gt;fab (maemoworld.ru)&lt;br /&gt;Pantera1989m (github.com)&lt;br /&gt;and other people who tested this player and helped in development&lt;/p&gt;</source>
+        <translation>&lt;p align=&quot;center&quot;&gt;
+&lt;b&gt;Автор благодарен:&lt;/b&gt;&lt;br&gt;
+MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemoworld.ru)&lt;br /&gt;lknfox (maemoworld.ru)&lt;br /&gt;fab (maemoworld.ru)&lt;br /&gt;Pantera1989m (github.com)&lt;br /&gt;и всем кто помогал в разработке и тестировании плеера&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/aboutform.ui" line="189"/>
+        <source>Online help</source>
+        <translation>Онлайн справка</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/aboutform.ui" line="196"/>
+        <source>Donate</source>
+        <translation>Donate</translation>
     </message>
 </context>
 <context>
@@ -337,7 +349,7 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
     </message>
     <message>
         <location filename="../src/libraryform.cpp" line="226"/>
-        <location filename="../src/libraryform.cpp" line="414"/>
+        <location filename="../src/libraryform.cpp" line="415"/>
         <source>Albums by &quot;%1&quot;</source>
         <translation>Альбомы &quot;%1&quot;</translation>
     </message>
@@ -357,12 +369,12 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
         <translation>Треки в плейлисте &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/libraryform.cpp" line="438"/>
+        <location filename="../src/libraryform.cpp" line="439"/>
         <source>Playlists</source>
         <translation>Плейлисты</translation>
     </message>
     <message>
-        <location filename="../src/libraryform.cpp" line="816"/>
+        <location filename="../src/libraryform.cpp" line="817"/>
         <source>Search in library</source>
         <translation>Поиск в библиотеке</translation>
     </message>
@@ -511,64 +523,59 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
         <translation>&lt;h3&gt;Название&lt;/h3&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/playerform.ui" line="535"/>
-        <location filename="../src/ui/playerform.ui" line="555"/>
+        <location filename="../src/ui/playerform.ui" line="538"/>
+        <location filename="../src/ui/playerform.ui" line="558"/>
         <source>00:00</source>
         <translation>00:00</translation>
     </message>
     <message>
-        <location filename="../src/ui/playerform.ui" line="631"/>
+        <location filename="../src/ui/playerform.ui" line="634"/>
         <source>&lt;b&gt;Artist&lt;/b&gt;&lt;br/&gt;album</source>
         <translation>&lt;b&gt;Исполнитель&lt;/b&gt;&lt;br/&gt;альбом</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="91"/>
-        <location filename="../src/playerform.cpp" line="762"/>
+        <location filename="../src/playerform.cpp" line="771"/>
         <source>Clear playlist</source>
         <translation>Очистить плейлист</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="92"/>
-        <location filename="../src/playerform.cpp" line="763"/>
+        <location filename="../src/playerform.cpp" line="772"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="93"/>
         <location filename="../src/playerform.cpp" line="239"/>
-        <location filename="../src/playerform.cpp" line="314"/>
-        <location filename="../src/playerform.cpp" line="764"/>
+        <location filename="../src/playerform.cpp" line="279"/>
+        <location filename="../src/playerform.cpp" line="773"/>
         <source>Add to favorites</source>
         <translation>В избранное</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="94"/>
-        <location filename="../src/playerform.cpp" line="765"/>
+        <location filename="../src/playerform.cpp" line="774"/>
         <source>Enqueue</source>
         <translation>В очередь</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="95"/>
-        <location filename="../src/playerform.cpp" line="766"/>
+        <location filename="../src/playerform.cpp" line="775"/>
         <source>Add to playlists</source>
         <translation>Добавить в плейлисты</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="96"/>
-        <location filename="../src/playerform.cpp" line="767"/>
+        <location filename="../src/playerform.cpp" line="776"/>
         <source>Edit tags</source>
         <translation>Редактировать теги</translation>
     </message>
     <message>
         <location filename="../src/playerform.cpp" line="239"/>
-        <location filename="../src/playerform.cpp" line="314"/>
+        <location filename="../src/playerform.cpp" line="279"/>
         <source>Remove from favorites</source>
         <translation>Удалить из избранного</translation>
-    </message>
-    <message>
-        <location filename="../src/playerform.cpp" line="275"/>
-        <source>Delete track?</source>
-        <translation>Удалить трек?</translation>
     </message>
 </context>
 <context>

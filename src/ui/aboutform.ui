@@ -32,9 +32,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-208</y>
         <width>550</width>
-        <height>511</height>
+        <height>547</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -100,7 +100,7 @@
          <item row="1" column="0" colspan="3">
           <widget class="QLabel" name="nameLabel">
            <property name="text">
-            <string>&lt;b&gt;SomePlayer 1.4.3&lt;/b&gt; </string>
+            <string>&lt;b&gt;SomePlayer 1.5.0&lt;/b&gt; </string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -172,13 +172,32 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
        <item>
         <widget class="QLabel" name="thanksToLabel">
          <property name="text">
-          <string>&lt;p align=&quot;center&quot;&gt;&lt;b&gt;Thanks to:&lt;/b&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;MrClon (maemoworld.ru)&lt;br&gt;hxka (maemoworld.ru)&lt;br&gt;jerich0 (maemoworld.ru)&lt;br&gt;lknfox (maemoworld.ru)&lt;br&gt;fab (maemoworld.ru)&lt;br&gt;and other people who tested this player&lt;/p&gt;</string>
+          <string>&lt;p align=&quot;center&quot;&gt;
+&lt;b&gt;Thanks to:&lt;/b&gt;&lt;br&gt;
+MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemoworld.ru)&lt;br /&gt;lknfox (maemoworld.ru)&lt;br /&gt;fab (maemoworld.ru)&lt;br /&gt;Pantera1989m (github.com)&lt;br /&gt;and other people who tested this player and helped in development&lt;/p&gt;</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QPushButton" name="onlineHelpButton">
+           <property name="text">
+            <string>Online help</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="donateButton">
+           <property name="text">
+            <string>Donate</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
