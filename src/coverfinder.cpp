@@ -151,8 +151,9 @@ bool CoverFinder::_async_find(QFileInfo filePath, QString artist, QString album)
 
 bool CoverFinder::_tfind(QString artist, QString album) {
 	QString aname = artist.toLower();
+	QString aalbum = album.toLower();
 	aname.replace("/", "");
-	QString aaname = aname+" - "+album;
+	QString aaname = aname+" - "+aalbum;
 	aaname.replace("/", "");
 	QString fname1 = QDir::homePath()+"/.covers/"+aaname+".jpg";
 	QString fname2 = QDir::homePath()+"/.covers/"+aname+".jpg";
