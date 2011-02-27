@@ -1,10 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
-Version=1.4.1
+Version=1.5.0
 Type=Application
 Name=SomePlayer
 X-Text-Domain=someplayer
-Exec=/opt/someplayer/someplayer
+Exec=/usr/bin/someplayer
 Icon=someplayer
 X-HildonDesk-ShowInToolbar=true
 X-Osso-Type=application/x-executable

@@ -1,0 +1,6 @@
+someplayer (1.5.0-2) unstable; urgency=low
+
+  * Fixed bugtracker field in package description
+
+ -- somebody Nikolay Tischenko <niktischenko@gmail.com>  Sun, 27 Feb 2011 16:40:36 +0600
+
