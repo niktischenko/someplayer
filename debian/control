@@ -8,7 +8,7 @@ XSBC-Homepage: http://github.com/niktischenko/someplayer
 
 Package: someplayer
 Architecture: armel
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, gstreamer0.10-plugins-good-extra
 Description: Alternate audioplayer for Maemo 5
  Qt4- and Phonon-based player with compiled in TagLib library
  supports mp3, flac, ogg, wma, aac formats
