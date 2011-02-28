@@ -4,7 +4,7 @@ builddir:
 	mkdir -p builddir
 
 builddir/Makefile: builddir
-	cd builddir && qmake-qt4 PREFIX=/usr ../$(APPNAME).pro
+	cd builddir && qmake-qt4 PREFIX=/opt/someplayer ../$(APPNAME).pro
 
 build: build-stamp
 
@@ -41,7 +41,6 @@ binary-arch: build install
 	dh_installexamples
 	dh_installman
 	dh_link
-#	dh_strip --dbg-package=someplayer-dbg
 	dh_compress
 	dh_fixperms
 	dh_installdeb

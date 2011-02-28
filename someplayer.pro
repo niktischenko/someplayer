@@ -13,7 +13,7 @@ desktop.files = src/resources/someplayer.desktop
 icon.path = /usr/share/icons/hicolor/scalable/hildon
 icon.files = src/resources/someplayer.png
 
-equalizer.path = /etc/.skel
+equalizer.path = /etc/skel/.someplayer
 equalizer.files = src/resources/equalizer.ini
 
 translations.path = /opt/someplayer
