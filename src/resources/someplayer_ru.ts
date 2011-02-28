@@ -10,8 +10,8 @@
     </message>
     <message>
         <location filename="../ui/aboutform.ui" line="103"/>
-        <source>&lt;b&gt;SomePlayer 1.5.0&lt;/b&gt; </source>
-        <translation>&lt;b&gt;SomePlayer 1.5.0&lt;/b&gt;</translation>
+        <source>&lt;b&gt;SomePlayer 1.5.1&lt;/b&gt; </source>
+        <translation>&lt;b&gt;SomePlayer 1.5.1&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../ui/aboutform.ui" line="128"/>

@@ -1,6 +1,6 @@
-someplayer (1.5.0-2) unstable; urgency=low
+someplayer (1.5.1-1) unstable; urgency=low
 
-  * Fixed bugtracker field in package description
+  * Possible fix of optify problem, also fixed disapeared eq settings
 
  -- somebody Nikolay Tischenko <niktischenko@gmail.com>  Sun, 27 Feb 2011 16:40:36 +0600
 
