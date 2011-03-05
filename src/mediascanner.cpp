@@ -41,6 +41,7 @@ void MediaScanner::run() {
 
 QStringList MediaScanner::singleScan(QString path) {
 	_dir = path;
+	_foundMedia.clear();
 	return _scan_directory(_dir);
 }
 
