@@ -26,7 +26,7 @@ using namespace SomePlayer::Storage;
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-	a.setApplicationName("ru.somebody.someplayer");
+	a.setApplicationName("FMRadio");
 	MainWindow w;
 	w.updateTranslations();
 	w.setAttribute(Qt::WA_Maemo5StackedWindow);
