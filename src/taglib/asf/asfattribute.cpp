@@ -27,7 +27,6 @@
 #include <config.h>
 #endif
 
-#ifdef WITH_ASF
 
 #include <taglib.h>
 #include <tdebug.h>
@@ -338,5 +337,3 @@ ASF::Attribute::setStream(int value)
 {
   d->stream = value;
 }
-
-#endif

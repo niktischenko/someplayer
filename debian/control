@@ -11,7 +11,7 @@ Architecture: armel
 Depends: ${shlibs:Depends}, ${misc:Depends}, gstreamer0.10-plugins-good-extra
 Description: Alternate audioplayer for Maemo 5
  Qt4- and Phonon-based player with compiled in TagLib library
- supports mp3, flac, ogg, wma, aac formats
+ supports mp3, flac, ogg, wma, aac, asf, ape, wav, m4a formats
 XSBC-Maemo-Display-Name: SomePlayer
 XSBC-Bugtracker: http://someplayer.some-body.ru/bt/
 XB-Maemo-Icon-26: iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHBy
