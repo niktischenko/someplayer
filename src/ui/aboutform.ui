@@ -32,9 +32,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-208</y>
         <width>550</width>
-        <height>547</height>
+        <height>562</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -100,7 +100,7 @@
          <item row="1" column="0" colspan="3">
           <widget class="QLabel" name="nameLabel">
            <property name="text">
-            <string>&lt;b&gt;SomePlayer 1.5.1&lt;/b&gt; </string>
+            <string>&lt;b&gt;SomePlayer 1.5.2&lt;/b&gt; </string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -174,7 +174,7 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
          <property name="text">
           <string>&lt;p align=&quot;center&quot;&gt;
 &lt;b&gt;Thanks to:&lt;/b&gt;&lt;br&gt;
-MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemoworld.ru)&lt;br /&gt;lknfox (maemoworld.ru)&lt;br /&gt;fab (maemoworld.ru)&lt;br /&gt;Pantera1989m (github.com)&lt;br /&gt;and other people who tested this player and helped in development&lt;/p&gt;</string>
+MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemoworld.ru)&lt;br /&gt;lknfox (maemoworld.ru)&lt;br /&gt;fab (maemoworld.ru)&lt;br /&gt;Pantera1989m (github.com)&lt;br /&gt;willkr (maemo.org)&lt;br /&gt;and other people who tested this player and helped in development&lt;/p&gt;</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>

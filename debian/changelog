@@ -1,6 +1,14 @@
-someplayer (1.5.1-1) unstable; urgency=low
+someplayer (1.5.2-1) unstable; urgency=low
 
   * Possible fix of optify problem, also fixed disapeared eq settings
+  * Applied WMA and ASF patch to TagLib
+  * Fixed bug with double adding directory to cur.playlist
+  * Fixed issue with silent phone profile
+  * Dublicated online help button in main menu
+  * Added m4a files to filter
+  * Contolling via keyboard
+  * New icon
+  * Chinese translations
 
  -- somebody Nikolay Tischenko <niktischenko@gmail.com>  Sun, 27 Feb 2011 16:40:36 +0600
 

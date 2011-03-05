@@ -67,6 +67,7 @@ private slots:
 	void _set_gradient_no(bool);
 	void _set_lang_en(bool);
 	void _set_lang_ru(bool);
+	void _set_lang_cn(bool);
 	void _set_color_blue(bool);
 	void _set_color_magenta(bool);
 	void _set_color_red(bool);

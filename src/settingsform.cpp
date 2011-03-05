@@ -73,6 +73,9 @@ SettingsForm::SettingsForm(QWidget *parent) :
 	if (language == "ru") {
 		ui->ruLangButton->setChecked(true);
 	}
+	if (language == "cn") {
+		ui->cnLangButton->setChecked(true);
+	}
 	if (track_color == "black") {
 		ui->cBlackButton->setChecked(true);
 	} else if (track_color == "magenta") {
@@ -126,6 +129,7 @@ SettingsForm::SettingsForm(QWidget *parent) :
 	connect (ui->gradientYButton, SIGNAL(toggled(bool)), this, SLOT(_set_gradient_yes(bool)));
 	connect (ui->engLangButton, SIGNAL(toggled(bool)), this, SLOT(_set_lang_en(bool)));
 	connect (ui->ruLangButton, SIGNAL(toggled(bool)), this, SLOT(_set_lang_ru(bool)));
+	connect (ui->cnLangButton, SIGNAL(toggled(bool)), this, SLOT(_set_lang_cn(bool)));
 	connect (ui->cBlackButton, SIGNAL(toggled(bool)), this, SLOT(_set_color_black(bool)));
 	connect (ui->cBlueButton, SIGNAL(toggled(bool)), this, SLOT(_set_color_blue(bool)));
 	connect (ui->cDarkButton, SIGNAL(toggled(bool)), this, SLOT(_set_color_dark(bool)));
@@ -298,6 +302,13 @@ void SettingsForm::_set_lang_ru(bool checked) {
 	if (!checked) return;
 	Config config;
 	config.setValue("ui/language", "ru");
+	emit translationChanged();
+}
+
+void SettingsForm::_set_lang_cn(bool checked) {
+	if (!checked) return;
+	Config config;
+	config.setValue("ui/language", "cn");
 	emit translationChanged();
 }
 

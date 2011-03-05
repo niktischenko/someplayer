@@ -286,7 +286,8 @@ OTHER_FILES += \
     AUTHORS.TagLib \
     COPYING.LGPL
 
-TRANSLATIONS	=  resources/someplayer_ru.ts
+TRANSLATIONS	=  resources/someplayer_ru.ts \
+    resources/someplayer_cn.ts
 
 unix {
 	#VARIABLES

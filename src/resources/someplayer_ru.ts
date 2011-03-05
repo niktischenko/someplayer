@@ -10,8 +10,8 @@
     </message>
     <message>
         <location filename="../ui/aboutform.ui" line="103"/>
-        <source>&lt;b&gt;SomePlayer 1.5.1&lt;/b&gt; </source>
-        <translation>&lt;b&gt;SomePlayer 1.5.1&lt;/b&gt;</translation>
+        <source>&lt;b&gt;SomePlayer 1.5.2&lt;/b&gt; </source>
+        <translation>&lt;b&gt;SomePlayer 1.5.2&lt;/b&gt; </translation>
     </message>
     <message>
         <location filename="../ui/aboutform.ui" line="128"/>
@@ -29,10 +29,10 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
         <location filename="../ui/aboutform.ui" line="175"/>
         <source>&lt;p align=&quot;center&quot;&gt;
 &lt;b&gt;Thanks to:&lt;/b&gt;&lt;br&gt;
-MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemoworld.ru)&lt;br /&gt;lknfox (maemoworld.ru)&lt;br /&gt;fab (maemoworld.ru)&lt;br /&gt;Pantera1989m (github.com)&lt;br /&gt;and other people who tested this player and helped in development&lt;/p&gt;</source>
+MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemoworld.ru)&lt;br /&gt;lknfox (maemoworld.ru)&lt;br /&gt;fab (maemoworld.ru)&lt;br /&gt;Pantera1989m (github.com)&lt;br /&gt;willkr (maemo.org)&lt;br /&gt;and other people who tested this player and helped in development&lt;/p&gt;</source>
         <translation>&lt;p align=&quot;center&quot;&gt;
-&lt;b&gt;Автор благодарен:&lt;/b&gt;&lt;br&gt;
-MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemoworld.ru)&lt;br /&gt;lknfox (maemoworld.ru)&lt;br /&gt;fab (maemoworld.ru)&lt;br /&gt;Pantera1989m (github.com)&lt;br /&gt;и всем кто помогал в разработке и тестировании плеера&lt;/p&gt;</translation>
+&lt;b&gt;Спасибо:&lt;/b&gt;&lt;br&gt;
+MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemoworld.ru)&lt;br /&gt;lknfox (maemoworld.ru)&lt;br /&gt;fab (maemoworld.ru)&lt;br /&gt;Pantera1989m (github.com)&lt;br /&gt;willkr (maemo.org)&lt;br /&gt;и всем остальным кто участвовал в разработке и тестировании плеера&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../ui/aboutform.ui" line="189"/>
@@ -407,47 +407,57 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>Плеер</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="71"/>
+        <location filename="../ui/mainwindow.ui" line="66"/>
+        <source>Help</source>
+        <translation>Помощь</translation>
+    </message>
+    <message>
+        <location filename="../ui/mainwindow.ui" line="78"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="76"/>
+        <location filename="../ui/mainwindow.ui" line="83"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="81"/>
+        <location filename="../ui/mainwindow.ui" line="88"/>
         <source>Manage library</source>
         <translation>Управление библиотекой</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="86"/>
+        <location filename="../ui/mainwindow.ui" line="93"/>
         <source>Equalizer</source>
         <translation>Эквалайзер</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="91"/>
+        <location filename="../ui/mainwindow.ui" line="98"/>
         <source>Set timer</source>
         <translation>Установить таймер</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="96"/>
+        <location filename="../ui/mainwindow.ui" line="103"/>
         <source>Save playlist</source>
         <translation>Сохранить плейлист</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="99"/>
+        <location filename="../ui/mainwindow.ui" line="106"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="218"/>
+        <location filename="../ui/mainwindow.ui" line="111"/>
+        <source>Online help</source>
+        <translation>Онлайн справка</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="226"/>
         <source>Clear playlist?</source>
         <translation>Очистить плейлист?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="264"/>
+        <location filename="../mainwindow.cpp" line="272"/>
         <source>Music off: </source>
         <translation>Отключение: </translation>
     </message>
@@ -624,7 +634,7 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     <name>SettingsForm</name>
     <message>
         <location filename="../ui/settingsform.ui" line="14"/>
-        <location filename="../ui/settingsform.ui" line="706"/>
+        <location filename="../ui/settingsform.ui" line="713"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
@@ -660,15 +670,15 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     </message>
     <message>
         <location filename="../ui/settingsform.ui" line="174"/>
-        <location filename="../ui/settingsform.ui" line="523"/>
-        <location filename="../ui/settingsform.ui" line="610"/>
+        <location filename="../ui/settingsform.ui" line="530"/>
+        <location filename="../ui/settingsform.ui" line="617"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
     <message>
         <location filename="../ui/settingsform.ui" line="181"/>
-        <location filename="../ui/settingsform.ui" line="530"/>
-        <location filename="../ui/settingsform.ui" line="617"/>
+        <location filename="../ui/settingsform.ui" line="537"/>
+        <location filename="../ui/settingsform.ui" line="624"/>
         <source>No</source>
         <translation>Нет</translation>
     </message>
@@ -718,42 +728,47 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>тёмный</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="452"/>
+        <location filename="../ui/settingsform.ui" line="396"/>
+        <source>Chinese</source>
+        <translation>Китайский</translation>
+    </message>
+    <message>
+        <location filename="../ui/settingsform.ui" line="459"/>
         <source>Sort album:</source>
         <translation>Сортировка альбомов:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="478"/>
+        <location filename="../ui/settingsform.ui" line="485"/>
         <source>Alphabetical</source>
         <translation>По алфавиту</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="485"/>
+        <location filename="../ui/settingsform.ui" line="492"/>
         <source>By date</source>
         <translation>По дате</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="629"/>
+        <location filename="../ui/settingsform.ui" line="636"/>
         <source>Use hardware keys</source>
         <translation>Аппаратные кнопки</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="650"/>
+        <location filename="../ui/settingsform.ui" line="657"/>
         <source>Zoom keys control:</source>
         <translation>«Качелька» управляет:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="659"/>
+        <location filename="../ui/settingsform.ui" line="666"/>
         <source>Volume</source>
         <translation>Звуком</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="666"/>
+        <location filename="../ui/settingsform.ui" line="673"/>
         <source>Tracks</source>
         <translation>Треками</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="678"/>
+        <location filename="../ui/settingsform.ui" line="685"/>
         <source>Use FMTX</source>
         <translation>Включить FMTX</translation>
     </message>
@@ -783,7 +798,7 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>Авто</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="497"/>
+        <location filename="../ui/settingsform.ui" line="504"/>
         <source>Show track lenght in library view:</source>
         <translation>Показывать длину трека:</translation>
     </message>
@@ -803,7 +818,7 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="590"/>
+        <location filename="../ui/settingsform.ui" line="597"/>
         <source>Pause when headphones unplugged:</source>
         <translation>Пауза при отключении наушников:</translation>
     </message>
