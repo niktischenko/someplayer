@@ -61,10 +61,17 @@
     </property>
     <addaction name="actionSavePlaylist"/>
    </widget>
+   <widget class="QMenu" name="menuHelp_2">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionOnlineHelp"/>
+   </widget>
    <addaction name="menuHelp"/>
    <addaction name="menuPlayer"/>
    <addaction name="menuLibrary"/>
    <addaction name="menuTools"/>
+   <addaction name="menuHelp_2"/>
   </widget>
   <action name="actionAbout">
    <property name="text">
@@ -97,6 +104,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionOnlineHelp">
+   <property name="text">
+    <string>Online help</string>
    </property>
   </action>
  </widget>

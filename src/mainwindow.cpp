@@ -71,6 +71,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(_player_form, SIGNAL(clearPlaylist()), this, SLOT(_clear_current_playlist()));
 	connect(ui->actionSetTimer, SIGNAL(triggered()), this, SLOT(_set_timer()));
 	connect(ui->actionEqualizer, SIGNAL(triggered()), this, SLOT(_equalizer()));
+	connect(ui->actionOnlineHelp, SIGNAL(triggered()), _about_form, SLOT(onlineHelp()));
 	connect(_library, SIGNAL(done()), _library_form, SLOT(refresh()));
 	connect(_player_form, SIGNAL(refreshLibrary()), _library_form, SLOT(refresh()));
 	connect(_manage_library_form, SIGNAL(refreshLibrary()), _library_form, SLOT(refresh()));

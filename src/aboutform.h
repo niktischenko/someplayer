@@ -19,9 +19,9 @@ public:
 public slots:
 	void updateTranslations();
 	void updateIcons();
+	void onlineHelp();
 
 private slots:
-	void onlineHelp();
 	void donate();
 
 private:
