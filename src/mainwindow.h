@@ -56,6 +56,9 @@ public:
 private:
 	Ui::MainWindow *ui;
 
+protected:
+	bool eventFilter(QObject *, QEvent *);
+
 signals:
 	void landscapeMode();
 	void portraitMode();

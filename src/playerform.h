@@ -86,15 +86,19 @@ public slots:
 	void play(Track);
 	void next();
 	void prev();
+	void toggle();
+	void toggleRandom();
+	void toggleView();
 	void showCountdown(QString);
 	void hideCountdown();
 	void updateTranslations();
 	void updateTrackColor();
+	void toggleRepeat();
+	void toggleToolsWidget();
 
 private slots:
 	void _library();
 	void _dirview();
-	void _toggle_view();
 	void _process_click(QModelIndex);
 	void _track_changed(Track);
 	void _tick(int, int);
@@ -110,10 +114,7 @@ private slots:
 	void _edit_tags();
 	void _c_edit_tags();
 	void _state_changed(PlayerState);
-	void _toggle_repeat();
-	void _toggle_random();
 	void _track_decoded(Track);
-	void _tools_widget_toggle();
 	void _display_cover(QImage);
 	void _toggle_extra_buttons();
 	void _start_playlist();

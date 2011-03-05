@@ -134,6 +134,13 @@ MainWindow::MainWindow(QWidget *parent) :
 	_hw_zoom_policy_changed();
 	config.setValue("fmtx/enabled", "no");
 	setWindowTitle("SomePlayer");
+
+	QList<QWidget *> widgets = ui->centralWidget->findChildren<QWidget *>();
+	foreach (QWidget *widget, widgets) {
+		if (widget->objectName() != "searchLine") {
+			widget->installEventFilter(this);
+		}
+	}
 }
 
 MainWindow::~MainWindow()
@@ -418,4 +425,54 @@ void MainWindow::_fmtx_settings_changed() {
 	} else {
 		system("fmtx_client -p 0 2>&1 >/dev/null");
 	}
+}
+
+bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
+	if (event->type() != QEvent::KeyPress) {
+		return QObject::eventFilter(obj, event);
+	}
+	QKeyEvent *keyEvent = (QKeyEvent *) event;
+
+	switch (keyEvent->key()) {
+	case Qt::Key_Space:
+		_player_form->toggle();
+		break;
+	case Qt::Key_Enter:
+		// TODO
+		break;
+	case Qt::Key_Right:
+		_player_form->next();
+		break;
+	case Qt::Key_Left:
+		_player_form->prev();
+		break;
+	case Qt::Key_S:
+		_player_form->stop();
+		break;
+	case Qt::Key_F:
+		_fullscreen(!isFullScreen());
+		break;
+	case Qt::Key_R:
+		_player_form->toggleRandom();
+		break;
+	case Qt::Key_V:
+		_player_form->toggleView();
+		break;
+	case Qt::Key_M:
+		_directory_form->show();
+		break;
+	case Qt::Key_L:
+		_library_form->show();
+		break;
+	case Qt::Key_E:
+		_player_form->toggleRepeat();
+		break;
+	case Qt::Key_Control:
+		_player_form->toggleToolsWidget();
+		break;
+	default:
+		return QObject::eventFilter(obj, event);
+	}
+
+	return true;
 }

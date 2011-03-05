@@ -116,7 +116,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_pls_sort_form->hide();
 
 	connect(ui->libraryButton, SIGNAL(clicked()), this, SLOT(_library()));
-	connect(ui->viewButton, SIGNAL(clicked()), this, SLOT(_toggle_view()));
+	connect(ui->viewButton, SIGNAL(clicked()), this, SLOT(toggleView()));
 	connect(ui->playlistView, SIGNAL(clicked(QModelIndex)), this, SLOT(_process_click(QModelIndex)));
 	connect(ui->playpauseButton, SIGNAL(clicked()), _player, SLOT(toggle()));
 	connect(ui->nextButton, SIGNAL(clicked()), _player, SLOT(next()));
@@ -124,8 +124,8 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(ui->prevButton, SIGNAL(clicked()), _player, SLOT(prev()));
 	connect(_player, SIGNAL(trackChanged(Track)), this, SLOT(_track_changed(Track)));
 	connect(_player, SIGNAL(tick(int,int)), this, SLOT(_tick(int,int)));
-	connect(ui->randomButton, SIGNAL(clicked()), this, SLOT(_toggle_random()));
-	connect(ui->repeatButton, SIGNAL(clicked()), this, SLOT(_toggle_repeat()));
+	connect(ui->randomButton, SIGNAL(clicked()), this, SLOT(toggleRandom()));
+	connect(ui->repeatButton, SIGNAL(clicked()), this, SLOT(toggleRepeat()));
 	connect(ui->seekSlider, SIGNAL(sliderMoved(int)), _player, SLOT(seek(int)));
 	connect(ui->playlistView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(_sort_playlist()));
 	connect(__clear_playlist, SIGNAL(triggered()), this, SIGNAL(clearPlaylist()));
@@ -138,7 +138,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	connect(_player, SIGNAL(trackDone(Track)), _lib, SLOT(updateTrackCount(Track)));
 	connect(_tag_resolver, SIGNAL(decoded(Track)), this, SLOT(_track_decoded(Track)));
 	connect(ui->dirButton, SIGNAL(clicked()), this, SLOT(_dirview()));
-	connect(ui->moreButton, SIGNAL(clicked()), this, SLOT(_tools_widget_toggle()));
+	connect(ui->moreButton, SIGNAL(clicked()), this, SLOT(toggleToolsWidget()));
 	connect(_tools_widget, SIGNAL(search(QString)), this, SLOT(search(QString)));
 	connect(_tools_widget, SIGNAL(nextSearch()), this, SLOT(nextItem()));
 	connect(_tools_widget, SIGNAL(prevSearch()), this, SLOT(prevItem()));
@@ -198,7 +198,7 @@ void PlayerForm::reload(bool reread) {
 	}
 }
 
-void PlayerForm::_toggle_view() {
+void PlayerForm::toggleView() {
 	int index = ui->stackedWidget->currentIndex();
 	index = (!index % 2);
 	if (index) {
@@ -339,7 +339,7 @@ void PlayerForm::_state_changed(PlayerState state) {
 	}
 }
 
-void PlayerForm::_toggle_random() {
+void PlayerForm::toggleRandom() {
 	_player->toggleRandom();
 	if (_player->random()) {
 		ui->randomButton->setIcon(QIcon(":/icons/"+_icons_theme+"/random_on.png"));
@@ -348,7 +348,7 @@ void PlayerForm::_toggle_random() {
 	}
 }
 
-void PlayerForm::_toggle_repeat() {
+void PlayerForm::toggleRepeat() {
 	_player->toggleRepeat();
 	if (_player->repeat() == REPEAT_ALL) {
 		ui->repeatButton->setIcon(QIcon(":/icons/"+_icons_theme+"/repeat_all.png"));
@@ -599,7 +599,7 @@ void PlayerForm::portraitMode() {
 	_pls_sort_form->portraitMode();
 }
 
-void PlayerForm::_tools_widget_toggle() {
+void PlayerForm::toggleToolsWidget() {
 	if (_tools_widget->isVisible()) {
 		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/more.png"));
 		_tools_widget->hide();
@@ -821,4 +821,8 @@ void PlayerForm::_playlist_sorted() {
 	__fill_list(_model, _current_playlist);
 	ui->playlistView->setColumnWidth(0, 50);
 	_track_renderer->setActiveRow(_current_playlist.tracks().indexOf(_player->current()));
+}
+
+void PlayerForm::toggle() {
+	_player->toggle();
 }
