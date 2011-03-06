@@ -600,6 +600,9 @@ void PlayerForm::portraitMode() {
 }
 
 void PlayerForm::toggleToolsWidget() {
+	if (0 != ui->stackedWidget->currentIndex()) {
+		return;
+	}
 	if (_tools_widget->isVisible()) {
 		ui->moreButton->setIcon(QIcon(":/icons/"+_icons_theme+"/more.png"));
 		_tools_widget->hide();

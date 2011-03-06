@@ -209,91 +209,48 @@
                <number>0</number>
               </property>
               <item>
-               <layout class="QGridLayout" name="cButtonsLayout" rowstretch="0,0">
-                <property name="spacing">
-                 <number>0</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QRadioButton" name="cBlueButton">
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(100, 150, 220)</string>
-                  </property>
-                  <property name="text">
-                   <string>blue</string>
-                  </property>
-                 </widget>
+               <widget class="QComboBox" name="colorComboBox">
+                <item>
+                 <property name="text">
+                  <string>Blue</string>
+                 </property>
                 </item>
-                <item row="0" column="1">
-                 <widget class="QRadioButton" name="cMagentaButton">
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(150, 80, 150);</string>
-                  </property>
-                  <property name="text">
-                   <string>magenta</string>
-                  </property>
-                 </widget>
+                <item>
+                 <property name="text">
+                  <string>Magenta</string>
+                 </property>
                 </item>
-                <item row="0" column="2">
-                 <widget class="QRadioButton" name="cRedButton">
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(220, 100, 100);</string>
-                  </property>
-                  <property name="text">
-                   <string>red</string>
-                  </property>
-                 </widget>
+                <item>
+                 <property name="text">
+                  <string>Red</string>
+                 </property>
                 </item>
-                <item row="0" column="3">
-                 <widget class="QRadioButton" name="cYellowButton">
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(220, 220, 100);</string>
-                  </property>
-                  <property name="text">
-                   <string>yellow</string>
-                  </property>
-                 </widget>
+                <item>
+                 <property name="text">
+                  <string>Yellow</string>
+                 </property>
                 </item>
-                <item row="1" column="0">
-                 <widget class="QRadioButton" name="cWhiteButton">
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(255, 255, 255);</string>
-                  </property>
-                  <property name="text">
-                   <string>white</string>
-                  </property>
-                 </widget>
+                <item>
+                 <property name="text">
+                  <string>White</string>
+                 </property>
                 </item>
-                <item row="1" column="1">
-                 <widget class="QRadioButton" name="cBlackButton">
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(0,0,0);</string>
-                  </property>
-                  <property name="text">
-                   <string>black</string>
-                  </property>
-                 </widget>
+                <item>
+                 <property name="text">
+                  <string>Black</string>
+                 </property>
                 </item>
-                <item row="1" column="2">
-                 <widget class="QRadioButton" name="cLightButton">
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(200, 200, 200);</string>
-                  </property>
-                  <property name="text">
-                   <string>light</string>
-                  </property>
-                 </widget>
+                <item>
+                 <property name="text">
+                  <string>Light</string>
+                 </property>
                 </item>
-                <item row="1" column="3">
-                 <widget class="QRadioButton" name="cDarkButton">
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(70, 70, 70);</string>
-                  </property>
-                  <property name="text">
-                   <string>dark</string>
-                  </property>
-                 </widget>
+                <item>
+                 <property name="text">
+                  <string>Dark</string>
+                 </property>
                 </item>
-               </layout>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -372,32 +329,23 @@
                <number>0</number>
               </property>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_7">
-                <property name="spacing">
-                 <number>0</number>
-                </property>
+               <widget class="QComboBox" name="langComboBox">
                 <item>
-                 <widget class="QRadioButton" name="engLangButton">
-                  <property name="text">
-                   <string>English</string>
-                  </property>
-                 </widget>
+                 <property name="text">
+                  <string>English</string>
+                 </property>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="ruLangButton">
-                  <property name="text">
-                   <string>Russian</string>
-                  </property>
-                 </widget>
+                 <property name="text">
+                  <string>Russian</string>
+                 </property>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="cnLangButton">
-                  <property name="text">
-                   <string>Chinese</string>
-                  </property>
-                 </widget>
+                 <property name="text">
+                  <string>Chinese</string>
+                 </property>
                 </item>
-               </layout>
+               </widget>
               </item>
               <item>
                <spacer name="verticalSpacer">

@@ -432,10 +432,13 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
 		return QObject::eventFilter(obj, event);
 	}
 	QKeyEvent *keyEvent = (QKeyEvent *) event;
+	int mod = keyEvent->modifiers();
 
 	switch (keyEvent->key()) {
 	case Qt::Key_Space:
-		_player_form->toggle();
+		if ((mod & Qt::ControlModifier) == 0) {
+			_player_form->toggle();
+		}
 		break;
 	case Qt::Key_Enter:
 		// TODO
@@ -446,11 +449,8 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
 	case Qt::Key_Left:
 		_player_form->prev();
 		break;
-	case Qt::Key_S:
+	case Qt::Key_T:
 		_player_form->stop();
-		break;
-	case Qt::Key_F:
-		_fullscreen(!isFullScreen());
 		break;
 	case Qt::Key_R:
 		_player_form->toggleRandom();
@@ -467,7 +467,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
 	case Qt::Key_E:
 		_player_form->toggleRepeat();
 		break;
-	case Qt::Key_Control:
+	case Qt::Key_S:
 		_player_form->toggleToolsWidget();
 		break;
 	default:

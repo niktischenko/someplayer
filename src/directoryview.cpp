@@ -297,6 +297,7 @@ void DirectoryView::portraitMode() {
 
 void DirectoryView::updateTranslations() {
 	ui->retranslateUi(this);
+	homeScreen();
 }
 
 void DirectoryView::homeScreen() {

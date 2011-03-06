@@ -52,6 +52,8 @@ signals:
 
 private:
 	Ui::SettingsForm *ui;
+	QStringList _color_map;
+	QStringList _lang_map;
 
 private slots:
 	void _set_album_sorting_alphabet(bool);
@@ -65,17 +67,6 @@ private slots:
 	void _set_icons_black(bool);
 	void _set_gradient_yes(bool);
 	void _set_gradient_no(bool);
-	void _set_lang_en(bool);
-	void _set_lang_ru(bool);
-	void _set_lang_cn(bool);
-	void _set_color_blue(bool);
-	void _set_color_magenta(bool);
-	void _set_color_red(bool);
-	void _set_color_yellow(bool);
-	void _set_color_white(bool);
-	void _set_color_black(bool);
-	void _set_color_light(bool);
-	void _set_color_dark(bool);
 	void _set_pause_hp_yes(bool);
 	void _set_pause_hp_no(bool);
 	void _toggle_hw_settings(bool);
@@ -86,6 +77,8 @@ private slots:
 	void _toggle_view_hw();
 	void _open_fmtx_settings();
 	void _toggle_fmtx_settings(bool);
+	void _set_color(int);
+	void _set_language(int);
 };
 
 #endif // SETTINGSFORM_H

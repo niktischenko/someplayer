@@ -518,7 +518,7 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     </message>
     <message>
         <source>red</source>
-        <translation>红色</translation>
+        <translation type="obsolete">红色</translation>
     </message>
     <message>
         <source>Auto</source>
@@ -526,11 +526,11 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     </message>
     <message>
         <source>blue</source>
-        <translation>蓝色</translation>
+        <translation type="obsolete">蓝色</translation>
     </message>
     <message>
         <source>dark</source>
-        <translation>深色</translation>
+        <translation type="obsolete">深色</translation>
     </message>
     <message>
         <source>Black</source>
@@ -542,15 +542,15 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     </message>
     <message>
         <source>black</source>
-        <translation>黑色</translation>
+        <translation type="obsolete">黑色</translation>
     </message>
     <message>
         <source>light</source>
-        <translation>浅色</translation>
+        <translation type="obsolete">浅色</translation>
     </message>
     <message>
         <source>white</source>
-        <translation>白色</translation>
+        <translation type="obsolete">白色</translation>
     </message>
     <message>
         <source>Show track lenght in library view:</source>
@@ -566,7 +566,7 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     </message>
     <message>
         <source>magenta</source>
-        <translation>品红</translation>
+        <translation type="obsolete">品红</translation>
     </message>
     <message>
         <source>Zoom keys control:</source>
@@ -610,7 +610,7 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     </message>
     <message>
         <source>yellow</source>
-        <translation>黄色</translation>
+        <translation type="obsolete">黄色</translation>
     </message>
     <message>
         <source>Use FMTX</source>
@@ -651,6 +651,30 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     <message>
         <source>Chinese</source>
         <translation>Chinese</translation>
+    </message>
+    <message>
+        <source>Blue</source>
+        <translation>蓝色</translation>
+    </message>
+    <message>
+        <source>Magenta</source>
+        <translation>品红</translation>
+    </message>
+    <message>
+        <source>Red</source>
+        <translation>红色</translation>
+    </message>
+    <message>
+        <source>Yellow</source>
+        <translation>黄色</translation>
+    </message>
+    <message>
+        <source>Light</source>
+        <translation>浅色</translation>
+    </message>
+    <message>
+        <source>Dark</source>
+        <translation>深色</translation>
     </message>
 </context>
 <context>
