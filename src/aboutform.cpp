@@ -3,6 +3,7 @@
 #include "config.h"
 #include <QWebView>
 #include <QDebug>
+#include "someplayer.h"
 
 using namespace SomePlayer::Storage;
 
@@ -32,6 +33,7 @@ void AboutForm::updateIcons() {
 
 void AboutForm::updateTranslations() {
 	ui->retranslateUi(this);
+	ui->versionLabel->setText(QString("<b>%1</b>").arg(_SOMEPLAYER_VERSION_));
 }
 
 void AboutForm::onlineHelp() {

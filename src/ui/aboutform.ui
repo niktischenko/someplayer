@@ -32,9 +32,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-208</y>
+        <y>0</y>
         <width>550</width>
-        <height>562</height>
+        <height>569</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -97,15 +97,52 @@
            </property>
           </spacer>
          </item>
-         <item row="1" column="0" colspan="3">
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
           <widget class="QLabel" name="nameLabel">
            <property name="text">
-            <string>&lt;b&gt;SomePlayer 1.5.2&lt;/b&gt; </string>
+            <string>&lt;b&gt;SomePlayer&lt;/b&gt; </string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="versionLabel">
+           <property name="text">
+            <string>&gt;&lt;</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
         </layout>
        </item>
