@@ -49,6 +49,7 @@ namespace SomePlayer {
 			bool operator == (const Track &track) const;
 			bool operator >= (const Track &track) const; // comparing only title
 			bool operator < (const Track &track) const; // comparing only title
+			QString mediaArtLocal();
 
 		private:
 			TrackMetadata _metadata;

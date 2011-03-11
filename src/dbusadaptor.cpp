@@ -27,75 +27,93 @@
 #include <QtCore/QVariant>
 #include <QDebug>
 #include "config.h"
+#include "player/player.h"
 
 /*
  * Implementation of adaptor class DBusAdaptop
  */
 
 DBusAdaptop::DBusAdaptop(QObject *parent)
-    : QDBusAbstractAdaptor(parent)
+	: QDBusAbstractAdaptor(parent)
 {
-    // constructor
-    setAutoRelaySignals(true);
-    // handling signals from bluetooth headset
-    _time = QTime::currentTime();
-    if (!QDBusConnection::systemBus().connect(QString(), QString(),
-	"org.freedesktop.Hal.Device", "Condition", this, SLOT(processBTSignal(QString, QString)))) {
-	    qWarning() << "Can not connect to HAL";
-    }
+	// constructor
+	setAutoRelaySignals(true);
+	// handling signals from bluetooth headset
+	_time = QTime::currentTime();
+	if (!QDBusConnection::systemBus().connect(QString(), QString(),
+						  "org.freedesktop.Hal.Device", "Condition", this, SLOT(processBTSignal(QString, QString)))) {
+		qWarning() << "Can not connect to HAL";
+	}
+	setAutoRelaySignals(true);
 }
 
 DBusAdaptop::~DBusAdaptop()
 {
-    // destructor
+	// destructor
 }
 
-QString DBusAdaptop::album()
-{
-    // handle method call ru.somebody.someplayer.album
-    QString out0;
-    QMetaObject::invokeMethod(parent(), "album", Q_RETURN_ARG(QString, out0));
-    return out0;
+QString DBusAdaptop::album() {
+	// handle method call ru.somebody.someplayer.album
+	QString out0;
+	QMetaObject::invokeMethod(parent(), "album", Q_RETURN_ARG(QString, out0));
+	return out0;
 }
 
-QString DBusAdaptop::artist()
-{
-    // handle method call ru.somebody.someplayer.artist
-    QString out0;
-    QMetaObject::invokeMethod(parent(), "artist", Q_RETURN_ARG(QString, out0));
-    return out0;
+QString DBusAdaptop::artist() {
+	// handle method call ru.somebody.someplayer.artist
+	QString out0;
+	QMetaObject::invokeMethod(parent(), "artist", Q_RETURN_ARG(QString, out0));
+	return out0;
 }
 
-void DBusAdaptop::next()
-{
-    // handle method call ru.somebody.someplayer.next
-    QMetaObject::invokeMethod(parent(), "next");
+QString DBusAdaptop::title_artist_album() {
+	// handle method call ru.somebody.someplayer.title_artist_album
+	QString album, title, artist;
+	QMetaObject::invokeMethod(parent(), "artist", Q_RETURN_ARG(QString, artist));
+	QMetaObject::invokeMethod(parent(), "title", Q_RETURN_ARG(QString, title));
+	QMetaObject::invokeMethod(parent(), "album", Q_RETURN_ARG(QString, album));
+	return QString("%1\n%2\n%3").arg(title).arg(artist).arg(album);
 }
 
-void DBusAdaptop::prev()
-{
-    // handle method call ru.somebody.someplayer.prev
-    QMetaObject::invokeMethod(parent(), "prev");
+void DBusAdaptop::next() {
+	// handle method call ru.somebody.someplayer.next
+	QMetaObject::invokeMethod(parent(), "next");
 }
 
-void DBusAdaptop::stop()
-{
-    // handle method call ru.somebody.someplayer.stop
-    QMetaObject::invokeMethod(parent(), "stop");
+void DBusAdaptop::prev() {
+	// handle method call ru.somebody.someplayer.prev
+	QMetaObject::invokeMethod(parent(), "prev");
 }
 
-QString DBusAdaptop::title()
-{
-    // handle method call ru.somebody.someplayer.title
-    QString out0;
-    QMetaObject::invokeMethod(parent(), "title", Q_RETURN_ARG(QString, out0));
-    return out0;
+void DBusAdaptop::stop() {
+	// handle method call ru.somebody.someplayer.stop
+	QMetaObject::invokeMethod(parent(), "stop");
 }
 
-void DBusAdaptop::toggle()
-{
-    // handle method call ru.somebody.someplayer.toggle
-    QMetaObject::invokeMethod(parent(), "toggle");
+QString DBusAdaptop::title() {
+	// handle method call ru.somebody.someplayer.title
+	QString out0;
+	QMetaObject::invokeMethod(parent(), "title", Q_RETURN_ARG(QString, out0));
+	return out0;
+}
+
+void DBusAdaptop::toggle() {
+	// handle method call ru.somebody.someplayer.toggle
+	QMetaObject::invokeMethod(parent(), "toggle");
+}
+
+QString DBusAdaptop::state() {
+	// handle method call ru.somebody.someplayer.state
+	QString out0;
+	QMetaObject::invokeMethod(parent(), "stateText", Q_RETURN_ARG(QString, out0));
+	return out0;
+}
+
+QString DBusAdaptop::albumart() {
+	// handle method call ru.somebody.someplayer.albumart
+	QString out0;
+	QMetaObject::invokeMethod(parent(), "albumart", Q_RETURN_ARG(QString, out0));
+	return out0;
 }
 
 void DBusAdaptop::processBTSignal(QString event, QString state) {

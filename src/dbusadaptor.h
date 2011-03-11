@@ -38,51 +38,62 @@ class QVariant;
  */
 class DBusAdaptop: public QDBusAbstractAdaptor
 {
-    Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "ru.somebody.someplayer")
-    Q_CLASSINFO("D-Bus Introspection", ""
-"  <interface name=\"ru.somebody.someplayer\">\n"
-"    <method name=\"prev\">\n"
-"      <annotation value=\"true\" name=\"org.freedesktop.DBus.Method.NoReply\"/>\n"
-"    </method>\n"
-"    <method name=\"next\">\n"
-"      <annotation value=\"true\" name=\"org.freedesktop.DBus.Method.NoReply\"/>\n"
-"    </method>\n"
-"    <method name=\"toggle\">\n"
-"      <annotation value=\"true\" name=\"org.freedesktop.DBus.Method.NoReply\"/>\n"
-"    </method>\n"
-"    <method name=\"stop\">\n"
-"      <annotation value=\"true\" name=\"org.freedesktop.DBus.Method.NoReply\"/>\n"
-"    </method>\n"
-"    <method name=\"artist\">\n"
-"      <arg direction=\"out\" type=\"s\"/>\n"
-"    </method>\n"
-"    <method name=\"album\">\n"
-"      <arg direction=\"out\" type=\"s\"/>\n"
-"    </method>\n"
-"    <method name=\"title\">\n"
-"      <arg direction=\"out\" type=\"s\"/>\n"
-"    </method>\n"
-"  </interface>\n"
-        "")
+	Q_OBJECT
+	Q_CLASSINFO("D-Bus Interface", "ru.somebody.someplayer")
+	Q_CLASSINFO("D-Bus Introspection", ""
+		    "  <interface name=\"ru.somebody.someplayer\">\n"
+		    "    <method name=\"prev\">\n"
+		    "      <annotation value=\"true\" name=\"org.freedesktop.DBus.Method.NoReply\"/>\n"
+		    "    </method>\n"
+		    "    <method name=\"next\">\n"
+		    "      <annotation value=\"true\" name=\"org.freedesktop.DBus.Method.NoReply\"/>\n"
+		    "    </method>\n"
+		    "    <method name=\"toggle\">\n"
+		    "      <annotation value=\"true\" name=\"org.freedesktop.DBus.Method.NoReply\"/>\n"
+		    "    </method>\n"
+		    "    <method name=\"stop\">\n"
+		    "      <annotation value=\"true\" name=\"org.freedesktop.DBus.Method.NoReply\"/>\n"
+		    "    </method>\n"
+		    "    <method name=\"artist\">\n"
+		    "      <arg direction=\"out\" type=\"s\"/>\n"
+		    "    </method>\n"
+		    "    <method name=\"album\">\n"
+		    "      <arg direction=\"out\" type=\"s\"/>\n"
+		    "    </method>\n"
+		    "    <method name=\"title\">\n"
+		    "      <arg direction=\"out\" type=\"s\"/>\n"
+		    "    </method>\n"
+		    "    <method name=\"title_artist_album\">\n"
+		    "      <arg direction=\"out\" type=\"s\"/>\n"
+		    "    </method>\n"
+		    "    <method name=\"state\">\n"
+		    "      <arg direction=\"out\" type=\"s\"/>\n"
+		    "    </method>\n"
+		    "  </interface>\n"
+		    "")
 public:
-    DBusAdaptop(QObject *parent);
-    virtual ~DBusAdaptop();
+	DBusAdaptop(QObject *parent);
+	virtual ~DBusAdaptop();
 
 public: // PROPERTIES
 public Q_SLOTS: // METHODS
-    QString album();
-    QString artist();
-    Q_NOREPLY void next();
-    Q_NOREPLY void prev();
-    Q_NOREPLY void stop();
-    QString title();
-    Q_NOREPLY void toggle();
-    Q_NOREPLY void pause();
-    Q_NOREPLY void playIfPaused();
+	QString album();
+	QString artist();
+	Q_NOREPLY void next();
+	Q_NOREPLY void prev();
+	Q_NOREPLY void stop();
+	QString title();
+	QString title_artist_album();
+	QString state();
+	QString albumart();
+	Q_NOREPLY void toggle();
+	Q_NOREPLY void pause();
+	Q_NOREPLY void playIfPaused();
 
-    void processBTSignal(QString, QString);
+	void processBTSignal(QString, QString);
 Q_SIGNALS: // SIGNALS
+	void stateChanged();
+	void albumArt(QString path);
 private:
 	QTime _time;
 };

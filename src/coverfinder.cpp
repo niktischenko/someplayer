@@ -53,6 +53,7 @@ bool CoverFinder::_find(QString path) {
 			pics << item;
 			if (NAMES.contains(item.baseName().toLower())) {
 				emit found(QImage(item.absoluteFilePath()));
+				emit foundPath(item.absoluteFilePath());
 				return true;
 			}
 		}
@@ -68,6 +69,7 @@ bool CoverFinder::_find(QString path) {
 			foreach (QFileInfo item, appropriate_pics) {
 				if (item.baseName().toLower().contains(name)) {
 					emit found(QImage(item.absoluteFilePath()));
+					emit foundPath(item.absoluteFilePath());
 					return true;
 				}
 			}
@@ -84,11 +86,13 @@ bool CoverFinder::_find(QString path) {
 			foreach (QFileInfo item, appropriate_pics) {
 				if (!unprior.contains(item)) {
 					emit found(QImage(item.absoluteFilePath()));
+					emit foundPath(item.absoluteFilePath());
 					return true;
 				}
 			}
 		}
 		emit found(QImage(unprior.at(0).absoluteFilePath()));
+		emit foundPath(unprior.at(0).absoluteFilePath());
 		return true;
 	}
 	foreach(QFileInfo item, dirs) {
@@ -138,11 +142,13 @@ bool CoverFinder::_extract(QString file) {
 
 void CoverFinder::find(Track track) {
 	QFileInfo filePath(track.source());
-	QtConcurrent::run(this, &CoverFinder::_async_find, filePath, track.metadata().artist(), track.metadata().album());
+	QtConcurrent::run(this, &CoverFinder::_async_find, filePath, track);
 }
 
-bool CoverFinder::_async_find(QFileInfo filePath, QString artist, QString album) {
-	if (!_find(filePath.absolutePath()) && !_tfind(artist, album) && !_extract(filePath.absoluteFilePath())) {
+bool CoverFinder::_async_find(QFileInfo filePath, Track track) {
+	if (!_find(filePath.absolutePath()) && !_tfind(track.metadata().artist(), track.metadata().album()) &&
+	    !_malfind(filePath.absolutePath()+"/.mediaartlocal/"+track.mediaArtLocal()) &&
+	    !_extract(filePath.absoluteFilePath())) {
 		emit found(_defaultCover);
 		return false;
 	}
@@ -159,9 +165,20 @@ bool CoverFinder::_tfind(QString artist, QString album) {
 	QString fname2 = QDir::homePath()+"/.covers/"+aname+".jpg";
 	if (QFile::exists(fname1)) {
 		emit found(QImage(fname1));
+		emit foundPath(fname1);
 		return true;
 	} else if (QFile::exists(fname2)) {
 		emit found(QImage(fname2));
+		emit foundPath(fname2);
+		return true;
+	}
+	return false;
+}
+
+bool CoverFinder::_malfind(QString path) {
+	if (QFile::exists(path)) {
+		emit found(QImage(path));
+		emit foundPath(path);
 		return true;
 	}
 	return false;

@@ -174,6 +174,8 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 
 	// dbus
 	_dbusadaptor = new DBusAdaptop(_player);
+	connect(_player, SIGNAL(stateChanged(PlayerState)), _dbusadaptor, SIGNAL(stateChanged()));
+	connect(_coverfinder, SIGNAL(foundPath(QString)), _dbusadaptor, SIGNAL(albumArt(QString)));
 	QDBusConnection connection = QDBusConnection::sessionBus();
 	bool ret = connection.registerService(_SERVICE_NAME_);
 	ret = connection.registerObject("/", _player);

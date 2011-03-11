@@ -71,6 +71,7 @@ Player::Player(QObject *parent) :
 	qsrand(seed);
 	_random = _config.getValue("playback/random").toBool();
 	_repeat = (RepeatRule) _config.getValue("playback/repeat").toInt();
+	_state = PLAYER_DONE;
 }
 
 void Player::setTrackId(int id) {
@@ -340,4 +341,32 @@ void Player::_truncate_history() {
 
 Player::~Player() {
 	stop();
+}
+
+QString Player::stateText() {
+	QString return_val;
+	switch (_state) {
+	case PLAYER_PLAYING:
+		return_val = "playing";
+		break;
+	case PLAYER_STOPPED:
+		return_val = "stopped";
+		break;
+	case PLAYER_PAUSED:
+		return_val = "paused";
+		break;
+	case PLAYER_DONE:
+		return_val = "idle";
+		break;
+	case PLAYER_LOADING:
+		return_val = "idle";
+		break;
+	case PLAYER_ERROR:
+		return_val = "error";
+		break;
+	default:
+		return_val = "unhandled";
+		break;
+	}
+	return return_val;
 }

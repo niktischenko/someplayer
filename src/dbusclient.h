@@ -24,6 +24,7 @@
 #include <QtDBus/QtDBus>
 #include <QTimer>
 #include <QTime>
+#include "player/player.h"
 
 #define MM_KEY_UP (73)
 #define MM_KEY_DOWN (74)

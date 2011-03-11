@@ -89,3 +89,4 @@ quint32 DBusClient::getVolume() {
 	volume = var.variant();
 	return volume.toUInt();
 }
+

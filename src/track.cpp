@@ -20,6 +20,8 @@
 #include "track.h"
 #include "tagresolver.h"
 #include <QFileInfo>
+#include <QCryptographicHash>
+#include <QDebug>
 
 using namespace SomePlayer::DataObjects;
 
@@ -101,4 +103,24 @@ bool Track::operator >= (const Track &track) const {
 
 bool Track::operator < (const Track &track) const {
 	return (metadata().title().compare(track.metadata().title()) < 0);
+}
+
+QString Track::mediaArtLocal() {
+	QString album = _metadata.album();
+	QRegExp rsb("\\[.*\\]");
+	QRegExp rfb("{.*}");
+	QRegExp rrb("\\(.*\\)");
+	QRegExp stripB("^[()_{}[]!@#$^&*+=|\\\\/\"'?<>~`\\s\\t]*");
+	QRegExp stripE("[()_{}[]!@#$^&*+=|\\\\/\"'?<>~`\\s\\t]*$");
+	album = album.replace(rsb, "");
+	album = album.replace(rfb, "");
+	album = album.replace(rrb, "");
+	album = album.replace(stripB, "");
+	album = album.replace(stripE, "");
+	album = album.replace("  ", " ");
+	album = album.replace("\t", " ");
+	album = album.toLower();
+	QByteArray first_hash = QCryptographicHash::hash(QString(" ").toUtf8(), QCryptographicHash::Md5).toHex();
+	QByteArray second_hash = QCryptographicHash::hash(QString(album).toUtf8(), QCryptographicHash::Md5).toHex();
+	return QString("album-%1-%2.jpeg").arg(first_hash.constData()).arg(second_hash.constData());
 }

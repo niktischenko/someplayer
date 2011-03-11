@@ -57,7 +57,6 @@ namespace SomePlayer {
 			Phonon::MediaObject* mediaObject() {return _player;}
 			bool equalizerEnabled() {return _equalizer_enabled;}
 			bool equalizerAvailable() {return _equalizer != NULL;}
-			PlayerState state() {return _state;}
 			Track current();
 			void setAwaitingSeek(int pos) {_awaiting_seek = true; _awaiting_seek_pos = pos;}
 		signals:
@@ -89,6 +88,8 @@ namespace SomePlayer {
 			QString artist();
 			QString album();
 			QString title();
+			PlayerState state() {return _state;}
+			QString stateText();
 		private slots:
 			void _stateChanged(Phonon::State, Phonon::State);
 			void _tick(qint64);

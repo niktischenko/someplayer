@@ -36,15 +36,17 @@ public:
 
 signals:
 	void found(QImage);
+	void foundPath(QString);
 
 public slots:
 	void find(Track track);
 	QImage &defaultCover();
 private:
-	bool _async_find(QFileInfo filePath, QString artist, QString album);
+	bool _async_find(QFileInfo filePath, Track track);
 	bool _find(QString path);
 	bool _extract(QString file);
 	bool _tfind(QString artist, QString album);
+	bool _malfind(QString path); // .mediaartlocal
 
 private:
 	QImage _defaultCover;
