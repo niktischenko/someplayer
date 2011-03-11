@@ -351,4 +351,5 @@ void PlaylistSortForm::updateIcons() {
 	ui->sortAlphAscButton->setIcon(QIcon(":/icons/"+icons_theme+"/sort_alpha_asc.png"));
 	ui->sortAlphDescButton->setIcon(QIcon(":/icons/"+icons_theme+"/sort_alpha_desc.png"));
 	ui->artistsButton->setIcon(QIcon(":/icons/"+icons_theme+"/artists.png"));
+	_track_renderer->updateIcons();
 }
