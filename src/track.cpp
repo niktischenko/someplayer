@@ -107,6 +107,9 @@ bool Track::operator < (const Track &track) const {
 
 QString Track::mediaArtLocal() {
 	QString album = _metadata.album();
+	if (album == _UNKNOWN_ALBUM_) {
+		return QString("no_mediaartlocal");
+	}
 	QRegExp rsb("\\[.*\\]");
 	QRegExp rfb("{.*}");
 	QRegExp rrb("\\(.*\\)");
