@@ -450,6 +450,7 @@ void PlayerForm::_edit_tags() {
 		reload(true);
 		emit refreshLibrary();
 	}
+	_display_track(track);
 }
 
 void PlayerForm::stop() {
