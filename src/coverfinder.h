@@ -46,7 +46,7 @@ private:
 	bool _find(QString path);
 	bool _extract(QString file);
 	bool _tfind(QString artist, QString album);
-	bool _malfind(QString path); // .mediaartlocal
+	bool _malfind(Track); // .mediaartlocal
 
 private:
 	QImage _defaultCover;

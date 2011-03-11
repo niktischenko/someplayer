@@ -147,8 +147,7 @@ void CoverFinder::find(Track track) {
 
 bool CoverFinder::_async_find(QFileInfo filePath, Track track) {
 	if (!_find(filePath.absolutePath()) && !_tfind(track.metadata().artist(), track.metadata().album()) &&
-	    !_malfind(filePath.absolutePath()+"/.mediaartlocal/"+track.mediaArtLocal()) &&
-	    !_extract(filePath.absoluteFilePath())) {
+	    !_malfind(track) && !_extract(filePath.absoluteFilePath())) {
 		emit found(_defaultCover);
 		return false;
 	}
@@ -175,7 +174,14 @@ bool CoverFinder::_tfind(QString artist, QString album) {
 	return false;
 }
 
-bool CoverFinder::_malfind(QString path) {
+bool CoverFinder::_malfind(Track track) {
+	QString path = QFileInfo(track.source()).absolutePath()+"/.mediaartlocal/"+track.mediaArtLocal();
+	if (QFile::exists(path)) {
+		emit found(QImage(path));
+		emit foundPath(path);
+		return true;
+	}
+	path = QDir::homePath()+"/.cache/media-art/"+track.mediaArtLocal();
 	if (QFile::exists(path)) {
 		emit found(QImage(path));
 		emit foundPath(path);
