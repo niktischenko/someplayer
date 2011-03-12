@@ -26,16 +26,20 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
 By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b&gt;SomePlayer&lt;/b&gt; tries to be a full replacement of standard music player for Maemo5 with many other features such as equalizer, custom playlists, smarter random mode, more flexible media-library and improved algorithm for cover searching.&lt;/p&gt;</translation>
     </message>
     <message>
-        <source>&lt;b&gt;SomePlayer 1.5.2&lt;/b&gt; </source>
-        <translation>&lt;b&gt;SomePlayer 1.5.2&lt;/b&gt; </translation>
-    </message>
-    <message>
         <source>&lt;p align=&quot;center&quot;&gt;
 &lt;b&gt;Thanks to:&lt;/b&gt;&lt;br&gt;
 MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemoworld.ru)&lt;br /&gt;lknfox (maemoworld.ru)&lt;br /&gt;fab (maemoworld.ru)&lt;br /&gt;Pantera1989m (github.com)&lt;br /&gt;willkr (maemo.org)&lt;br /&gt;and other people who tested this player and helped in development&lt;/p&gt;</source>
         <translation>&lt;p align=&quot;center&quot;&gt;
 &lt;b&gt;感谢:&lt;/b&gt;&lt;br&gt;
 MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemoworld.ru)&lt;br /&gt;lknfox (maemoworld.ru)&lt;br /&gt;fab (maemoworld.ru)&lt;br /&gt;Pantera1989m (github.com)&lt;br /&gt;willkr (maemo.org)&lt;br /&gt;and other people who tested this player and helped in development&lt;br /&gt;willkr(blog.sina.com.cn/willkr)&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;SomePlayer&lt;/b&gt; </source>
+        <translation>&lt;b&gt;SomePlayer&lt;/b&gt; </translation>
+    </message>
+    <message>
+        <source>&gt;&lt;</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -45,16 +49,16 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>音频剪辑</translation>
     </message>
     <message>
-        <source>Inner memory</source>
-        <translation>内置存储器</translation>
-    </message>
-    <message>
         <source>Memory card</source>
         <translation>外置存储器</translation>
     </message>
     <message>
         <source>Directories</source>
         <translation>目录</translation>
+    </message>
+    <message>
+        <source>Internal memory</source>
+        <translation>内置存储器</translation>
     </message>
 </context>
 <context>
@@ -517,20 +521,8 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>是</translation>
     </message>
     <message>
-        <source>red</source>
-        <translation type="obsolete">红色</translation>
-    </message>
-    <message>
         <source>Auto</source>
         <translation>自动</translation>
-    </message>
-    <message>
-        <source>blue</source>
-        <translation type="obsolete">蓝色</translation>
-    </message>
-    <message>
-        <source>dark</source>
-        <translation type="obsolete">深色</translation>
     </message>
     <message>
         <source>Black</source>
@@ -539,18 +531,6 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     <message>
         <source>White</source>
         <translation>白色</translation>
-    </message>
-    <message>
-        <source>black</source>
-        <translation type="obsolete">黑色</translation>
-    </message>
-    <message>
-        <source>light</source>
-        <translation type="obsolete">浅色</translation>
-    </message>
-    <message>
-        <source>white</source>
-        <translation type="obsolete">白色</translation>
     </message>
     <message>
         <source>Show track lenght in library view:</source>
@@ -563,10 +543,6 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     <message>
         <source>Icons theme:</source>
         <translation>图标主题:</translation>
-    </message>
-    <message>
-        <source>magenta</source>
-        <translation type="obsolete">品红</translation>
     </message>
     <message>
         <source>Zoom keys control:</source>
@@ -609,10 +585,6 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>使用物理键</translation>
     </message>
     <message>
-        <source>yellow</source>
-        <translation type="obsolete">黄色</translation>
-    </message>
-    <message>
         <source>Use FMTX</source>
         <translation>使用调频发射器</translation>
     </message>
@@ -621,20 +593,12 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>日期</translation>
     </message>
     <message>
-        <source>Russian</source>
-        <translation>俄语</translation>
-    </message>
-    <message>
         <source>Use gradient in portrait mode:</source>
         <translation>在竖屏模式使用渐变:</translation>
     </message>
     <message>
         <source>Alphabetical</source>
         <translation>字母</translation>
-    </message>
-    <message>
-        <source>English</source>
-        <translation>英语</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -647,10 +611,6 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     <message>
         <source>Orientation:</source>
         <translation>方向:</translation>
-    </message>
-    <message>
-        <source>Chinese</source>
-        <translation>Chinese</translation>
     </message>
     <message>
         <source>Blue</source>

@@ -287,7 +287,9 @@ OTHER_FILES += \
     COPYING.LGPL
 
 TRANSLATIONS	=  resources/someplayer_ru.ts \
-    resources/someplayer_cn.ts
+	resources/someplayer_zh_CN.ts \
+	resources/someplayer_zh_TW.ts
+
 
 unix {
 	#VARIABLES

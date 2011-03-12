@@ -332,17 +332,22 @@
                <widget class="QComboBox" name="langComboBox">
                 <item>
                  <property name="text">
-                  <string>English</string>
+                  <string notr="true">English</string>
                  </property>
                 </item>
                 <item>
                  <property name="text">
-                  <string>Russian</string>
+                  <string notr="true">Русский</string>
                  </property>
                 </item>
                 <item>
                  <property name="text">
-                  <string>Chinese</string>
+                  <string notr="true">中文 (zh_CN)</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string notr="true">中文 (zh_TW)</string>
                  </property>
                 </item>
                </widget>
@@ -387,8 +392,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>592</width>
-            <height>346</height>
+            <width>195</width>
+            <height>124</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -528,8 +533,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>592</width>
-            <height>346</height>
+            <width>221</width>
+            <height>230</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_16">

@@ -1,0 +1,914 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0" language="zh_TW">
+<context>
+    <name>AboutForm</name>
+    <message>
+        <source>Online help</source>
+        <translation>在線幫助</translation>
+    </message>
+    <message>
+        <source>Donate</source>
+        <translation>捐赠</translation>
+    </message>
+    <message>
+        <source>About SomePlayer</source>
+        <translation>關於 SomePlayer</translation>
+    </message>
+    <message>
+        <source>&lt;p align=&quot;center&quot;&gt;
+&lt;b&gt;Thanks to:&lt;/b&gt;&lt;br&gt;
+MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemoworld.ru)&lt;br /&gt;lknfox (maemoworld.ru)&lt;br /&gt;fab (maemoworld.ru)&lt;br /&gt;Pantera1989m (github.com)&lt;br /&gt;willkr (maemo.org)&lt;br /&gt;and other people who tested this player and helped in development&lt;/p&gt;</source>
+        <translation>&lt;p align=&quot;center&quot;&gt;
+&lt;b&gt;感謝:&lt;/b&gt;&lt;br&gt;
+MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemoworld.ru)&lt;br /&gt;lknfox (maemoworld.ru)&lt;br /&gt;fab (maemoworld.ru)&lt;br /&gt;Pantera1989m (github.com)&lt;br /&gt;willkr (maemo.org)&lt;br /&gt;and other people who tested this player and helped in development&lt;br /&gt;willkr(blog.sina.com.cn/willkr)&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p align=&quot;center&quot;&gt;Alternative music player for Maemo 5. It includes media-library, playlists, equalizer, and supports many other things.&lt;/p&gt;</source>
+        <translation>&lt;p align=&quot;center&quot;&gt;替代Maemo 5的音樂播放器.它包括音樂庫,播放清單,EQ等化器,並支援與多其他事物.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p align=&quot;center&quot;&gt;Licensed under GPLv2&lt;br&gt;
+By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b&gt;SomePlayer&lt;/b&gt; tries to be a full replacement of standard music player for Maemo5 with many other features such as equalizer, custom playlists, smarter random mode, more flexible media-library and improved algorithm for cover searching.&lt;/p&gt;</source>
+        <translation>&lt;p align=&quot;center&quot;&gt;GPLv2 許可協議&lt;br&gt;
+By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b&gt;SomePlayer&lt;/b&gt; tries to be a full replacement of standard music player for Maemo5 with many other features such as equalizer, custom playlists, smarter random mode, more flexible media-library and improved algorithm for cover searching.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;SomePlayer&lt;/b&gt; </source>
+        <translation>&lt;b&gt;SomePlayer&lt;/b&gt; </translation>
+    </message>
+    <message>
+        <source>&gt;&lt;</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>DirectoryView</name>
+    <message>
+        <source>Audioclips</source>
+        <translation>音频剪辑</translation>
+    </message>
+    <message>
+        <source>Memory card</source>
+        <translation>記憶卡</translation>
+    </message>
+    <message>
+        <source>Directories</source>
+        <translation>目錄</translation>
+    </message>
+    <message>
+        <source>Internal memory</source>
+        <translation>內建記憶體</translation>
+    </message>
+</context>
+<context>
+    <name>EditTagsDialog</name>
+    <message>
+        <source>Edit tags</source>
+        <translation>編輯標籤</translation>
+    </message>
+    <message>
+        <source>Album:</source>
+        <translation>專輯:</translation>
+    </message>
+    <message>
+        <source>Title:</source>
+        <translation>標題:</translation>
+    </message>
+    <message>
+        <source>Artist:</source>
+        <translation>演出者:</translation>
+    </message>
+</context>
+<context>
+    <name>EqualizerDialog</name>
+    <message>
+        <source>Save</source>
+        <translation>儲存</translation>
+    </message>
+    <message>
+        <source>+12dB</source>
+        <translation>+12dB</translation>
+    </message>
+    <message>
+        <source>-12dB</source>
+        <translation>-12dB</translation>
+    </message>
+    <message>
+        <source>Enable</source>
+        <translation>開啟</translation>
+    </message>
+    <message>
+        <source>Equalizer</source>
+        <translation>EQ等化器</translation>
+    </message>
+</context>
+<context>
+    <name>FmtxSettingsDialog</name>
+    <message>
+        <source>00</source>
+        <translation>00</translation>
+    </message>
+    <message>
+        <source>05</source>
+        <translation>05</translation>
+    </message>
+    <message>
+        <source>10</source>
+        <translation>10</translation>
+    </message>
+    <message>
+        <source>15</source>
+        <translation>15</translation>
+    </message>
+    <message>
+        <source>20</source>
+        <translation>20</translation>
+    </message>
+    <message>
+        <source>25</source>
+        <translation>25</translation>
+    </message>
+    <message>
+        <source>30</source>
+        <translation>30</translation>
+    </message>
+    <message>
+        <source>35</source>
+        <translation>35</translation>
+    </message>
+    <message>
+        <source>40</source>
+        <translation>40</translation>
+    </message>
+    <message>
+        <source>45</source>
+        <translation>45</translation>
+    </message>
+    <message>
+        <source>50</source>
+        <translation>50</translation>
+    </message>
+    <message>
+        <source>55</source>
+        <translation>55</translation>
+    </message>
+    <message>
+        <source>60</source>
+        <translation>60</translation>
+    </message>
+    <message>
+        <source>65</source>
+        <translation>65</translation>
+    </message>
+    <message>
+        <source>70</source>
+        <translation>70</translation>
+    </message>
+    <message>
+        <source>75</source>
+        <translation>75</translation>
+    </message>
+    <message>
+        <source>80</source>
+        <translation>80</translation>
+    </message>
+    <message>
+        <source>85</source>
+        <translation>85</translation>
+    </message>
+    <message>
+        <source>88</source>
+        <translation>88</translation>
+    </message>
+    <message>
+        <source>89</source>
+        <translation>89</translation>
+    </message>
+    <message>
+        <source>90</source>
+        <translation>90</translation>
+    </message>
+    <message>
+        <source>91</source>
+        <translation>91</translation>
+    </message>
+    <message>
+        <source>92</source>
+        <translation>92</translation>
+    </message>
+    <message>
+        <source>93</source>
+        <translation>93</translation>
+    </message>
+    <message>
+        <source>94</source>
+        <translation>94</translation>
+    </message>
+    <message>
+        <source>95</source>
+        <translation>95</translation>
+    </message>
+    <message>
+        <source>96</source>
+        <translation>96</translation>
+    </message>
+    <message>
+        <source>97</source>
+        <translation>97</translation>
+    </message>
+    <message>
+        <source>98</source>
+        <translation>98</translation>
+    </message>
+    <message>
+        <source>99</source>
+        <translation>99</translation>
+    </message>
+    <message>
+        <source>100</source>
+        <translation>100</translation>
+    </message>
+    <message>
+        <source>101</source>
+        <translation>101</translation>
+    </message>
+    <message>
+        <source>102</source>
+        <translation>102</translation>
+    </message>
+    <message>
+        <source>103</source>
+        <translation>103</translation>
+    </message>
+    <message>
+        <source>104</source>
+        <translation>104</translation>
+    </message>
+    <message>
+        <source>105</source>
+        <translation>105</translation>
+    </message>
+    <message>
+        <source>106</source>
+        <translation>106</translation>
+    </message>
+    <message>
+        <source>107</source>
+        <translation>107</translation>
+    </message>
+    <message>
+        <source>FMTX Settings</source>
+        <translation>調頻發射器設定</translation>
+    </message>
+    <message>
+        <source>Frequency:</source>
+        <translation>頻率:</translation>
+    </message>
+    <message>
+        <source>Station:</source>
+        <translation>電台:</translation>
+    </message>
+</context>
+<context>
+    <name>LibraryForm</name>
+    <message>
+        <source>Library</source>
+        <translation>音樂庫</translation>
+    </message>
+    <message>
+        <source>All tracks by &quot;%1&quot;</source>
+        <translation>全部歌曲以 &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <source>Artists</source>
+        <translation>演出者</translation>
+    </message>
+    <message>
+        <source>Playlists</source>
+        <translation>播放清單</translation>
+    </message>
+    <message>
+        <source>Search in library</source>
+        <translation>在音樂庫中搜尋</translation>
+    </message>
+    <message>
+        <source>Tracks from &quot;%1&quot; by &quot;%2&quot;</source>
+        <translation>歌曲來自 &quot;%1&quot; 以 &quot;%2&quot;</translation>
+    </message>
+    <message>
+        <source>Albums by &quot;%1&quot;</source>
+        <translation>專輯以 &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <source>Dynamic playlists</source>
+        <translation>動態播放清單</translation>
+    </message>
+    <message>
+        <source>Tracks in playlist &quot;%1&quot;</source>
+        <translation>歌曲在播放清單 &quot;%1&quot;</translation>
+    </message>
+</context>
+<context>
+    <name>MainWindow</name>
+    <message>
+        <source>Help</source>
+        <translation>幫助</translation>
+    </message>
+    <message>
+        <source>Main</source>
+        <translation>主界面</translation>
+    </message>
+    <message>
+        <source>About</source>
+        <translation>關於</translation>
+    </message>
+    <message>
+        <source>Tools</source>
+        <translation>工具</translation>
+    </message>
+    <message>
+        <source>Library</source>
+        <translation>音樂庫</translation>
+    </message>
+    <message>
+        <source>Clear playlist?</source>
+        <translation>清除播放清單?</translation>
+    </message>
+    <message>
+        <source>Online help</source>
+        <translation>在線幫助</translation>
+    </message>
+    <message>
+        <source>Ctrl+S</source>
+        <translation>Ctrl+S</translation>
+    </message>
+    <message>
+        <source>Music off: </source>
+        <translation>音樂關閉: </translation>
+    </message>
+    <message>
+        <source>Player</source>
+        <translation>播放器</translation>
+    </message>
+    <message>
+        <source>Set timer</source>
+        <translation>設定睡眠時間</translation>
+    </message>
+    <message>
+        <source>SomePlayer</source>
+        <translation>SomePlayer</translation>
+    </message>
+    <message>
+        <source>Manage library</source>
+        <translation>音樂庫管理</translation>
+    </message>
+    <message>
+        <source>Save playlist</source>
+        <translation>儲存播放清單</translation>
+    </message>
+    <message>
+        <source>Equalizer</source>
+        <translation>EQ等化器</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>設定</translation>
+    </message>
+</context>
+<context>
+    <name>ManageLibraryForm</name>
+    <message>
+        <source>Select directory</source>
+        <translation>選擇目錄</translation>
+    </message>
+    <message>
+        <source>Delete selected directories?</source>
+        <translation>刪除所選目錄?</translation>
+    </message>
+    <message>
+        <source>Update selected directories? It may takes several minutes</source>
+        <translation>更新所選目錄? 這需要一些時間</translation>
+    </message>
+    <message>
+        <source>0 albums</source>
+        <translation>0 專輯</translation>
+    </message>
+    <message>
+        <source>0 tracks</source>
+        <translation>0 歌曲</translation>
+    </message>
+    <message>
+        <source>0 artitst</source>
+        <translation>0 演出者</translation>
+    </message>
+    <message>
+        <source>Added directories:</source>
+        <translation>添加目錄:</translation>
+    </message>
+    <message>
+        <source>Update all library? It may takes a long time</source>
+        <translation>更新全部音樂庫? 這需要很長時間</translation>
+    </message>
+    <message>
+        <source>Manage library</source>
+        <translation>音樂庫管理</translation>
+    </message>
+</context>
+<context>
+    <name>PlayerForm</name>
+    <message>
+        <source>0/0</source>
+        <translation>0/0</translation>
+    </message>
+    <message>
+        <source>00:00</source>
+        <translation>00:00</translation>
+    </message>
+    <message>
+        <source>Clear playlist</source>
+        <translation>清除播放清單</translation>
+    </message>
+    <message>
+        <source>Edit tags</source>
+        <translation>編輯標籤</translation>
+    </message>
+    <message>
+        <source>Remove from favorites</source>
+        <translation>從收藏中刪除</translation>
+    </message>
+    <message>
+        <source>Music off: 00:00:00</source>
+        <translation>音樂關閉: 00:00:00</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Title&lt;/h3&gt;</source>
+        <translation>&lt;h3&gt;標題&lt;/h3&gt;</translation>
+    </message>
+    <message>
+        <source>SomePlayer</source>
+        <translation>SomePlayer</translation>
+    </message>
+    <message>
+        <source>Enqueue</source>
+        <translation>插入</translation>
+    </message>
+    <message>
+        <source>Add to favorites</source>
+        <translation>添加到收藏</translation>
+    </message>
+    <message>
+        <source>Add to playlists</source>
+        <translation>添加到播放清單</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Artist&lt;/b&gt;&lt;br/&gt;album</source>
+        <translation>&lt;b&gt;演出者&lt;/b&gt;&lt;br/&gt;專輯</translation>
+    </message>
+</context>
+<context>
+    <name>PlaylistDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation>對話</translation>
+    </message>
+</context>
+<context>
+    <name>PlaylistSortForm</name>
+    <message>
+        <source>Sorting</source>
+        <translation>排序</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>All tracks</source>
+        <translation>全部歌曲</translation>
+    </message>
+</context>
+<context>
+    <name>SavePlaylistDialog</name>
+    <message>
+        <source>New: </source>
+        <translation>新建:</translation>
+    </message>
+    <message>
+        <source>Existed playlists:</source>
+        <translation>現有播放清單:</translation>
+    </message>
+    <message>
+        <source>Save playlist</source>
+        <translation>儲存播放清單</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsForm</name>
+    <message>
+        <source>No</source>
+        <translation>不</translation>
+    </message>
+    <message>
+        <source>UI</source>
+        <translation>界面</translation>
+    </message>
+    <message>
+        <source>Red</source>
+        <translation>紅色</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>是</translation>
+    </message>
+    <message>
+        <source>Auto</source>
+        <translation>自動</translation>
+    </message>
+    <message>
+        <source>Blue</source>
+        <translation>藍色</translation>
+    </message>
+    <message>
+        <source>Dark</source>
+        <translation>深色</translation>
+    </message>
+    <message>
+        <source>Black</source>
+        <translation>黑色</translation>
+    </message>
+    <message>
+        <source>Light</source>
+        <translation>淺色</translation>
+    </message>
+    <message>
+        <source>White</source>
+        <translation>白色</translation>
+    </message>
+    <message>
+        <source>Show track lenght in library view:</source>
+        <translation>在音樂庫檢視顯示歌曲長度:</translation>
+    </message>
+    <message>
+        <source>Library</source>
+        <translation>音樂庫</translation>
+    </message>
+    <message>
+        <source>Icons theme:</source>
+        <translation>圖示主題:</translation>
+    </message>
+    <message>
+        <source>Magenta</source>
+        <translation>紫紅</translation>
+    </message>
+    <message>
+        <source>Zoom keys control:</source>
+        <translation>縮放鍵控制:</translation>
+    </message>
+    <message>
+        <source>Landscape</source>
+        <translation>横向</translation>
+    </message>
+    <message>
+        <source>Language:</source>
+        <translation>語言:</translation>
+    </message>
+    <message>
+        <source>System</source>
+        <translation>系統</translation>
+    </message>
+    <message>
+        <source>Tracks</source>
+        <translation>歌曲</translation>
+    </message>
+    <message>
+        <source>Volume</source>
+        <translation>音量</translation>
+    </message>
+    <message>
+        <source>Yellow</source>
+        <translation>黃色</translation>
+    </message>
+    <message>
+        <source>Sort album:</source>
+        <translation>專輯排序:</translation>
+    </message>
+    <message>
+        <source>Active track color:</source>
+        <translation>目前歌曲顏色:</translation>
+    </message>
+    <message>
+        <source>Portrait</source>
+        <translation>直向</translation>
+    </message>
+    <message>
+        <source>Use hardware keys</source>
+        <translation>使用硬體鍵</translation>
+    </message>
+    <message>
+        <source>Use FMTX</source>
+        <translation>使用調頻發射器</translation>
+    </message>
+    <message>
+        <source>By date</source>
+        <translation>日期</translation>
+    </message>
+    <message>
+        <source>Use gradient in portrait mode:</source>
+        <translation>在直向模式使用漸變:</translation>
+    </message>
+    <message>
+        <source>Alphabetical</source>
+        <translation>字母</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>設定</translation>
+    </message>
+    <message>
+        <source>Pause when headphones unplugged:</source>
+        <translation>耳機拔出時暫停:</translation>
+    </message>
+    <message>
+        <source>Orientation:</source>
+        <translation>方向:</translation>
+    </message>
+</context>
+<context>
+    <name>TimerDialog</name>
+    <message>
+        <source>:</source>
+        <translation>:</translation>
+    </message>
+    <message>
+        <source>00</source>
+        <translation>00</translation>
+    </message>
+    <message>
+        <source>01</source>
+        <translation>01</translation>
+    </message>
+    <message>
+        <source>02</source>
+        <translation>02</translation>
+    </message>
+    <message>
+        <source>03</source>
+        <translation>03</translation>
+    </message>
+    <message>
+        <source>04</source>
+        <translation>04</translation>
+    </message>
+    <message>
+        <source>05</source>
+        <translation>05</translation>
+    </message>
+    <message>
+        <source>06</source>
+        <translation>06</translation>
+    </message>
+    <message>
+        <source>07</source>
+        <translation>07</translation>
+    </message>
+    <message>
+        <source>08</source>
+        <translation>08</translation>
+    </message>
+    <message>
+        <source>09</source>
+        <translation>09</translation>
+    </message>
+    <message>
+        <source>10</source>
+        <translation>10</translation>
+    </message>
+    <message>
+        <source>11</source>
+        <translation>11</translation>
+    </message>
+    <message>
+        <source>12</source>
+        <translation>12</translation>
+    </message>
+    <message>
+        <source>13</source>
+        <translation>13</translation>
+    </message>
+    <message>
+        <source>14</source>
+        <translation>14</translation>
+    </message>
+    <message>
+        <source>15</source>
+        <translation>15</translation>
+    </message>
+    <message>
+        <source>16</source>
+        <translation>16</translation>
+    </message>
+    <message>
+        <source>17</source>
+        <translation>17</translation>
+    </message>
+    <message>
+        <source>18</source>
+        <translation>18</translation>
+    </message>
+    <message>
+        <source>19</source>
+        <translation>19</translation>
+    </message>
+    <message>
+        <source>20</source>
+        <translation>20</translation>
+    </message>
+    <message>
+        <source>21</source>
+        <translation>21</translation>
+    </message>
+    <message>
+        <source>22</source>
+        <translation>22</translation>
+    </message>
+    <message>
+        <source>23</source>
+        <translation>23</translation>
+    </message>
+    <message>
+        <source>24</source>
+        <translation>24</translation>
+    </message>
+    <message>
+        <source>25</source>
+        <translation>25</translation>
+    </message>
+    <message>
+        <source>26</source>
+        <translation>26</translation>
+    </message>
+    <message>
+        <source>27</source>
+        <translation>27</translation>
+    </message>
+    <message>
+        <source>28</source>
+        <translation>28</translation>
+    </message>
+    <message>
+        <source>29</source>
+        <translation>29</translation>
+    </message>
+    <message>
+        <source>30</source>
+        <translation>30</translation>
+    </message>
+    <message>
+        <source>31</source>
+        <translation>31</translation>
+    </message>
+    <message>
+        <source>32</source>
+        <translation>32</translation>
+    </message>
+    <message>
+        <source>33</source>
+        <translation>33</translation>
+    </message>
+    <message>
+        <source>34</source>
+        <translation>34</translation>
+    </message>
+    <message>
+        <source>35</source>
+        <translation>35</translation>
+    </message>
+    <message>
+        <source>36</source>
+        <translation>36</translation>
+    </message>
+    <message>
+        <source>37</source>
+        <translation>37</translation>
+    </message>
+    <message>
+        <source>38</source>
+        <translation>38</translation>
+    </message>
+    <message>
+        <source>39</source>
+        <translation>39</translation>
+    </message>
+    <message>
+        <source>40</source>
+        <translation>40</translation>
+    </message>
+    <message>
+        <source>41</source>
+        <translation>41</translation>
+    </message>
+    <message>
+        <source>42</source>
+        <translation>42</translation>
+    </message>
+    <message>
+        <source>43</source>
+        <translation>43</translation>
+    </message>
+    <message>
+        <source>44</source>
+        <translation>44</translation>
+    </message>
+    <message>
+        <source>45</source>
+        <translation>45</translation>
+    </message>
+    <message>
+        <source>46</source>
+        <translation>46</translation>
+    </message>
+    <message>
+        <source>47</source>
+        <translation>47</translation>
+    </message>
+    <message>
+        <source>48</source>
+        <translation>48</translation>
+    </message>
+    <message>
+        <source>49</source>
+        <translation>49</translation>
+    </message>
+    <message>
+        <source>50</source>
+        <translation>50</translation>
+    </message>
+    <message>
+        <source>51</source>
+        <translation>51</translation>
+    </message>
+    <message>
+        <source>52</source>
+        <translation>52</translation>
+    </message>
+    <message>
+        <source>53</source>
+        <translation>53</translation>
+    </message>
+    <message>
+        <source>54</source>
+        <translation>54</translation>
+    </message>
+    <message>
+        <source>55</source>
+        <translation>55</translation>
+    </message>
+    <message>
+        <source>56</source>
+        <translation>56</translation>
+    </message>
+    <message>
+        <source>57</source>
+        <translation>57</translation>
+    </message>
+    <message>
+        <source>58</source>
+        <translation>58</translation>
+    </message>
+    <message>
+        <source>59</source>
+        <translation>59</translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation>時</translation>
+    </message>
+    <message>
+        <source>Minutes</source>
+        <translation>分</translation>
+    </message>
+    <message>
+        <source>Set timer</source>
+        <translation>設定睡眠時間</translation>
+    </message>
+    <message>
+        <source>Seconds</source>
+        <translation>秒</translation>
+    </message>
+    <message>
+        <source>Disable</source>
+        <translation>關閉</translation>
+    </message>
+</context>
+<context>
+    <name>ToolsWidget</name>
+    <message>
+        <source>Form</source>
+        <translation>來自</translation>
+    </message>
+</context>
+</TS>
