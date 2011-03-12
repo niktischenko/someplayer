@@ -549,10 +549,6 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
         <translation>白色</translation>
     </message>
     <message>
-        <source>Show track lenght in library view:</source>
-        <translation>在音樂庫檢視顯示歌曲長度:</translation>
-    </message>
-    <message>
         <source>Library</source>
         <translation>音樂庫</translation>
     </message>
@@ -635,6 +631,10 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
     <message>
         <source>Orientation:</source>
         <translation>方向:</translation>
+    </message>
+    <message>
+        <source>Show track length in library view:</source>
+        <translation>在音樂庫檢視顯示歌曲長度:</translation>
     </message>
 </context>
 <context>

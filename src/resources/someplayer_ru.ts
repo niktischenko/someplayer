@@ -740,6 +740,11 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>По дате</translation>
     </message>
     <message>
+        <location filename="../ui/settingsform.ui" line="457"/>
+        <source>Show track length in library view:</source>
+        <translation>Показывать длину трека:</translation>
+    </message>
+    <message>
         <location filename="../ui/settingsform.ui" line="589"/>
         <source>Use hardware keys</source>
         <translation>Аппаратные кнопки</translation>
@@ -788,11 +793,6 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <location filename="../ui/settingsform.ui" line="301"/>
         <source>Auto</source>
         <translation>Авто</translation>
-    </message>
-    <message>
-        <location filename="../ui/settingsform.ui" line="457"/>
-        <source>Show track lenght in library view:</source>
-        <translation>Показывать длину трека:</translation>
     </message>
     <message>
         <location filename="../ui/settingsform.ui" line="313"/>

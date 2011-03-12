@@ -392,8 +392,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>195</width>
-            <height>124</height>
+            <width>592</width>
+            <height>346</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -454,7 +454,7 @@
            <item>
             <widget class="QGroupBox" name="groupBox_2">
              <property name="title">
-              <string>Show track lenght in library view:</string>
+              <string>Show track length in library view:</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_4">
               <property name="spacing">

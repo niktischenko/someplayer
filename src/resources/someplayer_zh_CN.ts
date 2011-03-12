@@ -533,10 +533,6 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>白色</translation>
     </message>
     <message>
-        <source>Show track lenght in library view:</source>
-        <translation>在库视图中显示音轨长度:</translation>
-    </message>
-    <message>
         <source>Library</source>
         <translation>音乐库</translation>
     </message>
@@ -635,6 +631,10 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     <message>
         <source>Dark</source>
         <translation>深色</translation>
+    </message>
+    <message>
+        <source>Show track length in library view:</source>
+        <translation>在库视图中显示音轨长度:</translation>
     </message>
 </context>
 <context>
