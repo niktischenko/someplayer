@@ -1,6 +1,9 @@
-someplayer (1.5.2-3) unstable; urgency=low
+someplayer (1.5.3-1) unstable; urgency=low
 
-  * Minor bugfixes
+  * .mediaartlocal support
+  * added zh_TW translation
+  * new dbus functions and signals
+  * bugfixes
 
  -- somebody Nikolay Tischenko <niktischenko@gmail.com>  Sun, 27 Feb 2011 16:40:36 +0600
 
