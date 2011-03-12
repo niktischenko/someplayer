@@ -307,7 +307,7 @@ void DirectoryView::homeScreen() {
 	_model->setRowCount(2);
 	_model->setColumnCount(2);
 	_model->setItem(0, 0, new QStandardItem(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"), ""));
-	_model->setItem(0, 1, new QStandardItem(tr("Inner memory")));
+	_model->setItem(0, 1, new QStandardItem(tr("Internal memory")));
 	_model->setItem(1, 0, new QStandardItem(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"), ""));
 	_model->setItem(1, 1, new QStandardItem(tr("Memory card")));
 	_directories << QDir::homePath()+"/MyDocs/";

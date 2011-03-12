@@ -470,6 +470,9 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
 	case Qt::Key_S:
 		_player_form->toggleToolsWidget();
 		break;
+	case Qt::Key_H:
+		_about_form->onlineHelp();
+		break;
 	default:
 		return QObject::eventFilter(obj, event);
 	}

@@ -75,8 +75,6 @@
         <file>white/folder.png</file>
         <file>black/fav.png</file>
         <file>white/fav.png</file>
-        <file>black/tags.png</file>
-        <file>white/tags.png</file>
         <file>black/sort_alpha_asc.png</file>
         <file>white/sort_alpha_asc.png</file>
         <file>black/sort_alpha_desc.png</file>
@@ -85,6 +83,8 @@
         <file>black/arrow_top.png</file>
         <file>white/arrow_top.png</file>
         <file>white/arrow_bottom.png</file>
+        <file>black/tags.png</file>
+        <file>white/tags.png</file>
     </qresource>
     <qresource prefix="/images">
         <file>defaultcover.png</file>
