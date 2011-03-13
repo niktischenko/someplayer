@@ -134,6 +134,7 @@ bool CoverFinder::_extract(QString file) {
 		QImage img;
 		img.loadFromData((const uchar *) pic->picture().data(), pic->picture().size());
 		emit found(img);
+		emit foundPath("");
 		return true;
 	}
 	if (f != NULL) delete f;
@@ -149,6 +150,7 @@ bool CoverFinder::_async_find(QFileInfo filePath, Track track) {
 	if (!_find(filePath.absolutePath()) && !_tfind(track.metadata().artist(), track.metadata().album()) &&
 	    !_malfind(track) && !_extract(filePath.absoluteFilePath())) {
 		emit found(_defaultCover);
+		emit foundPath("");
 		return false;
 	}
 	return true;

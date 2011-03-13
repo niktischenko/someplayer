@@ -90,6 +90,8 @@ namespace SomePlayer {
 			QString title();
 			PlayerState state() {return _state;}
 			QString stateText();
+			QString albumart() {return _albumart;}
+			void setAlbumart(QString albumart) {_albumart = albumart;}
 		private slots:
 			void _stateChanged(Phonon::State, Phonon::State);
 			void _tick(qint64);
@@ -112,6 +114,7 @@ namespace SomePlayer {
 			void _truncate_history();
 			int _awaiting_seek_pos;
 			bool _awaiting_seek;
+			QString _albumart;
 		};
 	};
 };

@@ -69,6 +69,9 @@ class DBusAdaptop: public QDBusAbstractAdaptor
 		    "    <method name=\"state\">\n"
 		    "      <arg direction=\"out\" type=\"s\"/>\n"
 		    "    </method>\n"
+		    "    <method name=\"albumart\">\n"
+		    "      <arg direction=\"out\" type=\"s\"/>\n"
+		    "    </method>\n"
 		    "  </interface>\n"
 		    "")
 public:
