@@ -299,6 +299,11 @@ void PlayerForm::_delete_track() {
 	_current_playlist.removeTrackAt(id);
 	_lib->saveCurrentPlaylist(_current_playlist);
 	reload(true);
+	int rc = _model->rowCount();
+	if (id >= rc) {
+		id = rc-1;
+	}
+	ui->playlistView->scrollTo(_model->index(id, 0), QAbstractItemView::PositionAtCenter);
 }
 
 void PlayerForm::_enqueue_track() {
