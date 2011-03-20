@@ -17,37 +17,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#ifndef DBUSCLIENT_H
-#define DBUSCLIENT_H
+#include "abstractplayer.h"
 
-#include <QObject>
-#include <QtDBus/QtDBus>
-#include <QTimer>
-#include <QTime>
+using namespace SomePlayer::Playback;
 
-#define MM_KEY_UP (73)
-#define MM_KEY_DOWN (74)
-
-class DBusClient : public QObject
+AbstractPlayer::AbstractPlayer(QObject *parent) :
+		QObject(parent)
 {
-	Q_OBJECT
-public:
-	explicit DBusClient(QObject *parent = 0);
-signals:
-	void displayStateChanged(bool);
-	void zoomKeyPressed(quint32);
-public slots:
-	void enableKeys();
-	void disableKeys();
-	void setVolume(quint32 volume);
-	quint32 getVolume();
-private slots:
-	void _unpause_keys();
-	void _display_handler(QString);
-	void _zoom_keys_handler(quint32, quint32);
-private:
-	QTimer _timer;
-	QDBusMessage _unpause_keys_message;
-};
-
-#endif // DBUSCLIENT_H
+}

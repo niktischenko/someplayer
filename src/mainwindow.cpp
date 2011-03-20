@@ -27,8 +27,6 @@
 #include <QTranslator>
 #include <QKeyEvent>
 
-#include "player/player.h"
-
 #include "library.h"
 #include "timerdialog.h"
 #include "equalizerdialog.h"

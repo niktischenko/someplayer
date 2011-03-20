@@ -27,7 +27,6 @@
 #include <QtCore/QVariant>
 #include <QDebug>
 #include "config.h"
-#include "player/player.h"
 
 /*
  * Implementation of adaptor class DBusAdaptop

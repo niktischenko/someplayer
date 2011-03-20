@@ -20,7 +20,7 @@
 #include "playerform.h"
 #include "ui_playerform.h"
 #include "library.h"
-#include "player/player.h"
+#include "player/abstractplayer.h"
 #include <QTime>
 #include <QSlider>
 #include "trackrenderer.h"
@@ -57,7 +57,7 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	_lib = lib;
 	Config config;
 	_icons_theme = config.getValue("ui/iconstheme").toString();
-	_player = new Player(this);
+	_player = SomePlayer::Playback::Factory::constructPlayer(this);
 	_time = new QTime();
 	ui->setupUi(this);
 	if (_player->random()) {

@@ -35,6 +35,8 @@ Config::Config()
 		_settings->setValue("ui/gradient", "yes");
 	if (_settings->value("ui/language").toString() == "")
 		_settings->setValue("ui/language", "en");
+	if (_settings->value("playback/player").isNull())
+		_settings->setValue("playback/player", "inner");
 	if (_settings->value("ui/trackcolor").toString() == "")
 		_settings->setValue("ui/trackcolor", "blue");
 	_equalizer_settings = new QSettings("/etc/skel/.someplayer/equalizer.ini", QSettings::IniFormat);

@@ -25,6 +25,7 @@
 #include "../track.h"
 #include "../trackmetainformation.h"
 #include "../playlist.h"
+#include "abstractplayer.h"
 #include <phonon/MediaObject>
 #include <phonon/AudioOutput>
 #include <phonon/Effect>
@@ -43,29 +44,31 @@ using SomePlayer::Storage::Config;
 namespace SomePlayer {
 	namespace Playback {
 
-		enum PlayerState { PLAYER_STOPPED, PLAYER_PLAYING, PLAYER_PAUSED, PLAYER_LOADING, PLAYER_DONE, PLAYER_ERROR };
-		enum RepeatRule {REPEAT_NO, REPEAT_ALL, REPEAT_ONE};
+		class Randomizer {
+		public:
+			void setPlaylist(QList<int>);
+			int next();
+			void removeId(int);
+		private:
+			QList<int> _playlist;
+			QList<int> _rand;
+			void _shuffle();
+			int _last;
+		};
 
-		class Player : public QObject
+		class Player : public AbstractPlayer
 		{
 			Q_OBJECT
 		public:
 			explicit Player(QObject *parent = 0);
 			~Player();
-			bool random() {return _random;}
-			RepeatRule repeat() {return _repeat;}
-			Phonon::MediaObject* mediaObject() {return _player;}
-			bool equalizerEnabled() {return _equalizer_enabled;}
-			bool equalizerAvailable() {return _equalizer != NULL;}
-			Track current();
-			void setAwaitingSeek(int pos) {_awaiting_seek = true; _awaiting_seek_pos = pos;}
-		signals:
-			void stateChanged (PlayerState);
-			void trackChanged (Track);
-			void tick (int, int); // played | all (seconds)
-			void trackDone(Track);
-			void startPlaylist();
-			void saveLastPlayed(LastPlayed);
+
+			virtual bool random() {return _random;}
+			virtual RepeatRule repeat() {return _repeat;}
+			virtual bool equalizerEnabled() {return _equalizer_enabled;}
+			virtual bool equalizerAvailable() {return _equalizer != NULL;}
+			virtual Track current();
+			virtual void setAwaitingSeek(int pos) {_awaiting_seek_pos = pos; _awaiting_seek = true;}
 
 		public slots:
 			void setTrackId(int id);

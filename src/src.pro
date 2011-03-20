@@ -130,7 +130,9 @@ SOURCES += main.cpp\
     dbusclient.cpp \
     fmtxsettingsdialog.cpp \
     aboutform.cpp \
-    playlistsortform.cpp
+    playlistsortform.cpp \
+    player/abstractplayer.cpp \
+    player/playerfactory.cpp
 
 HEADERS  += mainwindow.h \
 		player/player.h \
@@ -239,7 +241,9 @@ HEADERS  += mainwindow.h \
     dbusclient.h \
     fmtxsettingsdialog.h \
     aboutform.h \
-    playlistsortform.h
+    playlistsortform.h \
+    player/abstractplayer.h \
+    player/playerfactory.h
 
 FORMS    += ui/mainwindow.ui \
     ui/playerform.ui \

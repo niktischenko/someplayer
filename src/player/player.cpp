@@ -41,7 +41,7 @@ inline QList<Track> __sub(QList<Track> one, QList<Track> two, Track three) {
 }
 
 Player::Player(QObject *parent) :
-    QObject(parent)
+    AbstractPlayer(parent)
 {
 	_awaiting_seek = false;
 	_player = new Phonon::MediaObject(this);
