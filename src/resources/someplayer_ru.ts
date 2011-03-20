@@ -457,12 +457,12 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>Онлайн справка</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="226"/>
+        <location filename="../mainwindow.cpp" line="224"/>
         <source>Clear playlist?</source>
         <translation>Очистить плейлист?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="272"/>
+        <location filename="../mainwindow.cpp" line="270"/>
         <source>Music off: </source>
         <translation>Отключение: </translation>
     </message>
@@ -506,12 +506,12 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     </message>
     <message>
         <location filename="../managelibraryform.cpp" line="145"/>
-        <source>Update selected directories? It may takes several minutes</source>
+        <source>Update selected directories? It may take several minutes</source>
         <translation>Обновить выбранные директории? Это может занять несколько минут</translation>
     </message>
     <message>
         <location filename="../managelibraryform.cpp" line="165"/>
-        <source>Update all library? It may takes a long time</source>
+        <source>Update the entire library? It may take a long time</source>
         <translation>Обновить всю библиотеку? Это может занять длительное время</translation>
     </message>
 </context>
@@ -550,13 +550,13 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     </message>
     <message>
         <location filename="../playerform.cpp" line="91"/>
-        <location filename="../playerform.cpp" line="778"/>
+        <location filename="../playerform.cpp" line="783"/>
         <source>Clear playlist</source>
         <translation>Очистить плейлист</translation>
     </message>
     <message>
         <location filename="../playerform.cpp" line="92"/>
-        <location filename="../playerform.cpp" line="779"/>
+        <location filename="../playerform.cpp" line="784"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
@@ -564,25 +564,25 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <location filename="../playerform.cpp" line="93"/>
         <location filename="../playerform.cpp" line="242"/>
         <location filename="../playerform.cpp" line="282"/>
-        <location filename="../playerform.cpp" line="780"/>
+        <location filename="../playerform.cpp" line="785"/>
         <source>Add to favorites</source>
         <translation>В избранное</translation>
     </message>
     <message>
         <location filename="../playerform.cpp" line="94"/>
-        <location filename="../playerform.cpp" line="781"/>
+        <location filename="../playerform.cpp" line="786"/>
         <source>Enqueue</source>
         <translation>В очередь</translation>
     </message>
     <message>
         <location filename="../playerform.cpp" line="95"/>
-        <location filename="../playerform.cpp" line="782"/>
+        <location filename="../playerform.cpp" line="787"/>
         <source>Add to playlists</source>
         <translation>Добавить в плейлисты</translation>
     </message>
     <message>
         <location filename="../playerform.cpp" line="96"/>
-        <location filename="../playerform.cpp" line="783"/>
+        <location filename="../playerform.cpp" line="788"/>
         <source>Edit tags</source>
         <translation>Редактировать теги</translation>
     </message>

@@ -142,7 +142,7 @@ void ManageLibraryForm::_delete_selected() {
 }
 
 void ManageLibraryForm::_update_selected() {
-	CONFIRM_ACTION(this, tr("Update selected directories? It may takes several minutes"))
+	CONFIRM_ACTION(this, tr("Update selected directories? It may take several minutes"))
 	QList<QString> directories;
 	QModelIndexList idx = ui->dirView->selectionModel()->selectedIndexes();
 	foreach (QModelIndex id, idx) {
@@ -162,7 +162,7 @@ void ManageLibraryForm::_update_selected() {
 }
 
 void ManageLibraryForm::_update_all() {
-	CONFIRM_ACTION(this, tr("Update all library? It may takes a long time"))
+	CONFIRM_ACTION(this, tr("Update the entire library? It may take a long time"))
 	_library->updateAll();
 	refresh();
 	emit refreshLibrary();

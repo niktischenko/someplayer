@@ -387,10 +387,6 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
         <translation>刪除所選目錄?</translation>
     </message>
     <message>
-        <source>Update selected directories? It may takes several minutes</source>
-        <translation>更新所選目錄? 這需要一些時間</translation>
-    </message>
-    <message>
         <source>0 albums</source>
         <translation>0 專輯</translation>
     </message>
@@ -407,12 +403,16 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
         <translation>添加目錄:</translation>
     </message>
     <message>
-        <source>Update all library? It may takes a long time</source>
-        <translation>更新全部音樂庫? 這需要很長時間</translation>
-    </message>
-    <message>
         <source>Manage library</source>
         <translation>音樂庫管理</translation>
+    </message>
+    <message>
+        <source>Update selected directories? It may take several minutes</source>
+        <translation>更新所選目錄? 這需要一些時間</translation>
+    </message>
+    <message>
+        <source>Update the entire library? It may take a long time</source>
+        <translation>更新全部音樂庫? 這需要很長時間</translation>
     </message>
 </context>
 <context>

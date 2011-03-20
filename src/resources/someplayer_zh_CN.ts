@@ -387,10 +387,6 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>删除选择的目录?</translation>
     </message>
     <message>
-        <source>Update selected directories? It may takes several minutes</source>
-        <translation>更新删除选择的目录? 这需要一些时间</translation>
-    </message>
-    <message>
         <source>0 albums</source>
         <translation>0 专辑</translation>
     </message>
@@ -407,12 +403,16 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>添加目录:</translation>
     </message>
     <message>
-        <source>Update all library? It may takes a long time</source>
-        <translation>更新全部音乐库?这需要很长时间</translation>
-    </message>
-    <message>
         <source>Manage library</source>
         <translation>音乐库管理</translation>
+    </message>
+    <message>
+        <source>Update selected directories? It may take several minutes</source>
+        <translation>更新删除选择的目录? 这需要一些时间</translation>
+    </message>
+    <message>
+        <source>Update the entire library? It may take a long time</source>
+        <translation>更新全部音乐库?这需要很长时间</translation>
     </message>
 </context>
 <context>
