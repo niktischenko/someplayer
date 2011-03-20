@@ -636,6 +636,10 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <source>Show track length in library view:</source>
         <translation>在库视图中显示音轨长度:</translation>
     </message>
+    <message>
+        <source>Italiano</source>
+        <translation>Italiano</translation>
+    </message>
 </context>
 <context>
     <name>TimerDialog</name>

@@ -636,6 +636,10 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
         <source>Show track length in library view:</source>
         <translation>在音樂庫檢視顯示歌曲長度:</translation>
     </message>
+    <message>
+        <source>Italiano</source>
+        <translation>Italiano</translation>
+    </message>
 </context>
 <context>
     <name>TimerDialog</name>

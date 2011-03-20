@@ -639,7 +639,7 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     <name>SettingsForm</name>
     <message>
         <location filename="../ui/settingsform.ui" line="14"/>
-        <location filename="../ui/settingsform.ui" line="666"/>
+        <location filename="../ui/settingsform.ui" line="671"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
@@ -677,15 +677,15 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     </message>
     <message>
         <location filename="../ui/settingsform.ui" line="174"/>
-        <location filename="../ui/settingsform.ui" line="483"/>
-        <location filename="../ui/settingsform.ui" line="570"/>
+        <location filename="../ui/settingsform.ui" line="488"/>
+        <location filename="../ui/settingsform.ui" line="575"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
     <message>
         <location filename="../ui/settingsform.ui" line="181"/>
-        <location filename="../ui/settingsform.ui" line="490"/>
-        <location filename="../ui/settingsform.ui" line="577"/>
+        <location filename="../ui/settingsform.ui" line="495"/>
+        <location filename="../ui/settingsform.ui" line="582"/>
         <source>No</source>
         <translation>Нет</translation>
     </message>
@@ -725,47 +725,52 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>Тёмный</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="412"/>
+        <location filename="../ui/settingsform.ui" line="340"/>
+        <source>Italiano</source>
+        <translation>Italiano</translation>
+    </message>
+    <message>
+        <location filename="../ui/settingsform.ui" line="417"/>
         <source>Sort album:</source>
         <translation>Сортировка альбомов:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="438"/>
+        <location filename="../ui/settingsform.ui" line="443"/>
         <source>Alphabetical</source>
         <translation>По алфавиту</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="445"/>
+        <location filename="../ui/settingsform.ui" line="450"/>
         <source>By date</source>
         <translation>По дате</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="457"/>
+        <location filename="../ui/settingsform.ui" line="462"/>
         <source>Show track length in library view:</source>
         <translation>Показывать длину трека:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="589"/>
+        <location filename="../ui/settingsform.ui" line="594"/>
         <source>Use hardware keys</source>
         <translation>Аппаратные кнопки</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="610"/>
+        <location filename="../ui/settingsform.ui" line="615"/>
         <source>Zoom keys control:</source>
         <translation>«Качелька» управляет:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="619"/>
+        <location filename="../ui/settingsform.ui" line="624"/>
         <source>Volume</source>
         <translation>Звуком</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="626"/>
+        <location filename="../ui/settingsform.ui" line="631"/>
         <source>Tracks</source>
         <translation>Треками</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="638"/>
+        <location filename="../ui/settingsform.ui" line="643"/>
         <source>Use FMTX</source>
         <translation>Включить FMTX</translation>
     </message>
@@ -800,7 +805,7 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>Язык:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="550"/>
+        <location filename="../ui/settingsform.ui" line="555"/>
         <source>Pause when headphones unplugged:</source>
         <translation>Пауза при отключении наушников:</translation>
     </message>
