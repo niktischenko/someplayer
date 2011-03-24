@@ -137,6 +137,21 @@ void Library::removePlaylist(QString name) {
 	_playlist_storage->removePlaylist(name);
 }
 
+void Library::importPlaylist(QString name) {
+	_playlist_storage->importPlaylist(name);
+}
+
+void Library::importPlaylists(QStringList files) {
+	foreach (QString name, files) {
+		importPlaylist(name);
+	}
+}
+
+void Library::scanAndImportPlaylists(QString dirpath) {
+	QStringList playlists = _scanner->scanForPlaylists(dirpath);
+	importPlaylists(playlists);
+}
+
 Playlist Library::getCurrentPlaylist() {
 	return _playlist_storage->getCurrentPlaylist();
 }

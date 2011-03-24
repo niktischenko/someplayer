@@ -412,59 +412,69 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>Lettore</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="66"/>
+        <location filename="../ui/mainwindow.ui" line="67"/>
         <source>Help</source>
         <translation>Aiuto</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="78"/>
+        <location filename="../ui/mainwindow.ui" line="79"/>
         <source>About</source>
         <translation>About</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="83"/>
+        <location filename="../ui/mainwindow.ui" line="84"/>
         <source>Settings</source>
         <translation>Impostazioni</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="88"/>
+        <location filename="../ui/mainwindow.ui" line="89"/>
         <source>Manage library</source>
         <translation>Gestisci collezione</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="93"/>
+        <location filename="../ui/mainwindow.ui" line="94"/>
         <source>Equalizer</source>
         <translation>Equalizzatore</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="98"/>
+        <location filename="../ui/mainwindow.ui" line="99"/>
         <source>Set timer</source>
         <translation>Imposta timer</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="103"/>
+        <location filename="../ui/mainwindow.ui" line="104"/>
         <source>Save playlist</source>
         <translation>Salva playlist</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="106"/>
+        <location filename="../ui/mainwindow.ui" line="107"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="111"/>
+        <location filename="../ui/mainwindow.ui" line="112"/>
         <source>Online help</source>
         <translation>Aiuto online</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="224"/>
+        <location filename="../ui/mainwindow.ui" line="117"/>
+        <source>Import playlists</source>
+        <translation>Importa playliste</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="225"/>
         <source>Clear playlist?</source>
         <translation>Cancellare la playlist?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="270"/>
+        <location filename="../mainwindow.cpp" line="271"/>
         <source>Music off: </source>
         <translation>Spegnimento musica:</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="484"/>
+        <source>Select directory</source>
+        <translation>Seleziona cartella</translation>
     </message>
 </context>
 <context>

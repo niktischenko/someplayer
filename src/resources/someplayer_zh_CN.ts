@@ -375,6 +375,14 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <source>Online help</source>
         <translation>在线帮助</translation>
     </message>
+    <message>
+        <source>Import playlists</source>
+        <translation>导入播放列表</translation>
+    </message>
+    <message>
+        <source>Select directory</source>
+        <translation>选择目录</translation>
+    </message>
 </context>
 <context>
     <name>ManageLibraryForm</name>

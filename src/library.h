@@ -73,6 +73,9 @@ namespace SomePlayer {
 			void savePlaylist(const Playlist &playlist);
 			void removePlaylist(const Playlist &playlist);
 			void removePlaylist(QString name);
+			void importPlaylist(QString name);
+			void importPlaylists(QStringList files);
+			void scanAndImportPlaylists(QString dirpath);
 
 			Playlist getCurrentPlaylist();
 			void saveCurrentPlaylist(const Playlist &playlist);

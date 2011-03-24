@@ -37,6 +37,7 @@ namespace SomePlayer {
 			explicit MediaScanner(QObject *parent = 0);
 			void run();
 			QStringList singleScan(QString);
+			QStringList scanForPlaylists(QString);
 
 		signals:
 			void scanFinish(QStringList);

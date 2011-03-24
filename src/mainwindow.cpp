@@ -66,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(_library_form, SIGNAL(refreshPlayer()), this, SLOT(player()));
 	connect(ui->actionManageLibrary, SIGNAL(triggered()), this, SLOT(_manage_library()));
 	connect(ui->actionSavePlaylist, SIGNAL(triggered()), this, SLOT(_save_playlist()));
+	connect(ui->actionImport, SIGNAL(triggered()), this, SLOT(_import_playlits()));
 	connect(_player_form, SIGNAL(clearPlaylist()), this, SLOT(_clear_current_playlist()));
 	connect(ui->actionSetTimer, SIGNAL(triggered()), this, SLOT(_set_timer()));
 	connect(ui->actionEqualizer, SIGNAL(triggered()), this, SLOT(_equalizer()));
@@ -476,4 +477,10 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
 	}
 
 	return true;
+}
+
+
+void MainWindow::_import_playlits() {
+	QString directory = QFileDialog::getExistingDirectory (this, tr("Select directory"), "", QFileDialog::ShowDirsOnly );
+	_library->scanAndImportPlaylists(directory);
 }

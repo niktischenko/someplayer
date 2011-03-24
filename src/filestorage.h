@@ -56,6 +56,7 @@ namespace SomePlayer {
 			void savePlaylist(Playlist playlist);
 			void removePlaylist(Playlist playlist);
 			void removePlaylist(QString name);
+			void importPlaylist(QString name);
 
 			Playlist getCurrentPlaylist();
 			void saveCurrentPlaylist(Playlist playlist);

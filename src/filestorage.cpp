@@ -213,6 +213,52 @@ void FileStorage::removePlaylist(QString name) {
 	file.remove();
 }
 
+void FileStorage::importPlaylist(QString name) {
+	QRegExp forname("^.+\\/([^/]+)\\.[^.]+");
+	QRegExp fordir("(.+)\\/");
+	QString plsnam(name);
+	QString dir(name);
+	if (plsnam.indexOf(forname) == -1) {
+		return;
+	}
+	if (dir.indexOf(fordir) == -1) {
+		return;
+	}
+	dir = fordir.cap(1);
+	plsnam = forname.cap(1);
+	QStringList existed = getPlaylistsNames();
+	if (existed.contains(plsnam)) {
+		return;
+	}
+	QFile plsfile (name);
+	plsfile.open(QFile::ReadOnly);
+	QTextStream stream(&plsfile);
+	QStringList trackfiles;
+	while (!stream.atEnd()) {
+		QString buf = stream.readLine();
+		if (buf.startsWith("#")) {
+			continue;
+		}
+		if (buf.startsWith("/")) {
+			trackfiles.append(buf);
+		} else {
+			trackfiles.append(dir+"/"+buf);
+		}
+	}
+	QList<Track> tracks;
+	TagResolver resover;
+	foreach (QString trackfile, trackfiles) {
+		if (!QFile::exists(trackfile)) {
+			continue;
+		}
+		tracks.append(resover.decodeOne(trackfile));
+	}
+	Playlist playlist;
+	playlist.setName(plsnam);
+	playlist.setTracks(tracks);
+	savePlaylist(playlist);
+}
+
 Playlist FileStorage::getCurrentPlaylist() {
 	return getPlaylist(_CURRENT_PLAYLIST_NAME_);
 }

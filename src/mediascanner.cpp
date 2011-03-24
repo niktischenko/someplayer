@@ -45,6 +45,18 @@ QStringList MediaScanner::singleScan(QString path) {
 	return _scan_directory(_dir);
 }
 
+QStringList MediaScanner::scanForPlaylists(QString path) {
+	QStringList extensions_backup(REGISTERED_FILE_EXTENSIONS);
+	REGISTERED_FILE_EXTENSIONS.clear();
+	REGISTERED_FILE_EXTENSIONS << "m3u";
+	_dir = path;
+	_foundMedia.clear();
+	QStringList result = _scan_directory(_dir);
+	REGISTERED_FILE_EXTENSIONS.clear();
+	REGISTERED_FILE_EXTENSIONS.append(extensions_backup);
+	return result;
+}
+
 QStringList MediaScanner::_scan_directory(QDir dir) {
 	QFileInfoList items = dir.entryInfoList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot | QDir::Hidden);
 	foreach (QFileInfo info, items) {

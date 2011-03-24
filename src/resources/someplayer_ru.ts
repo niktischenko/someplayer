@@ -412,59 +412,69 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>Плеер</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="66"/>
+        <location filename="../ui/mainwindow.ui" line="67"/>
         <source>Help</source>
         <translation>Помощь</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="78"/>
+        <location filename="../ui/mainwindow.ui" line="79"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="83"/>
+        <location filename="../ui/mainwindow.ui" line="84"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="88"/>
+        <location filename="../ui/mainwindow.ui" line="89"/>
         <source>Manage library</source>
         <translation>Управление библиотекой</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="93"/>
+        <location filename="../ui/mainwindow.ui" line="94"/>
         <source>Equalizer</source>
         <translation>Эквалайзер</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="98"/>
+        <location filename="../ui/mainwindow.ui" line="99"/>
         <source>Set timer</source>
         <translation>Установить таймер</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="103"/>
+        <location filename="../ui/mainwindow.ui" line="104"/>
         <source>Save playlist</source>
         <translation>Сохранить плейлист</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="106"/>
+        <location filename="../ui/mainwindow.ui" line="107"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="111"/>
+        <location filename="../ui/mainwindow.ui" line="112"/>
         <source>Online help</source>
         <translation>Онлайн справка</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="224"/>
+        <location filename="../ui/mainwindow.ui" line="117"/>
+        <source>Import playlists</source>
+        <translation>Импорт плейлистов</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="225"/>
         <source>Clear playlist?</source>
         <translation>Очистить плейлист?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="270"/>
+        <location filename="../mainwindow.cpp" line="271"/>
         <source>Music off: </source>
         <translation>Отключение: </translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="484"/>
+        <source>Select directory</source>
+        <translation>Выбрать директорию</translation>
     </message>
 </context>
 <context>

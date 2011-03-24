@@ -375,6 +375,14 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
         <source>Settings</source>
         <translation>設定</translation>
     </message>
+    <message>
+        <source>Import playlists</source>
+        <translation>導入播放列表</translation>
+    </message>
+    <message>
+        <source>Select directory</source>
+        <translation>選擇目錄</translation>
+    </message>
 </context>
 <context>
     <name>ManageLibraryForm</name>
