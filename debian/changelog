@@ -1,9 +1,8 @@
-someplayer (1.5.3-1) unstable; urgency=low
+someplayer (1.5.4-1) unstable; urgency=low
 
-  * .mediaartlocal support
-  * added zh_TW translation
-  * new dbus functions and signals
-  * bugfixes
+  * import M3U playlists
+  * added Italian translation
+  * little improvements in main view
 
  -- somebody Nikolay Tischenko <niktischenko@gmail.com>  Sun, 27 Feb 2011 16:40:36 +0600
 
