@@ -649,7 +649,7 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     <name>SettingsForm</name>
     <message>
         <location filename="../ui/settingsform.ui" line="14"/>
-        <location filename="../ui/settingsform.ui" line="671"/>
+        <location filename="../ui/settingsform.ui" line="676"/>
         <source>Settings</source>
         <translation>Impostazioni</translation>
     </message>
@@ -692,15 +692,15 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     </message>
     <message>
         <location filename="../ui/settingsform.ui" line="174"/>
-        <location filename="../ui/settingsform.ui" line="488"/>
-        <location filename="../ui/settingsform.ui" line="575"/>
+        <location filename="../ui/settingsform.ui" line="493"/>
+        <location filename="../ui/settingsform.ui" line="580"/>
         <source>Yes</source>
         <translation>Si</translation>
     </message>
     <message>
         <location filename="../ui/settingsform.ui" line="181"/>
-        <location filename="../ui/settingsform.ui" line="495"/>
-        <location filename="../ui/settingsform.ui" line="582"/>
+        <location filename="../ui/settingsform.ui" line="500"/>
+        <location filename="../ui/settingsform.ui" line="587"/>
         <source>No</source>
         <translation>No</translation>
     </message>
@@ -765,57 +765,56 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>Lingua:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="340"/>
         <source>Italiano</source>
-        <translation>Italiano</translation>
+        <translation type="obsolete">Italiano</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="417"/>
+        <location filename="../ui/settingsform.ui" line="422"/>
         <source>Sort album:</source>
         <translation>Ordina gli album:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="443"/>
+        <location filename="../ui/settingsform.ui" line="448"/>
         <source>Alphabetical</source>
         <translation>Alfabeticamente</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="450"/>
+        <location filename="../ui/settingsform.ui" line="455"/>
         <source>By date</source>
         <translation>Per data</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="462"/>
+        <location filename="../ui/settingsform.ui" line="467"/>
         <source>Show track length in library view:</source>
         <translation>Mostra la durata del brano nella visuale collezione:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="555"/>
+        <location filename="../ui/settingsform.ui" line="560"/>
         <source>Pause when headphones unplugged:</source>
         <translation>Pausa quando si staccano le cuffie:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="594"/>
+        <location filename="../ui/settingsform.ui" line="599"/>
         <source>Use hardware keys</source>
         <translation>Utilizza tasti hardware</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="615"/>
+        <location filename="../ui/settingsform.ui" line="620"/>
         <source>Zoom keys control:</source>
         <translation>I tasti per lo zoom controllano:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="624"/>
+        <location filename="../ui/settingsform.ui" line="629"/>
         <source>Volume</source>
         <translation>Volume</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="631"/>
+        <location filename="../ui/settingsform.ui" line="636"/>
         <source>Tracks</source>
         <translation>Brani</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="643"/>
+        <location filename="../ui/settingsform.ui" line="648"/>
         <source>Use FMTX</source>
         <translation>Usa FMTX</translation>
     </message>

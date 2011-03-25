@@ -1,8 +1,6 @@
-someplayer (1.5.4-1) unstable; urgency=low
+someplayer (1.5.4-2) unstable; urgency=low
 
-  * import M3U playlists
-  * added Italian translation
-  * little improvements in main view
+  * added Polish translation
 
  -- somebody Nikolay Tischenko <niktischenko@gmail.com>  Sun, 27 Feb 2011 16:40:36 +0600
 

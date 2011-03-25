@@ -66,7 +66,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="stackedWidgetPage1">
       <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -78,6 +78,9 @@
        </property>
        <item>
         <widget class="QScrollArea" name="scrollArea_2">
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -337,7 +340,12 @@
                 </item>
                 <item>
                  <property name="text">
-                  <string>Italiano</string>
+                  <string notr="true">Italiano</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string notr="true">Polski</string>
                  </property>
                 </item>
                 <item>
@@ -389,6 +397,9 @@
        </property>
        <item>
         <widget class="QScrollArea" name="scrollArea_3">
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -397,8 +408,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>195</width>
-            <height>124</height>
+            <width>592</width>
+            <height>346</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -530,6 +541,9 @@
        </property>
        <item>
         <widget class="QScrollArea" name="scrollArea_4">
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -538,8 +552,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>221</width>
-            <height>230</height>
+            <width>592</width>
+            <height>346</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_16">
