@@ -43,6 +43,9 @@ DBusAdaptop::DBusAdaptop(QObject *parent)
 						  "org.freedesktop.Hal.Device", "Condition", this, SLOT(processBTSignal(QString, QString)))) {
 		qWarning() << "Can not connect to HAL";
 	}
+	if (!QDBusConnection::systemBus().connect(QString(), QString(), "org.bluez.AudioSink", "PropertyChanged", this, SLOT(processBTConnect(QString, QDBusVariant)))) {
+		qWarning() << "Can not connect to HAL 2";
+	}
 	setAutoRelaySignals(true);
 }
 
@@ -153,4 +156,18 @@ void DBusAdaptop::pause() {
 
 void DBusAdaptop::playIfPaused() {
 	QMetaObject::invokeMethod(parent(), "playIfPaused");
+}
+
+void DBusAdaptop::processBTConnect(QString stateName, QDBusVariant state) {
+	SomePlayer::Storage::Config config;
+	if (config.getValue("hw/hpautopause").toString() != "yes") {
+		return;
+	}
+	if (stateName == "State") {
+		if (state.variant().toString() == "disconnected") {
+			pause();
+		} else if (state.variant().toString() == "connected") {
+			QTimer::singleShot(1000, this, SLOT(playIfPaused()));
+		}
+	}
 }

@@ -23,6 +23,7 @@
 #include <QtCore/QObject>
 #include <QtDBus/QtDBus>
 #include <QTime>
+#include <QVariant>
 
 #define _DBUS_ACTION_TIMEOUT_ (500)
 
@@ -94,6 +95,7 @@ public Q_SLOTS: // METHODS
 	Q_NOREPLY void playIfPaused();
 
 	void processBTSignal(QString, QString);
+	void processBTConnect(QString, QDBusVariant);
 Q_SIGNALS: // SIGNALS
 	void stateChanged();
 	void albumArt(QString path);
