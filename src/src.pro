@@ -294,7 +294,8 @@ TRANSLATIONS	=  resources/someplayer_ru.ts \
 	resources/someplayer_zh_CN.ts \
 	resources/someplayer_zh_TW.ts \
 	resources/someplayer_it.ts \
-	resources/someplayer_pl.ts
+	resources/someplayer_pl.ts \
+	resources/someplayer_pt_BR.ts
 
 
 unix {

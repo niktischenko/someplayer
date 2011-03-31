@@ -36,7 +36,7 @@ SettingsForm::SettingsForm(QWidget *parent) :
 
 	_color_map << "blue" << "magenta" << "red" << "yellow" <<
 			"white" << "black" << "light" << "dark";
-	_lang_map << "en" << "it" << "pl" << "ru" << "zh_CN" << "zh_TW";
+	_lang_map << "en" << "it" << "pl" << "pt_BR" << "ru" << "zh_CN" << "zh_TW";
 
 	QString albumSorting = config.getValue("ui/albumsorting").toString();
 	QString showTrackLenght = config.getValue("ui/showtracklenght").toString();

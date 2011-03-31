@@ -6,7 +6,7 @@
     <message>
         <location filename="../ui/aboutform.ui" line="14"/>
         <source>About SomePlayer</source>
-        <translation>O SomePlayer</translation>
+        <translation>O programie SomePlayer</translation>
     </message>
     <message>
         <location filename="../ui/aboutform.ui" line="120"/>
@@ -28,7 +28,7 @@
         <source>&lt;p align=&quot;center&quot;&gt;Licensed under GPLv2&lt;br&gt;
 By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b&gt;SomePlayer&lt;/b&gt; tries to be a full replacement of standard music player for Maemo5 with many other features such as equalizer, custom playlists, smarter random mode, more flexible media-library and improved algorithm for cover searching.&lt;/p&gt;</source>
         <translation>&lt;p align=&quot;center&quot;&gt;Na licencji GPLv2&lt;br&gt;
-Przez Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b&gt;SomePlayer&lt;/b&gt; ma stanowić całkowity zamiennik dla standardowego odtwarzacza muzycznego Maemo 5 w wieloma innymi funkcjami takimi jak equalizer, playlisty użytkownika, użyteczniejszą opcję random, bardziej elastyczną bibliotekę multimediów i ulepszony algorytm do wyszukiwania okładek.&lt;/p&gt;</translation>
+Przez Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b&gt;SomePlayer&lt;/b&gt; ma stanowić całkowity zamiennik dla standardowego odtwarzacza muzycznego Maemo 5 z wieloma innymi funkcjami takimi jak equalizer, playlisty użytkownika, użyteczniejszą opcję random, bardziej elastyczną bibliotekę multimediów i ulepszony algorytm do wyszukiwania okładek.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../ui/aboutform.ui" line="212"/>
@@ -354,7 +354,7 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     </message>
     <message>
         <location filename="../libraryform.cpp" line="226"/>
-        <location filename="../libraryform.cpp" line="415"/>
+        <location filename="../libraryform.cpp" line="417"/>
         <source>Albums by &quot;%1&quot;</source>
         <translation>Albumy &quot;%1&quot;</translation>
     </message>
@@ -366,7 +366,7 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     <message>
         <location filename="../libraryform.cpp" line="249"/>
         <source>All tracks by &quot;%1&quot;</source>
-        <translation>Wszystkie ścieżki &quot;%1&quot;</translation>
+        <translation>Wszystkie utwory &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../libraryform.cpp" line="267"/>
@@ -374,14 +374,14 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>Utwory w playliście &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../libraryform.cpp" line="439"/>
+        <location filename="../libraryform.cpp" line="441"/>
         <source>Playlists</source>
         <translation>Playlisty</translation>
     </message>
     <message>
-        <location filename="../libraryform.cpp" line="817"/>
+        <location filename="../libraryform.cpp" line="886"/>
         <source>Search in library</source>
-        <translation>Szukaj w bibliotekach</translation>
+        <translation>Szukaj w bibliotece</translation>
     </message>
 </context>
 <context>
@@ -649,7 +649,7 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     <name>SettingsForm</name>
     <message>
         <location filename="../ui/settingsform.ui" line="14"/>
-        <location filename="../ui/settingsform.ui" line="676"/>
+        <location filename="../ui/settingsform.ui" line="690"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
@@ -669,98 +669,98 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>System</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="103"/>
+        <location filename="../ui/settingsform.ui" line="106"/>
         <source>Icons theme:</source>
         <translation>Schemat ikon:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="129"/>
-        <location filename="../ui/settingsform.ui" line="235"/>
+        <location filename="../ui/settingsform.ui" line="132"/>
+        <location filename="../ui/settingsform.ui" line="238"/>
         <source>White</source>
         <translation>Biały</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="136"/>
-        <location filename="../ui/settingsform.ui" line="240"/>
+        <location filename="../ui/settingsform.ui" line="139"/>
+        <location filename="../ui/settingsform.ui" line="243"/>
         <source>Black</source>
         <translation>Czarny</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="148"/>
+        <location filename="../ui/settingsform.ui" line="151"/>
         <source>Use gradient in portrait mode:</source>
         <translation>Użyj gradientu w trybie portretowym:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="174"/>
-        <location filename="../ui/settingsform.ui" line="493"/>
-        <location filename="../ui/settingsform.ui" line="580"/>
+        <location filename="../ui/settingsform.ui" line="177"/>
+        <location filename="../ui/settingsform.ui" line="504"/>
+        <location filename="../ui/settingsform.ui" line="594"/>
         <source>Yes</source>
         <translation>Tak</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="181"/>
-        <location filename="../ui/settingsform.ui" line="500"/>
-        <location filename="../ui/settingsform.ui" line="587"/>
+        <location filename="../ui/settingsform.ui" line="184"/>
+        <location filename="../ui/settingsform.ui" line="511"/>
+        <location filename="../ui/settingsform.ui" line="601"/>
         <source>No</source>
         <translation>Nie</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="193"/>
+        <location filename="../ui/settingsform.ui" line="196"/>
         <source>Active track color:</source>
         <translation>Kolor aktywnego utworu:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="215"/>
+        <location filename="../ui/settingsform.ui" line="218"/>
         <source>Blue</source>
         <translation>Niebieski</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="220"/>
+        <location filename="../ui/settingsform.ui" line="223"/>
         <source>Magenta</source>
         <translation>Purpurowy</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="225"/>
+        <location filename="../ui/settingsform.ui" line="228"/>
         <source>Red</source>
         <translation>Czerwony</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="230"/>
+        <location filename="../ui/settingsform.ui" line="233"/>
         <source>Yellow</source>
         <translation>Żółty</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="245"/>
+        <location filename="../ui/settingsform.ui" line="248"/>
         <source>Light</source>
         <translation>Jasny</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="250"/>
+        <location filename="../ui/settingsform.ui" line="253"/>
         <source>Dark</source>
         <translation>Ciemny</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="261"/>
+        <location filename="../ui/settingsform.ui" line="264"/>
         <source>Orientation:</source>
         <translation>Tryb:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="287"/>
+        <location filename="../ui/settingsform.ui" line="290"/>
         <source>Landscape</source>
         <translation>Tryb poziomy</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="294"/>
+        <location filename="../ui/settingsform.ui" line="297"/>
         <source>Portrait</source>
         <translation>Tryb portretowy</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="301"/>
+        <location filename="../ui/settingsform.ui" line="304"/>
         <source>Auto</source>
         <translation>Auto</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="313"/>
+        <location filename="../ui/settingsform.ui" line="316"/>
         <source>Language:</source>
         <translation>Język:</translation>
     </message>
@@ -769,52 +769,52 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation type="obsolete">Włoski</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="422"/>
+        <location filename="../ui/settingsform.ui" line="433"/>
         <source>Sort album:</source>
         <translation>Sortowanie albumu:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="448"/>
+        <location filename="../ui/settingsform.ui" line="459"/>
         <source>Alphabetical</source>
         <translation>Alfabetyczne</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="455"/>
+        <location filename="../ui/settingsform.ui" line="466"/>
         <source>By date</source>
         <translation>Według daty</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="467"/>
+        <location filename="../ui/settingsform.ui" line="478"/>
         <source>Show track length in library view:</source>
         <translation>Pokazuj długość utworu w widoku biblioteki:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="560"/>
+        <location filename="../ui/settingsform.ui" line="574"/>
         <source>Pause when headphones unplugged:</source>
         <translation>Wstrzymaj po odłaczeniu słuchawek:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="599"/>
+        <location filename="../ui/settingsform.ui" line="613"/>
         <source>Use hardware keys</source>
         <translation>Użyj przycisków sprzętowych</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="620"/>
+        <location filename="../ui/settingsform.ui" line="634"/>
         <source>Zoom keys control:</source>
         <translation>Przycisk zoom:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="629"/>
+        <location filename="../ui/settingsform.ui" line="643"/>
         <source>Volume</source>
         <translation>Głośność</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="636"/>
+        <location filename="../ui/settingsform.ui" line="650"/>
         <source>Tracks</source>
         <translation>Utwory</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="648"/>
+        <location filename="../ui/settingsform.ui" line="662"/>
         <source>Use FMTX</source>
         <translation>Używaj FMTX</translation>
     </message>
