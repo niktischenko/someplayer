@@ -306,6 +306,8 @@ void LibraryForm::_process_list_click(QModelIndex index) {
 	}
 	ui->addButton->setEnabled(false);
 	ui->addButton->setIcon(QIcon());
+	ui->useButton->setEnabled(false);
+	ui->useButton->setIcon(QIcon());
 	ui->deleteButton->setEnabled(false);
 	ui->deleteButton->setIcon(QIcon());
 	QTimer::singleShot(100, ui->listView, SLOT(clearSelection())); // workaround
@@ -500,9 +502,62 @@ void LibraryForm::_delete_track(Track track) {
 }
 
 void LibraryForm::_use_button() {
-	_lib->saveCurrentPlaylist(_current_playlist);
-	emit refreshPlayer();
-	_current_playlist = _lib->getCurrentPlaylist();
+	if (_state == STATE_PLAYLIST_TRACK) {
+		_lib->saveCurrentPlaylist(_current_playlist);
+		emit refreshPlayer();
+		_current_playlist = _lib->getCurrentPlaylist();
+		return;
+	}
+
+	if (_state == STATE_NONE) return;
+	QModelIndexList selected = ui->listView->selectionModel()->selectedIndexes();
+	ui->listView->selectionModel()->clearSelection();
+	Playlist cur;
+	QRegExp regexp("\\[\\d+\\]\\ (.*)");
+	switch (_state) {
+	case STATE_ARTIST:
+		foreach (QModelIndex id, selected) {
+			_add_artist(&cur, id.data().toString());
+		}
+		_lib->saveCurrentPlaylist(cur);
+		emit refreshPlayer();
+		break;
+	case STATE_ALBUM:
+		foreach (QModelIndex id, selected) {
+			if (regexp.indexIn(id.data().toString()) != -1) {
+				_add_album(&cur, _current_artist, regexp.cap(1).trimmed());
+			}
+		}
+		_lib->saveCurrentPlaylist(cur);
+		emit refreshPlayer();
+		break;
+	case STATE_TRACK:
+		foreach (QModelIndex id, selected) {
+			_add_track(&cur, _current_tracks.at(id.row()));
+		}
+		_lib->saveCurrentPlaylist(cur);
+		emit refreshPlayer();
+		break;
+	case STATE_PLAYLIST:
+		foreach (QModelIndex id, selected) {
+			_add_playlist(&cur, id.data().toString());
+		}
+		_lib->saveCurrentPlaylist(cur);
+		emit refreshPlayer();
+		break;
+	case STATE_DYNAMIC:
+
+		break;
+	case STATE_SEARCH:
+		foreach (QModelIndex id, selected) {
+			_add_track(&cur, _current_tracks.at(id.row()));
+		}
+		_lib->saveCurrentPlaylist(cur);
+		emit refreshPlayer();
+		break;
+	default:
+		return;
+	}
 }
 
 void LibraryForm::search(QString pattern) {
@@ -591,8 +646,13 @@ void LibraryForm::_toggle_select_all_button() {
 		connect(ui->listView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
 			   this, SLOT(_process_selection(QItemSelection,QItemSelection)));
 		ui->selectAllButton->setIcon(QIcon(":/icons/"+_icons_theme+"/deselect_all.png"));
-		ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
-		ui->addButton->setEnabled(true);
+		if (_state != STATE_DYNAMIC) {
+			ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
+			ui->addButton->setEnabled(true);
+			ui->useButton->setEnabled(true);
+			ui->useButton->setIcon(QIcon(":/icons/"+_icons_theme+"/use.png"));
+		}
+
 		if (_state == STATE_PLAYLIST || (_state == STATE_PLAYLIST_TRACK && !_is_dynamic)
 			|| (_state == STATE_PLAYLIST_TRACK && _is_favorites)) {
 			ui->deleteButton->setEnabled(true);
@@ -776,9 +836,14 @@ void LibraryForm::_process_selection(QItemSelection selected, QItemSelection des
 		}
 		ui->listView->selectionModel()->select(id, QItemSelectionModel::Deselect);
 	}
-	if (ui->listView->selectionModel()->selectedRows().count() > 0) {
+	if (ui->listView->selectionModel()->selectedRows().count() > 0 ) {
+		if (_state == STATE_DYNAMIC) {
+			return;
+		}
 		ui->addButton->setEnabled(true);
 		ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
+		ui->useButton->setEnabled(true);
+		ui->useButton->setIcon(QIcon(":/icons/"+_icons_theme+"/use.png"));
 		if (_state == STATE_PLAYLIST || (_state == STATE_PLAYLIST_TRACK && !_is_dynamic)
 			|| (_state == STATE_PLAYLIST_TRACK && _is_favorites)) {
 			ui->deleteButton->setEnabled(true);
@@ -787,6 +852,10 @@ void LibraryForm::_process_selection(QItemSelection selected, QItemSelection des
 	} else {
 		ui->addButton->setEnabled(false);
 		ui->addButton->setIcon(QIcon());
+		if (_state != STATE_PLAYLIST_TRACK) {
+			ui->useButton->setEnabled(false);
+			ui->useButton->setIcon(QIcon());
+		}
 		ui->deleteButton->setEnabled(false);
 		ui->deleteButton->setIcon(QIcon());
 	}
