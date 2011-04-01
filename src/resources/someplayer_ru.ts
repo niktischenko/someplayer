@@ -58,17 +58,17 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>Каталоги</translation>
     </message>
     <message>
-        <location filename="../directoryview.cpp" line="88"/>
+        <location filename="../directoryview.cpp" line="91"/>
         <source>Audioclips</source>
         <translation>Аудиоклипы</translation>
     </message>
     <message>
-        <location filename="../directoryview.cpp" line="310"/>
+        <location filename="../directoryview.cpp" line="327"/>
         <source>Internal memory</source>
         <translation>Внутренняя память</translation>
     </message>
     <message>
-        <location filename="../directoryview.cpp" line="312"/>
+        <location filename="../directoryview.cpp" line="329"/>
         <source>Memory card</source>
         <translation>Карта памяти</translation>
     </message>
@@ -462,17 +462,17 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>Импорт плейлистов</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="225"/>
+        <location filename="../mainwindow.cpp" line="226"/>
         <source>Clear playlist?</source>
         <translation>Очистить плейлист?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="271"/>
+        <location filename="../mainwindow.cpp" line="272"/>
         <source>Music off: </source>
         <translation>Отключение: </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="484"/>
+        <location filename="../mainwindow.cpp" line="485"/>
         <source>Select directory</source>
         <translation>Выбрать директорию</translation>
     </message>
@@ -649,7 +649,7 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     <name>SettingsForm</name>
     <message>
         <location filename="../ui/settingsform.ui" line="14"/>
-        <location filename="../ui/settingsform.ui" line="690"/>
+        <location filename="../ui/settingsform.ui" line="695"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
@@ -687,15 +687,15 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     </message>
     <message>
         <location filename="../ui/settingsform.ui" line="177"/>
-        <location filename="../ui/settingsform.ui" line="504"/>
-        <location filename="../ui/settingsform.ui" line="594"/>
+        <location filename="../ui/settingsform.ui" line="509"/>
+        <location filename="../ui/settingsform.ui" line="599"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
     <message>
         <location filename="../ui/settingsform.ui" line="184"/>
-        <location filename="../ui/settingsform.ui" line="511"/>
-        <location filename="../ui/settingsform.ui" line="601"/>
+        <location filename="../ui/settingsform.ui" line="516"/>
+        <location filename="../ui/settingsform.ui" line="606"/>
         <source>No</source>
         <translation>Нет</translation>
     </message>
@@ -739,47 +739,47 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation type="obsolete">Italiano</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="433"/>
+        <location filename="../ui/settingsform.ui" line="438"/>
         <source>Sort album:</source>
         <translation>Сортировка альбомов:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="459"/>
+        <location filename="../ui/settingsform.ui" line="464"/>
         <source>Alphabetical</source>
         <translation>По алфавиту</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="466"/>
+        <location filename="../ui/settingsform.ui" line="471"/>
         <source>By date</source>
         <translation>По дате</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="478"/>
+        <location filename="../ui/settingsform.ui" line="483"/>
         <source>Show track length in library view:</source>
         <translation>Показывать длину трека:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="613"/>
+        <location filename="../ui/settingsform.ui" line="618"/>
         <source>Use hardware keys</source>
         <translation>Аппаратные кнопки</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="634"/>
+        <location filename="../ui/settingsform.ui" line="639"/>
         <source>Zoom keys control:</source>
         <translation>«Качелька» управляет:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="643"/>
+        <location filename="../ui/settingsform.ui" line="648"/>
         <source>Volume</source>
         <translation>Звуком</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="650"/>
+        <location filename="../ui/settingsform.ui" line="655"/>
         <source>Tracks</source>
         <translation>Треками</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="662"/>
+        <location filename="../ui/settingsform.ui" line="667"/>
         <source>Use FMTX</source>
         <translation>Включить FMTX</translation>
     </message>
@@ -814,7 +814,7 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>Язык:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="574"/>
+        <location filename="../ui/settingsform.ui" line="579"/>
         <source>Pause when headphones unplugged:</source>
         <translation>Пауза при отключении наушников:</translation>
     </message>

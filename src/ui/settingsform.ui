@@ -340,6 +340,11 @@
                 </item>
                 <item>
                  <property name="text">
+                  <string notr="true">Español</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
                   <string notr="true">Italiano</string>
                  </property>
                 </item>

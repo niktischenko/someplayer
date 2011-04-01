@@ -53,7 +53,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
+         <iconset resource="../resources/resources.qrc">
           <normaloff>:/icons/white/back.png</normaloff>:/icons/white/back.png</iconset>
         </property>
         <property name="flat">
@@ -92,7 +92,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
+         <iconset resource="../resources/resources.qrc">
           <normaloff>:/icons/white/home.png</normaloff>:/icons/white/home.png</iconset>
         </property>
         <property name="flat">
@@ -137,7 +137,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
+         <iconset resource="../resources/resources.qrc">
           <normaloff>:/icons/white/player.png</normaloff>:/icons/white/player.png</iconset>
         </property>
         <property name="flat">
@@ -284,13 +284,32 @@
          <number>0</number>
         </property>
         <item>
-         <spacer name="bhorizontalSpacer">
+         <spacer name="bhorizontalSpacer_0">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Maximum</enum>
+          </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>651</width>
+            <width>324</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <spacer name="bhorizontalSpacer_1">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Maximum</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>327</width>
             <height>0</height>
            </size>
           </property>
@@ -334,7 +353,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
+         <iconset resource="../resources/resources.qrc">
           <normaloff>:/icons/white/add.png</normaloff>:/icons/white/add.png</iconset>
         </property>
         <property name="flat">
@@ -343,7 +362,46 @@
        </widget>
       </item>
       <item>
-       <spacer name="rverticalSpacer">
+       <spacer name="rverticalSpacer_0">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="useButton">
+        <property name="minimumSize">
+         <size>
+          <width>70</width>
+          <height>70</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>70</width>
+          <height>70</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/resources.qrc">
+          <normaloff>:/icons/white/use.png</normaloff>:/icons/white/use.png</iconset>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="rverticalSpacer_1">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -379,7 +437,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
+         <iconset resource="../resources/resources.qrc">
           <normaloff>:/icons/white/select_all.png</normaloff>:/icons/white/select_all.png</iconset>
         </property>
         <property name="flat">
@@ -393,7 +451,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../resources/resources.qrc"/>
+  <include location="../resources/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

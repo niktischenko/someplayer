@@ -86,6 +86,7 @@ private slots:
 	void _set_display_state(bool);
 	void _zoom_key_pressed(quint32);
 	void _fmtx_settings_changed();
+	void _clear_current();
 private:
 	PlayerForm *_player_form;
 	LibraryForm *_library_form;

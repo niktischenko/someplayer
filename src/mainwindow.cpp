@@ -84,6 +84,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(_directory_form, SIGNAL(addAndPlay(Track)), _player_form, SLOT(play(Track)));
 	connect(_player_form, SIGNAL(dirView()), _directory_form, SLOT(show()));
 	connect(_directory_form, SIGNAL(addTracks(QList<Track>)), this, SLOT(_add_tracks(QList<Track>)));
+	connect(_directory_form, SIGNAL(clearCurrent()), this, SLOT(_clear_current()));
 	connect(_settings_form, SIGNAL(iconsChanged()), _player_form, SLOT(updateIcons()));
 	connect(_settings_form, SIGNAL(iconsChanged()), _library_form, SLOT(updateIcons()));
 	connect(_settings_form, SIGNAL(iconsChanged()), _manage_library_form, SLOT(updateIcons()));
@@ -483,4 +484,9 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
 void MainWindow::_import_playlits() {
 	QString directory = QFileDialog::getExistingDirectory (this, tr("Select directory"), "", QFileDialog::ShowDirsOnly );
 	_library->scanAndImportPlaylists(directory);
+}
+
+void MainWindow::_clear_current() {
+	Playlist pl;
+	_library->saveCurrentPlaylist(pl);
 }

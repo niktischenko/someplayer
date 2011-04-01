@@ -48,6 +48,8 @@ DirectoryView::DirectoryView(QWidget *parent) :
 
 	ui->addButton->setEnabled(false);
 	ui->addButton->setIcon(QIcon());
+	ui->useButton->setEnabled(false);
+	ui->useButton->setIcon(QIcon());
 
 	ui->progressBar->hide();
 
@@ -60,6 +62,7 @@ DirectoryView::DirectoryView(QWidget *parent) :
 	connect(ui->homeButton, SIGNAL(clicked()), this, SLOT(_home()));
 	connect(ui->selectToggleButton, SIGNAL(clicked()), this, SLOT(_toggle_selection()));
 	connect(ui->addButton, SIGNAL(clicked()), this, SLOT(_add()));
+	connect(ui->useButton, SIGNAL(clicked()), this, SLOT(_use()));
 	connect(_tagresolver, SIGNAL(decoded(Track)), this, SLOT(_add_track(Track)));
 	connect(_tagresolver, SIGNAL(done()), this, SLOT(_done()));
 	connect(ui->playerButton, SIGNAL(clicked()), this, SLOT(hide()));
@@ -113,6 +116,8 @@ void DirectoryView::readDir(QString path, QString pathToScroll) {
 	ui->dirView->setColumnWidth(0, 70);
 	ui->addButton->setEnabled(false);
 	ui->addButton->setIcon(QIcon());
+	ui->useButton->setEnabled(false);
+	ui->useButton->setIcon(QIcon());
 	if (pathToScroll.isEmpty()) {
 		ui->dirView->scrollToTop();
 		return;
@@ -174,9 +179,13 @@ void DirectoryView::_process_selection(QItemSelection selected, QItemSelection d
 	if (ui->dirView->selectionModel()->selectedRows().count() > 0) {
 		ui->addButton->setEnabled(true);
 		ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
+		ui->useButton->setEnabled(true);
+		ui->useButton->setIcon(QIcon(":/icons/"+_icons_theme+"/use.png"));
 	} else {
 		ui->addButton->setEnabled(false);
 		ui->addButton->setIcon(QIcon());
+		ui->useButton->setEnabled(false);
+		ui->useButton->setIcon(QIcon());
 	}
 }
 
@@ -234,6 +243,8 @@ void DirectoryView::updateIcons() {
 	_icons_theme = config.getValue("ui/iconstheme").toString();
 	if (!ui->addButton->icon().isNull())
 		ui->addButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
+	if (!ui->useButton->icon().isNull())
+		ui->useButton->setIcon(QIcon(":/icons/"+_icons_theme+"/add.png"));
 	ui->homeButton->setIcon(QIcon(":/icons/"+_icons_theme+"/home.png"));
 	ui->backButton->setIcon(QIcon(":/icons/"+_icons_theme+"/back.png"));
 	if (ui->dirView->selectionModel()->selectedRows().count() == _model->rowCount()) {
@@ -266,9 +277,12 @@ void DirectoryView::lanscapeMode() {
 	ui->lverticalLayout->addWidget(ui->homeButton);
 	ui->lverticalLayout->addItem(ui->lverticalSpacer_1);
 	ui->lverticalLayout->addWidget(ui->playerButton);
-	ui->rverticalLayout->removeItem(ui->rverticalSpacer);
+	ui->rverticalLayout->removeItem(ui->rverticalSpacer_0);
+	ui->rverticalLayout->removeItem(ui->rverticalSpacer_1);
 	ui->rverticalLayout->addWidget(ui->addButton);
-	ui->rverticalLayout->addItem(ui->rverticalSpacer);
+	ui->rverticalLayout->addItem(ui->rverticalSpacer_0);
+	ui->rverticalLayout->addWidget(ui->useButton);
+	ui->rverticalLayout->addItem(ui->rverticalSpacer_1);
 	ui->rverticalLayout->addWidget(ui->selectToggleButton);
 	ui->lverticalWidget->show();
 	ui->rverticalWidget->show();
@@ -279,7 +293,7 @@ void DirectoryView::portraitMode() {
 	ui->rverticalWidget->hide();
 	ui->lverticalLayout->removeItem(ui->lverticalSpacer_0);
 	ui->lverticalLayout->removeItem(ui->lverticalSpacer_1);
-	ui->rverticalLayout->removeItem(ui->rverticalSpacer);
+	ui->rverticalLayout->removeItem(ui->rverticalSpacer_0);
 	ui->topWidget->layout()->removeItem(ui->thorizontalSpacer_0);
 	ui->topWidget->layout()->removeItem(ui->thorizontalSpacer_1);
 	ui->topWidget->layout()->addWidget(ui->backButton);
@@ -287,9 +301,12 @@ void DirectoryView::portraitMode() {
 	ui->topWidget->layout()->addWidget(ui->homeButton);
 	ui->topWidget->layout()->addItem(ui->thorizontalSpacer_1);
 	ui->topWidget->layout()->addWidget(ui->addButton);
-	ui->bottomWidget->layout()->removeItem(ui->bhorizontalSpacer);
+	ui->bottomWidget->layout()->removeItem(ui->bhorizontalSpacer_0);
+	ui->bottomWidget->layout()->removeItem(ui->bhorizontalSpacer_1);
 	ui->bottomWidget->layout()->addWidget(ui->playerButton);
-	ui->bottomWidget->layout()->addItem(ui->bhorizontalSpacer);
+	ui->bottomWidget->layout()->addItem(ui->bhorizontalSpacer_0);
+	ui->bottomWidget->layout()->addWidget(ui->useButton);
+	ui->bottomWidget->layout()->addItem(ui->bhorizontalSpacer_1);
 	ui->bottomWidget->layout()->addWidget(ui->selectToggleButton);
 	ui->topWidget->show();
 	ui->bottomWidget->show();
@@ -315,4 +332,11 @@ void DirectoryView::homeScreen() {
 	ui->dirView->setColumnWidth(0, 70);
 	ui->addButton->setEnabled(false);
 	ui->addButton->setIcon(QIcon());
+	ui->useButton->setEnabled(false);
+	ui->useButton->setIcon(QIcon());
+}
+
+void DirectoryView::_use() {
+	emit clearCurrent();
+	_add();
 }

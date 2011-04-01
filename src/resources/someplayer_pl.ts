@@ -58,17 +58,17 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>Katalogi</translation>
     </message>
     <message>
-        <location filename="../directoryview.cpp" line="88"/>
+        <location filename="../directoryview.cpp" line="91"/>
         <source>Audioclips</source>
         <translation>Pliki audio</translation>
     </message>
     <message>
-        <location filename="../directoryview.cpp" line="310"/>
+        <location filename="../directoryview.cpp" line="327"/>
         <source>Internal memory</source>
         <translation>Pamięć wewnętrzna</translation>
     </message>
     <message>
-        <location filename="../directoryview.cpp" line="312"/>
+        <location filename="../directoryview.cpp" line="329"/>
         <source>Memory card</source>
         <translation>Karta pamięci</translation>
     </message>
@@ -462,17 +462,17 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>Importowanie playlist</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="225"/>
+        <location filename="../mainwindow.cpp" line="226"/>
         <source>Clear playlist?</source>
         <translation>Wyczyścić playlistę?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="271"/>
+        <location filename="../mainwindow.cpp" line="272"/>
         <source>Music off: </source>
         <translation>Wyłącznie muzyki:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="484"/>
+        <location filename="../mainwindow.cpp" line="485"/>
         <source>Select directory</source>
         <translation>Wybierz katalog</translation>
     </message>
@@ -649,7 +649,7 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     <name>SettingsForm</name>
     <message>
         <location filename="../ui/settingsform.ui" line="14"/>
-        <location filename="../ui/settingsform.ui" line="690"/>
+        <location filename="../ui/settingsform.ui" line="695"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
@@ -692,15 +692,15 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     </message>
     <message>
         <location filename="../ui/settingsform.ui" line="177"/>
-        <location filename="../ui/settingsform.ui" line="504"/>
-        <location filename="../ui/settingsform.ui" line="594"/>
+        <location filename="../ui/settingsform.ui" line="509"/>
+        <location filename="../ui/settingsform.ui" line="599"/>
         <source>Yes</source>
         <translation>Tak</translation>
     </message>
     <message>
         <location filename="../ui/settingsform.ui" line="184"/>
-        <location filename="../ui/settingsform.ui" line="511"/>
-        <location filename="../ui/settingsform.ui" line="601"/>
+        <location filename="../ui/settingsform.ui" line="516"/>
+        <location filename="../ui/settingsform.ui" line="606"/>
         <source>No</source>
         <translation>Nie</translation>
     </message>
@@ -769,52 +769,52 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation type="obsolete">Włoski</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="433"/>
+        <location filename="../ui/settingsform.ui" line="438"/>
         <source>Sort album:</source>
         <translation>Sortowanie albumu:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="459"/>
+        <location filename="../ui/settingsform.ui" line="464"/>
         <source>Alphabetical</source>
         <translation>Alfabetyczne</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="466"/>
+        <location filename="../ui/settingsform.ui" line="471"/>
         <source>By date</source>
         <translation>Według daty</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="478"/>
+        <location filename="../ui/settingsform.ui" line="483"/>
         <source>Show track length in library view:</source>
         <translation>Pokazuj długość utworu w widoku biblioteki:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="574"/>
+        <location filename="../ui/settingsform.ui" line="579"/>
         <source>Pause when headphones unplugged:</source>
         <translation>Wstrzymaj po odłaczeniu słuchawek:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="613"/>
+        <location filename="../ui/settingsform.ui" line="618"/>
         <source>Use hardware keys</source>
         <translation>Użyj przycisków sprzętowych</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="634"/>
+        <location filename="../ui/settingsform.ui" line="639"/>
         <source>Zoom keys control:</source>
         <translation>Przycisk zoom:</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="643"/>
+        <location filename="../ui/settingsform.ui" line="648"/>
         <source>Volume</source>
         <translation>Głośność</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="650"/>
+        <location filename="../ui/settingsform.ui" line="655"/>
         <source>Tracks</source>
         <translation>Utwory</translation>
     </message>
     <message>
-        <location filename="../ui/settingsform.ui" line="662"/>
+        <location filename="../ui/settingsform.ui" line="667"/>
         <source>Use FMTX</source>
         <translation>Używaj FMTX</translation>
     </message>

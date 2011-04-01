@@ -54,6 +54,7 @@ public slots:
 signals:
 	void addAndPlay(Track);
 	void addTracks(QList<Track>);
+	void clearCurrent();
 
 private:
 	Ui::DirectoryView *ui;
@@ -77,6 +78,7 @@ private slots:
 	void _home();
 	void _toggle_selection();
 	void _add();
+	void _use();
 	void _add_track(Track);
 	void _done();
 	void _process_click(QModelIndex);
