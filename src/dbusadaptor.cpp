@@ -47,6 +47,7 @@ DBusAdaptop::DBusAdaptop(QObject *parent)
 		qWarning() << "Can not connect to HAL 2";
 	}
 	setAutoRelaySignals(true);
+	_is_bt_conencted = false;
 }
 
 DBusAdaptop::~DBusAdaptop()
@@ -165,8 +166,16 @@ void DBusAdaptop::processBTConnect(QString stateName, QDBusVariant state) {
 	}
 	if (stateName == "State") {
 		if (state.variant().toString() == "disconnected") {
+			if (!_is_bt_conencted) {
+				return;
+			}
+			_is_bt_conencted = false;
 			pause();
 		} else if (state.variant().toString() == "connected") {
+			if (_is_bt_conencted) {
+				return;
+			}
+			_is_bt_conencted = true;
 			QTimer::singleShot(1000, this, SLOT(playIfPaused()));
 		}
 	}

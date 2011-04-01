@@ -101,6 +101,7 @@ Q_SIGNALS: // SIGNALS
 	void albumArt(QString path);
 private:
 	QTime _time;
+	bool _is_bt_conencted;
 };
 
 #endif
