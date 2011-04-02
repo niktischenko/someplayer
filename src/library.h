@@ -68,7 +68,6 @@ namespace SomePlayer {
 			int getTracksCount();
 
 			QList<Playlist> getPlaylists();
-			QStringList getPlaylistsNames();
 			Playlist getPlaylist(QString name);
 			void savePlaylist(const Playlist &playlist);
 			void removePlaylist(const Playlist &playlist);
@@ -113,6 +112,7 @@ namespace SomePlayer {
 			void updateTrackMetadata(Track);
 			void updatePlaylists();
 			void saveLastPlayedForCurPlaylist(LastPlayed);
+			QStringList getPlaylistsNames();
 		};
 
 	};

@@ -32,10 +32,11 @@
  * Implementation of adaptor class DBusAdaptop
  */
 
-DBusAdaptop::DBusAdaptop(QObject *parent)
+DBusAdaptop::DBusAdaptop(QObject *parent, QObject *lib)
 	: QDBusAbstractAdaptor(parent)
 {
 	// constructor
+	_lib = lib;
 	setAutoRelaySignals(true);
 	// handling signals from bluetooth headset
 	_time = QTime::currentTime();
@@ -179,4 +180,14 @@ void DBusAdaptop::processBTConnect(QString stateName, QDBusVariant state) {
 			QTimer::singleShot(1000, this, SLOT(playIfPaused()));
 		}
 	}
+}
+
+QStringList DBusAdaptop::playlists() {
+	QStringList out;
+	QMetaObject::invokeMethod(_lib, "getPlaylistsNames", Q_RETURN_ARG(QStringList, out));
+	return out;
+}
+
+void DBusAdaptop::select_playlist(QString name) {
+	emit selectedPlaylist(name);
 }

@@ -173,10 +173,11 @@ PlayerForm::PlayerForm(Library* lib, QWidget *parent) :
 	//
 
 	// dbus
-	_dbusadaptor = new DBusAdaptop(_player);
+	_dbusadaptor = new DBusAdaptop(_player, _lib);
 	connect(_player, SIGNAL(stateChanged(PlayerState)), _dbusadaptor, SIGNAL(stateChanged()));
 	connect(_coverfinder, SIGNAL(foundPath(QString)), _dbusadaptor, SIGNAL(albumArt(QString)));
 	connect(_coverfinder, SIGNAL(foundPath(QString)), _player, SLOT(setAlbumart(QString)));
+	connect(_dbusadaptor, SIGNAL(selectedPlaylist(QString)), this, SLOT(_select_playlist(QString)));
 	QDBusConnection connection = QDBusConnection::sessionBus();
 	bool ret = connection.registerService(_SERVICE_NAME_);
 	ret = connection.registerObject("/", _player);
@@ -837,4 +838,10 @@ void PlayerForm::_playlist_sorted() {
 
 void PlayerForm::toggle() {
 	_player->toggle();
+}
+
+void PlayerForm::_select_playlist(QString name) {
+	Playlist pl = _lib->getPlaylist(name);
+	_lib->saveCurrentPlaylist(pl);
+	reload(true);
 }

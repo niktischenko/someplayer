@@ -121,6 +121,7 @@ private slots:
 	void _start_playlist();
 	void _sort_playlist();
 	void _playlist_sorted();
+	void _select_playlist(QString name);
 
 private:
     Ui::PlayerForm *ui;

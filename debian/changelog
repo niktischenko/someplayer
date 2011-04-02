@@ -1,10 +1,6 @@
-someplayer (1.5.5-1) unstable; urgency=low
+someplayer (1.5.5-2) unstable; urgency=low
 
-  * update Polish and Italian translations
-  * added Portuguese translation
-  * added Spanish translation
-  * added USE button to more views
-  * autopause when BT headset unpugged
+  * added dbus methods for switching between playlists
 
  -- somebody Nikolay Tischenko <niktischenko@gmail.com>  Sun, 27 Feb 2011 16:40:36 +0600
 

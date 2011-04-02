@@ -73,10 +73,16 @@ class DBusAdaptop: public QDBusAbstractAdaptor
 		    "    <method name=\"albumart\">\n"
 		    "      <arg direction=\"out\" type=\"s\"/>\n"
 		    "    </method>\n"
+		    "    <method name=\"playlists\">\n"
+		    "      <arg direction=\"out\" type=\"as\"/>\n"
+		    "    </method>\n"
+		    "    <method name=\"select_playlist\">\n"
+		    "      <arg direction=\"in\" type=\"s\"/>\n"
+		    "    </method>\n"
 		    "  </interface>\n"
 		    "")
 public:
-	DBusAdaptop(QObject *parent);
+	DBusAdaptop(QObject *parent, QObject *lib);
 	virtual ~DBusAdaptop();
 
 public: // PROPERTIES
@@ -93,14 +99,18 @@ public Q_SLOTS: // METHODS
 	Q_NOREPLY void toggle();
 	Q_NOREPLY void pause();
 	Q_NOREPLY void playIfPaused();
+	QStringList playlists();
+	Q_NOREPLY void select_playlist(QString);
 
 	void processBTSignal(QString, QString);
 	void processBTConnect(QString, QDBusVariant);
 Q_SIGNALS: // SIGNALS
 	void stateChanged();
 	void albumArt(QString path);
+	void selectedPlaylist(QString playlist);
 private:
 	QTime _time;
+	QObject *_lib;
 	bool _is_bt_conencted;
 };
 
