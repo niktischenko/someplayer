@@ -23,7 +23,7 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Existed playlists:</string>
+      <string>Existing playlists:</string>
      </property>
     </widget>
    </item>

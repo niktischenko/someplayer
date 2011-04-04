@@ -506,7 +506,7 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
         <translation>新建:</translation>
     </message>
     <message>
-        <source>Existed playlists:</source>
+        <source>Existing playlists:</source>
         <translation>現有播放清單:</translation>
     </message>
     <message>

@@ -506,7 +506,7 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>新建:</translation>
     </message>
     <message>
-        <source>Existed playlists:</source>
+        <source>Existing playlists:</source>
         <translation>现有播放清单:</translation>
     </message>
     <message>

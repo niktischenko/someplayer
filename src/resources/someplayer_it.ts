@@ -636,7 +636,7 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     </message>
     <message>
         <location filename="../ui/saveplaylistdialog.ui" line="26"/>
-        <source>Existed playlists:</source>
+        <source>Existing playlists:</source>
         <translation>Playlist esistenti:</translation>
     </message>
     <message>
