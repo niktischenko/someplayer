@@ -112,7 +112,13 @@ Playlist FileStorage::getPlaylist(QString name) {
 									QVariant duration = eduration.text();
 									QByteArray basource;
 									basource.append(elocation.text());
-									QString source = QUrl::fromEncoded(basource).toLocalFile();
+									QUrl url = QUrl::fromEncoded(basource);
+									QString source;
+									if (url.scheme() == "http") {
+										source = url.toString();
+									} else {
+										source = url.toLocalFile();
+									}
 									TrackMetadata meta(title, artist, album, duration.toInt()/1000);
 									Track track(meta, source);
 									playlist.addTrack(track);
@@ -186,7 +192,11 @@ void FileStorage::savePlaylist(Playlist playlist) {
 		ecl_clip.setAttribute("album", track.metadata().album());
 		eextension.appendChild(ecl_clip);
 		eextension.setAttribute("application", "http://example.com");
-		elocation.appendChild(doc.createTextNode(QString("%1").arg(QUrl::fromLocalFile(track.source()).toEncoded().constData())));
+		QUrl url = QUrl(track.source());
+		if (!url.isValid()) {
+			url = QUrl::fromLocalFile(track.source());
+		}
+		elocation.appendChild(doc.createTextNode(QString("%1").arg(url.toEncoded().constData())));
 		eduration.appendChild(doc.createTextNode(QString("%1").arg(track.metadata().length()*1000)));
 		etrack.appendChild(elocation);
 		etrack.appendChild(eextension);

@@ -321,6 +321,10 @@ void PlayerForm::_add_to_favorites() {
 		return;
 	int id = idx.first().row();
 	Track cur = _current_playlist.tracks().at(id);
+	QUrl url(cur.source());
+	if (url.isValid() && url.scheme() != "file") {
+		return;
+	}
 	if (!cur.source().isEmpty()) {
 		bool isf = _lib->isFavorite(cur);
 		if (!isf) {

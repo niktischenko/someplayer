@@ -43,6 +43,21 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
     </message>
 </context>
 <context>
+    <name>AddStreamingMediaDialog</name>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>名稱</translation>
+    </message>
+    <message>
+        <source>Add audio stream</source>
+        <translation>添加音頻流</translation>
+    </message>
+</context>
+<context>
     <name>DirectoryView</name>
     <message>
         <source>Audioclips</source>
@@ -383,6 +398,18 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
         <source>Select directory</source>
         <translation>選擇目錄</translation>
     </message>
+    <message>
+        <source>Add stream</source>
+        <translation>新增流</translation>
+    </message>
+    <message>
+        <source>Internet radio</source>
+        <translation>互聯網廣播</translation>
+    </message>
+    <message>
+        <source>Audio stream</source>
+        <translation>音頻流</translation>
+    </message>
 </context>
 <context>
     <name>ManageLibraryForm</name>
@@ -643,10 +670,6 @@ By Nikolay Tischenko (somebody)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;b
     <message>
         <source>Show track length in library view:</source>
         <translation>在音樂庫檢視顯示歌曲長度:</translation>
-    </message>
-    <message>
-        <source>Italiano</source>
-        <translation type="obsolete">Italiano</translation>
     </message>
 </context>
 <context>

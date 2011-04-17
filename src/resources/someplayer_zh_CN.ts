@@ -43,6 +43,21 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     </message>
 </context>
 <context>
+    <name>AddStreamingMediaDialog</name>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>名称</translation>
+    </message>
+    <message>
+        <source>Add audio stream</source>
+        <translation>添加音频流</translation>
+    </message>
+</context>
+<context>
     <name>DirectoryView</name>
     <message>
         <source>Audioclips</source>
@@ -383,6 +398,18 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <source>Select directory</source>
         <translation>选择目录</translation>
     </message>
+    <message>
+        <source>Add stream</source>
+        <translation>新增流</translation>
+    </message>
+    <message>
+        <source>Internet radio</source>
+        <translation>互联网广播</translation>
+    </message>
+    <message>
+        <source>Audio stream</source>
+        <translation>音频流</translation>
+    </message>
 </context>
 <context>
     <name>ManageLibraryForm</name>
@@ -643,10 +670,6 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     <message>
         <source>Show track length in library view:</source>
         <translation>在库视图中显示音轨长度:</translation>
-    </message>
-    <message>
-        <source>Italiano</source>
-        <translation type="obsolete">Italiano</translation>
     </message>
 </context>
 <context>

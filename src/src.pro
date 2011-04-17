@@ -132,7 +132,8 @@ SOURCES += main.cpp\
     aboutform.cpp \
     playlistsortform.cpp \
     player/abstractplayer.cpp \
-    player/playerfactory.cpp
+    player/playerfactory.cpp \
+    addstreamingmediadialog.cpp
 
 HEADERS  += mainwindow.h \
 		player/player.h \
@@ -243,7 +244,8 @@ HEADERS  += mainwindow.h \
     aboutform.h \
     playlistsortform.h \
     player/abstractplayer.h \
-    player/playerfactory.h
+    player/playerfactory.h \
+    addstreamingmediadialog.h
 
 FORMS    += ui/mainwindow.ui \
     ui/playerform.ui \
@@ -260,7 +262,8 @@ FORMS    += ui/mainwindow.ui \
     ui/settingsform.ui \
     ui/fmtxsettingsdialog.ui \
     ui/aboutform.ui \
-    ui/playlistsortform.ui
+    ui/playlistsortform.ui \
+    ui/addstreamingmediadialog.ui
 
 CONFIG += mobility
 MOBILITY = 

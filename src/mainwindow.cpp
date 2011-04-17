@@ -32,6 +32,7 @@
 #include "equalizerdialog.h"
 #include "saveplaylistdialog.h"
 #include "settingsform.h"
+#include "addstreamingmediadialog.h"
 
 using namespace SomePlayer::DataObjects;
 using namespace SomePlayer::Storage;
@@ -68,6 +69,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(ui->actionSavePlaylist, SIGNAL(triggered()), this, SLOT(_save_playlist()));
 	connect(ui->actionImport, SIGNAL(triggered()), this, SLOT(_import_playlits()));
 	connect(_player_form, SIGNAL(clearPlaylist()), this, SLOT(_clear_current_playlist()));
+	connect(ui->actionAddStream, SIGNAL(triggered()), this, SLOT(_add_stream()));
 	connect(ui->actionSetTimer, SIGNAL(triggered()), this, SLOT(_set_timer()));
 	connect(ui->actionEqualizer, SIGNAL(triggered()), this, SLOT(_equalizer()));
 	connect(ui->actionOnlineHelp, SIGNAL(triggered()), _about_form, SLOT(onlineHelp()));
@@ -489,4 +491,18 @@ void MainWindow::_import_playlits() {
 void MainWindow::_clear_current() {
 	Playlist pl;
 	_library->saveCurrentPlaylist(pl);
+}
+
+void MainWindow::_add_stream() {
+	AddStreamingMediaDialog dialog;
+	if (dialog.exec() == QDialog::Accepted) {
+		QString url = dialog.url();
+		QString name = dialog.name();
+		TrackMetadata meta(name, tr("Internet radio"), tr("Audio stream"), 0);
+		Track track(meta, url);
+		Playlist cur = _library->getCurrentPlaylist();
+		cur.addTrack(track);
+		_library->saveCurrentPlaylist(cur);
+		_player_form->reload(true);
+	}
 }

@@ -61,6 +61,7 @@
     </property>
     <addaction name="actionSavePlaylist"/>
     <addaction name="actionImport"/>
+    <addaction name="actionAddStream"/>
    </widget>
    <widget class="QMenu" name="menuHelp_2">
     <property name="title">
@@ -115,6 +116,11 @@
   <action name="actionImport">
    <property name="text">
     <string>Import playlists</string>
+   </property>
+  </action>
+  <action name="actionAddStream">
+   <property name="text">
+    <string>Add stream</string>
    </property>
   </action>
  </widget>

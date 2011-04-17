@@ -51,6 +51,24 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     </message>
 </context>
 <context>
+    <name>AddStreamingMediaDialog</name>
+    <message>
+        <location filename="../ui/addstreamingmediadialog.ui" line="14"/>
+        <source>Add audio stream</source>
+        <translation>Dodaj strumień audio</translation>
+    </message>
+    <message>
+        <location filename="../ui/addstreamingmediadialog.ui" line="27"/>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <location filename="../ui/addstreamingmediadialog.ui" line="34"/>
+        <source>Name</source>
+        <translation>Nazwa</translation>
+    </message>
+</context>
+<context>
     <name>DirectoryView</name>
     <message>
         <location filename="../ui/directoryview.ui" line="14"/>
@@ -412,69 +430,84 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <translation>Odtwarzacz</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="67"/>
+        <location filename="../ui/mainwindow.ui" line="68"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="79"/>
+        <location filename="../ui/mainwindow.ui" line="80"/>
         <source>About</source>
         <translation>O</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="84"/>
+        <location filename="../ui/mainwindow.ui" line="85"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="89"/>
+        <location filename="../ui/mainwindow.ui" line="90"/>
         <source>Manage library</source>
         <translation>Zarządzanie biblioteką</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="94"/>
+        <location filename="../ui/mainwindow.ui" line="95"/>
         <source>Equalizer</source>
         <translation>Equalizer</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="99"/>
+        <location filename="../ui/mainwindow.ui" line="100"/>
         <source>Set timer</source>
         <translation>Ustawianie czasu</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="104"/>
+        <location filename="../ui/mainwindow.ui" line="105"/>
         <source>Save playlist</source>
         <translation>Zapisywanie playlisty</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="107"/>
+        <location filename="../ui/mainwindow.ui" line="108"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="112"/>
+        <location filename="../ui/mainwindow.ui" line="113"/>
         <source>Online help</source>
         <translation>Pomoc online</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="117"/>
+        <location filename="../ui/mainwindow.ui" line="118"/>
         <source>Import playlists</source>
         <translation>Importowanie playlist</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="226"/>
+        <location filename="../ui/mainwindow.ui" line="123"/>
+        <source>Add stream</source>
+        <translation>Dodaj strumień</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="228"/>
         <source>Clear playlist?</source>
         <translation>Wyczyścić playlistę?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="272"/>
+        <location filename="../mainwindow.cpp" line="274"/>
         <source>Music off: </source>
         <translation>Wyłącznie muzyki:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="485"/>
+        <location filename="../mainwindow.cpp" line="487"/>
         <source>Select directory</source>
         <translation>Wybierz katalog</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="501"/>
+        <source>Internet radio</source>
+        <translation>Radio internetowe</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="501"/>
+        <source>Audio stream</source>
+        <translation>Strumień audio</translation>
     </message>
 </context>
 <context>
@@ -560,45 +593,45 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
     </message>
     <message>
         <location filename="../playerform.cpp" line="91"/>
-        <location filename="../playerform.cpp" line="783"/>
+        <location filename="../playerform.cpp" line="788"/>
         <source>Clear playlist</source>
         <translation>Wyczyść playlistę</translation>
     </message>
     <message>
         <location filename="../playerform.cpp" line="92"/>
-        <location filename="../playerform.cpp" line="784"/>
+        <location filename="../playerform.cpp" line="789"/>
         <source>Delete</source>
         <translation>Skasuj</translation>
     </message>
     <message>
         <location filename="../playerform.cpp" line="93"/>
-        <location filename="../playerform.cpp" line="242"/>
-        <location filename="../playerform.cpp" line="282"/>
-        <location filename="../playerform.cpp" line="785"/>
+        <location filename="../playerform.cpp" line="243"/>
+        <location filename="../playerform.cpp" line="283"/>
+        <location filename="../playerform.cpp" line="790"/>
         <source>Add to favorites</source>
         <translation>Dodaj do ulubionych</translation>
     </message>
     <message>
         <location filename="../playerform.cpp" line="94"/>
-        <location filename="../playerform.cpp" line="786"/>
+        <location filename="../playerform.cpp" line="791"/>
         <source>Enqueue</source>
         <translation>Kolejkuj</translation>
     </message>
     <message>
         <location filename="../playerform.cpp" line="95"/>
-        <location filename="../playerform.cpp" line="787"/>
+        <location filename="../playerform.cpp" line="792"/>
         <source>Add to playlists</source>
         <translation>Dodaj do playlist</translation>
     </message>
     <message>
         <location filename="../playerform.cpp" line="96"/>
-        <location filename="../playerform.cpp" line="788"/>
+        <location filename="../playerform.cpp" line="793"/>
         <source>Edit tags</source>
         <translation>Edytowanie tagów</translation>
     </message>
     <message>
-        <location filename="../playerform.cpp" line="242"/>
-        <location filename="../playerform.cpp" line="282"/>
+        <location filename="../playerform.cpp" line="243"/>
+        <location filename="../playerform.cpp" line="283"/>
         <source>Remove from favorites</source>
         <translation>Usuń z ulubionych</translation>
     </message>
@@ -763,10 +796,6 @@ MrClon (maemoworld.ru)&lt;br /&gt;hxka (maemoworld.ru)&lt;br /&gt;jerich0 (maemo
         <location filename="../ui/settingsform.ui" line="316"/>
         <source>Language:</source>
         <translation>Język:</translation>
-    </message>
-    <message>
-        <source>Italiano</source>
-        <translation type="obsolete">Włoski</translation>
     </message>
     <message>
         <location filename="../ui/settingsform.ui" line="438"/>
