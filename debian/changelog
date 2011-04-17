@@ -1,6 +1,6 @@
-someplayer (1.5.5-2) unstable; urgency=low
+someplayer (1.5.6-1) unstable; urgency=low
 
-  * added dbus methods for switching between playlists
+  * Audio stream (experimental)
 
  -- somebody Nikolay Tischenko <niktischenko@gmail.com>  Sun, 27 Feb 2011 16:40:36 +0600
 
